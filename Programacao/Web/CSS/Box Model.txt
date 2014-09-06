@@ -1,0 +1,117 @@
+Box Model
+
+Todo elemento em bloco no css possui um 
+Box model que é formado por
+
+uma margem - margin
+
+parte mais externa geramelmente define a distancia entre este bloco e os
+blocos ao seu redor
+
+uma borda - border
+
+é a borda do bloco
+
+um enchimento - padding
+
+distancia entre a border e o conteudo
+
+conteudo - content
+
+
+						margin
+						----------------------------------------------------------------
+						border
+						----------------------------------------------------------------
+						padding
+						----------------------------------------------------------------	
+						Conteudo
+						-------------------------------------------------------------------
+
+para uma corrreta formatação de um bloco na interface é preciso definir tamanho 
+para todos estes elementos do box model da seguinte forma
+
+padding e margin recebem valores em pixels e possuem as seguintes formas
+
+ex:
+
+padding-top:10px;
+
+padding-right:10px;
+
+padding-bottom:10px;
+
+padding-left:10px;
+
+os atributos
+
+width:10px;
+
+e
+
+height:10px;
+
+definem o tamanho da caixa de conteudo
+
+ou
+
+padding: 10px;//que tem o mesmo efeito
+
+//padding esta apenas sendo usado como exemplo margin tambem utiliza da mesma sintaxe.
+
+// É possivel tranformar um elemento inline em um elemento em bloco com o atributo display:block;
+
+==========================================================================================
+
+Border possui alguns atributos extras
+
+definindo uma borda
+
+A largura da borda é definida com o atributo
+
+border-top-width:5px;
+border-right-width:5px;
+border-bottom-width:5px;
+border-left-width:5px;
+
+ou
+
+border-width: 5px 4px 6px 8px;
+
+-----------------------------------------------------------------------------
+
+definindo a cor de uma borda
+
+border-color:red;//ou border-top-color:red; por exemplo
+
+----------------------------------------------------------------------------------
+
+definindo o estilo de uma borda
+
+border-style:solid;//ou border-top-style:red; por exemplo
+
+Estilos de borda
+
+- ridge // com relevo
+
+- solid // solida
+
+- dotted // em potinhos
+
+- dashed // com tracinhos
+
+- double // linha dupla
+
+- inset // luz de baixo para cima
+
+- outset // linha de cima para baixo
+
+---------------------------------------------------------------------------------
+Circulos,Bordas arredondadas - CSS 3
+
+propriedade
+
+border-radius:10px;//recebe uma unidade de medida
+
+quanto maior o valor mais arredondada a borda se torna
+

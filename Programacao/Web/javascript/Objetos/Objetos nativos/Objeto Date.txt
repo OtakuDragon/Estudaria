@@ -1,0 +1,93 @@
+Objeto Date
+
+O Objeto date guarda uma data
+que pode ter dia,mes,ano,hora,minuto,segundo e milisegundo
+e pode ser recuperada da data do sistema ou do UTC que é o 
+fuso horario 0.
+
+========================================================
+Criação de um Objeto Date
+
+var a = new Date(); //cria um objeto date com a data atual do SO
+var a = new Date(milisegundos); //recebe um numero de milisegundos e cria uma data começando de 1 jan de 1970 somando
+				//estes milisegundos
+var a = new Date(string); //recebe uma string com um formato aceitavel de data e cria um objeto com ele
+			  // ex: "Jul/20/2012 04:30:20:200" ou seja mes/dia/ano hora/min/seg/milis
+
+var a = new Date(ano,mes,dia,horas,minutos,segundos,milisegundos); //recebe todas as informações necessarias para criar um objeto
+								   // tudo em formato number ex: dias da semana 0-6, dia do mes 1-31
+								   //apenas os parametros de mes e ano são obrigatorios o resto é preenchido com 0
+								   // caso não informado
+
+=============================================================
+Metodos estaticos de Date
+
+Date.parse(); //recebe uma string com um formato de data valido ou um objeto date
+	      // e retorna o numero de milisegundos que representa esta data
+
+==============================================================
+Metodos de Date
+
+A maioria dos metodos de um objeto date serve
+para recuperar partes das datas(getters) ou defini-los
+na data local ou no fuso horario 0(setters).
+
+Ou para imprimir a data de forma diferente(to's)
+
+//Getters
+
+a.getDate();	//Returns the day of the month (from 1-31)
+a.getDay();	//Returns the day of the week (from 0-6)
+a.getFullYear();  //Returns the year (four digits)
+a.getHours();	//Returns the hour (from 0-23)
+a.getMilliseconds();	//Returns the milliseconds (from 0-999)
+a.getMinutes();	//Returns the minutes (from 0-59)
+a.getMonth();	//Returns the month (from 0-11)
+a.getSeconds();	//Returns the seconds (from 0-59)
+a.getTime();	//Returns the number of milliseconds since midnight Jan 1, 1970
+a.getTimezoneOffset();	//Returns the time difference between UTC time and local time, in minutes
+a.getUTCDate();	//Returns the day of the month, according to universal time (from 1-31)
+a.getUTCDay();	//Returns the day of the week, according to universal time (from 0-6)
+a.getUTCFullYear();	//Returns the year, according to universal time (four digits)
+a.getUTCHours();	//Returns the hour, according to universal time (from 0-23)
+a.getUTCMilliseconds();	//Returns the milliseconds, according to universal time (from 0-999)
+a.getUTCMinutes();	//Returns the minutes, according to universal time (from 0-59)
+a.getUTCMonth();	//Returns the month, according to universal time (from 0-11)
+a.getUTCSeconds();	//Returns the seconds, according to universal time (from 0-59)
+
+//Setters
+
+a.setDate();	//Sets the day of the month of a date object
+a.setFullYear();	//Sets the year (four digits) of a date object
+a.setHours();	//Sets the hour of a date object
+a.setMilliseconds();	//Sets the milliseconds of a date object
+a.setMinutes();	//Set the minutes of a date object
+a.setMonth();	//Sets the month of a date object
+a.setSeconds();	//Sets the seconds of a date object
+a.setTime();	//Sets a date and time by adding or subtracting a specified number of milliseconds to/from midnight January 1, 1970
+a.setUTCDate();	//Sets the day of the month of a date object, according to universal time
+a.setUTCFullYear();	//Sets the year of a date object, according to universal time (four digits)
+a.setUTCHours();	//Sets the hour of a date object, according to universal time
+a.setUTCMilliseconds();	//Sets the milliseconds of a date object, according to universal time
+a.setUTCMinutes();	//Set the minutes of a date object, according to universal time
+a.setUTCMonth();	//Sets the month of a date object, according to universal time
+a.setUTCSeconds();	//Set the seconds of a date object, according to universal time
+
+//to's
+
+a.toDateString();	//Converts the date portion of a Date object into a readable string
+a.toISOString();	//Returns the date as a string, using the ISO standard
+a.toJSON();	//Returns the date as a string, formated as a JSON date
+a.toLocaleDateString();	//Returns the date portion of a Date object as a string, using locale conventions
+a.toLocaleTimeString();	//Returns the time portion of a Date object as a string, using locale conventions
+a.toLocaleString();	//Converts a Date object to a string, using locale conventions
+a.toString();	//Converts a Date object to a string
+a.toTimeString();	//Converts the time portion of a Date object to a string
+a.toUTCString();	//Converts a Date object to a string, according to universal time
+
+//misc
+
+a.UTC();	//Returns the number of milliseconds in a date string since midnight of January 1, 1970, according to universal time
+a.valueOf();	//Returns the primitive value of a Date object
+
+

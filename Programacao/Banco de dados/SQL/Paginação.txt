@@ -1,0 +1,66 @@
+Funções de paginação
+
+São funções utilizadas para dividir uma tabela enorme
+em paginas ou ordenar uma tabela em crescente e descrescente
+
+
+Função DISCTINCT
+
+Recebe uma coluna e elimina todos os valores repitidos
+mostrando cada valor apenas uma vez
+
+Sintaxe:
+
+SELECT DISTINCT(nomeDaColuna)FROM nomedatabela WHERE condição;
+
+//retorna todos os valores da coluna eliminando repetições
+
+--------------------------------------------------------------------------------------
+Função ORDER BY
+
+Ordena os resultados em crescente ou decrescente
+a ordenação padrão é crescente
+
+Sintaxe:
+
+//ordenação crescente
+
+SELECT * FROM NomeDaTabela ORDER BY nomeDaColuna;
+
+//ordenação decrescente
+
+SELECT * FROM NomeDaTabela ORDER BY nomeDaColuna DESC;
+
+----------------------------------------------------------------------------------------
+Função LIMIT
+
+Limita o numero de registros retornados
+por padrão um sql retorna todos os registros existentes
+que atendem as condições esta função limita esse
+numero de registros a um numero
+
+Sintaxe:
+
+SELECT * FROM nomeDaTabela LIMIT 3;
+
+//retorna os 3 primeiros registros da tabela
+
+------------------------------------------------------------------------------------------
+Função OFFSET
+
+Define um numero de registros a serem pulados
+na consulta
+
+Sintaxe:
+
+SELECT * FROM nomeDaTabela OFFSET 2;
+
+//Mostrara todos os registros da tabela exceto os dois primeiros
+
+--------------------------------------------------------------------------------------
+Paginação na pratica no SQL
+
+SELECT * FROM nomeDaTabela LIMIT 2,2;
+
+//o primeiro numero é o limit e o segundo é o offset divide a tabela
+//em paginas de dois em dois registros

@@ -1,0 +1,57 @@
+Anotação @Autowired
+
+A anotação @Autowired anota o setter
+de um atributo de uma classe definindo
+que o valor para aquele atributo deverá
+ser atribuido pelo spring
+
+O Spring tenta 3 formas para atribuir valor
+a o atributo
+
+=====================================================
+1º Por tipo
+
+Se existir somente um bean com o tipo(classe) daquele
+atributo definido no xml ele será atribuido ao atributo
+
+2º Por nome
+
+Se o autowiring por tipo falhar ele ira ver se existe algum
+bean definido com o mesmo nome(id) deste atributo se existir
+ele será atribuido
+
+3º Por Qualifier
+
+Se os dois acima falhar ele ira procurar a tag <qualifier>
+em todos os beans e caso alguma tenha o mesmo valor ele será
+atribuido
+
+obs: para que qualifier funcione é necessario que o spring.xml possua
+     os namespaces
+
+------------------------------------------------------
+ex:
+
+classe
+
+Point a;
+
+@Autowired
+@Qualifier("pontoA")
+public void setA(Point a){
+
+	this.a=a;
+}
+
+
+spring.xml
+
+<bean id="bean1" class="pacotes.Point">
+	<qualifier value="pontoA"/>
+
+</bean>
+==========================================================
+Adicionando os post processors
+
+É possivel adicionar estes post processor por meio do bean
+ou adicionando todos com a anotação <context:annotation-config/>

@@ -1,0 +1,65 @@
+Cookies
+
+Armazenamento de dados temporarios
+no browser to usuario criado e recuperados
+com um metodo chave-valor
+
+
+=========================================================
+Criando um cookie
+
+*Obs IMPORTANTE não é possivel criar um cookie após a pagina
+     ser carregada por isso a função de criação de cookie deve
+     ser executada antes da tag <html> no documento
+
+Função setcookie()
+
+setcookie("nome","valor",tempoDeDuração);
+
+- "nome" //chave pela qual o valor sera recuperado
+
+- "valor" //o conteudo do cookie
+
+- tempoDeDuração //O numero inteiro em segundos pelo qual o cookie deve permanecer
+                 //salvo no browser
+*Se nenhum tempo for definido o cookie durará enquanto o browser estiver aberto
+
+ex:
+
+setcookie("login","gilson2008",time()+100);
+
+//Este cookie permanecerá no browser por 100 segunds
+//a função time() retorna o numero de segundos do momento atual
+//em que a função é executada 
+
+==========================================================
+Recuperando cookies
+
+Se um cookie foi criado ele foi adicionado ao
+array $_COOKIE até expirar na posição de seu nome
+
+Sintaxe:
+
+$varCookie = $_COOKIE["nomeDoCookie"];
+
+ex:
+
+if (isset($_COOKIE["login"])){
+  echo "Welcome " . $_COOKIE["login"] . "!<br>";
+}
+
+===============================================================
+Excluindo cookies
+
+Um cookie é excluido quando ele se expira
+é possivel forçar a expiração de um cookie
+sobreescrevendo um cookie existente com um com 
+a expiração vencida
+
+sintaxe:
+
+setcookie("nomeDoCookie","",time()-100); //exclui o cookie pois o sobreescreve com o tempoDeDuração expirado
+
+ex:
+
+setcookie("login","",time()-100);

@@ -1,0 +1,261 @@
+Componentes
+
+Todos as classes aqui servem como valor para o 
+parametro Component de alguns metodos
+
+======================================================
+
+JLabel
+
+JLabel insere um texto ou uma imagem no seu programa
+
+O construtor de JLabel pode receber como parametro um texto
+ou uma imagem, que servirão como o valor do JLabel
+
+*Para mudar a cor do background de um JLabel é preciso definilo opaco primeiro com o metodo setOpaque(true);
+
+uso:
+
+JLabel rotulo = new JLabel("Este é o texto escrito no label");
+
+--------------------------------------------------------------------
+Utilizando imagens
+
+para se utilizar imagens em um JLabel ela tem que estar
+em um objeto ImageIcon, que pode ser construido com a URL
+de localização da imagem
+
+ImageIcon foto = new ImageIcon(getClass().getResource("foto.png"));//os metodos getClass().getResource() indicam a url daquela classe
+
+JLabel labelImagem = new JLabel(foto);
+----------------------------------------------------------------------------
+
+alguns metodos
+
+rotulo.setFont(Font f);// recebe um parametro Font para mudar a fonte do label, ver classe Font na pasta awt
+
+rotulo.setToolTipText(String s);//define o texto que aparecera quando o mouse estiver em cima do label
+
+rotulo.setForeground(Color c);// muda a cor do texto do label
+
+============================================================
+
+JTextField
+
+JTextField é a classe de campo de textos de uma linha ela pode ser intanciada
+normalmente sem atributos no construtor
+para se aumentar a largura vertical define-se uma fonte maior para o campo de texto
+com o metodo setFont();
+
+JTextField login = new JTextField();
+
+ou
+
+JTextField login = new JTextField("Texto padrao",int tamanhoHorizontal);
+
+------------------------------------------------------------------
+
+alguns metodos
+
+login.setText();//define um texto para o campo de texto
+login.getText;//retorna uma string com o que esta escrito no momento
+
+==================================================================
+
+JPasswordField
+
+JPasswordField pode tambem ser construido sem parametros no construtor
+e é um campo de senha
+
+JPasswordField senha = new JPasswordField();
+
+
+-------------------------------------------------------
+
+alguns metodos
+
+login.getPassword(); //retorna um char[] com a senha
+
+==================================================================
+
+JButton
+
+JButton cria um botão e recebe como parametro
+no construtor o texto do botão
+
+JButton botao = new JButton("ok");
+
+--------------------------------------------------------------
+
+alguns metodos
+
+botao.addActionListener(ActionListener a);// tratamento de eventos para uma melhor explicação
+
+===================================================================
+
+JCheckBox
+
+JCheckBox é a classe de checkbox do java
+
+https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRYmuwzqvUNtrkh43V5am9Dt2eKHxF8ZLfaikKo6edBqD9KoCGD
+
+ 
+e  tem o seguinte construtor
+
+JCheckBox box = new JCheckBox("Texto do lado do checkbox");
+
+Possui varios tipos de listener mas abaixo esta o exemplo do
+listener ItemListener, que envia o evento quando o estado da caixa muda
+de marcada para não marcada e vice-versa
+
+
+class classe implements ItemListener{
+
+public void itemStateChanged(ItemEvent e){
+
+//metodo que sera executado sempre que a caixa for maracada ou desmarcada
+
+if(box.isSelected()){
+
+System.out,println("A caixa foi selecionada");
+
+}else{ System.out.println("A caixa foi desmarcada");}
+
+}
+
+}
+
+class Teste {
+
+public static void main(String[] args){
+
+
+
+	box.addItemListener(classe);
+
+}
+}
+
+==========================================================================
+
+JComboBox
+
+JComboBox é a caixa de seleção do java:
+
+http://www.cs.cf.ac.uk/Dave/HCI/HCI_Handout_CALLER/combobox.gif
+
+-----------------------------------------------------------------------
+
+Deve ser inicializada definindo o tipo de dado:
+
+JComboBox<String> combo = new JComboBox<String>();
+
+------------------------------------------------------------------------
+
+Para adicionar itens:
+
+combo.addItem("Opção 1");
+combo.addItem("Opção 2");
+...
+
+-----------------------------------------------------------------------
+
+Eventos
+
+JComboBox com ItemListener
+
+class Tratadora implements ItemListener{
+
+public void itemStateChanged(ItemEvent e){
+
+if(e.getStateChange() == ItemEvent.SELECTED){
+	if(e.getItem().toString().equals("opção 1")){
+
+	//codigo a executar quando a opção 1 for escolhida
+
+	}else if(e.getItem().toString().equals("opção 2")){
+
+	//codigo a executar quando a opção 2 for escolhida
+
+	}
+
+
+}
+
+
+}
+
+
+}
+
+public class teste {
+
+
+public static void main(String[] args){
+
+JComboBox<String> combo = new JComboBox<String>();
+
+combo.addItem("Opção 1");
+combo.addItem("Opção 2");
+
+combo.addItemListener(new Tratadora());
+}
+}
+
+
+====================================================================================
+
+JTextField e JScrollPane
+
+Cria uma area de texto não deve ser adicionado diretamente
+a um Conteiner por que não criara barras de rolamento
+
+JTextField campo = new JTextField();
+
+JScrollPane sp = new JScrollPane();//classe que cria um Conteiner com scrollbars quando necessario
+
+sp.add(campo);// e depois add(sp) ao conteiner da janela
+
+======================================================================================
+
+JFileChooser
+
+Abre a janela de seleção de arquivos Browse...
+como na maioria dos programas
+
+JFileChooser c = new JFileChooser();
+
+--------------------------------------------------------------------------------
+
+Alguns metodos
+
+c.showOpenDialog(Conteiner x);//Abre a janela de seleção de arquivo com o parametro o conteiner a qual a janela pertence
+File arquivo = c.getSelectedFile();//Retorna um objeto File com o arquivo selecionado
+
+para transformar este arquivo em um objeto Path
+
+Path p = Paths.get(arquivo.getAbsolutePath());
+
+
+
+=========================================================================================
+JMenuBar
+
+Adiciona uma barra de menus no programa
+
+JMenuBar mb = new JMenuBar();
+frame.setJMenuBar(mb);//adiciona o menu ao frame
+--------------------------------------------------------------
+JMenu 
+
+Adiciona um menu a barra de menus
+
+JMenu m1 = mew JMenu("File");
+mb.add(m1);//adiciona o menu a barra
+
+------------------------------------------------------
+JMenuItem mi1 = new JMenuItem("new..");
+m1(mi1);//adiciona o item a o menu
+----------------------------------------------------
+todos estes menus e itens possuem o metodo setMnemonic(char TeclaDeAtalho);
+que recebe um char de tecla de atalho para o acesso mais facil ao menu

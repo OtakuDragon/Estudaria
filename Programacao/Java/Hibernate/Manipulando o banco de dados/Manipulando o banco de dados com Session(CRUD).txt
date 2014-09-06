@@ -1,0 +1,199 @@
+Manipulando o banco de dados com hibernate
+
+Apos ter o hibernate configurado em seu
+arquivo de configuração XML e anotar as classes
+de data transference object está na hora de
+partir para a codificação
+
+===============================================
+O Objeto sessionFactory
+
+O ponto de partida para a manipulação do banco de dados
+é montar um objeto sessionFactory que lê o arquivo
+hibernate.cfg.xml e adquire todas as configurações
+
+----------------------------------------------
+Recuperando o objeto sessionFactory
+
+Com o hibernate 4 recuperar o objeto sessionFactory se
+tornou complicado mas existe uma função que faz isso
+
+Uma aplicação deve criar apenas um objeto sessionFactory
+e reaproveita-lo pois são necessarios muitos recursos para cria-lo
+
+função getSessionFactory
+
+public static SessionFactory getSessionFactory() {
+
+		SessionFactory sessionFactory = null;
+	    try {
+	        Configuration configuration = new Configuration();
+
+	        configuration.configure();
+
+	        ServiceRegistry  serviceRegistry = new ServiceRegistryBuilder().applySettings(
+
+	        configuration.getProperties()).buildServiceRegistry();
+
+	        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+	    } catch (HibernateException hbe) {
+
+	        hbe.printStackTrace();
+
+	    }
+
+	    return sessionFactory;
+
+
+	}
+
+
+Com o uso desta função recuperar o sessionFactory é simples
+
+SessionFactory sessionFactory = getSessionFactory();
+
+========================================================
+Objeto session
+
+Com o objeto sessionFactory é possivel recuperar
+objetos session e é com este objeto que é possivel
+manipular o banco de dados
+
+Instanciação :
+
+Session session = sessionFactory.openSession();
+
+========================================================
+Inserindo dados no banco de dados(INSERT)
+
+Utilizando o objeto session é possivel iniciar uma transação
+inserir dados e confirmar a transação para inserir dados no banco
+
+ex:
+
+SessionFactory sessionFactory = getSessionFactory();
+Session session = sessionFactory.openSession();
+User usuario = new User(1,"OtakuDragon","123");
+
+try{
+		
+
+session.beginTransaction();
+session.save(usuario);
+session.getTransaction().commit();
+session.close();
+
+}catch(Exception e){
+
+session.getTransaction().rollback();
+session.close();
+System.out.println("Um Erro Ocorreu");
+
+}
+
+//Este grupo de instruções criara uma tabela no banco de dados
+//com o nome da classe do objeto inserido ou seja User 
+//e com o numero de colunas que a classe contem como atributos
+//e insere este registro na tabela
+
+==================================================================
+Recuperando um registro por chave primaria(SELECT)
+
+Existem varias maneiras de recuperar dados do banco
+com o hibernate uma delas recebe a classe e a chave
+primaria e retorna o registro correspondente
+
+ela é realizada pelo metodo get() do objeto session
+
+
+ex:
+
+SessionFactory sessionFactory = getSessionFactory();
+Session session = sessionFactory.openSession();
+User usuario;
+
+try{
+
+session.beginTransaction();
+
+usuario = (User) session.get(User.class,1); //metodo de session que recebe a classe para saber qual tabela procurar o dado
+                                            //e a chave primaria que no caso é o inteiro 1 para dizer qual registro buscar
+                                            //o metodo get() retorna um Object que deve ser casted para a classe antes de
+                                            //atribuir ao objeto
+
+session.getTransaction().commit();
+session.close();
+
+}catch(Exception e){
+
+session.getTransaction().rollback();
+session.close();
+System.out.println("Um Erro Ocorreu");
+}
+===================================================================
+Atualizando dados ja existentes no banco(UPDATE)
+
+É possivel realizar um update em um registro no banco
+com o metodo update de session ele recebe como parametro
+um objeto que ja existe no banco
+
+
+SessionFactory sessionFactory = getSessionFactory();
+Session session = sessionFactory.openSession();
+User usuario;
+
+try{
+
+session.beginTransaction();
+
+usuario = (User) session.get(User.class,1);//recupera o registro 
+
+usuario.setLogin("gilson2008"); //atualiza seus dados
+usuario.setSenha("456");
+
+session.update(usuario); //chama o metodo update recebendo como parametro o objeto modificado
+
+
+session.getTransaction().commit();
+session.close();
+
+}catch(Exception e){
+
+session.getTransaction().rollback();
+session.close();
+System.out.println("Um Erro Ocorreu");
+
+}
+
+===========================================================================
+Excluindo registros do banco (DELETE)
+
+Excluir registros funciona da mesma maneira
+que update o metodo delete de session recebe
+a referencia de qual objeto remover da tabela
+
+
+SessionFactory sessionFactory = getSessionFactory();
+Session session = sessionFactory.openSession();
+User usuario;
+
+try{
+
+session.beginTransaction();
+
+usuario = (User) session.get(User.class,1);//recupera o registro 
+
+session.delete(usuario); //chama o metodo delete recebendo como parametro o objeto modificado
+                         //isto deletara o objeto do banco de dados
+
+
+session.getTransaction().commit();
+session.close();
+
+}catch(Exception e){
+
+session.getTransaction().rollback();
+session.close();
+System.out.println("Um Erro Ocorreu");
+
+}

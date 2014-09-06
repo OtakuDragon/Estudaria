@@ -1,0 +1,91 @@
+Stateful Session Bean
+
+Um session bean stateful salva o seu estado automaticamente entre
+as invocações do cliente, é util quando se quer guardar dados
+de execuções anteriores.
+
+E o valor dos atributos alterados por execuções anteriores afetam
+execuções futuras
+
+é como se você possui um bean com um atributo int cont e um metodo
+addCont(int valor), a primeira vez que você chamar este metodo o valor
+de cont será 0 e será adicionado ao parametro que você enviou, a proxima
+vez que você chamar o metodo addCont neste stateful bean o valor de cont
+não será mais 0 como seria em um stateless bean e sim o valor adiconado
+na vez anterior e assim pro diante
+
+o que significa que o EJB container durante a duração da sua sessão¹ ou até ser removido
+atribuirá uma nova instancia de objeto para o cliente, e salvará os valores modificados neste
+objeto e sempre que necessário(requisitado) pelo cliente recuperará este mesmo objeto preenchido
+e o entregará ao cliente.
+
+1- Duração da sessão: a duração padrão da sessão de um stateful session bean depende da implementação do container
+                      EJB e pode ser configurada nas configurações XML do Java EE container que você esteja utilizando
+                      geralmente na confifurações de cache, como exemplo no Jboss AS a duração de uma sessão para um bean
+		      stateful é de 30 min(1800 seg) e pode ser configurada no stantardjboss.xml elemento <container-cache-conf>
+		      elemento filho <max-bean-life>1800</max-bean-life>
+
+		      A seguinte configuração no web.xml do Java EE conainer sobre escreve qualquer outra configuração do tempo
+                      de duração de sessão 
+
+			<session-config> 
+  				<!-- HTTP Session timeout, in minutes --> 
+  				<session-timeout>30</session-timeout> 
+			</session-config>
+
+exemplos: *carrinho de compras em uma loja virtual,
+ 	  *uma sequencia de paginas que utilizam paginas das anteriores como um registro dividido em etapas
+	   (sendo cada etapa um metodo do session bean)
+
+===============================================================
+Cuidados ao utilizar SFSB
+
+SFSB se não utilizados com cuidados como, sempre remover
+beans que ja terminaram de ser executados e configurar o container
+corretamente para saber quando efetuar passivation nos beans podem
+se causar grandes probolemas de performance por isso cabem os seguintes
+cuidados:
+
+*Sempre remover SFSB após terminar de utiliza-los
+*Tomar cuidado com os dados que são guardados em um SFSB, eles não devem
+ ser objetos muito complexos e devem economizar no maximo o uso de memoria
+*Deve-se sempre avaliar se é mesmo necessario o uso de SFSB as vezes a sessão
+ http pode funcionar melhor
+	   
+================================================================
+Conceito de estado conversacional
+
+Em termos java um SFSB pode ser definido como um bean que mantem estado
+conversacional, este termo baseia-se na definição de conversa como cada
+chamada de metodo em um session bean e ser stateful significa manter os
+dados sobre as informações trocadas nestas conversas nos atributos do
+objeto enquanto a sessão durar, ou que ela seja resetado pelo cliente.
+================================================================
+Utilizando um Stateful Session bean
+
+A utilização de um stateful session beean segue as mesmas regras
+da de um SLSB:
+
+* é necessaria uma ou mais interfaces de negocio
+* é necessaria a classe do bean anotada com a anotação @Stateful
+* a declaração ou não da escopo de acesso @Local @Remote 
+* idealmente se deseja anotar um metodo no SFSB com a anotação @Remove
+  para dizer ao EJB container quando o bean pode ser resetado.   
+
+==================================================================
+Regras de implementação de SFSB
+
+Os SFSB devem seguir todas as regras definidas para session beans
+e tambem as regras abaixo:
+
+*Todos os atributos de classe que guardarão estado conversacional devem ser
+ tipo primitivo java ou implementar a interface serializable
+
+*Um SFSB somente pode ser disponibilizado como @Local ou @Remote, porque @WebService 
+ transforma o bean em um SOAP web service e SOAP web services são stateless por natureza
+
+*Um SFSB ou sua interface de negocio deve ter um ou mais metodos marcados com
+ a anotação @Remove que diz ao EJB container quando um SFSB pode ser destruido.
+
+
+  

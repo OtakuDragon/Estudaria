@@ -1,0 +1,56 @@
+Estilização de listas
+
+A estilização de listas é feita como a de qualquer outro elemento
+exceto pelo seus marcadores as imagens que ficam do lado dos itens
+para estes marcadores existe o atributo list-style
+
+list-style-type
+
+Define um dos valores ja existentes para os marcadores
+
+valores de list-style-type
+
+para listas não ordenadas:
+
+list-style-type:circle; // um circulo branco com borda preta
+
+list-style-type:disc; // um circulo branco preto preeenchido, valor padrão
+
+list-style-type:square; // quadrado preenchido
+
+---------------------------------------------------------
+list-style-type:none; //lista sem marcadores
+--------------------------------------------------------
+para listas ordenadas:
+
+list-style-type:lower-greek,upper-greek,armenian,georgian,hebrew,hiragana,hiragana-iroha,katakana,katakana-iroha; // marcadores com numeros destas linguas,somente um deve ser o valor
+
+list-style-type:lower-latin; // alfabeto minusculo
+
+list-style-type:upper-latin; // alfabeto maiusculo
+
+list-style-type:decimal; // numeros decimais, vlaor padrão
+
+list-style-type:decimal-leading-zero; // numeros decimais com 0 na frente ex: 01,02,03...
+
+list-style-type:upper-roman; // numeros romanos maiusculos
+
+list-style-type:lower-roman; // numeros romanos minusculos
+
+==================================================================================
+list-style-image
+
+Define uma imagem como marcador da lista
+
+list-style-image:url("endereço da imagem");
+
+================================================================================
+list-style-position
+
+Define se o marcador deve estar dentro do elemento ou fora
+
+valores list-style-position
+
+list-style-position:inside; // dentro
+list-style-position:outside;// fora
+

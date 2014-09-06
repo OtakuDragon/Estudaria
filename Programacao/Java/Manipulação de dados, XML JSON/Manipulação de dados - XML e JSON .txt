@@ -1,0 +1,122 @@
+Manipulação de dados - XML e JSON 
+
+A escrita de dados em arquivos precisava ser
+padronizada para que pudesse ser usada por varias
+aplicações para isso surgiram alguns padrões
+de como organizar informações em arquivos de uma maneira
+entendida em qualquer aplicação
+
+
+======================================================================================
+XML
+
+Extensible Markup Language
+
+É uma linguagem baseada em tags para a organização estruturada de dados
+
+
+Exemplo de documento XML
+
+<Clientes>
+	<Cliente id="1">
+		<Nome>João da Silva</Nome>
+		<Email>joao@email.com</Email>
+	</Cliente>
+
+	<Cliente id="2">
+		<Nome>Maria Silva</Nome>
+		<Email>maria@email.com</Email>
+	</Cliente>
+
+
+</Clientes>
+
+----------------------------------------------------------------------------------------
+
+Caracteristicas:
+
+* No XML as tags são definidas pelo programador
+
+* o XML é rígido quanto ao fato de que toda tag aberta deve ser fechada
+
+---------------------------------------------------------------------------------------
+
+Validação:
+
+A validação de um documento XML acontece por um outro
+documento de validação que verifica todas as tags e todos
+os dados para conferir se esta tudo certo
+
+esta validação pode ser feita de duas maneiras
+
+*DTD //maneira de validação antiga que usada uma linguagem unica 
+
+*XML Schema//maneira atual que cria um documento de validação na linguagem XML
+
+--------------------------------------------------------------------------------------------
+Manipulação
+
+A manipulação de XML em java é feita pelo uso de APIs
+as APIs disponiveis são:
+
+*DOM //cria uma arvore binaria do documento xml na memoria
+    
+*SAX //cria eventos em pontos do documento xml que chamam funções
+
+*elas estão disponiveis no JDK
+
+==========================================================================================
+JSON
+
+JavaScript Object Notation
+
+Veio do javascript e tem a mesma função do html
+com um código mais simples
+
+é baseado em duas estruturas
+
+* pares de chaves e valor
+
+ex:
+
+{"id":1,"nome":"João da Silva","email":"joão@email.com"}//pares de chaves e valor tem o formato {chave:valor,...} e são identificados por chaves
+ 
+* sequencia ordenada de elementos
+
+[10,true,"A"]// tem o formato [valor,..] e são identificados pelos colchetes
+
+---------------------------------------------------------------------------------------
+Manipulação:
+
+A manipulação de dados no formato JSON no java é feita pela API GSON
+para instala-la faça o mesmo de um driver JDBC
+
+*esta na pasta stuff/Libs
+
+A principal função da API Gson é a conversão de
+objetos java em dados no formato Json e vice-versa
+
+---------------------------------------------------------------------------------------
+Transformando um objeto java em uma String JSON
+
+Gson gson = new Gson();
+
+Cliente c = new Cliente(1,"João da Silva","joao@email.com");
+
+String jsonStr = gson.toJson(c);
+
+----------------------------------------------------------------------------------------
+Transformando uma String Json em um objeto
+
+Cliente c = gson.fromJson(jsonStr,Cliente.class);//recebe a string e uma referencia da classe de objeto
+
+-----------------------------------------------------------------------------------------------
+Criando uma String json com um objeto JsonObject
+
+JsonObject obj = new JsonObject();
+
+obj.add("id", new JsonPrimitive(1));//recebe como parametro o nome da chave e o dado no formato jsomprimitive que inclui todos os tipos primitivos + string
+obj.add("nome", new JsonPrimitive("João da silva"));
+obj.add("email", new JsonPrimitive(joao@email.com));
+
+String jsonStr = gson.ToJson(obj);

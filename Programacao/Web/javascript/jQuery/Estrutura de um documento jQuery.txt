@@ -1,0 +1,13 @@
+Estrutura de um documento jQuery
+
+A estrutura de um documento jQuery
+executado após a pagina ser carregada
+equivalente a um window.onload = function é:
+
+$(document).ready(function(){
+
+
+//Codigo
+
+
+});

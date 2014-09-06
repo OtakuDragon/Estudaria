@@ -1,0 +1,174 @@
+Criando ou Abrindo uma File
+
+Para criar um arquivo ou abrir um
+é utilizada a funçõa fopen()
+
+----------------------------------------------
+Função fopen()
+
+
+$ponteiro = fopen("nomeDoArquivo","modoDeAbertura");
+
+- "nomeDoArquivo" //A URL da localização do arquivo, se o arquivo não existir ele será criado(nos modos w e w+)
+- "modoDeAbertura" //Define o que é possivel fazer com o arquivo
+
+Modos de Abertura possiveis:
+
+- r	Read only. Starts at the beginning of the file
+- r+	Read/Write. Starts at the beginning of the file
+- w	Write only. Opens and clears the contents of file; or creates a new file if it doesn't exist
+- w+	Read/Write. Opens and clears the contents of file; or creates a new file if it doesn't exist
+- a	Append. Opens and writes to the end of the file or creates a new file if it doesn't exist
+- a+	Read/Append. Preserves file content by writing to the end of the file
+- x	Write only. Creates a new file. Returns FALSE and an error if file already exists
+- x+	Read/Write. Creates a new file. Returns FALSE and an error if file already exists
+
+*A função retorna um ponteiro que representa a conexão aberta com o arquivo e é usada
+ em funções de leitura e escrita do arquivo.
+
+----------------------------------------------------
+Fechando a conexão com um arquivo
+
+O metodo fopen() abre uma conexão com o arquivo
+que deve ser fechada após todas as operações realizadas
+e ela é fechada atraves do metodo fclose()
+
+O metodo fclose()
+
+fclose($ponteiro);
+
+- $ponteiroDeArquivo //O ponteiro retornado pela função fopen()
+
+======================================================
+Escrevendo dados no arquivo
+
+Se o arquivo foi aberto de com um modo que permita
+escrita(write) é possivel escrever no arquivo com a
+função fputs()
+
+---------------------------------------------------
+Função fputs()
+
+fputs($ponteiroDeArquivo,"StringParaEscreverNoArquivo");
+
+- $ponteiroDeArquivo //O ponteiro retornado pela função fopen()
+
+- "StringParaEscreverNoArquivo" // o que escrever no arquivo
+
+*É Aconselhavel sempre finalizar um novo input no arquivo com uma quebra de linha(\n)
+ para facilitar a leitura linha-a-linha que é o metodo abaixo
+
+=====================================================
+Lendo um arquivo linha-a-linha
+
+A função fgets() lê uma linha do arquivo à
+retorna e passa o seu ponteiro para a proxima linha
+
+----------------------------------------------------
+Função fgets()
+
+fgets($ponteiroDoArquivo);
+
+- $ponteiroDeArquivo //O ponteiro retornado pela função fopen()
+
+---------------------------------------------------
+Lendo um arquivo até o fim
+
+A função feof() retorna true quando o arquivo chega ao fim
+é possivel utilizar ela em um while para ler
+um arquivo inteiro linha-a-linha
+
+ex:
+
+while(!feof()){
+
+echo fgets($Arquivo);
+
+}
+
+======================================================
+Deletando um arquivo
+
+Metodo unlink()
+
+unlink("URLDoArquivo");
+
+================================================================
+tadas as funções de files
+
+basename()		Returns the filename component of a path	
+chgrp()			Changes the file group	
+chmod()			Changes the file mode	
+chown()			Changes the file owner	
+clearstatcache()	Clears the file status cache	
+copy()			Copies a file	
+delete()		See unlink() or unset()	 
+dirname()		Returns the directory name component of a path
+disk_free_space()	Returns the free space of a directory	
+disk_total_space()	Returns the total size of a directory	
+diskfreespace()		Alias of disk_free_space()	
+fclose()		Closes an open file	
+feof()			Tests for end-of-file on an open file	
+fflush()		Flushes buffered output to an open file	
+fgetc()			Returns a character from an open file	
+fgetcsv()		Parses a line from an open file, checking for CSV fields	
+fgets()			Returns a line from an open file	
+fgetss()		Returns a line, with HTML and PHP tags removed, from an open file	
+file()			Reads a file into an array	
+file_exists()		Checks whether or not a file or directory exists	
+file_get_contents()	Reads a file into a string	
+file_put_contents	Writes a string to a file	
+fileatime()		Returns the last access time of a file	
+filectime()		Returns the last change time of a file	
+filegroup()		Returns the group ID of a file	
+fileinode()		Returns the inode number of a file	
+filemtime()		Returns the last modification time of a file	
+fileowner()		Returns the user ID (owner) of a file	
+fileperms()		Returns the permissions of a file	
+filesize()		Returns the file size	
+filetype()		Returns the file type	
+flock()			Locks or releases a file	
+fnmatch()		Matches a filename or string against a specified pattern	
+fopen()			Opens a file or URL	
+fpassthru()		Reads from an open file, until EOF, and writes the result to the output buffer	
+fputcsv()		Formats a line as CSV and writes it to an open file	
+fputs()			Alias of fwrite()	
+fread()			Reads from an open file	
+fscanf()		Parses input from an open file according to a specified format	
+fseek()			Seeks in an open file	
+fstat()			Returns information about an open file	
+ftell()			Returns the current position in an open file	
+ftruncate()		Truncates an open file to a specified length	
+fwrite()		Writes to an open file	
+glob()			Returns an array of filenames / directories matching a specified pattern	
+is_dir()		Checks whether a file is a directory	
+is_executable()		Checks whether a file is executable	
+is_file()		Checks whether a file is a regular file	
+is_link()		Checks whether a file is a link	
+is_readable()		Checks whether a file is readable	
+is_uploaded_file()	Checks whether a file was uploaded via HTTP POST	
+is_writable()		Checks whether a file is writeable	
+is_writeable()		Alias of is_writable()	
+link()			Creates a hard link	
+linkinfo()		Returns information about a hard link	
+lstat()			Returns information about a file or symbolic link	
+mkdir()			Creates a directory	
+move_uploaded_file()	Moves an uploaded file to a new location	
+parse_ini_file()	Parses a configuration file	
+pathinfo()		Returns information about a file path	
+pclose()		Closes a pipe opened by popen()	
+popen()			Opens a pipe	
+readfile()		Reads a file and writes it to the output buffer	
+readlink()		Returns the target of a symbolic link	
+realpath()		Returns the absolute pathname	
+rename()		Renames a file or directory	
+rewind()		Rewinds a file pointer	
+rmdir()			Removes an empty directory	
+set_file_buffer()	Sets the buffer size of an open file	
+stat()			Returns information about a file	
+symlink()		Creates a symbolic link	
+tempnam()		Creates a unique temporary file
+tmpfile()		Creates a unique temporary file	
+touch()			Sets access and modification time of a file	
+umask()			Changes file permissions for files	
+unlink()		Deletes a file	

@@ -1,0 +1,59 @@
+EJB Object
+
+O EJB Object é um objeto criado pelo container
+que contem acesso a todas as funcionalidades do
+framework EJB.
+
+Um EJB Object é criado para cada instancia de bean
+que o container utiliza e serve como um proxy entre
+o cliente e o bean inserindo serviços do framework EJB
+e gerenciando o ciclo de vida do bean.
+
+======================================================
+Fluxo interno do container EJB
+
+*Um cliente faz uma chamada de metodo, ou uma mensagem chega a uma destination
+*Esta "request" do client chega ao EJB Object do bean que irá atende-la
+*O EJB Object executa o codigo do framework(transação,segurança,threadsafety, etc.)
+*A "request" chega ao bean e é processada
+*O EJB Object executa o codigo do framework
+*A resposta chega ao cliente ou a mensagem é retirada da destination.
+
+=======================================================
+EJB Context
+
+É possivel ter acesso ao contexto aonde os EJB Objects funcionam
+e a todas as funcionalides que eles tem acesso dentro de um bean
+porem isto não é recomendado pois toda a execução de codigo do 
+framework deve ser apenas configurada nos beans para que o EJB object
+saiba como executar, beans devem conter logica de negocio(session) ou
+consumir mensagems(MDB).
+
+Mas em alguns casos especiais ou quando há necessidade de utilizar JNDI diretamente
+é necessario ter acesso a este contexto e isto é feito por DI como no exemplo
+abaixo.
+ 
+ex:
+ 
+Session beans:
+
+@Resource 
+SessionContext context;
+
+Message Driven beans:
+
+@Resource
+MessageDrivenContext context;
+
+obs:
+
+*Os EJBs contexts possuem o metodo lookup para a
+ recuperação atraves de JNDI de qualquer recurso
+ disponivel na armove JNDI do servidor.
+
+*O contexto ejb implementa a interface EJBContext e esta interface
+ é especificada em duas outras uma para os session beans e outra para os
+ MDBs, um contexto MDB não pode ser utilizado em um session bean e
+ utilizar metodos de contexto em um MDB que não fazem sentido para 
+ a sua execução(metodos de segurança por exemplo) causa exceções uma
+ coisa muito perigosa em MDBs.

@@ -1,0 +1,129 @@
+Templates
+
+A principal função da taglib Facelets é a definição de templates
+dinamicos que causam um grande reaproveitamento da codificação de
+interfaces
+
+====================================================================
+Definição de um template
+
+Um template é uma pagina xHTML normal que possui duas partes
+
+*parte estatica
+
+Codigo html,css,jsf,javascript inserido no template diretamente ele
+será comum a todas as paginas que utilizarem o template
+
+*parte dinamica
+
+Definida pela tag <ui:insert>, são partes que serão diferentes
+para cada pagina e serão preenchidas com o conteudo 
+de uma tag <ui:define> em um <ui:composition>, que possui o atributo name com o mesmo
+valor do <ui:insert>
+
+um template pode ter muitas partes dinamicas
+
+Obs: paginas de template devem ser colocadas dentro da pasta web-inf do projeto
+     para ficarem inacessiveis para o usuario, o aconselhavel é criar uma pasta templates em web-inf
+--------------------------------------------------------------------------
+
+ex:
+
+<! DOCTYPE html PUBLIC"-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:h="http://java.sun.com/jsf/ html"
+ xmlns:f="http://java.sun.com/jsf/core"
+ xmlns:ui="http://java.sun.com/jsf/facelets">
+
+ <h:head >
+	<title >K19 Treinamentos </ title >
+ </h:head >
+
+ <h:body>
+  <div id=" header ">
+  <img src ="k19 - logo . png " />
+  <hr/>
+ </div>
+
+ 
+ <!--Todo conteudo da pagina é comum a todas as paginas que implementam este template menos esta tag que pode ser definida por um <ui:define>-->
+ <!--Se nenhum <ui:define> do definido o conteudo dentro de <ui:insert> será impresso na pagina-->
+ <ui:insert name ="corpo -da - pagina "> Espaço para o conteúdo da tela </ui:insert>
+
+  <div id="footer"style="text-align:center">
+   <hr/>
+   & copy; 2010 K19. Todos os direitos reservados.
+  </div >
+ </h:body>
+</html>
+
+==========================================================================
+Utilizando templates
+
+Templates são modelos eles devem ser implementados pelas paginas em si que
+serão visiveis ao usuário isto é feito por meio da criação de um arquivo xHTML
+que possui a tag raiz <ui:composition>
+
+ex:
+
+<!--A url do template que esta pagina implementará é definida no atributo template da tag-->
+<ui:composition template ="/WEB-INF/templates/template.xhtml"
+ xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:h="http://java.sun.com/jsf/html"
+ xmlns:f="http://java.sun.com/jsf/core"
+ xmlns:ui="http://java.sun.com/jsf/facelets">
+
+ <!--Esta tag definirá a parte dinamica do template ela recebe em seu atributo name o nome da ui:insert do template-->
+ <ui:define name="corpo-da-pagina">
+ <h1>Lista de treinamentos</h1 >
+ <h2>K11-Orientação a Objetos em Java </h2>
+ <h2>K12-Desenvolvimento Web com JSF2 e JPA2 </h2>
+ </ui:define>
+
+</ui:composition>
+
+--------------------------------------------------------------------------
+Importando ui:composition
+
+Um arquivo ui:composition não está limitado apenas a implementar um template
+ele pode conter um conjunto de codigo que pode ser importado para qualquer
+pagina jsf e até mesmo outros ui:compositions atraves da tag ui:include
+
+ex:
+<!--Importado-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:h="http://java.sun.com/jsf/html"
+ xmlns:f="http://java.sun.com/jsf/core"
+ xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:dataTable value="#{livros}" var="livro">
+<!--Implementaçaõ da tabela-->
+</h:dataTable>
+
+</ui:composition>
+
+<!--Importador-->
+<ui:composition template ="/WEB-INF/templates/template.xhtml"
+ xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:f="http://java.sun.com/jsf/core"
+ xmlns:h="http://java.sun.com/jsf/html"
+ xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<!--Tag que importa o conteudo do ui:composition acima levando em consideração-->
+<!--que ele foi salvo como lista-livros.xhtml-->
+<!--O parametro livros é definido e aponta para qual lista a tabela deve listar-->
+<!--Observe que a dataTable acessa este parametro diretamente por UEL #{livros}-->
+<!--Varios parametros podem ser passados para um ui:composition importado-->
+<ui:include src ="/lista-livros.xhtml">
+	<ui:param name ="livros" value ="#{livrosBean.listaDosLivrosMaisVendidos}"/>
+</ui:include>
+
+</ui:composition>
+
+
+
+
+
+

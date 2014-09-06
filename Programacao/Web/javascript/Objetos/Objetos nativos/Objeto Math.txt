@@ -1,0 +1,57 @@
+Objeto Math
+
+O Objeto math possui varias constantes matematicas
+e metodos para calculos trigonometricos e de arredondamento
+
+todos os seus metodos e contantes são estaticos
+a Objeto math nunca precisa ser instanciado
+
+=============================================================
+Constantes de Math
+
+Math.E		Returns Euler's number (approx. 2.718)
+Math.LN2	Returns the natural logarithm of 2 (approx. 0.693)
+Math.LN10	Returns the natural logarithm of 10 (approx. 2.302)
+Math.LOG2E	Returns the base-2 logarithm of E (approx. 1.442)
+Math.LOG10E	Returns the base-10 logarithm of E (approx. 0.434)
+Math.PI		Returns PI (approx. 3.14)
+Math.SQRT1_2	Returns the square root of 1/2 (approx. 0.707)
+Math.SQRT2	Returns the square root of 2 (approx. 1.414)
+
+=============================================================
+Metodos de Math
+
+Math.abs(x)	Retorna o valor absoluto de um numero ou seja o sinal não importa numeros negativos e positivos são iguais
+Math.exp(x)	Retorna o resultado da constante de euler elevado ao parametro
+Math.log(x)	Returns the natural logarithm (base E) of x
+Math.max(x,y,z,...,n)	Returns the number with the highest value
+Math.min(x,y,z,...,n)	Returns the number with the lowest value
+Math.pow(x,y)	Returns the value of x to the power of y
+Math.sqrt(x)	Returns the square root of x
+
+//Random
+
+Math.random()	retorna um numero randomico entre 0 e 1 ex: 0.468464641468
+
+*Pode ser utilizada para retornar um inteiro entre 0 e n da seguinte forma
+
+Math.floor(Math.random()*n); //n sendo um numero inteiro
+
+//Arredondamento
+
+Math.round(x)	Arredonda um numero para o inteiro mais proximo
+Math.floor(x)	Arredonda um numero sempre para cima 
+Math.ceil(x)	Arredonda um numero sempre para baixo
+
+//Trigonometria
+
+Math.cos(x)	Returns the cosine of x (x is in radians)
+Math.sin(x)	Returns the sine of x (x is in radians)
+Math.tan(x)	Returns the tangent of an angle
+
+// Arco trigonometria
+
+Math.acos(x)	Returns the arccosine of x, in radians
+Math.asin(x)	Returns the arcsine of x, in radians
+Math.atan(x)	Returns the arctangent of x as a numeric value between -PI/2 and PI/2 radians
+Math.atan2(y,x)	Returns the arctangent of the quotient of its arguments

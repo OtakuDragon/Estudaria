@@ -1,0 +1,32 @@
+Element table
+
+O elemento table representa
+a tag html <table> e possui como atributos
+todos os atributos e metodos de node 
+alem dos seus proprios atributos HTML
+
+=============================================
+Atributos de table.
+	
+table.cells		//Returns a collection of all <td> or <th> elements in a table	
+table.rows		//Returns a collection of all <tr> elements in a table	
+table.tBodies		//Returns a collection of all <tbody> elements in a table	
+table.caption		//Returns the caption of a table	
+table.cellPadding	//Sets or returns the amount of space between the cell border and cell content	
+table.cellSpacing	//Sets or returns the amount of space between the cells in a table	
+table.frame		//Sets or returns which outer-borders (of a table) that should be displayed
+table.rules		//Sets or returns which inner-borders (between the cells) that should be displayed in a table	Yes
+table.summary		//Sets or returns a description of the data in a table	Yes
+table.tFoot		//Returns a reference to the tfoot element of a table	Yes
+table.tHead		//Returns a reference to the thead element of a table	Yes	
+================================================
+Metodos de table
+
+table.createCaption()	//Creates an empty caption element and adds it to the table	
+table.createTFoot()	//Creates an empty tfoot element and adds it to the table	
+table.createTHead()	//Creates an empty thead element and adds it to the table	
+table.deleteCaption()	//Removes the first caption element from the table	
+table.deleteRow()	//Removes a row from the table	
+table.deleteTFoot()	//Removes the tfoot element from the table
+table.deleteTHead()	//Removes the thead element from the table	
+table.insertRow()	//Creates an empty tr element and adds it to the table

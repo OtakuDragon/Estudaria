@@ -1,0 +1,91 @@
+Date,Calendar
+
+A data e a hora no java são calculadas em milisegundos no formato long
+de 1 de janeiro de 1970 até o momento atual
+
+O sistema tem esta informação de quantos milisegundo ja se passaram de
+1 jan de 1970 até o momento atual você pode ve-los com o metodo
+
+System.currentTimeMillis()//retornara o long com o numero de milisegundos
+
+==========================================================================================
+
+Classe Date
+
+Quando um objeto Date é construido sem parametros ele
+tera o valor string da data atual, no momento da criação do objeto
+
+uso:
+
+Date agora = new Date();
+
+System.out.println(agora);
+
+Quando um objeto date é construido com um numero de milisegundos
+ele tera o valor da data de 1 jan 1970 até aquele numero de milisegundos
+
+Date algumMomento = new Date(827272L);//L indica que o numero esta no formato long
+
+
+-------------------------------------------------------------------------------------------
+
+Metodos de Date
+
+Date agora = new Date();
+
+agora.getTime();// retorna a hora atual em milisegundos
+
+agora.setTime(15664l);//Define a hora do objeto passando milisegundos
+
+agora.compareTo(Date arg);// Compara uma data com outra, se a data passada no parametro for menor do que a do objeto
+			//o metodo retornara um inteiro menor do que 0(-1), se as datas forem iguais ele retornara 0
+			// e se a data parametro for maior retornara um inteiro maior do que 0(1)
+
+
+//Todos os outros metodos de Date estão depreciados e foram reescritos na classe Calendar
+
+=======================================================================================================
+
+Classe Calendar
+
+A classe calendar é uma classe abstrata
+ou seja não pode ser instanciada normalmente
+para instancia-la usa-se
+
+A data de um objeto Calendar por padrão esta no formato do calendario
+gregoriano, o padrão no Brasil e na maior parte do mundo
+
+Calendar momentoAtual = Calendar.getInstance();//criara um objeto Calendar padrão com os dados da data atual do systema
+
+-----------------------------------------------------------------------------------------------------------
+
+Metodos de Calendar
+
+momentoAtual.getTime();// retornara um objeto Date
+
+momentoAtual.set(2012,Calendar.JANUARY,25);// define a data daquele objeto Calendar para 25 de janeiro de 2012
+					  // os meses em Calendar são constantes de 0(janeiro) a 11(dezembro) 
+
+momentoAtual.get(Calendar.YEAR);// você pode recuperar cada informação sobre o objeto Calendar separadamente com o
+				// metodo get()
+
+momentoAtual.clear(Calendar.MINUTE);//reseta a varaivel de minutos do objeto calendario, serve para qualquer atributo
+
+momentoAtual.add(Calendar.DAY_OF_MONTH,2);// adiciona dois dias ao dia do mês do objeto calendario serve para todos os 
+					 // atributos para diminuir passe o parametro inteiro negativo (ex: -2)
+					//neste caso se você adicionar varios dias ao mês e o mês chegar ao seu ultimo dia
+					// ele ira passar para o proximo mês e continuar contando
+
+//a alternativa a isso é
+
+momentoAtual.roll(Calendar.DAY_OF_MONTH,20);//com o metodo roll() quando o mês chega ao fim ele reseta o mês e começa denovo
+						// ao inves de passar para o proximo mês
+
+
+
+
+
+
+
+
+

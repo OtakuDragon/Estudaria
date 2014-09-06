@@ -1,0 +1,115 @@
+Arrays
+
+Arrays são conjuntos de dados
+
+=====================================================
+Criando um Array
+
+Existem varias maneiras de se criar um array
+note que um array pode conter qualquer dado primitivo
+objetos ou outros arrays(multidimensionais)
+
+----------------------------------------------------
+Declaração completa
+
+var a = new Array(dado1,dado2,dado3...);
+
+----------------------------------------------------
+Declaração simplificada
+
+var a = [dado1,dado2,dado3...];
+
+----------------------------------------------------
+Array vazio
+
+var a = new Array();
+
+a[0] = dado1;
+
+========================================================
+Imprimindo um array inteiro
+
+Chamar um array pelo nome apenas
+mostrara todos os seus valores
+
+ex:
+
+alert(a);
+
+=========================================================
+Arrays chave-valor(JSON)
+
+Arrays chave valor utilizam indices de string
+
+Sintaxe:
+
+var array = {chave1:valor1,chave2:valor2...}; //chaves são strings sem aspas e valores qualquer tipo de dado
+
+ex:
+
+var login = {nome:"gilson",senha:"123"}; 
+
+---------------------------------------------------------
+recuperando dados
+
+1º maneira
+
+array.nomeDaChave;
+
+ou
+
+2º maneira
+
+array["nomeDaChave"];
+
+
+
+=========================================================
+Atributos de Array
+
+a.length //retorna o numero de elementos no array
+
+==========================================================
+Metodos de Array
+
+a.indexOf(); //recebe um dado e retorna um numero com a posição da primeira ocorrencia dele no vetor
+a.lastIndexOf(); //recebe um dado e retorna um numero com a posição da ultima ocorrencia dele no vetor
+a.reverse(); //inverte a ordem do vetor
+a.sort(); //organiza o vetor em ordem alfabetica
+a.join(string); // define o separador padrão de elementos para a impressão do array
+a.concat();//recebe elementos separados por virgula e os adiciona ao final do array
+a.slice(); // recebe o indice de aonde começar e opcionalmente de onde parar e retorna um substring com estes elementos
+	  //se aonde parar nao for definido ira até o final do array
+a.splice(); //recebe o indice de aonde começar e opcionalmente o de até onde ir ,remove estes elementos os retorna
+            //e qualquer parametro apos esse é adicionado ao array no lugar dos que foram removidos
+
+//Array como fila
+
+a.push(); // adiciona um elemento ao final do array
+a.shift(); //remove e retorna o primeiro elemento do array
+a.pop(); //remove e retorna o ultimo elemento do array
+a.unshift();//adiciona um elemento no começo do array
+
+//Metodos avançados
+
+Estes metodos recebem como parametro o nome de uma função com a
+seguinte sintaxe:
+
+function exemplo(elem,ind,ibj){
+return()//e um retorno diferente para cada metodo
+
+}
+
+a.every(exemplo); // verifica se todos os elementos do array são do mesmo tipo de dado
+		  //recebe como codigo de return: typeof elem == "string" ou qualquer outro tipo de dado
+		  //retorna true or false
+a.some(exemplo);  //recebe o mesmo codigo de return de every mas ele retorna true se um ou mais elementos possuirem
+		  // aquele tipo e não todos
+
+a.filter(exemplo); //recebe uma condição do elemento e retorna um subarray com os elementos que correspondem esta condição
+		   // ex: return(elem > 5); ou return(elem.indexOf("an") >0);
+
+a.map(exemplo); //recebe uma atribuição como codigo de return e a realiza para todos os elementos do array
+		// return(elem = elem.toUpperCase()); 
+
+

@@ -1,0 +1,35 @@
+JSP
+
+Com os servlets surgiu o problema de 
+utilizar println para imprimir codigos
+HTML enormes
+
+para facilitar este output de codigo
+e causar uma integração entre html e java
+foram criadas as java server pages
+
+java server page nada mais é do que uma 
+maneira diferente de escrever um servlet
+são utilizadas tags que depois o servidor
+lê e monta uma classe servlet com elas
+
+
+=============================================
+Transformações:
+
+texto html e textos estaticos: são todos transformados em PrintWriter outputs
+
+Tags de declaração: são adicionadas dentro da classe do servlet
+
+Tags de script: são adicionadas dentro de um metodo select que descobre qual metodo
+                esta sendo usado e adiciona o codigo dentro do metodo usado geralmente doGet()
+
+=============================================
+A Classe
+
+Uma classe temporaria é criada para cada jsp
+lendo o arquivo jsp e tranformando em uma classe
+de servlet completa com as tranformações citadas acima
+
+esta classe pode ser encontrada no servidor no tomcat
+geralmente na pasta work/catalina/localhost/nomeDoProjeto/org/apache/jsp

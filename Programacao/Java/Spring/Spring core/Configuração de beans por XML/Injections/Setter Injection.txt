@@ -1,0 +1,25 @@
+Declaração de bean com definição de valores dos atributos por setter(Setter Injection) 
+
+Um bean pode ter todos os seus atributos pré-definidos
+na configuração de conteiner da seguinte forma
+
+===========================================================================================
+ex:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans> 
+	<bean id="triangle" class="shapesPack.Triangle">
+		<!-- Os valores de um atributo da são definidos na tag property -->
+		<!-- aonde o name é o nome do atributo a qual definir -->
+		<!-- e value é o valor para aquele atributo -->
+
+		<property name="type" value="Equilateral" />
+
+		<!-- a classe Triangle possui um atributo private String type -->
+		<!-- a tag property chama o metodo setter do atributo definido para dar valor a ele -->
+		<!-- para que seja possivel está definição de atributo o atributo deve possui um setter definido na classe-->
+	</bean>
+
+
+</beans>

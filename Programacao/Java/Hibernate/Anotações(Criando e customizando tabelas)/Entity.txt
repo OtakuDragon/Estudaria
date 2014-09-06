@@ -1,0 +1,61 @@
+@Entity
+
+Entidades são classes que geram DTOs(Data Transfer Objects)
+objetos com dados que precisam ser persistidos em tabelas
+
+para declarar uma classe com entidade ele obrigatoriamente
+deve possuir a anotação @Entity acima da declaração da classe
+
+*cada entidade gera uma tabela
+*Entidades devem ser declaradas no cfg.xml
+
+Propriedades:
+
+name -  A anotação @Entity representa a classe que virará
+        uma tabela , é possivel definir o nome da entidate
+        que se tornara o nome da tabela se nenhum nome for especificado
+        na anotação @Table
+
+ex:
+
+@Entity
+public class User {
+
+//a entidade terá o nome da classe(padrão)
+
+}
+
+@Entity(name="NomeDaEntidade")
+public class User {
+
+
+}
+
+
+------------------------------------------------
+@Id
+
+Toda entidade deve obrigatoriamente possuir um id
+
+do pacote javax.persistence
+deve aparecer em cima do atributo que você deseje ser
+a chave primaria da tabela
+
+ex:
+
+@Id
+private int userId;
+
+Auto-Incremento
+
+Existe uma maneira de deixar o hibernate incrementar
+o valor da chave primaria automaticamente e isto acontece
+com a tag @GeneratedValue
+
+ex:
+
+@Id @GeneratedValue //auto-incrementará a chave primaria
+private int userId; //torna não mais necessario que o valor dela seja definido no objeto
+
+obs: no caso de a chave primaria da tabela ser um objeto a annotation
+     @id é substituida pela annotation @EmbeddedId

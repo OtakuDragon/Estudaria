@@ -1,0 +1,38 @@
+Objetos Nativos
+
+Objetos Nativos são objetos que fazem parte
+do javascript são eles:
+
+*Object  	*Function
+*Boolean	*Date
+*Number		*Math
+*String		*RegExp
+*Array		*Os Errors
+
+
+====================================================
+Alguns detalhes:
+
+* Todos os objetos herdam do objeto Object
+
+* No javascript é possivel utilizar metodos e ver atributos
+  em tipos primitivos pois o javascript faz a conversão deles
+  para seu respectivo objeto automaticamente e depois exclui o 
+  objeto criado
+
+ex:
+
+	var nome = "Gilson";//tipo primitivo
+	alert(nome.lenght); //funciona
+
+	/*
+	porque o javascript faz
+	
+	new String(nome).lenght;
+	
+
+	e depois exclui este objeto
+	o que toma mais processamento do que criar
+	diretamente o objeto não primitivo String
+
+	*/

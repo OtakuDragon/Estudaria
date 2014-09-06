@@ -1,0 +1,69 @@
+Criando um conversor
+
+O JSF possui varios conversores padrão para os tipos de dado
+mais comuns em java, mas algumas vezes é necessario definir um conversor
+diferente para isso é possivel definir construtores.
+
+==============================================================
+Definindo um conversor
+
+Um conversor é identificado por uma classe que implementa 
+a interface javax.faces.convert.Converter e é anotada com 
+a anotação @FacesConverter(forClass=MinhaClasse.class)
+
+esta anotação define sobre qual tipo de dado o conversor
+deve atuar.
+
+a interface define dois metodos que devem ser implementados eles são:
+
+//Este metodo recebe o dado em String e deve retorna-lo como um objeto
+//ou seja deve montar o objeto da classe em questão atraves da string
+public Object getAsObject(FacesContext context,UIComponent component,String value);
+
+e
+
+//Este metodo deve fazer o inverso do metodo acima ele recebe o objeto da classe
+//em questão e deve retorna-lo como string
+public String getAsString(FacesContext context,UIComponent component,Object value);
+
+os parametros são passados pelo JSF
+
+context - possui o contexto da aplicação é principalmente utilizado para inserir mensagens de erro
+
+value - no primeiro metodo possui o valor em string que deve ser convertido para objeto
+	no segundo metodo possui o objeto que deve ser convertido para string
+
+ex:
+
+@FacesConverter (forClass=Telefone.class)
+public class ConversorDeTelefone implements Converter{
+
+@Override
+ public Object getAsObject (FacesContext context,UIComponent component,String value) {
+
+ value = value.trim();
+
+ if (! Pattern.matches("[0 -9]+\\ s +[0 -9]+\\ s+[0 -9 -]+",value)) {
+ FacesMessage mensagem = new FacesMessage("Número de telefone inválido");
+ mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
+ throw new ConverterException (mensagem);
+ }
+
+ String campos[] = value.split("\\s+");
+
+ String codigoDoPais = campos[0];
+ String codigoDeArea = campos[1];
+ String numeroLocal = campos[2].replaceAll("-","");
+
+ Telefone telefone = new Telefone (codigoDoPais,codigoDeArea,numeroLocal);
+ return telefone;
+}
+
+public String getAsString(FacesContext context,UIComponent component,Object value){
+Telefone telefone = (Telefone) value ;
+ return telefone.getCodigoDoPais() + " " + telefone.getCodigoDeArea() + " " + telefone.getNumeroLocal();
+
+}
+
+
+}

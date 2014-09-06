@@ -1,0 +1,109 @@
+Internacionalização(MessageSource) com spring
+
+A internacionalização de uma aplicação consiste em
+remover todos os textos da aplicação de dentro do codigo
+e coloca-los em um arquivo .properties(Message ressource bundles)
+
+sendo que cada .properties possui os textos em uma linguagem diferente
+isto torna possivel que a aplicação possua varios idiomas.
+
+este processo pode ser feito com as APIs java como ja documentado
+anteriormente mas o spring tambem implementa um bean que possui
+esta função
+
+=============================================================
+O bean messageSource
+
+O bean necessario para a utilização de message bundles no spring
+deve ser declarado da seguinte forma no spring.xml:
+
+<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+	<property>
+		<list>
+			<value>mymessages</value>
+			<value>mymessages_en_US</value>
+		</list>
+	</property>
+
+</bean>
+
+*obs: o nome do bean deve ser messageSource
+*obs: a propriedade deste bean recebe uma lista com o nome dos arquivos .properties
+      os quais devem ser utilizados, estes nomes seguem as regras de nomeação da
+      internacionalização java ou seja podem receber locale como sufixo e o spring irá
+      seleciona-los caso tal locale seja selecionado na leitura.
+
+*obs: para que o bean encontre os arquivos desta forma eles devem estar em qualquer lugar
+      do classpath da aplicação(pasta do projeto) no exemplo acima os .properties estavam no
+      mesmo nivel do spring.xml
+
+arquivos .properties seguem o padrão
+
+chave=valor
+chave=valor
+chave=valor
+etc..
+
+
+=======================================================================
+A interface MessageSource
+
+As mensagens salvas em arquivos e declaradas no bean messageSource
+são recuperadas atraves de um objeto que implementa a interface MessageSource
+
+Esta interface define o metodo getMessage()
+
+este metodo pode ser chamado diretamente atraves do context da aplicação
+
+ou atraves da injeção do bean messageSource dentro de uma propriedade
+de um bean este é o metodo mais utilizado ja que atraves da anotação
+@Autowire um autowiring por tipo é feito e apenas um bean messageSource
+deve existir na aplicação
+
+
+ex:
+
+String message = context.getMessage()
+
+ou
+
+public class Bean{
+
+private MessageSource ms;
+
+@Autowire
+public setMs(MessageSource ms){
+this.ms=ms;
+}
+
+String message = ms.getMessage();
+
+}
+
+============================================================================
+O metodo getMessage
+
+A assinatura mais completa de getMessage possui 4 parametros são eles
+
+context.getMessage("chave",new Object[]{},"Mensagem padrão",Locale l);
+
+1º String chave - Recebe a chave que identifica qual mensagem recuperar do message bundle
+
+2º Array[] parametros - Recebe objetos como integer ou string como parametros para mensagens
+			por exemplo uma mensagem pode ser definida como:
+
+			chave=o seu nome é {0}
+			
+			A messagesource tentara transformar o primeiro objeto do array passado
+                        em string e adicionalo a mensagem caso a mensagem tenha dois parametros {0} e {1} etc.
+			metodos podem ser passados como membros do array para que ser retorno seja escrito
+			na mensagem
+
+			se a mensagem for estatica o parametro array pode ser passado como null
+
+3º String Mensagem padrão -  Mensagem exibida caso a chave passada no primeiro parametro não seja encontrada nos arquivos
+
+4º Locale l 		 - o objeto locale que definira em qual arquivo properties procurar as mensagens caso seja sem locale
+			   pode ser null
+		  
+

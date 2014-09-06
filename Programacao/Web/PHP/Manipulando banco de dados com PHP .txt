@@ -1,0 +1,113 @@
+Conexão com o servidor de banco de dados
+
+Para conectar um banco de dados a uma pagina php são necessarias duas funções:
+a função para se conectar ao servidor de banco de dados:
+
+
+Sintaxe:
+
+   mysql_connect("server","nomedeusuario","senha");
+
+*A conexão é fechada automaticamente quando o script que usa a conexão acaba
+
+
+Ex:
+
+$db = mysql_connect("localhost","root","");
+
+*senha fica vazio porque não foi definida uma senha
+
+
+----------------------------------------------------------------------------------
+e a função que seleciona um banco de dados para uso
+
+Sintaxe:
+
+    $dados = mysql_select_db("nomedobanco",$db);
+
+*$db variavel retornada pelo metodo mysql_connect();
+
+===================================================================================
+O arquivo de conexão
+
+
+É aconselhavel ter um arquivo separado para conexao e dar include
+nele no arquivos que usam o banco de dados chamado conexao.php
+
+ex:
+
+<?php
+
+
+$db = mysql_connect("localhost","root","");
+
+$dados = mysql_select_db("curso_db",$db);
+
+
+
+?>
+
+================================================================================
+Realizando operações no banco de dados
+
+A função mysql_query() recebe a instrução sql a se realizar no banco
+como uma string
+
+Sintaxe:
+
+mysql_query("Instrução SQL");
+
+
+Exemplo:
+
+
+<?php
+include("conexao.php");// arquivo de conexao com o banco de dados
+
+$login_db = $_POST["login"];// esta variavel php recebe o dado enviado pelo input de name "login"
+
+$Inserir = mysql_query("INSERT INTO cadastro (login) value ('$login_db')");// insere o dado login na tabela cadastro
+                                                                           // no campo login com o valor da variavel
+                                                                           //$login_db
+
+?>
+
+
+
+=====================================================================================================
+Recebendo dados do banco de dados
+
+Caso a instrução SQL seja do tipo select a função retornara
+um Result set com todos os registros selecionados
+
+e estes result set pode ser lido linha a linha por meio da função
+mysql_fetch_array()
+
+----------------------------------------------------------------------
+Função mysql_fetch_array()
+
+recebe como parametro um result set resultado de uma
+instrução select e o percorre linha a linha por meio de
+um array no qual cada dado é recuperado pelo nome da sua coluna
+
+ex:
+
+$dados = mysql_query("SELECT * FROM bancoDeDados");
+
+while ($linha = mysql_fetch_array($dados)){
+
+$pega_nome = $linha["nome"];//pega o campo nome de cada linha
+		
+if ("jose" == $pega_nome){//compara com um nome se ele existir muda a variavel boolean
+			 
+			 $existe=true;
+                                         }
+
+
+
+
+}
+
+===========================================================================================================
+
+

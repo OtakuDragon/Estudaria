@@ -1,0 +1,19 @@
+Definindo opções de qualidade gráfica
+
+Um jogo unity padrão no momento da sua execução
+oferece ao usuário opçoes de resolução de exibição
+e qualidade dos graficos.
+
+as opções qualidade dos graficos do jogo podem ser
+completamente cusmotizadas em edit>project settings > quality
+
+uma tela com as opções de qualidade padrão será mostrada
+nela é possivel renomear,editar,remover ou criar suas proprias opções
+de qualidade
+
+um menu é mostrado em cada uma delas com configurações de 
+rendering,shadowing e others
+
+os checkboxes significam em quais plataformas aquela qualidade estará disponivel
+e na seta abaixo das checkboxes é possivel escolher o padrão de qualidade
+para cada plataforma no caso de nenhuma opção ser escolhida pelo usuario

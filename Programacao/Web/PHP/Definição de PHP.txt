@@ -1,0 +1,6 @@
+Definição de PHP
+
+PHP - Hypertext preprocessor, é uma linguagem de programação
+      client-side que tem como função interagir com banco de dados
+      e processar dados de formularios e script ajax do client-side
+      e devolver uma resposta por meio de echo.

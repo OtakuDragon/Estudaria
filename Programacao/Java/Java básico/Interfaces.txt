@@ -1,0 +1,53 @@
+Interfaces
+
+Interfaces são como classes mas possuem apenas metodos abstratos
+e/ou constantes
+
+eles servem para obrigar a uma classe que implemente a interface a
+utilizar os metodos e as constantes da interface para resolver o problema 
+de herança unica
+
+uma classe pode implementar varias interfaces
+uma interface pode possuir herança multipla
+
+uma subclasse de uma classe que possui uma interface, herda os metodos
+da interface
+
+
+ex:
+
+public interface Fruitlike extends Fruit,Fruit2 {
+
+
+String TastesGood();
+
+}
+
+
+public class Orange implements Fuitlike{
+
+
+
+// esta classe sera obrigada a implementar os metodos abstratos das 3 interfaces acima
+
+
+}
+
+
+
+É possivel criar variaveis do tipo interface
+
+como argumentos de metodos são usadas da seguinte forma
+
+
+Por exemplo:
+
+public void fruta(Fruitlike F){
+
+//este parametro pode se referir a qualquer objeto de classe que implemente a
+//interface Fruitlike e possuira o metodo TastesGood() sendo possivel o uso de
+// F.TastesGood()
+
+
+
+}

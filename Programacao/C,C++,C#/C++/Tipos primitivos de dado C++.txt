@@ -1,0 +1,77 @@
+Tipos primitivos de dado C++
+
+char - Recebe letras simples ou um numero de 0-255
+       se um numero for atribuido a uma variavel char, no momento da impressão o caracter
+       ASCII equivalente aquele numero será impresso
+
+short - Numeros inteiros entre  –32,768 a 32,767
+
+int - Numeros inteiros entre -2.147.483.648 a 2.147.483.647(long e long int são o mesmo que int)
+
+long long - Numeros inteiros entre –9,223,372,036,854,775,808 to 9,223,372,036,854,775,807(unsigned long long = unsigned int)
+            
+float - Numeros ponto flutuante entre 3.4E +/- 38 (7 digitos de precisão)
+
+double - Numeros ponto flutuante entre 1.7E +/- 308(15 digitos de precisão)
+
+bool - alem das palavras chave true e false o c++ tambem considera:
+       
+       0 = false
+
+       qualquer outro valor = true
+
+void - representa nada
+
+obs: range de dados baseados no SO windows
+
+=======================================================
+Modificador unsigned
+
+Todas os tipos de dados por padrão são signed
+ou seja aceitam valores negativos 
+
+O modificador unsigned faz com que o tipo de dado
+não aceite valores negativos dobrando sua capacidade
+para valores positivos
+
+
+obs: tambem funciona para char e não funciona para float nem double
+
+ex:
+
+unsigned short variavel; //aceita valores 0 to 65,535
+
+========================================================
+Estourando variaveis numericas
+
+Estourar uma variavel numerica significa atribuir a ela um valor maior
+do que ela pode aceitar
+
+O que acontece?
+
+Ela volta ao seu menor valor possivel e adiciona o resto do valor
+como um loop
+
+ex:
+
+unsigned short variavel; //aceita valores 0 to 65,535
+
+variavel = 65355 + 5;//5 a mais do seu limite
+
+cout<<variavel;//imprimirá 4 pois 65353 foi atingido ela voltou ao seu minimo 0 e 0 + 5 = 4
+
+==========================================================
+Modificador typedef
+
+O modificador typedef permite criar um apelido para
+um tipo de dado ja existente utilizando a seguinte sintaxe
+
+typedef tipoDeDado Apelido;
+
+ex:
+
+typedef unsigned int meuInt;
+
+meuInt variavel;// esta variavel será do itpo unsigned int
+	      
+

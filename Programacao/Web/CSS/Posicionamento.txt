@@ -1,0 +1,74 @@
+Posicionamento 
+
+é a forma como os elementos em bloco ou inline se posicionam na tela
+por padrão tambem chamado de fluxo normal todos eles tem um posicionamento estatico(position:static)
+que significa que os elementos em bloco são empilhados na ordem que foram
+escritos no codigo e geram quebras de linha acima e abaixo deles, e os inline
+não geram quebra de linhas.
+
+===================================================================================
+
+Posicionamento float
+
+É possivel definir um fluxo diferente do que o empilhado padrão
+para blocos e o seguir o texto de inline, é possivel faze-los
+"flutuarem" ou seja moverem-se em uma direção direita ou esquerda
+para isso se utiliza a propriedade float em qualquer elemento
+bloco ou inline
+
+valores de float:
+
+float:left;//faz o elemento flutuar para a esquerda
+
+float:right;// faz o elemento flutuar para a direita
+
+//no caso de um elemento flutuante não caber na dimensão de seu
+//bloco ele será posicinado abaixo.
+
+//a largura padrão de um elemento é sempre auto ou seja
+//ela vai ser sempre a maior possivel o que provavelmente
+//causara com que o elemento não flutue para a esquerda como deveria
+//por isso é aconselhavel definir uma width manualmente
+
+
+//para se remover float de um elemento caso seja herdado
+//utiliza-se a propriedade clear:right,left ou both;
+//a propriedade clear:both; é tambem utilizada quando um
+//elemento ocupar o lugar de outro que esta flutuando 
+//nesse caso clar:both; faz o elemento retornar ao seu lugar
+
+===========================================================================================
+Posicionamento absolute e fixed
+
+São posicionamentos nos quais você define exatamente aonde o elemento ficara
+na tela utilizado unidades de medida e eles não se ajustam ao fluxo como
+float e static eles são independentes
+
+position:absolute;
+
+position:absolute; retira o elemento do fluxo static e o
+torna independentes ele possui as propriedades left, top, bottom e right
+que recebem unidades de medida para dizer exatamente aonde
+o elemento deve ficar estas propriedades podem receber valores
+negativos, as medidas são feitas de acordo com a distancia
+deste elemento com o elemento static ou relative mais proximo
+na ancestralidade
+
+position:fixed
+
+faz a mesma coisa que position:absolute; mas ele é fixado na tela
+ou seja quando a pagina é movida com uma barra de rolagem o elemento
+se move junto com ela
+
+===========================================================================================
+z-index
+
+É um atributo que define qual camada deve aparecer primeiro no caso
+de elementos estarem um em cima do outro, quanto maior o z-index mas 
+a frente o elemento estará, não é possivel aplicar z-index em elementos
+no fluxo static
+
+z-index:5;
+z-index:4;
+...
+

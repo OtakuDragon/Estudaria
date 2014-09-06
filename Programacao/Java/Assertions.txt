@@ -1,0 +1,23 @@
+Assertions
+
+assert();
+
+
+São verificações logicas, para serem usadas em tempo de desenvolvimento
+para ajudar o programador, se retornarem false, causarão uma exceção do tipo 
+assert, e são desativadas por padrão para ativa-las é necessario 
+
+ir no menu run do eclipse
+run configurations...
+VM arguments
+Colocar o argumento -ea
+Run
+
+
+
+Exemplo
+
+
+int idade = s.nextInt();
+
+assert(idade>30);

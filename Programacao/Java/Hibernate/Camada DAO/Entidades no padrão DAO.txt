@@ -1,0 +1,23 @@
+Entidades no padrão DAO
+
+Entidades tem como caracteristica produzir objetos do tipo data transfer objects
+ou seja objetos nos quais os dados trafegam na aplicação pelas 3 camadas
+
+para que uma entidade seja conseiderada no padrão DAO ele deve seguir
+as regras abaixo, atendendo as necessidades do hibernate e mantendo
+as caracteristicas de um javabean
+
+===========================================================
+
+Em classes declaradas como entidades é sempre aconselhavel
+
+*Implementar interface Serialiable (hibernate)
+
+*Gerar getters and setters (hibernate,javabean)
+
+*Gerar metodos hashCode() e equals() (hibernate)
+
+*Gerar serialUDVersion (hibernate)
+
+*não devem conter nenhum outro metodo a não ser (javabean)
+ getters and setters e hashcode equals

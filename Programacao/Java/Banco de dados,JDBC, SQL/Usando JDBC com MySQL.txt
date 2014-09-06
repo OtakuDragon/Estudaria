@@ -1,0 +1,32 @@
+Usando JDBC com MySQL
+
+1º passo: baixar o driver
+
+MySQL jdbc driver
+
+é chamado no site mySQL de connector/J e esta na aba de download
+connectors 
+
+2º passo: importar o driver
+
+copie o .jar do driver de banco de dados para o projeto e vá em
+em propriedades do projeto/java buildpath/libraries/ add jar/ selecione o jar
+
+3º passo: importar a classe para dentro do codigo
+
+No metodo main :
+
+	Class.forName("com.mysql.jdbc.Driver");
+
+4º passo: criar a URL de conexação
+
+template:
+
+	String url = "jdbc:mysql://nomeOuIPDoServidor/nomeDoBanco";
+
+
+ex:
+
+	jdbc:mysql://localhost/Banco1
+
+5º passo: ser feliz

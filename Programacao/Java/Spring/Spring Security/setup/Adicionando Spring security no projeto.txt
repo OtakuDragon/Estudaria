@@ -1,0 +1,90 @@
+1º passo realizar a criação e configuração do DataSource
+
+2º copiar os jars da pasta jars neste diretorio para WEB-INF/lib
+   no projeto
+
+=============================================================================
+3º Criar o arquivo applicationContext.xml na pasta WebContent/WEB-INF
+
+template:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<!--Este id pode conter qualquer valor e será utilizado em applcationContext-secuirty.xml-->
+	<bean id="financeiroDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<!--A unica coisa sucetivel a mudança aqui é o nome do data source nesse caso FinanceiroDB-->
+			<value>java:comp/env/jdbc/FinanceiroDB</value>
+		</property>
+	</bean> 	
+</beans>
+================================================================================
+
+4º Criar o arquivo applicationContext-security.xml na pasta WebContent/WEB-INF
+
+template:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:b="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+	<http>
+
+		<intercept-url pattern="/admin/**" access="ROLE_ADMINISTRADOR" />
+		<intercept-url pattern="/restrito/**" access="ROLE_USUARIO" />
+		<form-login login-page="/publico/login.jsf"
+			always-use-default-target="true" default-target-url="/restrito/principal.jsf"
+			authentication-failure-url="/publico/login.jsf?login_error=1" />
+		<logout/>
+		<remember-me />
+	</http>
+
+	<authentication-manager>
+		<authentication-provider>
+			<!--O id do bean datasource é inserido aqui-->
+			<jdbc-user-service data-source-ref="financeiroDataSource"
+				authorities-by-username-query="SELECT u.login, p.permissao 
+				FROM usuario u, usuario_permissao p 
+				WHERE u.codigo = p.usuario 
+				AND u.login = ?"
+				users-by-username-query="SELECT login, senha, ativo 
+				FROM usuario 
+				WHERE login = ?" />
+		</authentication-provider>
+	</authentication-manager>
+</b:beans>
+
+==========================================================================================
+5º modificar o web.xml
+
+adicionar
+
+<context-param>
+ <param-name>contextConfigLocation</param-name>
+  <param-value>
+	/WEB-INF/applicationContext.xml
+	/WEB-INF/applicationContext-security.xml
+  </param-value>
+</context-param>
+
+<filter>
+ <filter-name>springSecurityFilterChain</filter-name>
+ <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+</filter>
+
+<filter-mapping>
+ <filter-name>springSecurityFilterChain</filter-name>
+ <url-pattern>/*</url-pattern>
+</filter-mapping>
+
+<listener>
+ <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
+
+
+

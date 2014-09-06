@@ -1,0 +1,144 @@
+﻿Definindo chaves primarias
+
+Existem 3 maneira de se definir, chaves primarias
+para entidades, elas são:
+
+* @Id
+* @IdClass
+* @EmbeddedId
+
+======================================================
+@Id
+
+Anota o getter de um atributo de uma entidade
+para definir uma chave primaria simples(composta de apenas um elemento)
+
+
+ex:
+
+@Id
+public Long getId() {
+return this.id;
+}
+============================================================
+IMPORTANTE: Chaves primarias simples vs compostas
+
+ A utilização de chaves compostas com ORM é complexa
+e não segue diretrizes da OO, por isso não é recomendada
+somente quando estivermos mapeando banco de dados de legado
+que já possuem estes tipos de chave.
+			
+ Em ORM o mais recomendado é que cada instância de entidade possua uma
+chave primaria simples numerica e gerada automaticamente, ja que o único propósito
+delas em um ambiente ORM é que o API identifique os objetos e mapeie as referências
+as PKs não precisam fazer sentido para queries SQL.
+
+ Quando há a necessidade de que conjutos de coluna sejam Unique, não é necessário declarar
+estas colunas como PKs basta adicionar uma constraint unique a elas tanto na classe quanto na tabela
+  Na classe:
+    @Table(uniqueConstraints= @UniqueConstraint(columnNames = {"productId", "serial"}) 
+  Na tabela:
+     ALTER TABLE Produtos ADD CONSTRAINT uc_PersonID UNIQUE (P_Id,serial)
+=========================================================
+@IdClass
+
+Uma das formas de se montar uma chave primaria composta
+ela funciona com uma outra classe que agrupa os itens
+que serão marcados com @Id e define como será feita a
+compoaração atraves do metodo equals()
+
+*Anotar os atributos que compõem a chave primaria
+ na entidade com @Id
+
+*Criar um POJO que implementa serializable
+ com copias dos atributos da entidade anotados
+ com @Id.
+
+ 
+* Sobreescrever o metodo equals de Object nesta classe
+  este metodo será utilizado pelo JPA para distinguir entre
+  instancias da mesma entidade 
+  
+*Sobreescrever o metodo hashcode
+
+*Anotar a entidade com @IdClass(meuPOJO.class)
+
+
+ 
+ex:
+
+public class CategoryPK implements Serializable {
+	String name; 
+	Date createDate; 
+	
+	public CategoryPK() {} 
+	
+	public boolean equals(Object other) {
+		if (other instanceof CategoryPK) {
+			final CategoryPK otherCategoryPK = (CategoryPK)other;
+			return (otherCategory.name.equals(name) &&
+			otherCategoryPK.createDate.equals(createDate));
+		}
+		return false;
+	}
+	public int hashCode() { 
+	return super.hashCode();
+	}
+}
+@Entity
+@IdClass(CategoryPK.class) 
+public class Category {
+
+public Category() {}
+
+@Id 
+protected String name; 
+@Id 
+protected Date createDate; 
+...
+}
+
+==============================================================
+@EmbeddedId
+
+Outra maneira de se implementar chave composta
+utilizando uma classe Embeddable
+
+*Criar uma classe @Embaddable contendo os atributos
+ da chave primaria, o metodo equals e hashcode
+
+*Adicionar uma instancia desta classe embeddable como
+ um atributo da entidade e anota-la com @EmbeddedId
+
+@Embeddable 
+public class CategoryPK {
+	String name;
+	Date createDate;
+	
+	public CategoryPK() {}
+	public boolean equals(Object other) {
+		if (other instanceof CategoryPK) {
+			final CategoryPK otherCategoryPK = (CategoryPK)other;
+			return (otherCategory.name.equals(name) &&
+			otherCategoryPK.createDate.equals(createDate));
+		}
+		return false;
+
+		public int hashCode() { 
+			return super.hashCode();
+		}
+	}
+@Entity
+public class Category {
+
+	public Category() {}
+	
+	@EmbeddedId 
+	protected CategoryPK categoryPK;
+...
+}
+=======================================================
+Tipos de dados aceitos como chaves primarias
+
+primitives, primitive wrappers e Serializable 
+  

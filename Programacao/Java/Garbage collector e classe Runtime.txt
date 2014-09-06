@@ -1,0 +1,30 @@
+
+Garbage collector
+
+no java quando uma posição de memoria possui um valor
+mas foi abandonada por todas as referências do codigo
+ela é excluida pelo garbage collector
+
+O garbage collector pode ser chamado por metodos da classe
+Runtime
+
+Criação de objeto
+
+
+Runtime rt = Runtime.getRuntime();
+
+
+Alguns metodos:
+
+
+rt.runFinalization();//Finaliza posições de memorias não mais utilizadas no programa
+
+rt.gc();//chama o garbage collector para limpa-las
+
+rt.freeMemory();// retorna um long com o numero de bytes disponiveis na memoria principal do computador
+
+rt.totalMemory();// retorna um long com o numero de bytes do tamanho total memoria principal do computador
+
+rt.maxMemory();// retorna um long com o numero de bytes da memoria principal que a virtual machine pode utilizar
+
+rt.exec("nomeDoPrograma");//executa programas como no prompt de comando se o valor for calc por exemplo abre a calculadora do windows

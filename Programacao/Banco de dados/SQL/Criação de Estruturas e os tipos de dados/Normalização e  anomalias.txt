@@ -1,0 +1,37 @@
+Anomalias
+
+São falhas na estrutura do banco de dados que podem
+causar inconsistencia e dificuldade de manutenção alem
+de outros problemas, para evitar anomalias deve se fazer
+a normalização de um banco de dados corretamente.
+
+================================================================
+
+Normalização
+
+Existem 5 normas que todos os bancos de
+dados devem seguir para evitar anomalias
+um banco de dados que segue todas estas normas
+é um banco de dados normalizado
+
+* Primeira forma normal(1FN)
+
+- Cada linha da tabela deve representar um registro
+- Cada célula da tabela deve conter um único valor
+
+
+* Segunda forma normal(2FN)
+
+- Atributos não chave da tabela devem depender completamente da
+ chave primaria da tabela
+
+* Terceira forma normal(3FN)
+
+- Sobrepõe a 2FN.
+
+- Atributos não chave da tabela devem depender
+  exclusivamente da chave primária da tabela
+
+*Quarta e Quinta formas normais
+
+As tabelas devem evitar valores repetidos.

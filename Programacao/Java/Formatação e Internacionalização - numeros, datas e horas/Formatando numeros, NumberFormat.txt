@@ -1,0 +1,36 @@
+NumberFormat
+
+Numeros pode ser formatados, em tipos, casas decimais,
+percentagem, valor monetario, localização... etc; com o uso 
+da classe NumberFormat
+
+A criação de objeto de classe NumberFormat se assemelha com a de
+DateFormat é abstrata e feita com a invocação de metodos especificos
+para cada tipo de formatação
+
+uso:
+
+double saldo = 4050,99;
+
+NumberFormat f = NumberFormat.getInstance(Locale local);//ira formatar o numero de modo generico na região especificada
+
+f = NumberFormat.getIntegerInstance(Locale local);//ira formatar o numero sem casas decimais na região especificada
+
+f = NumberFormat.getPercentInstance(Locale local);//ira formatar o numero em forma de porcentagem na região especificada
+
+f = NumberFormat.getCurrencyInstance(Locale local);//ira formatar o numero monetariamente na região especificada
+
+f = NumberFormat.getNumberInstance(Locale local);//para numeros normais
+
+//se nenhum Locale for definido sera usado o padrão
+
+f.setMaximumFractionDigits(int casas);//Formatara o numero quanto ao numero de casas decimais
+
+-----------------------------------------------------------------------------------------------------
+
+f.format(saldo);//recebe um numero double ou long para ser formatado de acordo com o construtor do objeto NumberFormat
+
+-----------------------------------------------------------------------------------------------------
+
+f.parse(String numero);// recebe uma String e tenta formata-la de acordo com o construtor caso não consiga
+			// joga uma Exception, caso consiga retorna um objeto Number

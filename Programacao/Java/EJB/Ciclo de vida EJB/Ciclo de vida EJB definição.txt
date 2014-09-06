@@ -1,0 +1,23 @@
+O ciclo de vida dos Beans EJB
+
+Beans EJB(SLSB,SFSB,MDB) possuem um ciclo de vida que é
+gerenciado pelo EJB container e começa quando
+um bean injetado em um cliente por JNDI
+ou dependency injection e um metodo deste bean é chamado.
+
+Cada tipo de bean possui comportamentos diferentes em seus
+ciclos de vida, mas abstratamente todos eles seguem o ciclo
+abaixo.
+
+Ciclo de vida generico:
+
+*O EJB container cria uma instancia do bean apartir do metodo newInstance()
+ que chama o construtor de metodo sem parametros, ou recupera um bean do pool de beans para o cliente.
+ 
+*Todos os atributos do bean que recebem os seus valores por dependency injection
+ são adicionados ao bean.
+ 
+*O bean fica pronto para uso.
+
+*E eventualmente é destruido, e volta para o pool de beans
+===============================================================================

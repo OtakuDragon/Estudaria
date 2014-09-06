@@ -1,0 +1,44 @@
+Storage
+
+Com o HTML 5 surgiu a possibilidade de
+armazenar dados de uma outra forma no browser
+sem as limitações dos cookies e com mais segurança
+
+esse modo é chamado storage e guarda dados com chave
+e valor 
+
+========================================================
+Tipos de Storage
+
+*localStorage //é um tipo de armazenamento que armazena dados permanentemente
+	      //até que o programador ou o usuario os apague
+
+*sessionStorage //é um tipo de armazenamento que só guarda os dados enquanto o browser esta aberto
+		//e somente para o dominio atual
+
+==========================================================
+Utilizando-os
+
+Os dois são acessados diretamente no codigo
+
+----------------------------------------------------------
+Definindo dados
+
+localStorage.setItem(string,string); //respectivamente chave-valor
+sessionStorage.setItem(string,string); //respectivamente chave-valor
+
+ou
+
+localStorage.nomeDaChave = "valor"; //o nome da chave pode ser criado pelo programador
+sessionStorage.nomeDaChave = "valor"; //o nome da chave pode ser criado pelo programador
+
+---------------------------------------------------------------
+Recuperando dados
+
+var a = localStorage.getItem(string); //Recebe a chave e recupera o valor
+var a = sessionStorage.getItem(string); //Recebe a chave e recupera o valor
+
+ou
+
+var a = localStorage.nomeDaChave 
+var a = sessionStorage.nomeDaChave

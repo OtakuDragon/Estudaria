@@ -1,0 +1,21 @@
+Objeto navigator 
+
+É acessado atraves do objeto window
+e possui informações sobre o browser
+
+======================================================
+Atributos de navigator
+
+navigator.appCodeName	//Retorna o codinome do browser
+navigator.appName	//Retorna o nome do browser
+navigator.appVersion	//Retorna a versão do browser
+navigator.cookieEnabled	//Retorna uma boolean dizendo se os cookies estão ou não ativados
+navigator.onLine	//Retorna um boolean dizendo se o browser esta conectado com a internet ou não
+navigator.platform	//Retorna em qual plataforma(S.O) o browser esta rodando
+navigator.userAgent	//retorna um cabeça-lho com algumas das informações acima do cliente(appName,appVersion,platform)
+
+
+==============================================================
+Metodos de navigator
+
+javaEnabled()	//Retorna um boolean dizendo se o browser possui java instalado ou não

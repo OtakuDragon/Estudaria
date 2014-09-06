@@ -1,0 +1,80 @@
+Criando uma conexão com o banco de dados utilizando Spring 
+
+Para se criar uma conexão com o banco de dados utilizando
+é necessario declarar um bean que possui uma implementação
+da interface DataSource
+
+o apache commons possui varios neste exemplo a classe utilizada
+será BasicDataSource
+
+==============================================================
+Passo-a-passo
+
+1º -  Importar os jars na pasta jars desta pasta para o classpath do projeto
+
+2º passo - Declarar o bean do data source e configurar
+	   a conexão nas suas propriedades.
+
+ex:
+
+<context:annotation-config/>
+<context:component-scan base-package="pacote"/>
+
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<property name="driverClassName" value="pacotes.Driver"/>
+	<property name="url" value="url do banco"/>
+	<property name="username" value="login"/>
+	<property name="password" value="senha"/>
+
+	
+	<!--Configurações de pool de conexão-->
+	<!--Não obrigatorias-->
+	<!--todas as outras propriedades abaixo estão com seus valores padrões-->
+	<!--Se não forem definidas estarão desta forma-->
+	<property name="initialSize" value="0"/>
+	<property name="maxActive" value="8"/>
+	<property name="maxIdle" value="8"/>
+	<property name="minIdle" value="0"/>
+	<property name="maxWait" value="-1"/>
+
+
+
+</bean>
+
+3º passo - Implementar os beans que precisam de conexão com o banco com um
+	   atributo DataSource e injetar o bean dataSource nele
+
+4º passo - autilizando o objeto dataSource a conexão é obtida atraves do metodo getConnection()
+
+ex:
+
+@Component
+public class MinhaClasse{
+
+
+private DataSource ds;
+
+//a anotação @Autowired faz um autowire by type sendo que o unico bean
+//que implementa DataSource é o dataSource ele será injetado neste atributo
+@Autowired
+public void setDs(DataSource ds){
+this.ds=ds;
+
+}
+
+
+Connection conn = ds.getConnection();
+conn.close();
+
+
+}
+
+=============================================================
+Propriedades da pool
+
+Parameter	Default		Description
+initialSize	0		The initial number of connections that are created when the pool is started. 
+maxActive	8	 	The maximum number of active connections that can be allocated from this pool at the same time, or negative for no limit.
+maxIdle		8		 The maximum number of connections that can remain idle in the pool, without extra ones being released, or negative for no limit.
+minIdle		0	 	The minimum number of connections that can remain idle in the pool, without extra ones being created, or zero to create none.
+maxWait		indefinitely	 The maximum number of milliseconds that the pool will wait (when there are no available connections) for a connection to be returned before throwing an exception, or -1 to wait indefinitely.

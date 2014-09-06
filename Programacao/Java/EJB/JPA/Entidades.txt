@@ -1,0 +1,36 @@
+Declarando Entidades
+
+Entidades são as classes que terão os seus
+objetos persistidos no banco de dados, elas
+são identificadas pela anotação @Entity e
+deve seguir as seguintes regras:
+
+* Deve possuir um construtor sem parametros,
+  que será chamado pelo JPA
+
+* Todos os atributos que serão persistidos devem
+  ser private e possuirem getters e setters publicos
+  
+* As anotações de persistencia devem anotar os getters
+  dos atributos.
+  
+*Ela deve possuir uma chave primaria  
+
+obs: Seguindo o padrão property-based persistence.
+  
+==============================================
+Herança
+
+Entidades podem herdar de outras classes,
+se a classe-pai não for uma entidade os atributos
+herdados não serão persistidos.  
+
+Entidades podem ser abstratas, para que sejam usadas
+somente como classe-pai e não sejam persistidas.
+
+================================================
+Ignorando atributos
+
+Quando não for necessário persistir alguns atributos em
+uma entidade basta declara-los como transient ou anota-los
+com @Transient

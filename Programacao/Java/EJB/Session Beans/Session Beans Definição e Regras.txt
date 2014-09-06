@@ -1,0 +1,62 @@
+﻿Session Beans
+
+Session Beans são os componentes da arquitetura EJB
+responsáveis por conter as implementações de regras
+de negocio.
+
+Session beans são utilizados para efetuar ações
+triggered por interações do usuário com a camada de
+apresentação.
+
+Session beans podem ser inseridos em clientes por meio
+de injeção de dependecia(invocação local), ou podem ser acessados
+remotamente por meio da API RMI(remote method invocation) ou como um
+web service(somente stateless)
+
+obs: INICIALIZAÇÃO DE BEANS, o EJB container sempre chama o construtor
+     sem parametros do bean na sua inicialização(obviamente lol)
+
+Existem dois tipos de session bean:
+
+*Stateless session bean
+
+*Stateful session bean
+
+A utilização de sesssion beans garante uma serie de beneficios ja implementados
+pelo framework:
+
+*Gerenciamento de segurança e transações
+*Concurrency e Thread-safety
+*Disponibilizaçaõ de serviçoes remotamente pela api RMI ou web services
+*Interceptores(Aspect oriented programming) e timer services(serviçoes executados em uma hora definida)
+
+===============================================================================
+Regras de criação de session beans
+
+Definição da classe que implementa o bean:
+
+* Deve implementar pelo menos uma interface de negocio.
+
+* Classes de implementação de session beans, não podem ser abstratas nem final ou seja sempre
+  devem implementar todos os metodos da sua ou suas interfaces de negocio e pode herdar de qualquer classe
+  e até mesmo de outros session beans.
+
+* Devem ter um construtor sem argumento, que será chamado pelo EJB container para construir o session bean
+  se o construtor não for explicitamente declarado o compilador adicionara um em tempo de execução
+
+
+Definição dos metodos de negocio:
+
+* um session bean pode ter mais metodos do que os definidos na interface de negocio mas somente
+  os definidos na interface de negocio serão considerados metodos de negocio pelo EJB container
+
+* Metodos de interface de negocio e de session beans não devem começar com o nome ejb pois
+  isso pode causarp probemas com o framework
+
+* Metodos de negocio devem ser public e caso sejam disponibilizado remotamente devem receber
+ como parametro e retornar tipos de dados Serializable
+
+*(NÃO RECOMENDADO)Apartir do EJB 3.1 apenas anotar uma classe com @Stateless e nenhuma interface é o 
+  suficiente para declarar um SLSB local, os metodos de negocio neste caso serão todos
+  os metodos publicos, a programação orientada a interface é uma parte importante dos EJBs
+  e da dependecy injection e não deve ser ignorada           

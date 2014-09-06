@@ -1,0 +1,98 @@
+Operadores PHP
+
+Aritmeticos
+
+· + soma
+· - subtração
+· * multiplicação
+· / divisão
+· ^ exponenciação
+· % módulo, resto da divisão
+· ++ Incremento
+· -- Decremento
+
+-----------------------------------------------------------------------------------
+Operadores de atribuição
+
+· = - Atribuição 
+· += - soma um valor a uma variável e lhe atribui o resultado
+· -= - subtrai um valor a uma variável e lhe atribui o resultado
+· /= - divide um valor de uma variável e lhe atribui o resultado
+· *= - multiplica um valor a variável e lhe atribui o resultado
+· %= - soma o mod de um valor a uma variável e lhe atribui o resultado
+· .= - Concatena uma string a variavel e atribui o resultado
+
+
+-------------------------------------------------------------------------------------
+Ternario
+
+$var = condição ? retornarSeVerdadeiro : retornarSeFalso
+
+----------------------------------------------------------------------------------
+
+Comparação
+
+· == é igual a (retorna verdadeiro se os dados forem iguais ex: 0 == '0' resultado true)
+· === identico a (só retorna verdadeiro se os dados forem iguais e do mesmo tipo) 
+· != não é igual a
+· >  é maior que
+· <  é menor que
+· >= é maior ou igual a
+· <= é menor ou igual a
+
+*Uma comparação gera dois valores possiveis 1 ou NULL
+
+1 = true
+
+NULL = false
+
+--------------------------------------------------------------------
+
+Logicos
+
+· AND ou && - e
+
+· OR ou || - ou
+
+· ! - negação
+
+· XOR - ou exclusivo
+
+· <> - não pode ser ex: if(idade>0 <> 5) //diz que a idade tem que ser maior do que 0 e não pode ser 5
+
+----------------------------------------------------------------
+
+Supressão de erros
+
+@ - Ele suprime um erro para que a mensagem não seja mostrada
+
+Ex:
+
+$a = @(57/0); //normalmente um erro seria mostrado pela divisão pro 0
+              // mas ele é suprimido pelo operador nesse caso
+-------------------------------------------------
+
+Execução
+
+´´ = acentos agudos, tudo dentre eles sera executado como uma ordem de prompt de comando
+     para o sistema operacional e retornado o resultado para a variavel atribuida
+
+ex:
+
+$out = ´dir c:´;//atribui a variavel out uma listagem de todos os diretorios do disco C: do sistema operacional
+echo $out;
+
+----------------------------------------------------------------
+
+Operadores de array
+
+ + - união de arrays $c = $a + $b (se $a e $b forem arrays as unem em uma unica array $c)
+
+== - igualdade
+
+=== - identidade
+
+!= - desigualdade
+
+!== -  não identidade
+========================================================

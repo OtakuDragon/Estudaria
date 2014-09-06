@@ -1,0 +1,131 @@
+SLF4J
+
+Simple logging facade for java
+
+É uma fachada que interage entre a aplicação e um API de logging
+SLF4J funciona com qualquer API desde que tenha um Adapter entre ela
+e a API de logging, a não ser que a API seja Backlog que é a API de logging
+nativa do SLF4J
+=========================================================================================
+Instalando SLF4J
+
+Para que o SLF4J funcione é necessaria a importação de
+alguns jars para o classpath esses jar são:
+
+ - Jar do SLF4J //apenas o slf4j-api-1.7.2.jar
+ - Jar do adapter(caso necessario)//não necessario para API logback
+ - Jar(s) da API de logging // no caso do logback apenas o logback-classic-1.0.13.jar e logback-core-1.0.13.jar
+
+Apos a referenciação de jars é necessaria a configuração da Logger API
+no caso do logback é feita por meio de um arquivo xml na pasta do projeto
+chamado logback.xml,há um modelo deste arquivo nesta pasta
+
+o arquivo logback.xml possui todas as configurações de como os loggers devem agir
+quais os appenders quais os layouts, o codigo somente deve chamar metodos da classe Logger
+todo o resto é feito pelo arquivo logback.xml programado pelo programador.
+
+
+* o SLF4J vai identificar qual API de logging ele utilizara pela API que esta no classpath
+========================================================================================
+Loggers
+
+Um logger é uma fonte de mensagens do log
+
+os loggers possuem uma serie de metodos que definem os tipos de mensagem:
+
+*LOGGER.info("mensagem");//gera um texto de informação
+
+*LOGGER.warn("mensagem");//gera um texto de aviso
+
+*LOGGER.error("mensagem");//gera um texto de erro
+
+*LOGGER.debug("mensagem");//gera um texto de debug
+
+*LOGGER.trace("mensagem");//gera um texto de debug avançado
+
+-------------------------------------------------------------------------
+Mensagens dinamicas
+
+Os Loggers podem criar mensagens com parametros variaveis
+da seguinte forma
+
+LOGGER.debug("O usuario {} se conectou", nomeDoUsuario);//Supondo que nomeDoUsuario seja uma variavel string
+							//quando a mensagem for chamada ela sera escrita
+							//com o valor atual de nomeDoUsuario no lugar das {}
+
+Logger.debug("Tentativa {} de {}",numTentativa,maxTentativa);//supondo que estas duas variaveis sejam inteiros 
+							     //na hora do envio da mensagem as primeiras {} terão o valor da primeira variavel
+							     // e as segundas {} o valor da segunda
+
+--------------------------------------------------------------------------
+Hierarquia dos loggers
+
+Na hora de se criar um logger é passado o caminho de uma classe para ele
+é possivel definir logs no arquivo logback.xml que tem o nome de um pacote
+e ele afetara todas as classes daquele pacote, caso uma classe nao tenha nenhum
+logger definido ela usara as configurações do root logger
+
+Niveis de logger 
+
+No arquivo logback.xml é possivel definir o comportamento do root logger que sera
+herdado por todos os loggers declarados assim como o nivel dos loggers declarados na classe
+
+os niveis são:
+
+*trace
+
+*debug
+
+*info
+
+*warn
+
+*error
+
+um logger só consegue imprimir mensagens de seu nivel ou de um nivel inferior ao seu
+--------------------------------------------------------------------------
+
+
+EX:
+
+private static final Logger LOGGER = LoggerFactory.getLogger(NomeDaClasse.class);
+
+public static void main(String[] args){
+
+	LOGGER.info("Mensagem de log!");
+
+}
+
+==============================================================================================
+Appenders
+
+Representam o destino das mensagens de log
+
+Um logger pode ter um ou mais appenders associados
+
+Alguns appenders importantes:
+
+ConsoleAppender - Direciona os logs para o console
+
+FileAppender - Direciona os logs para um arquivo
+
+RollingFileAppender - Direciona os logs para um arquivo e permite algumas configurações
+
+* No logback os appenders são definidos no arquivo logback.xml
+  
+-----------------------------------------------------------------------------------------
+Layouts
+
+todo appender deve estar associado a um layout que diz
+como os dados serão escritos
+
+os layouts mais usados são:
+
+PatterLayout - Formata em um padrão de strings formato mais usado
+
+HTMLLayout - formata a saida em tabela HTML
+
+XMLLayout - formata a saida em XML
+
+* No logback os lauouts são definidos dentro dos appenders no arquivo logback.xml
+

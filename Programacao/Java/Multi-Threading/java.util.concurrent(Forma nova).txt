@@ -1,0 +1,280 @@
+java.util.concurrent
+
+Pacote que surgiu no java 5 para corrigir alguns
+problemas do metodo de multi-threading antigo
+
+==========================================================
+
+Interface Callable
+
+A interface Callable é equivalente a interface Runnable
+mas com a diferença de que ela, consegue retornar valores
+e consegue jogar exceções do seu metodo call()(equivalente a run() de Runnable)
+
+public class ThreadExample implements Callable<String>{ //é necesssario declarador por meio de generics o tipo de retorno do metodo call
+							//na hora da declaração da classe.
+	public String call() throws Exception{ 
+	
+	//throws é opcional esta aqui com o objetivo de mostrar que é possivel
+	//ja que em run() não é possivel
+	
+	}
+
+}
+
+=========================================================
+
+Executores
+
+São uma nova maneira de executar apenas uma thread
+ou um conjunto de threads(pool) sem a necessidade da criação
+de um objeto Thread para cada um deles
+
+------------------------------------------------------------------------------
+Esperando as threads acabarem sua execução
+
+
+Executor tem o metodo isTerminated() que retorna true quando
+acaba a execução das threads para somente realizar uma operação
+após as threas acabarem de executar é possivel uutilizar o seguinte codigo:
+
+ExecutorService e = Executors.newSingleThreadExecutor();//cria o objeto executor para uma thread
+e.execute(new Handler);//passa a thread como paramentro para o metodo execute
+e.shutdown();
+
+
+while(!e.isTerminated()){
+
+	Thread.sleep(100);
+
+}
+
+//o codigo só saira do loop após todas as threads do executor terminarem suas execuções
+
+//isTerminated() nunca será false se o metodo shutdown() não for chamado antes dele
+
+
+
+
+----------------------------------------------------------------------------------
+
+Executando uma thread que implementa runnable
+
+public class Handler implements Runnable{
+
+	public void run(){
+
+	//codigo
+	}
+
+}
+
+
+class Test{
+
+public static void main(String[] args){
+
+
+	ExecutorService e = Executors.newSingleThreadExecutor();//cria o objeto executor para uma thread
+	e.execute(new Handler);//passa a thread como paramentro para o metodo execute
+	e.shutdown();//termina o executor, se este metodo não for chamado a thread ficara pronta para ser executada denovo assim que um novo
+		     //metodo execute for chamado, se você não pretende executar aquela thread denovo chame shutdown() no executor
+		     //este metodo não interrompe a execução de threads ele espera as threads acabar suas execuções para depois termina-las	
+
+}
+
+}
+
+-------------------------------------------------------------------------
+FutureTasks
+
+Chama o metodo callable de um thread ela é executada
+em outra linha de execução e no "futuro" você pode utilizar
+o retorno desta tarefa com o metodo get()
+
+exemplo pratico em codigos de referência
+
+Executando uma thread que implementa callable e possui um tipo de retorno
+
+public class Soma implements Callable<Integer>{
+
+	public Integer call(){
+
+	return 1+1;
+	}
+
+}
+
+
+class Test{
+
+public static void main(String[] args){
+
+	Soma obj = new Soma();
+	ExecutorService e = Executors.newSingleThreadExecutor();//cria o objeto executor para uma thread
+
+	FutureTask<Integer> task = new FutureTask<Integer>(obj);//Para receber o retorno de uma thread é necessaria a criação de um objeto future task
+								//que recebe um objeto callable e o tipo de retorno desse objeto na sua criação
+ 
+	e.execute(task);//agora o executor executa a futuretask
+
+			//um objeto futuretask tem o metodo isDone() que faz o mesmo que o metodo isTerminated() dos executores
+			//e pode ser usada da mesma forma
+
+	int some = task.get();//o metodo get() de task retorna o retorno do metodo call da thread se este valor ainda não existir ele faz a thread principal
+				//esperar por ele
+
+	e.shutdown;//termina o executor
+
+}
+
+}
+
+
+
+-----------------------------------------------------------------------
+
+Executando uma thread pool fixa
+
+public class Handler implements Runnable{
+
+	public void run(){
+
+	//codigo
+	}
+
+}
+
+
+class Test{
+
+public static void main(String[] args){
+
+
+	ExecutorService e = Executors.newFixedThreadPool(5);//cria o objeto executor para uma thread pool com 5 threads
+	e.execute(new Handler);//passa a thread como paramentro para o metodo execute, como
+			      //esta é uma thread pool o execute pode ser chamado até 5 vezes
+			      //e 5 threads executaram o seus codigos simultanêamente para 6 ou mais elas terão que esperar
+	e.shutdown;//termina o executor
+
+}
+
+}
+
+========================================================================
+Sincronização
+
+A sincronização é necessaria em um programa multi-threads pq algumas partes 
+do codigo só deve ser acessadas por um thread de cada vez
+
+
+Para garantir isso no pacote concurrent existem os locks
+
+------------------------------------------------------------------------
+ReentrantLock
+
+É uma classe que fecha o codigo para o acesso toda vez que uma thread
+está acessando ele com o metodo lock() , e libera o codigo para o acesso
+quando a thread termina de usa-lo com o metodo unlock
+
+Ex:
+
+ReentrantLock chave = new ReentrantLock();
+
+chave.lock();
+
+try{
+
+
+	//Parte critica do codigo
+	//ou seja parte que só deve ser acessada por uma thread de cada vez
+
+
+
+}finally{ chave.unlock();} //é muito importante utilizar o try finally para destrancar porque garante que a parte do codigo sempre será destrancada não importando quais exceções aconteçam.
+
+----------------------------------------------------------------------------
+
+ReentrantReadWriteLock
+
+Tem a mesma função do ReentrantLock mas diferencia
+dois tipos de locks um para leitura que permite varias threads
+acessando o codigo simultaneamente e um lock e escrita que garante
+que somente uma thread utilize o codigo.
+
+EX:
+
+ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+
+Lock r = rwl.readLock();
+
+Lock w = rwl.writeLock();
+
+
+//estes objetos r e w possuem os metodos lock e unlock para definir o que trancar
+
+//quando um write lock esta destrancado varias threads podem acessar o read lock sem problemas
+//quando um write lock é realizado o read lock espera até que a thread atual termine e tranca
+//o read thread então as alterações são feitas no write lock, e assim que ele for destrancado
+//o write lock é tambem
+
+//um exemplo pratico nos codigos de referencia
+
+----------------------------------------------------------------------------
+Operações atômicas 
+
+São mudanças efetuadas em variaveis em uma operação só
+e que funcionam para varias threads sincronizadamente sem
+problemas utilizado quando você quer que varias threads alterem
+uma variavel ou uma array de variaveis sincronizadamente sem utilizar locks
+
+atomico = em uma operação computacional, ou seja não é possivel uma thread acessar
+	  o valor entre operações porque é apenas uma
+
+AtomicInteger i = new AtomicInteger(10);//representa o numero inteiro 10
+int valor = i.incrementAndGet();//incrementa o valor da variavel i e a retorna em uma unica operação
+				//que pode ser executada por varias threads sem problemas
+
+AtomicIntegerArray i = new AtomicIntegerArray(new int[]{1,2,3});//representa um array de inteiros e recebe como parametro o array
+int valor = i.getAndDecrement(1);//recebe a posição do vetor e a retorna e depois a decrementa
+
+*neste exemplo foi usado a classe para Integer todas as outras classes de tipos de dados
+*tambem possuem uma classe atomic equivalente
+
+==========================================================================
+
+Comunicação
+
+Threads se comunicam no pacote concurrent por meio de conditions
+que são geradas por objetos ReetrantLock ou ReentrantReadWriteLock
+
+os metodos await(),signal() e signalAll() correspondem aos metodos de object
+wait(),notify() e notifyAll()
+
+Uma condition sempre esta relacionada com um lock porque uma thread
+que esta dormindo (em await()) libera o lock que ela possuia
+
+geralmente o metodo await() é usado em um while e quando a variavel do while
+muda ou seja é necessario acordar os threads o metodo signalAll é chamado
+
+Codigo de referencia na pasta
+
+ex:
+
+ReentrantLock chave = new ReentrantLock();
+Condition c = chave.newCondition();
+
+chave.lock();
+
+try{
+	while(condicao == true){
+	
+	c.await();//quando este metodo é chamado a thread que possui o lock é colocada para dormir
+		//e o lock é destrancado.
+
+	}
+	condicao = false;
+	c.signalAll();//Manda um sinal para todas as threads dizendo que o valor da variavel que esta matendo o while
+		     // que as faz esperar mudou de valor
+
+}finally{ chave.unlock();}

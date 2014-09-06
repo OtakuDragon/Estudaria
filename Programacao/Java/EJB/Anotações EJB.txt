@@ -1,0 +1,133 @@
+Anotações EJB
+
+Session Beans
+
+@EJB
+
+A anotação @EJB é a anotação que realiza dependecy injection
+de session beans dentro das aplicações que os utilizam ela
+funciona como uma abstração do lookup JNDI e anota atributos
+que são do tipo da interface de negocio do ejb.
+
+Quando o EJB container indentifica esta anotação ele recupera
+uma instancia do EJB local ou remotamente dependendo de sua
+configuração e o atribui aquela variavel.
+
+---------------------------------------------------------------
+Life Cycle
+
+@PostConstruct
+
+Anota um metodo no session bean indicando ao EJB container que este
+metodo deve ser chamado assim que uma nova instancia do bean for criada
+e tiver seus recursos injetados ou seja logo antes de ela ser considerada pronta
+para uso
+
+@PreDestroy
+
+Anota um metodo no session bean indicando ao EJB container que este
+metodo deve ser chamado antes de aquela instancia do bean ser destruida(removida do pool)
+
+----------------------------------------------------------------
+Stateless Session Bean
+
+@Stateless 
+
+diz ao EJB container que a classe anotada se trata de um um stateless session bean
+o que garante a elatodos os serviços disponiveis para este componenente e
+significa que quando um cliente necessita de uma instancia está instancia é recuperada do
+pool de instancias como uma instancia "limpa" ou "nova" todas as vezes que um metodo for chamado
+
+
+@Local
+
+Anota a classe de um SLSB ou sua interface de negocio declarando este SLSB como
+de apenas acesso local, somente dentro do mesmo servidor de aplicação.
+
+@Remote
+
+Anota a classe de um SLSB ou sua interface de negocio declarando este SLSB como
+disponivel para acesso remoto atraves da API de remote method invocation(RMI),
+ou seja o Bean estará disponivel para aplicações java em qualquer servidor de aplicação
+
+Anotar uma classe como @Remote sendo que ela somente será utilizada localmente causa problemas
+de performance
+
+@WebService
+
+Anota a classe de um SLSB ou sua interface de negocio declarando este SLSB como
+disponivel para acesso remoto como webservice tornando o EJB disponivel para qualquer
+aplicação em qualquer servidor independente da tecnologia de implementação dela(.net,c,python,etc)
+
+-----------------------------------------------------------
+Stateful Session bean
+
+As anotações @Local e @Remote tambem se aplicam a SFSB
+
+@Stateful
+
+diz ao EJB container que a classe anotada se trata de um um stateful session bean
+garante a ela todos os serviços disponiveis para este componenente
+e significa que as suas instancias quando atribuidas a clientes devem ser particulares
+aquele cliente armazenando os dados enquanto  dure a sessão, ou até que o cliente peça
+para que o estado da instancia não seja mais salvo.
+
+obs: um bean stateful não pode ser disponibilizado como webservice.
+
+@Remove
+
+Anota um metodo ou mais metodos do SFSB dizendo ao EJB container que após a execução de um daqueles
+metodos não é mais necessario armazenar o estado(valores dos atributos) do bean, a instancia será
+destruida(@PreDestroy) liberando espaço na memoria.
+
+Esta anotação é necessaria para o cliente dizer ao container que ja acabou de utilizar aquele bean.
+
+Se nenhum metodo do SFSB for anotado com @Remove o bean manterá o seu estado até ocorrer um
+timeout de sessão que é um tempo predefinido pelo container o que não é recomendado por questões
+obvias de performance.
+
+@PrePassivate
+
+O metodo anotado com @PrePassivate tem a função de Prepara o bean que não
+está sendo utilizado a algum tempo para ser armazenado em um arquivo temporario
+em disco, e liberar memoria até que seja utilizado novamente.
+
+Isto significa fechar conexões e setar seus atributos para null, transformar atributos
+non-serializable em serializable quando necessario, por que somente o que for serializable
+poderá ser recuperado.
+
+Um mesmo metodo pode ser anotado com @PrePassivate e @PreDestroy ja que não há muita diferença
+entra as funções, a não ser que um bean passivated será recuperado.
+
+@PostActivate
+
+Anota um metodo no bean que define o que fazer quando o bean for recuperado do estado de
+passivation, geralmente reabrir todas as conexões, um mesmo metodo pode ser anotado com
+@PostActivate e @PostConstruct.
+
+=========================================================================
+Message driven beans
+
+@MessageDriven
+
+Identifica uma classe como um MDB
+
+@ActivationConfigProperty
+
+A anotação @MessageDriven pode receber um array desta anotação
+para definir as configurações do MDB como qual a destination
+============================================================================
+Anotações gerais
+
+@Resource
+
+Assim como @EJB é utilizada para efetuar injeção de dependecia de
+session beans a anotação @Resource é utilizada para efetuar injeção
+de dependecia de qualquer objeto que o container java EE conheça atraves
+do nome JNDI
+
+@PersistenceContext(unitName="nomeDaUnidadeDePersistencia") 
+
+Anota atributos entity manager e realiza a injeção de dependecia
+da unidade de persistencia configurada, com o nome passado, no atributo
+EntityManager anotado.

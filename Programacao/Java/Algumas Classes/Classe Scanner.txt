@@ -1,0 +1,22 @@
+java.util.Scanner
+
+A classe scanner, scaneia inputs do usuario ou arquivos.
+
+
+Criando um objeto
+
+Scanner s = new Scanner(System.in);
+
+*para ler entradas de usuario em prompt 
+ usa-se o construtor que recebe um source de input
+ no scanner
+
+Lendo a entrada de um usuario em prompt
+
+
+Scanner s = new Scanner(System.in)
+
+System.out.print(s.nextLine());
+
+
+

@@ -1,0 +1,51 @@
+package pacote_da_Aula10;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Field;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+public class XMLHandler {
+	
+	static void write(Object obj, OutputStream os) throws Exception{
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+				
+		//Cria um novo documento XML
+		Document doc = db.newDocument();
+		
+		//Define uma referencia a classe do objeto
+		Class clazz = obj.getClass();
+		
+		
+		//Cria a tag raiz do documento XML
+		Element rootElem = doc.createElement(clazz.getName());
+		doc.appendChild(rootElem);
+		
+		Field[] atribs = clazz.getDeclaredFields();
+		
+		for(int i=0;i<atribs.length;i++){
+			Class c = atribs[i].getType();
+			
+			
+		}
+		
+		
+		
+		
+	}
+	
+	static Object read(InputStream is) throws Exception{
+		return null;
+		
+		
+		
+	}
+
+}

@@ -1,0 +1,86 @@
+Bean Managed Transactions(BMT)
+
+A utilização de CMTs permite uma serie de
+configurações, mas a transação sempre é iniciada
+antes da execução do metodo e terminada após a sua
+execução, para rollback ou commit, se nos quisermos
+mudar este comportamento podemos utilizar BMTs
+
+Para se definir as transações de um bean ou metodo como um BMT
+é preciso anota-lo com @TransactionManagement(TransactionManagementType.BEAN)
+
+*Transaction attributes não funcionam em BMTs
+ 
+*Transações ativas são sempre interrompidas quando chamam um metodo
+ BMT, ou seja transações BMT não podem se juntar a outras transações CMT ou BMT
+
+*BMT não a maneira recomendada de tratar transações em EJB e deve ser usada só como
+ um recurso extra
+===========================================================
+Interface UserTransaction
+
+Bean Managed Transactions permitem ao programador
+começar uma transação, commitar ou executar rollback
+a qualquer momento atraves da utilização de um objeto
+UserTransaction
+
+----------------------------------------------------------
+Recuperando o objeto UserTransaction
+
+O objeto userTransaction funciona como uma handle JTA pelo
+qual você pode ter controle sobre transações e ele pode
+ser recuperado de tres maneiras:
+
+DI:
+
+A maneira mais simples e limpa de se recuperar o objeto
+
+@Resource 
+private UserTransaction userTransaction;
+
+JNDI lookup:
+
+O nome do objeto user transaction por padrão é java:comp/UserTransaction 
+este tipo de recuperação deve apenas ser utilizada quando DI não está disponivel
+
+Context context = new InitialContext();
+UserTransaction userTransaction = (UserTransaction) context.lookup(“java:comp/UserTransaction”);
+
+EJBContext:
+
+Tambem há um metodo no EJBContext que retorna o objeto userTransaction mas ele
+só deve ser usado quando já há a utilização do EJBContext para outras coisas na classe
+e realizar DI ia ser só outro passo extra, já que o objeto ja esta presente no contexto
+
+*Tentar recuperar o objeto UserTransaction em um bean CMT atraves do contexto joga uma illegal state exception
+ assim como chamar os outros metodos cmt, set e get rollbackOnly
+
+@Resource
+private SessionContext context;
+UserTransaction userTransaction = context.getUserTransaction();
+
+-----------------------------------------------------------------
+Metodos de UserTransaction
+
+userTransaction.begin() - Inicia uma nova transação e associa ela aquela thread
+			  uma transação outra transação só pode ser aberta quando esta
+			  transaçaõ for commited ou rolledback, tentar abrir transações
+			  dentro de transações, causa uma NotSupportedException
+
+userTransaction.commit() - Finaliza uma transação aberta e commita as alterações
+
+userTransaction.rollback()- Finaliza uma transação aberta e desfaz(rollback) as alterações
+
+userTransaction.getStatus() - Retorna um int se referindo a uma constante definida em javax.transaction.Status
+			    que diz em qual estado a transação se encontra no momento que o metodo é chamado
+			    ver imagem Constantes getStatus().
+
+userTransaction.setTransactionTimeout(int segundos) - Define um tempo em segundos para que a transação seja rolledback
+						      se ela não estiver terminada até lá, cada servidor possui um tempo
+						      padrão para este timeout se nenhum for definido.
+
+userTransaction.setRollbackOnly() - Utilizada apenas quando uma transação BMT chama um metodo CMT e deseja-se definir timeout
+				    uma flag unica de rollback, ao inves de chamar rollback() em varios lugares.
+
+
+

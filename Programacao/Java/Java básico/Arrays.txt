@@ -1,0 +1,79 @@
+Arrays
+
+Arrays Simples
+
+São conjuntos de dados de um mesmo tipo
+podendo ser primitivos ou objetos indentificados
+por um indice
+
+Declaração:
+
+ tipoDeDado[] nomeDoArray = new[numeroDePosições]
+
+Ex:
+
+ String[] nomes = new String[15] // um array que guarda 15 nomes
+
+-----------------------------------------------------------------
+
+Hardcoding um array
+
+Sintaxe
+
+ tipoDeDado[] nomeDoArray = {dado1,dado2...};
+
+Ex:
+
+
+ String[] nomes = {gilson,jose};
+
+-----------------------------------------------------------------
+
+Acessando dados de um array
+
+sintaxe:
+
+int variavel = nomeDoArray[indice] = 15;// setting and getting
+
+ex:
+
+int variavel = numeros[0];
+
+nomes[5] = josefina;
+
+*obs em um array de objetos é possivel acessar metodos e atributos pelo elemento do array
+
+*ex:
+
+int tamanho = nomes[5].length;
+
+-----------------------------------------------------------------
+
+A classe que possui metodos para manipulação de arrays é
+
+java.util.Arrays;
+
+----------------------------------------------------------------
+
+Arrays multdimensionais
+
+São arrays dentro de arrays
+
+Sintaxe
+
+tipoDeDado[][].... nomeDoArray = new tipoDeDado[][]....;
+
+Ex:
+
+String[][][] nomes = new [10][10][10];
+
+*Geralmente só é necessario usar arrays com duas dimensões
+
+---------------------------------------------------------------
+
+Hardcoding um array multidimensional
+
+String[][] nomes = {{elemento1,elemento2},{elemento3,elemento4},{elemento5,elemento6},{elemento7,elemento8}};
+
+*neste array a posição nomes[0][1] seria o elemento 2
+

@@ -1,0 +1,13 @@
+Conversões 
+
+(int), (integer) = muda para inteiro;
+(real), (double), (float) = muda para ponto flutuante;
+(string) = muda para string
+(array) = muda para array
+(object) = muda para objeto
+
+=============================================
+ex:
+
+$var = 5;
+$var2 = (real)$var;

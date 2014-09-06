@@ -1,0 +1,23 @@
+JSF
+
+O Java server faces é a especificação para um framework
+de componentes para desenvolvimento web em java
+
+ele facilita a criação de interfaces para aplicações web
+
+está especificação foi criada pela java community process
+
+=========================================================
+Implementações
+
+Por ser apenas uma especificação para utilizar o jsf
+é necessario uma implementação
+
+a implemetação oficial da sun é chamada de Mojarra
+
+========================================================
+Bibliotecas
+
+O jsf possui varias bibliotecas de componentes
+que expandem a capacidade do framework uma delas
+é a primefaces

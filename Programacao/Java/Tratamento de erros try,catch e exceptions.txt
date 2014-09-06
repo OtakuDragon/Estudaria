@@ -1,0 +1,84 @@
+Try, Catch ,Finally
+
+É a estrutura java para a captura e tratamento de exceptions
+
+Exceptions são possiveis erros que podem acontecer no programa
+em casos especificos e que se não forem tratadas poderão causar
+um crash
+
+Para uma exception poder ser tratada tem que ser importada
+
+ex:
+
+try{
+
+//Codigo que possivelmente gerara exception
+
+
+
+
+}catch(NomeDaException e){
+
+
+
+//Tratamento da exception
+// "e" é uma variavel do tipo daquela exception
+//e possui informações sobre ela
+
+
+
+
+}catch(Exception e2){ 
+//varios catches pode ser encadeados
+
+}finally{
+
+
+//Codigo que sempre sera executado ao final da
+//estrutura de tratamento de exceptions.
+
+
+}
+
+MultiCatch
+
+é possivel capturar varias exceptions diferentes em um mesmo catch
+da seguinte maneira
+
+catch(Exception1 | Exception2 | Exception3 e){
+//todos os dados de todas as exceptions vão para 
+//a variavel "e"
+} 
+
+
+Metodo stackTrace()
+
+O metodo stackTrace é comum a todas as exceptions
+e possui um log de erros de aonde todos os erros aconteceram
+naquela hierarquia de classe, é ideal para um relatorio de erros
+
+Clausula throws
+
+Pode ser usada em seu metodo para informar ao programador
+que o utilizar todos as Exceptions possiveis de serem "jogadas"
+por aquele metodo
+
+ex:
+
+
+public void metodo() throws Exception1,Exception2...{
+
+
+}
+
+-------------------------------------------------------------------------------
+
+Para se criar uma exceção é necessario
+criar uma classe que herde de Exception
+
+então desde que você declare que seu metodo
+"throws" alguma exceção você pode usar o comando
+throw new ConstrutorDaExeption(); para jogar alguma exceção
+nos seus codigos
+
+

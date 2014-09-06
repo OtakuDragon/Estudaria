@@ -1,0 +1,14 @@
+Segurança EJB
+
+O Framework EJB nos oferece a funcionalidade
+de utilizar um security-domain pré configurado
+(ver Autenticação e Autorização com JAAS).
+
+Para restringir acesso a metodos ou até mesmo beans inteiros
+para roles especificos.
+
+Existem duas maneiras de se fazer isso:
+
+* Segurança Declarativa - Com anotações
+
+* Segurança Programatica - Com código

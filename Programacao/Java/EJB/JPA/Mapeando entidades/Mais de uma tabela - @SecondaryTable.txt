@@ -1,0 +1,138 @@
+A anotação @SecondaryTable
+
+Uma entidade pode representar mais de uma tabela,
+desde que, estas outras tabelas(tabelas secundarias)
+possuam como chave primaria e chave estrangeira a chave
+primaria da entidade principal.
+
+Definir estas relações é a função da anotação @SecondaryTable
+ela aparece após a declaração de @Table da entidade
+
+----------------------------------------------------------------
+Definição da anotação
+
+String name - Atributo obrigatorio, define qual é o nome
+			  da tabela secundaria.
+			  
+String catalog - Define o catalogo ao qual a tabela secundaria pertence
+
+String schema  - Define o schema ao qual a tabela secundaria pertence
+
+UniqueConstraint[] uniqueConstraints - Definição de constraints unicas com o mesmo
+									   proposito deste campo em @Table
+
+PrimaryKeyJoinColumn[] pkJoinColumns- Array de anotações @PrimaryKeyJoinColumn
+									  representando, quais colunas são chave primaria/estrangeira
+									  na tabela secundaria e as mapeia a chave primaria da entidade.
+									  
+===========================================================
+A anotação @PrimaryKeyJoinColumn
+
+Esta anotação especifica a coluna de chave primaria da tabela
+que é utilizada como chave estrangeira(faz referencia) para outra tabela.
+
+----------------------------------------------------------------
+Definição da anotação
+
+String name - O nome da coluna primary key nesta entidade utilizada como FK.
+
+String referencedColumnName - O nome da coluna em outra entidade a qual este atributo esta se referenciando
+
+String columnDefinition - Recebe o SQL de criação da coluna caso ela seja gerada
+						  pela api ORM.
+						  
+*Se as colunas possuirem o mesmo nome apenas o atributo name é necessário
+						  
+---------------------------------------------------------------------
+Utilização em @SecondaryTable
+
+Quando utilizada juntamente com a anotaçaõ SecondaryTable
+os atributos possuem uma visão diferente:
+
+String name - Nome da coluna na tabela secundaria
+
+String referencedColumnName - Nome da coluna na tabela principal(Entidade)
+
+=======================================================================
+@SecondaryTables
+
+Quando uam entidade possui atributos espalhados em varias tabelas
+a anotação @SecondaryTables, ela é apenas um array de @SecondaryTable
+
+=======================================================================
+ex:
+
+Entidade principal
+
+@Entity
+@Table(name="student")
+@SecondaryTables({
+    @SecondaryTable(name="name", pkJoinColumns={
+        @PrimaryKeyJoinColumn(name="id", referencedColumnName="student_id") })
+})
+public class Student implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
+	//Chave primaria que é referenciada na coluna id da tabela Name
+	@Id
+	@Column(name="student_id")
+	private int studentId;
+	
+	//Campo que vem de outra tabela resultante do join
+	@Column(table="name")
+	private String name;
+	
+	public Student(int studentId){
+		this.studentId=studentId;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getStudentId() {
+		return studentId;
+	}
+
+	public void setStudentId(int studentId) {
+		this.studentId = studentId;
+	}
+}
+
+Entidade secundaria, não precisa existir apenas uma tabela
+com está definição
+						  
+@Entity
+@Table(name="name")
+public class Name implements Serializable{
+	private static final long serialVersionUID = 1L;
+	@Id
+	@Column(name="id")
+	private int id;
+	@Column(name="name")
+	private String name;
+	
+	public Name(int id,String name){
+		this.id=id;
+		this.name=name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+}					

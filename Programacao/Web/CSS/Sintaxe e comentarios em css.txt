@@ -1,0 +1,31 @@
+Sintaxe
+
+A sintaxe em css é composta por
+
+Seletor {Propriedade1:valor;Propriedade2:"valor com espaço";}(declarações)
+
+
+---------------------------------------------------------------------------------------
+Indentação
+
+Deve ser indentada da seguinte forma
+para a facil manutenção
+
+	p {
+		color:blue;
+		font-family:"Times New Roman";
+	
+
+	}
+
+------------------------------------------------------------------------------------------
+
+Mais de um elemento mesmas propriedades?
+
+utilize uma virgula para separa-los
+
+p,h1,h2 {
+
+	color:#00000F;
+
+}

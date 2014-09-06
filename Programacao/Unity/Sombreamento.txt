@@ -1,0 +1,29 @@
+Sombreamento
+
+A sombra-mãe
+
+A sombra-mãe chamada de Ambient Light
+no unity é a sombra que existe para tudo
+oque não está iluminado no jogo por padrão
+ela é preta
+
+mas pode ser mudada em edit>render settings>ambient light
+
+ex:
+
+defini-la como branca é como colocar uma luz branca infinita no cenario
+inteiro
+
+===================================================
+Sombreamento em tempo real
+
+Adicionar uma sombra a uma cena que acompanha
+a movimentação do personagem em relação a luz ou vice
+e versa é feita no gameObject da luz
+
+no unity free somente é possivel adicionar este tipo de sombra
+em directional lights
+
+o opção para a adição de sombra está no componente light da luz
+e possui duas opções hard shadows ou light shadows, sendo que hard shadows
+são mais simples e light shadows mais pesadas e avançadas

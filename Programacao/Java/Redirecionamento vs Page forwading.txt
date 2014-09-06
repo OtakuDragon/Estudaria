@@ -1,0 +1,67 @@
+Redirecionamento vs Page forwading
+
+Page forwarding
+
+Por padrão a navegação do JSF funciona por page forwarding
+o que sgnifica que a troca de paginas é feita internamente
+dentro do servidor e o servidor somente retorna o conteudo
+da pagina de destino o que poupa um request no fluxo ou seja
+é mais rapido, mais eficiente mas mantem no browser a url
+da pagina anterior.
+
+fluxo:
+
+Redirecionamento de command button ou command link de uma
+pagina qualquer para a pagina page1.xhtml.
+
+1. User click on the button or link.(que causa o redirecionamento)
+2. JSF received the action and perform an internal page forward to “page1.xhtml” in the server side.
+3. JSF return the “page1.xhtml“.
+4. Browser display the content of the “page1.xhtml“.
+
+==========================================================
+Redirecionamento
+
+Em um redirecionamento o jsf após receber o pedido
+de mudança de pagina processa o pedido e entende para que pagina
+o usuário quer ir mas ao inves de ir internamente para ela e retornar
+o seu html(page forwarding) ele retorna a url da pagina de destino
+cabe a o browser fazer uma nova requisição outra request dessa vez para
+a pagina de destino
+
+ou seja duas requests são efetuadas para o browser com a unica vantagem de
+a url da pagina de destino aparecer no area de url do browser
+
+apesar de este não ser o padrão do jsf é possivel forçar este comportamento
+adicionando as string(ou outros) utilizadas para dizer ao jsf qual pagina ir o parametro
+GET faces-redirect=true
+
+ex:
+
+metodo de managed Bean
+
+public String placeBid(){
+		
+  Bid bid = new Bid();
+		
+ bid.setItemID(itemID);
+ bid.setBidderID(bidderID);
+ bid.setBidAmount(bidAmount);
+		
+ placeBidEJB.addBid(bid);
+		
+ return "sucess.xhtml?faces-redirect=true&message=Bid added Sucessfully";
+		
+}
+
+
+Fluxo:
+
+Redirecionamento de command button ou command link de uma
+pagina qualquer para a pagina page1.xhtml.
+
+1. User click on the button or link.(que causa o redirecionamento)
+2. JSF received the action and send back a “redirect” to “page1.xhtml” response back to the browser.
+3. Browser received the response and send another “GET” request to URL : http://localhost:8080/JavaServerFaces/faces/page1.xhtml.
+4. JSF received the request and return the “page1.xhtml“.
+5. Browser display the content of the “page1.xhtml“, and the browser’s URL is updated.

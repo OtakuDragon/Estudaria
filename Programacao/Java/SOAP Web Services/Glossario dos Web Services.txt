@@ -1,0 +1,14 @@
+Glossario dos Web Services
+
+WSDL - Web Service Descriptive language Linguagem descritiva de webservices baseada em xml a qual
+       os clientes recebem para entederem o que o webservice faz(quais metodos possui, parametros e tipos de retorno)
+       de um modo independente de linguagem.
+       
+SOAP - Simple object acess protocol linguagem baseada em xml pela qual o cliente envia a requisição ou seja
+       qual metodo e quais parametros e recebem a resposta que seria o retorno do metodo pela rede.
+
+SEI - Service endpoint interface as aplicações chamam o metodo desta interface que é composta por varias classes
+      e depende de quais serviços são oferecidos pelo ws, e é ela que converte a chamada
+      do metodo em SOAP para ser enviado ao web service e recebe a resposta em SOAP e converte-a para o objeto
+      desejado, a SEI é implementada na linguagem do cliente e geralmente é gerada apartir do WSDL
+      no java o comando wsimport [options] WSDL_URL gera esta interface

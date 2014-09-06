@@ -1,0 +1,71 @@
+Herança de configuração
+
+Quando varios beans precisam de uma mesma configuração
+é possivel criar uma herança de configuração na qual
+todas as configurações do bean-pai serão herdados pelos
+beans filhos
+
+obs: Caso o bean filho possua uma propriedade com o mesmo nome
+     de uma propriedade herdada do pai ela será sobre escrita
+
+obs: Beans pai podem ser abstract ou seja o spring não o instanciara
+     apenas o usará como template para outros beans ou não por meio do
+     atributo booleano abstract
+
+===========================================================
+ex:
+
+<bean id="parenttriangle" class="pacote.Triangle" abstract="true">
+	<property name="PointA" ref="PointA"/>
+</bean>
+
+
+<!--As configurações do bean acima são herdadas por este bean-->
+<!--pela definição do atributo parent que recebe o id do bean pai-->
+
+<bean id="triangleson" class="pacote.Triangle" parent="parenttriangle">
+	<property name="PointB" ref="PointB"/>
+	<property name="PointC" ref="PointC"/>
+</bean>
+
+<!--Definição de PointA,B,C...-->
+
+================================================================
+Coleções herdadas
+
+No caso de o bean pai possuir uma coleção é possivel:
+
+*apenas herdar a coleção
+
+*sobreescrever a coleção
+
+*adicionar itens a coleção herdada
+
+ex:
+
+<bean id="parenttriangle" class="pacote.Triangle" abstract="true">
+	<property name="Points" >
+		<list>
+			<ref bean="PointA">
+		</list>
+	</property>
+</bean>
+
+<!--O bean abaixo apenas herda a coleção -->
+
+<bean id="triangleson1" class="pacote.Triangle" parent="parenttriangle">
+	
+</bean>
+
+
+<!--O Bean abaixo herda a lista e adiciona outro bean à ela-->
+<!--Atraves da propriedade merge, se a propriedade merge for definida como false--->
+<!--ou não for definida a lista será sobre escrita-->
+
+<bean id="triangleson2" class="pacote.Triangle" parent="parenttriangle">
+	<property name="Points">
+		<list merge="true">
+			<ref bean="PointB">
+		</list>
+	</property>
+</bean>

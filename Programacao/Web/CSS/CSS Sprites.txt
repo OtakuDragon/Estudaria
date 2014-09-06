@@ -1,0 +1,27 @@
+CSS Sprites
+
+  Para um site que possui uma enorme quantidade de pequenas imagens sendo utilizadas
+como links,icones e etc. normalmente são necessarias varias requisições ao servidor
+uma para buscar cada imagem e isto torna a pagina lenta, porque acesso ao servidor
+leva muito tempo.
+
+  para diminuir este numero de acessos ao servidor é possivel colocar
+todas as imagens em um unico arquivo e apenas requisita-lo uma vez
+e localizar suas imagens por meio da coordenada dos pixels e sua dimensão
+da seguinte forma
+
+#iconeSave {
+
+	background:url(img/sprite.png) 100px 48px;//primeiro numero coordenadas y(linhas) do elemento,segundo numero coordenadas x(colunas) do elemento
+						//na imagem estas coordenadas indicam o canto superior direito de onde começa a imagem e pode ser
+						//descoberta por meio de editores de imagem ou o firebug
+
+	
+	//dimensões da imagem
+        height:25px;
+	width:25px;
+
+	
+
+
+}

@@ -1,0 +1,178 @@
+Producer
+
+Um producer é o elemento do JMS responsavel
+por produzir mensagens e definir uma destination
+para qual estas mensagem serão levadas pelo MOM
+
+Para se implementar um producer é preciso que ele
+tenha acesso a dois recursos:
+
+-Uma fabrica de conexões com o MOM
+
+-Uma destination para qual ele eviará suas mensagens
+
+==============================================
+Implementando um producer
+
+-Injetar os recursos necessarios(recursos configurados no JBoss 7.1.1)
+
+Utilizando o servidor JBoss é possivelrecuperar estes dois recursos
+pre-configurados atraves da tag @Resource com o atributo name sendo
+o <entry name/> do recurso no standalone-full.xml
+
+@Resource(name="java:/ConnectionFactory")
+private ConnectionFactory connectionFactory; 
+@Resource(name="java:/queue/test")
+private Destination destination;
+
+*ver arquivo configurando JMS
+
+------------------------------------------------------------------------
+-Abrir uma conexão utilizando a fabrica recuperada
+
+A criação de uma conexão com o MOM leva muitos recursos por isso apenas
+uma conexão deve ser criada e compartilhada entre os producers da aplicação.
+
+Codigo:
+
+Connection connection = connectionFactory.createConnection();
+
+---------------------------------------------------------------------------------
+-Abrir uma sessão atraves da conexão
+
+Sessões são objetos que criam mensagens e producers e podem ser criados para
+cada envio de mensagem;
+
+Parametros do construtor:
+
+O primeiro parametro do construtor especifica se a sessão é transacional
+se true a mensagem só será enviada quando o metodo commit() da sessão for chamado
+se não a mensagem será enviada quando o metodo send() for chamado
+
+O segundo parametro indentifica o acknowledge mode das mensagens, uma mensagem só é removida
+da destination quando ela é acknowledged(reconhecida), acknowledge só é valido para sessões
+não transacionais.
+
+os modos de acknowledgement são:
+
+Session.AUTO_ACKNOWLEDGE     - Padrão, e não requer nenhuma ação do producer a propria sessão
+                               reconhece a mensagem assim que ela foi entregue.
+Session.CLIENT_ACKNOWLEDGE   - A mensagem só é considerada reconhecida quando o metodo message.acknowledge()
+                               é chamado, isto geralmente deve ser feito no consumer.
+Session.DUPS_OK_ACKNOWLEDGE  - Funciona da mesma maneira que  o auto_acnowledge mas tem o risco de entregar a mesma
+                               mensagem duas vezes.
+Session.SESSION_TRANSACTED   - Esta constante é retornada quando o metodo session.getAcknowledgeMode() e a sessão
+                               for transacional aonde o modo de acknowledgemente não existe.
+
+Codigo:
+
+Session session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);
+
+-------------------------------------------------------------------------------------
+-Cria um objeto MessageProducer atraves da sessão
+
+O message producer recebe a destination como parametro em seu construtor
+isto define para aonde as mensagens devem ser levadas
+
+Codigo:
+
+MessageProducer producer = session.createProducer(destination); 
+
+---------------------------------------------------------------------------------------
+-Criar a mensagem
+
+Após recuperar um producer nos utilizamos a sessão para criar
+uma mensagem existem 4 tipos de mensagem cada uma adequeada
+para se enviar um tipo de dado, estes tipos são:
+
+*BytesMessage  - Envio de array de bytes
+*MapMessage    - Envio de par de chaves e valores
+*StreamMessage - Envio de objetos java que implementem Serializable
+*TextMessage   - Envio de strings
+
+Mensagems JMS são objetos complexos compostos por:
+
+*Header - metadata atribuda pelo mom como quem enviou, quem irá receber,
+          data de envio, id da mensagem, etc. estes dados são recuperados atraves
+          de getters na mensagem
+
+*Properties - Um mapa de propriedades definadas pelo producer que podem ser lidas pelo consumer
+              propriedades são escritas atraves do metodo message.set(tipo)Property(“Exemplo”, exemplo);
+              e podem ser dos tipos boolean, byte, double, float, int, long, short, String or Object.
+              e recuperados por message.get(tipo)Property(“Exemplo”);. 
+
+*Body - o Conteudo da mensagem.
+
+Codigo:
+
+//Exemplo de textMessage mas todas as outras são semelhantes
+//e o construtor da mensagem recebe o conteudo da mensagem
+
+TextMessage message = session.createTextMessage(Mensagem);
+
+----------------------------------------------------------------------------------------
+Enviar mensagem
+
+Com a mensagem devidamente criada basta envia-la atraves
+do producer, e se for transacional commitar o envio.
+
+Codigo:
+
+producer.send(message);
+//se transacional
+session.commit();
+
+-------------------------------------------------------------------------------------
+Fechar os recursos
+
+Como em toda aplicação que utiliza recursos após terminar de utiliza-los
+nós temos que fecha-los
+
+session.close();
+//A conexão só deve ser fechada quando nenhuma outra mensagem precisar ser enviada
+connection.close();
+
+===================================================================================
+CTRL+C CTRL+V
+
+package sessionBeans;
+
+import javax.annotation.Resource;
+import javax.ejb.Stateless;
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.MessageProducer;
+import javax.jms.ObjectMessage;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+
+import bussinessInterfaces.TestProduceMessage;
+
+@Stateless
+public class TestProduceMessageBean implements TestProduceMessage {
+
+	@Resource (name="java:/ConnectionFactory")
+	private ConnectionFactory connectionFactory; 
+	@Resource(name="java:/queue/MyQueue")
+	private Destination destination;
+	
+	@Override
+	public void sendMessage(String mensagem){
+		try{
+		Connection connection = connectionFactory.createConnection();
+		Session session = connection.createSession(true,Session.AUTO_ACKNOWLEDGE);
+		MessageProducer producer = session.createProducer(destination); 
+		TextMessage message = session.createTextMessage(mensagem);
+		message.setStringProperty("Kappa?", "MiniK");
+		producer.send(message);
+		session.commit();
+		session.close();
+		connection.close();
+		}catch(JMSException e){
+			e.printStackTrace();
+		}
+	}
+	
+}

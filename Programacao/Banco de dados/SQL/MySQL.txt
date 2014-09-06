@@ -1,0 +1,38 @@
+Caracteristicas do MySQL
+
+Selecionando um banco de dados
+
+USE nome;
+
+==========================================
+Criando uma tabela
+
+
+CREATE TABLE EMBLEMAS (
+  ID int NOT NULL,
+  FORNECEDOR varchar(45) NULL,
+  EMBLEMA varchar(10) NOT NULL,
+  VALOR double NOT NULL default '0',
+  PRIMARY KEY (ID),
+  FUNCIONARIO_ID int unsigned default NULL,
+  CONSTRAINT FK_VEICULOS_FUNCIONARIOS FOREIGN KEY (FUNCIONARIO_ID) REFERENCES FUNCIONARIOS(ID)
+);
+
+//A chave primaria de uma tabela é indicada utilizando o metodo acima
+//todos so campos podem ter um valor default que é atribuido a eles caso nada seja
+//especificado
+
+========================================================
+Criando campos de chaves estrangeiras
+
+CONSTRAINT NomeDaChaveEstrangeira FOREIGN KEY (NomeDoCampoNestaTabela) REFERENCES NomeDaOutraTabela(nomeDoCampoDaOutraTabela)
+
+=========================================================
+Notas:
+
+Campos date são formados de yyyy-mm-dd
+
+Para se referenciar ao valor atual de um campo use o proprio nome da coluna
+ex:
+
+UPDATE PREÇOS SET preco = preco + 5; //aumenta todos os preços em 5

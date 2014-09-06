@@ -1,0 +1,24 @@
+Variaveis implicitas Spring security
+
+O spring possui algumas variaveis pre-definidas acessaveis
+por meio de UEL em paginas elas possuem varias informações sobre
+os dados de segurança do sistema
+
+================================================================
+Variaveis
+
+SPRING_SECURITY_LAST_EXCEPTION - guarda informações sobre o ultimo erro que aconteceu
+				(ex:login mal sucedido) é possivel acessar o atributo
+				 message e imprimir a mensgem padrão para o usuario
+
+
+
+SPRING_SECURITY_LAST_USERNAME - guarda o valor do username da ultima tentantiva de login
+				pela pagina de login
+
+==============================================================
+ex:
+
+//Atribui ao campo j_username do formulario login o valor do ultimo login
+//tem a funçaõ de um remeber username comum em formularios de login
+document.getElementById("login").j_username.value = "#{SPRING_SECURITY_LAST_USERNAME}"

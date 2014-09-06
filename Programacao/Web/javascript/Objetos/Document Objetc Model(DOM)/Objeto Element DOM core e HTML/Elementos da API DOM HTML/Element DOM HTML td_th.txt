@@ -1,0 +1,19 @@
+Element td/th
+
+Os elementos td e th representam
+as tags html <td> e <th> e possuem como atributos
+todos os atributos e metodos de node 
+alem dos seus proprios atributos HTML
+
+=============================================
+Atributos de td/th
+	
+td.abbr		//Sets or returns an abbreviated version of the content in a data cell
+td.axis		//Sets or returns a comma-separated list of related data cells
+td.cellIndex	//Returns the position of a cell in the cells collection of a table row	Yes
+td.ch		//Sets or returns an alignment character for a data cell	Yes
+td.chOff	//Sets or returns the horizontal offset of the ch property	Yes
+td.colSpan	//Sets or returns the number of columns a cell should span	Yes
+td.headers	//Sets or returns a list of header cell ids for the current data cell
+td.rowSpan	//Sets or returns the number of rows a cell should span	Yes
+td.vAlign	//Sets or returns the vertical alignment of the content within a cell

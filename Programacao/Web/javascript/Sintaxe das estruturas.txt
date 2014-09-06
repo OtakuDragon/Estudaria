@@ -1,0 +1,170 @@
+Sintaxe das estruturas
+
+
+==========================--==================
+Operador "?" 
+
+(condição)?
+ val1:val2
+
+no qual:
+
+condição - é a condição 
+
+val1 - executado se a condição for verdadeira
+
+: - representa o else
+
+val2 - executado se a condição for falsa
+
+================--===============================
+
+If em javascript
+
+Sintaxe:
+
+if(condição){
+
+      codigo
+
+             }else{
+
+      codigo
+
+                   }
+
+==================--=======================
+
+If else em javascipt
+
+if(condição){
+
+      codigo
+
+             }else if(condição){
+
+                      codigo
+
+                   }else{codigo}
+
+========================--=======================
+
+Switch case em javascript
+
+switch(Variavel){
+
+case "valor1":
+
+   codigo
+
+   Break;
+
+case "valor2":
+
+  codigo
+  Break;
+
+default:
+
+ codigo caso nenhum case aconteça
+ 
+               }
+
+======================--===================
+
+While em javascript
+
+while(Condição){
+
+
+codigo
+
+
+
+}
+
+===================--====================
+
+Do while em javascript
+
+
+do {
+
+
+codigo
+
+
+}while(condição)
+
+================--=========================
+
+For em javascript
+
+for(var x=0; x>=10;var x++){
+
+codigo
+
+}
+
+===============--===========================
+For In
+
+For in no javascript é o mesmo que o for each em
+outras linguagens ele pode percorrer arrays ou atributos
+de objetos
+
+Sintaxe:
+
+for (variavel in nomeDoArrayOuObjeto){
+
+
+}
+============================================
+Comandos break e continue
+
+Comando break
+
+Para a execução de um loop
+
+Comando continue
+
+acaba a execução atual e começa a proxima execução do loop
+
+============--=========================================
+Try e Catch em javascript
+
+try{
+
+ ==Codigo== Throw "Nome do erro"
+
+}
+
+catch(Nome do erro){
+
+
+codigo de reação ao erro
+
+
+
+}
+
+
+
+*Throw é somente usado quando vc deseja criar um erro especifico
+ catch normalmente recebe um erro nativo
+
+
+
+=============================--============================
+comentarios javascript
+
+// para uma linha
+
+
+/* para
+  varias
+  linhas*/
+
+
+
+==============--=====================================

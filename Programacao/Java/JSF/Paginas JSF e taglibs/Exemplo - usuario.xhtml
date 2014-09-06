@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+<h:head>
+	<!-- Define o charset da pagina para aceitar acentos do portugues junto com a tag ?xml acima -->
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Cadastro de usuários</title>
+</h:head> 
+
+<h:body>
+	<!-- Tag HTML h1 ,todas as tags HTMl funcionam normalmente --> 
+	<h1>Cadastro de usuários</h1>
+	<hr/>
+	<!--Formulario JSF HTML-->
+	<h:form>
+		<!--Tag que define aonde as mensagens de erro aparecerão-->
+		<h:messages />
+		<!--Define uma tabela de layout com duas colunas-->
+		<!--sendo que os componentes são colocados alternadamente nas colunas-->
+		<h:panelGrid columns="2">
+			<!--Label para o campo de texto-->
+			<h:outputLabel value="Nome:" for="nome" />
+			<!--Campo de texto definido para atribuir são valor ao atributo nome do objeto backing bean-->
+			<h:inputText id="nome" label="Nome" value="#{usuarioBean.nome}" required="true"/>
+			<h:outputLabel value="Email:" for="email" />
+			<h:inputText id="email" label="Email" value="#{usuarioBean.email}" required="true"/>
+			<h:outputLabel value="Senha:" for="senha" />
+			<h:inputText id="senha" label="Senha" value="#{usuarioBean.senha}" required="true"/>
+			<h:outputLabel value="Confirmar senha:" for="confirmarsenha" />
+			<h:inputText id="confirmarsenha" label="Confirmar Senha" value="#{usuarioBean.confirmarSenha}" required="true"/>
+			<h:outputText/>
+			<!--Botão que executa o metodo salvar() do backing bean-->
+			<h:commandButton action="#{usuarioBean.salvar}" value="salvar" />
+		
+		</h:panelGrid>
+	
+	</h:form>
+	
+<hr />
+</h:body> 
+</html>

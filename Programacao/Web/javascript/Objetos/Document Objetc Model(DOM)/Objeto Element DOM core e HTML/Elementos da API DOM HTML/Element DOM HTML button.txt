@@ -1,0 +1,16 @@
+Element button
+
+O elemento button representa a tag html <button> 
+e possui como atributos todos os atributos
+e metodos de node alem dos seus proprios atributos HTML
+
+
+=============================================
+Atributos de button
+
+button.disabled	//Sets or returns a boolean that defines whether a button is disabled, or not	
+button.form	//Returns a reference to the form that contains a button	
+button.name	//Sets or returns the value of the name attribute of a button	
+button.type	//Sets or returns the type of a button	Yes
+button.value	//Sets or returns the value of the value attribute of a button	
+

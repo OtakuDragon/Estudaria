@@ -1,0 +1,298 @@
+Autenticação e Autorização com JAAS no Jboss 7.1 com BD Postgre
+
+Como utilizar a implementação JAAS do jboss para 
+autenticação e autorização de usuarios:
+
+
+1º Ter uma aplicação Web JSF, associado a um projeto EJB
+
+---------------------------------------------------------------
+2º Dividir as paginas serem protegidas em pastas, uma pasta
+   para cada role, para facilitar a generalização, não é obrigatorio
+   é possivel proteger paginas individuais
+
+----------------------------------------------------------------------
+3º Definir as configurações de segurança no web.xml
+
+<!-- Protected Areas -->
+
+    <security-constraint>
+	<!--Definição de quais paginas ou pastas estarão protegidas-->
+        <web-resource-collection>
+	   <!--Nome da proteção serve apenas como uma descrição-->
+            <web-resource-name>Only admins</web-resource-name>
+	   <!--URL ou URLs das paginas a serem protegidas-->
+            <url-pattern>/pages/protected/admin/*</url-pattern>
+        </web-resource-collection>
+	<!--Definição de quais roles podem acessar estas paginas-->
+	<!--O nome do role pode ser qualquer nome definido pelo programador como um <security-role> abaixo-->
+        <auth-constraint>
+            <role-name>ADMIN</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Users and admins</web-resource-name>
+            <url-pattern>/pages/protected/user/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ADMIN</role-name>
+            <role-name>USER</role-name>
+        </auth-constraint>
+    </security-constraint>
+ 
+    <!-- Validation By Form -->
+    <login-config>
+	<!--Escolha do metodo de autenticação, por formulario customizado-->
+        <auth-method>FORM</auth-method>
+	<!--Este tipo de autenticação precisa do endereço das paginas de login e de erro de login caso o login falhe -->
+        <form-login-config>
+	    <!--O servidor redirecionará para esta pagina sempre que um usuário não autenticado tenta acessar uma pagina protegida-->
+            <form-login-page>/pages/public/login.xhtml</form-login-page>
+	    <!--O servidor redirecionará para esta pagina, quando houver uma tentativa de autenticação falha(erro de login ou senha) -->
+            <form-error-page>/pages/public/loginError.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+ 
+    <!-- Allowed Roles -->
+    <!--Definição dos nomes dos roles da aplicação, os nomes definidos aqui devem estar presentes da tabela de roles no banco de dados-->
+    <security-role>
+        <role-name>ADMIN</role-name>
+    </security-role>
+    <security-role>
+        <role-name>USER</role-name>
+    </security-role>
+ 
+    <!-- Se um filtro se aplicar a uma página protegida, ele será executado após uma autenticação ocorrer com sucesso -->
+    <!--Dentro deste filtro você deve implementar o código de recuperação de dados do usuário, que a aplicação precisará utilizar--> 
+   <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>com.filters.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/pages/protected/*</url-pattern>
+    </filter-mapping>
+---------------------------------------------------------------------------------------------------------
+4º Criar a pagina de login
+
+A pagina de login passada em <form-login-page>, deve possuir um formulario que tem action, e campos pre-definidos
+cabe ao programador implementar o estilo desta pagina e funcionalidades extras.
+
+Template de formulario:
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    JSF 2 Login
+</h:head>
+<h:body>
+    <p>Login:</p>
+    <form method="post" action="j_security_check">
+        <h:panelGrid columns="2">
+            <h:outputLabel for="j_username" value="Username" />
+            <input type="text" id="j_username" name="j_username" />
+            <h:outputLabel for="j_password" value="Password" />
+            <input type="password" id="j_password" name="j_password" />
+            <input type="submit" name="submit" value="Login" />
+        </h:panelGrid>
+        <br />
+    </form>
+</h:body>
+</html>
+------------------------------------------------------------------------------------------------------
+5º Criar a pagina de erro de login, que não tem nenhum template definido.
+------------------------------------------------------------------------------------------------------
+6º Implementar um ou mais filtros de recuperação de dados de usuário
+
+Filtros que se aplicam a paginas protegidas são chamados após uma autenticação bem-sucedida,
+digamos que você tenha uma pagina inicial que somente usuários autenticados podem acesssar,
+e nela você mostra o nome e o endereço do usuário logado
+
+estes dados devem ser recuperados atraves do filtro, e atribuidos a request ou a sessão
+A unica informação que o JAAS te passa para a identificação de um usuário logado é o seu nome de usuário,
+com esse nome você deve ser capaz de recuperar os dados da seguinte maneira:
+
+SLSB:
+
+@Stateless
+@Local(LoginNameRecover.class)
+public class LoginNameRecoverBean implements LoginNameRecover {
+
+   @Resource 
+   private SessionContext context;
+	
+ 
+    public String recoverLoginName() {
+        //Este nome de usuário autenticado esta disponivel atraves do contexto ejb
+        //no metodo retornado abaixo.
+	return context.getCallerPrincipal().getName();
+    }
+
+}
+
+
+Filtro:
+
+public class FiltroLoginUsuario implements Filter {
+
+	@EJB
+	LoginNameRecover recoverer;
+
+
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
+		        
+          //O EJB LoginNameRecover implementado acima retorna o nome do usuário logado
+          //que foi recuperado do banco de dados
+	  String[] dados = recuperarDados(recoverer.recoverLoginName());
+	
+	  //Seto os dados na sessão para que eles possa ser acessados na pagina ou no managedBean
+	  request.getSession().setAttribute("dadosUsuario",dados);
+		
+
+	   //Prossigo com a execução	
+	   chain.doFilter(request, response);
+
+	}
+...
+}
+
+-------------------------------------------------------------------------------------------
+7º Criar tabelas no banco de dados
+
+O sistema de autenticação precisa de duas tabelas:
+
+Tabela de usuarios - possui as informações de login, nome de usuário(varchar) e senha(varchar)
+
+Tabela de roles - uma tabela que relaciona um nome de usuario(varchar) a um dos roles(varchar) pre-definidos no web.xml tag <security-role>
+
+*O nome destas tabelas pode ser qualquer um
+
+*o nome destas colunas pode ser qualquer um
+
+ex de criação destas tabelas no postgre:
+
+CREATE TABLE "users"
+(
+  "name" character varying(50),
+  pass character varying(50)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE "users" OWNER TO postgres;
+ 
+CREATE TABLE user_roles
+(
+  user_name character varying(50),
+  role_name character varying
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE user_roles OWNER TO postgres;
+-------------------------------------------------------------------------------------------------
+8º Inserir usuários e relaciona-los a roles
+--------------------------------------------------------------------------------------------------
+9º Definindo o dataSource
+
+Para que o sistema de segurança valide os dados de autenticação ele precisará
+de uma conexão com o banco de dados para isso nos precisamos definir um datasource
+no servidor Jboss, e isto é feito seguindo este tutorial:
+
+https://community.jboss.org/wiki/JBossAS7-DatasourceConfigurationForPostgresql
+
+o que gerará o seguinte registro no subsistema  <subsystem xmlns="urn:jboss:domain:datasources:1.0">
+do arquivo de configuração standalone
+
+<datasource jta="false" jndi-name="java:jboss/datasources/LoginJSFRealmDS" pool-name="LoginJSFRealmDS" enabled="true" use-ccm="false">
+
+                    <connection-url>jdbc:postgresql://localhost:5432/LoginEJB</connection-url>
+                    <driver-class>org.postgresql.Driver</driver-class>
+
+                    <driver>postgresql-9.3-1102.jdbc41.jar</driver>
+
+                    <security>
+
+                        <user-name>postgres</user-name>
+
+                        <password>123</password>
+
+                    </security>
+
+                    <validation>
+
+                       <validate-on-match>false</validate-on-match>
+
+                        <background-validation>false</background-validation>
+
+                    </validation>
+
+                    <statement>
+
+                        <share-prepared-statements>false</share-prepared-statements>
+
+                    </statement>
+
+</datasource>
+
+*A parte que nos precisaremos para as proximas fases será o jndi-name do DS
+-------------------------------------------------------------------------------------------------
+10º Definição de um security-domain
+
+Dentro do arquivo standalone.xml ou standalone-full.xml dependendo de qual você está utilizando
+no subsistema  <subsystem xmlns="urn:jboss:domain:security:1.1">, nos definimos como a autenticação
+ocorrerá criando um <security-domain> dentro da tag <security-domains>
+
+ex:
+
+<!--Na aplicação nos escolhemos qual security-domain realizará a autenticação pelo seu nome definido aqui-->
+<security-domain name="LoginJSFRealm">
+
+       <authentication>
+
+	   <!--Define qual classe da api do Jboss realizará a autenticação-->
+           <login-module code="org.jboss.security.auth.spi.DatabaseServerLoginModule" flag="required">
+	      <!--E as informações necessarias -->
+              <!-- no nosso caso o nome JNDI do DS que define a conexão com o banco de dados-->
+
+              <module-option name="dsJndiName" value="java:jboss/datasources/LoginJSFRealmDS"/>
+ 
+	      <!--A query que busca  a senha para um usuário passado -->
+              <module-option name="principalsQuery" value="select pass from users where name=?"/>
+ 
+	       <!--A query que busca o role para um nome de usuario -->
+              <module-option name="rolesQuery" value="select role_name, 'Roles' from user_roles where user_name = ?"/>
+
+           </login-module>
+
+        </authentication>
+
+</security-domain>
+
+*Ao modificar as queries aconselha-se adaptar apenas os nomes das tabelas e das colunas, a estrutura deve se
+ manter pois estas queries funcionam
+
+-----------------------------------------------------------------------------------------------------
+11º Atribuir um security domain a nossa aplicação web
+
+Após todas esta definição de tabelas, data source e como a autenticação ocorrerá tudo está
+pronto basta dizer ao jboss que nossa aplicação utilizará esta configuração, isto acontece
+atribuindo o security-domain a aplicação.
+
+Atribuindo um security domain a uma aplicação
+
+Basta criar um arquivo jboss-web.xml na pasta WEB-INF do projeto com o conteudo
+
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web>
+    <!-- Nome do security-domain definido em  <subsystem xmlns="urn:jboss:domain:security:1.1"> que a aplicação utilizará -->
+    <security-domain>LoginJSFRealm</security-domain> 
+</jboss-web>
+
+
+

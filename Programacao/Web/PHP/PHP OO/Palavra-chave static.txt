@@ -1,0 +1,45 @@
+static
+
+No PHP funções e metodos podem
+ser estaticas ou seja pertencer a classe
+
+para defini-los como static se utiliza
+a palavra static apos a palavra-chave
+de visibilidade
+
+*uma propriedade estatica não pode ser acessada
+ de maneira não estatica mas um metodo estatico pode
+*em metodos estaticos a pseudo-variavel $this não existe
+ pois á instanciação não é necessaria 
+
+
+========================================
+
+sintaxe:
+
+//Propriedade estatica
+
+public static $variavel;
+
+//Função estatica
+
+public static function funcaoStatica(){
+
+//codigo
+
+}
+
+==========================================
+Acessando metodos ou variaveis estaticas
+
+Para acessa-los em uma classe utiliza-se o 
+operador ::(chamado de Paamayim Nekudotayim)
+
+
+SIntaxe:
+
+$nomeDaClasse::propriedadeEstatica;
+
+ou
+
+$nomeDaClasse::funcaoEstatica;

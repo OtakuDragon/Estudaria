@@ -1,0 +1,73 @@
+readyState,onreadystatechange,status
+
+O Ajax consiste em requests e responses
+mas não é possivel utilizar uma response
+antes que a request seja processada pelo servidor
+ou se a request pedir um arquivo que o servidor não
+pode encontrar
+
+Para saber o andamento da comunicação passo-a-passo
+e se um request teve uma resposta e quando a resposta
+esta pronta existem as propriedades de status
+
+=====================================================
+A propriedade readyState
+
+Esta propriedade guarda o status de uma request
+por meio de um number
+
+os valores possiveis são:
+
+0 - A request ainda não foi montada 
+1 - Uma conexão com o servidor foi estabelecida(ajax.open())
+2 - A request foi recebida pelo servidor(ajax.send()) 
+3 - Processando a request 
+4 - Request processada e response pronta
+
+Para se trabalhar com o atributo readyState
+existe o evento onreadstatechange que é executado
+sempre que o valor de readState muda ou seja 4 vezes
+durante uma request
+
+======================================================
+O Evento onreadystatechange
+
+O evento on readystatechange executa a função
+atribuida a ele sempre que o valor de readyState
+muda ou seja 4 vezes durante um request
+
+======================================================
+A propriedade status
+
+A propriedade status de XMLHttpRequest
+diz qual é a situação da response após
+a request ter sido processada e possui
+dois valores possiveis
+
+200 - "OK" a response foi processada com sucesso
+404 - A pagina requisitada não foi encontrada no servidor
+
+--------------------------------------------
+A propriedade statusText
+
+Possui a mesma função de status mas ao inves
+de retornar um numero retorna um texto
+
+"OK" ou "Page Not Found"
+
+=============================================================
+Exemplo de uso:
+
+var ajax = new XMLHttpRequest();
+
+ajax.onreadystatechange=function()
+  {
+  if (ajax.readyState==4 && xmlhttp.status==200) //checa se a response esta pronta e se não houve erros
+    {
+    var a = ajax.responseText;
+   
+     //codigo que processa a resposta
+    }
+  }
+
+

@@ -1,0 +1,218 @@
+Formularios
+
+Formularios são campos de entrada de dados de usuarios em uma pagina html
+podem receber varios tipos de dados, como descrito abaixo
+
+tag <form>
+
+a tag <form> inicia um formulario e </form> finaliza-o
+
+======================================================================================
+
+atributos de <form>
+
+action - Define a url do script que ira receber os dados do formulario como variaveis
+
+method - Define como estas variaveis serão passadas
+
+valores de method
+
+post -Define que o browser enviara diretamente o fluxo de dados para o script no servidor
+
+get - Define que o browser enviara o fluxo de dados anexado a url do script e enviado ao servidor
+
+obs: post é mais utilizado por poder enviar uma grande quantidade de dados
+enquanto get limita-se a respostas unicas
+
+========================================================================================
+Acessibilidade
+
+*todos os controles de formulario possuem alguns atributos de acessibilidade
+
+tabindex="" - que recebe um numero dizendo quantas vezes o tab tem que ser apertado para alcança-lo começando de 0
+
+acesskey="" - define uma tecla de atalho para o acesso do campo
+
+disabled = "disabled" - torna um campo desabilitado ou seja ele vai se tornar cinza imutavel não selecionavel e seu valor nao será enviado
+
+readonly = "readonly" - torna um campo de leitura apenas é selecionavel seu valor será enviado mas é imutavel
+=======================================================================================
+tag de formulario <fieldset>
+
+dentro do formulario é possivel utilizar a tag <fieldset> que separa o 
+formulario em setores e dentro de <fieldset> existe a tag <legend> que
+representa o titulo daquele setor
+
+======================================================================================
+
+##Tag de formulario <input>##
+
+define qual o tipo de dado sera colhido e define um nome a ele
+
+atributos de <input>
+
+type - define o tipo de dado que sera recolhido
+
+--------------------------------------------------------------------------------------
+valores de type
+
+---Areas de inserção de dados---
+
+"text" - é o default e cria uma campo de entrada de texto de uma linha
+
+"password" - cria um campo de entrada de texto sem exibir o que esta sendo digitado
+
+"image" - cria um botão de enviar baseado numa imagem especifica cuja url deve ser definida
+
+"radio" - cria uma caixa de seleção de escolha unica, listas de opçoes deve possuir o mesmo nome mas valores diferentes
+
+"checkbox" - cria uma caixa de seleção de multipla escolha ,listas de opçoes deve possuir o mesmo nome mas valores diferentes
+
+"button" - cria um botão para ser pressionado o valor do atributo
+           deve ser configurado com o mesmo nome do botão
+
+"file" - cria um controle para seleção de arquivo o valor do atributo
+         deve ser configurado como o nome do arquivo
+
+"hidden" - cria um controle(campo de entrada de dados) oculto não aparece para o usuario
+           mas envia uma informação pretederminada ao script
+
+"textarea" -cria uma area de texto
+
+---Botões---
+
+"submit" - cria um botão que envia os dados ao servidor web e então serem processados pelo script
+           o value do botão submit define o texto escrito no botão
+
+"reset" - cria um botão de reset que apaga as informaçoes que foram inseridas nos campos
+          o value do botão reset define o texto escrito no botão
+
+--------------------------------------------------------------------------------------------
+outros atributos de <input>
+
+value - especifica o valor inicial do controle, é opcional com exceção
+        de quando o atributo type é "radio" ou "checkbox" neste caso ele especifica
+        o valor da variavel a ser enviada ao banco quando aquela opção esta marcada
+
+name - atribui o nome do controle ==(VIP)== 
+       muito importante pois define o nome da variavel no script
+
+maxlenght - quando o valor de type for "text" ou "password", este atributo
+            especifica o numero maximo de caracteres do campo. o default é ilimitado
+
+size- especifica o tamanho inicial do controle, a largura é dada em pixels com exceção
+      de quando o valor for "text" ou "password" nesses casos o valor se refera ao numero
+      de caracteres
+
+src - quando o valor de type for "image" este atributo especifica a localização
+      da imagem usada para decorar o botão de enviar
+
+checked -quando type tem o valor "radio" ou "checkbox", este atributo significa que
+         o botão está selecionado.
+
+obs: controle = campo de entrada de dados em geral
+
+===============================================================================
+
+##Tag de formulario <textarea>##
+
+cria um campo de texto
+
+atributos de <textarea>
+
+rows = numero de linhas do campo
+
+cols = numero de colunas do campo
+
+name = variavel a  qual o campo sera atribuido no script
+ 
+
+==========================================================================
+
+##Tag de formulario <SELECT>##
+
+obs: html não é case sensitive
+
+a tag <SELECT> cria menus de seleção unica ou multipla
+
+---------------------------------------------------------------------------------
+
+atributos de <SELECT>
+
+name = da nome ao menu
+
+size = define o tamanho do menu por numero de itens mostrados o padrão é 1
+
+multiple = atributo sem atribuição como checked, torna o menu de multipla escolha
+           a tecla para selecionar as opções é ctrl(me parece inutil)
+
+exemplo de uso:
+
+<SELECT name="Menu" size=2 multiple>
+
+ <OPTION SELECTED VALUE="valor">item 1
+ <OPTION VALUE="valor2">item 2
+
+
+</SELECT>
+
+*Este codigo cria um menu de multipla escolha com duas opçoes sendo que a primeira esta marcada por default
+
+-----------------------------------------------------------------------------------
+tag de <SELECT>
+
+ 
+<OPTION> - <option> cria uma opção no menu e não precisa de fechada como <td>
+
+atributos de <OPTION>
+
+ value - define o que sera enviado ao script por aquela opção
+ selected - define que esta opção estara escolhida por default
+ 
+*o texto no final de option definira o nome da opção para o usuario
+ exemplo de uso acima
+
+================================================================================================
+exemplo de formulario
+
+<form action="URL" method = "get ou post">
+<!-- adicionando um campo de texto -->
+
+<input type="text" name="nome" size="20" maxlenght="50">
+
+<!-- adicionando um campo de texto com valor inicial definido -->
+
+<input type="text" name="nome2" size="20" maxlenght="50" value="Nome">
+
+<!-- adicionando um campo de senha -->
+
+<input type="password" maxlenght="6" size="10" name="senha">
+
+<!-- adicionando um campo hidden(escondido) -->
+
+<input type="hidden" name="gasparzinho" value="o fantasma camarada">
+
+<!-- value sera o valor enviado ao script-->
+
+<!-- adicionando um campo de escolha unica -->
+
+<input type="radio" name="escolha" value="escolha 1">
+<input type="radio" name="escolha2" value="escolha 2" checked>
+
+<!-- adicionando um campo de multipla escolha  -->
+<input type="checkbox" name="escolha 1" value ="escolha 1">
+<input type="checkbox" name="escolha 2"  value = "escolha 2">
+
+<!-- adicionando um campo de texto  -->
+
+<input type="textarea" name="poema" >
+
+<!-- adicionando outro campo de texto  -->
+
+<textarea rows=3 cols=2 name="poema2">
+
+<!-- o que eu quero escrito dentro do campode texto  -->
+
+</textarea>
+
+</form>

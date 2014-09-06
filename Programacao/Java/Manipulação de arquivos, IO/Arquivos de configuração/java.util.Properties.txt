@@ -1,0 +1,52 @@
+Properties
+
+Classe utilizada para a manipulação de arquivos de configuração
+no programa de maneira simples, utiliza a busca de valores de
+propriedades por chave-valor como map
+
+* em um arquivo # representa linha de comentario
+* A classe properties foi criada antes da interface map
+* As chaves e valores de properties podem somente ser do tipo String
+* properties pode ser usada como uma coleção do tipo map porque possui os mesmos
+  metodos put e get de map
+
+==============================================================
+
+Criando um arquivo de configuração
+
+ex:
+
+# aplicação config
+
+nomeDaAplicacao = Minha Aplicacao
+versao = 1.0
+debug = true
+
+============================================================
+Lendo os dados do arquivo de configuração acima
+com a classe properties
+
+Properties props = new Properties();
+
+FileInputStream fis = new FileInputStream("config.txt");//abre um stream para a entrada de dados de um arquivo para o programa
+
+props.load(fis);//preenche um mapa(chave-valor) com as propriedades do arquivo
+
+fis.close;//fecha o stream
+
+String nomeDaAplicacao = props.getProperty("nomeDaAplicacao");//reciéra o valor da chave "nomeDaAplicacao" no arquivo ou seja Minha Aplicação
+String versao = props.getProperty("versao");
+
+=========================================================
+Escrevendo os dados em um arquivo
+com a classe properties
+
+	Properties p = new Properties();
+	p.setProperty("nomeAplicacao", "Um nome qualquer");//1º preencher os campos com propriedades chave-valor
+	p.setProperty("versao", "1.0");
+			
+	OutputStream os = new FileOutputStream("config2.txt");//2º abrir uma stream de dados para um arquivo
+	p.store(os, "Arquivo config2.txt");//3ºguardar esta coleção properties no arquivo
+	os.close();//4º fechar o stream
+
+

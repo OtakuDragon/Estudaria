@@ -1,0 +1,45 @@
+Serialização
+
+Serialização em php é feita pelo metodo
+serialize() que recebe um objeto e retorna
+ele em bytes de forma que possa ser armazenado
+em arquivos
+
+A serilização apenas serializa atributos e seus
+valores e o nome da classe nenhum metodo é salvo
+
+ex:
+
+$a = new A;
+$s = serialize($a);
+file_put_contents('store.ser', $s);
+
+
+=======================================================
+Desserialização
+
+Depois para construir um objeto com um arquivo que
+possui um objeto serializado basta utilizar o metodo
+unserialize() 
+
+*Para que o metodo unserialize funcione é preciso que
+a classe esta incluida no documento php que chama o metodo
+
+ex:
+
+include("classe.php");
+
+$s = file_get_contents('store.ser');
+$a = unserialize($s);
+
+====================================================
+Metodos magicos _sleep() e _wakeup()
+
+O metodo _sleep() pode ser implementado em
+qualquer classe e ele sera chamado no momento
+que um objeto daquela classe for serializado pelo 
+mentodo serialize()
+
+o metodo _wakeup() faz o mesmo só que no momento
+da desserialização ou seja no momento que o metodo
+deserialize() é usado em um objeto

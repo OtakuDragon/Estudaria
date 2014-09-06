@@ -1,0 +1,75 @@
+Configuração
+
+Quando um projeto vai utilizar o hibernate
+é necessario criar um arquivo xml de configuração
+que define como acontecerá a conexão qual e o banco 
+de dados e qual o dialeto 
+
+alem de outras configurações de comportamento do hibernate
+um tamplate deste aquivo que por padrão se chama
+hibernate.cfg.xml e deve ficar na pasta src do projeto está
+abaixo
+
+obs: o hibernate precisa de um banco de dados ja existente
+     para que ele possa opera-lo um CREATE DATABASE  deve ser
+     realizado antes.
+==========================================================
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Configurações de conexão com o banco de dados -->
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.password">otaku789</property>
+        <!-- Nesta url depois do ip do servidor é passado o nome do banco de dados o qual o hibernate irá manipular -->
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/databasehib</property>
+        <property name="hibernate.connection.username">localhost</property>
+        
+        
+        <!-- Dialeto, linguagem sql que o hibernate usara para se cominucar com o banco -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+        
+	<!--Propriedades de visualização do SQL -->        
+
+        <!-- Mostrar todos os comando sql que o hibernate executa no sysout -->
+        <property name="show_sql">true</property>
+	<!--formata o codigo que é mostrado -->
+	<property name="format_sql">true</property>
+	<!-- gera estatisticas de desempenho -->
+	<property name="generate_statistics">true</property>
+	<!-- O hibernate comentará o codigo sql para facilitar o entendimento -->
+	<property name="use_sql_comments">true</property>
+
+	<!-- Propriedade hibernate.hbm2ddl.auto  -->
+
+	<!-- Quando possui o valor create -->
+        <!-- Se à tabela ainda não existe cria a tabela e insere os dados  -->
+        <!-- se a tabela ja existe deleta ela e cria uma nova e adciona os dados -->
+        <!-- utilizada para testes e ver se a tabela tem o comportamento desejado -->    
+  
+	<!-- Quando possui o valor update -->
+        <!-- mantem à tabela e adiciona registros -->
+        <!-- Utilizada para manter os dados para a aplicação -->
+
+       <property name="hibernate.hbm2ddl.auto">create</property>
+
+	<!--Propriedades de connection pool-->
+	<!-- Definem quantas conexões podem acontecer e por quanto tempo -->
+	
+	<!-- Numero minimo de conexões que o c3po mantem preparadas todo tempo -->
+	<property name="c3po.min_size">5</property>
+	<!-- Numero maximo de conexões possiveis se o limite for ultrapassado uma exceção será gerada -->
+	<property name="c3po.max_size">20</property>
+	<!--Tempo maximo em segundos para remoção de conexão inativa-->
+	<property name="c3po.timeout">300</property>
+	<!--Maximo de prepared statements que poderão ser armazenadas em cache-->
+	<property name="c3po.max_statements">50</property>
+	<!--Tempo de conexão em segundos antes que uma conexão seja validade-->
+	<property name="c3po.idle_test_period">3000</property>
+        
+        <!-- As classes que são anotadas como @Entity no projeto terão que ser declaradas aqui -->
+        <mapping class="otk.dto.User"/>
+    </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,40 @@
+Criando um aspecto
+
+Um aspecto é uma classe java anotada como aspecto
+e ela recebe anotações especiais para definir quando
+seus metodos(advices) serão executados
+
+=====================================================
+ex:
+
+@Aspect
+public class LoggingAspect{
+
+
+//Esta anotação diz ao spring para executar este metodo do aspect
+//antes da execução de todo metodo public String getName() da aplicação
+
+//existem varias maneiras de configurar advices
+
+@Before("execution(public String getName())")
+public void loggingAdvice(){
+
+System.out.println("Advice run");
+
+}
+
+
+}
+
+====================================================
+Configurando aspectos no spring.xml
+
+Para que os aspectos funcionem na aplicação é necessario:
+
+*Possuir os namespaces AOP no spring.xml
+
+*Dizer ao spring que a aplicação possui aspectos e que o spring deve procurar por eles
+ por meio da adição da anotação <aop:aspectj-autoproxy/> no spring.xml
+
+*Adicionar os beans dos aspectos ao spring.xml, beans normais sem caracteristicas especiais
+ ex: <bean name="loggingAspect" class="pacotes.LoggingAspect"/>

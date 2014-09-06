@@ -1,0 +1,279 @@
+Javascript
+
+O HTML não processa dados no computador-cliente por sí só precisando
+levar estes dados para serem processados no servidor, o que causa um delay
+para facilitar este processamento de dados no computador-cliente existe a linguagem javascript
+
+As linguagem de script são linguagens de programação interpretadas por programas e não pelo processador
+como as linguagens comuns.
+
+ou seja você não precisa compila-la (transforma-la em codigo de maquina)
+
+A linguagen javascript foi desenvolvido para ser acoplado ao codigo HTML para incrementar
+a interatividade do usuario(computador-cliente) nos documentos web
+
+*obs: javascript e php não tem a mesma função, javascript como citado acima tem uma função
+      voltada ao computador-cliente, enquanto php tem função voltada a manipulação de dados e
+      servidores
+
+Caracteristicas
+
+* O Javascript é uma linguagem orientada a objeto
+
+* O Javascript funciona independente da plataforma
+
+* O Javascript suporta eventos
+
+
+O javascript cria scripts para o computador-cliente assim como para o servidor
+
+O CSJS(client-side javascript) é usado para manipular documentos web
+e navegadores alem de facilitar o processamento de dados no computador cliente
+a execução do CSJS é disparada por eventos no computador-cliente
+
+*O CSJS é suportado pelos navegadores habilitados para javascript e por todos os servidores
+
+A tag do CSJS é <SCRIPT>
+
+O SSJS(server-side javascript) é usado para facilitar o processamento de dados no servidor
+e para personalizar as aplicações baseadas em servidor. o SSJS tambem fornece varios bancos
+de dados e objetos para o desenvolvimento de aplicações web
+
+*O SSJS é suportado pelos servidores habilitados para javascript e em todos os navegadores
+
+A tag do SSJS é <SERVER>
+==========================================-=====================
+
+
+Objetos em javascript
+
+No javascript os objetos agem como conteineres que podem armazenar vários valores
+
+*Hierarquia de objetos nativos
+
+ olhar a imagem na pasta para ver a hierarquia dos objetos nativos do javascript
+
+------------------------------------------------------------------------------------------
+
+O Objeto window
+
+O objeto window é chamado de objeto padrão no javascript ele representa
+a janela ativa no navegador, você usa o objeto window para acessar os documentos
+dentro de uma janela,também para manipular eventos que ocorram em uma janela
+
+Propriedades de window
+
+window.frames - retorna um vetor de todos os frames naquela janela
+
+window.lenght - retorna o numero de frames naquela janela
+
+window.name - define ou retorna o nome de uma janela
+
+window.parent - retorna a janela-mãe daquela janela
+
+window.self - refere-se a janela ativa
+
+window.top - retorna o nome da janela no topo da tela
+
+Metodos de window
+
+window.open(URL,name,specs,replace) - http://www.w3schools.com/jsref/met_win_open.asp
+
+window.close() - fecha a janela
+
+setTimeout(code,millisec) - Executa o codigo definido depois de um delay em millisegundos
+
+clearTimeout(var setTimeout) - para a execução do metodo setTimeout()
+
+para mais informações
+
+http://www.w3schools.com/jsref/obj_window.asp
+
+--------------------------------------------------------------------------------------
+
+O Objeto document
+
+O objeto document serve para se acessar o documento html naquela pagina
+que esta definido entre as tags <BODY> e definir ou acessar dados
+e ele esta dentro do objeto window
+
+Propriedados de document
+
+document.alinkColor - Representa a cor dos link com o mouse clicado neles
+
+document.linkColor - representa a cor dos links que não foram acessados
+
+document.vlinkColor - represta a cor dos links acessados
+
+document.anchors - contem referências a todas as âncoras do documento
+
+document.bgColor - Representa a cor de fundo do documento web
+
+document.cookie - armazena dados string que ficam na memoria por um certo periodo
+
+document.fgColor - representa a cor dos textos no documento da web
+
+document.forms - contem referencias a todos os formulários contidos no documento web
+
+document.lastModified - apresenta uma string com a data e a hora da ultima modificação no documento
+
+document.links - contem referencias a todos os links de um frame
+
+document.location - contem a url do documento web atual
+
+document.referrer - contem a url do documento web atual anterior que deu acesso ao atual
+
+document.tittle - representa o texto entre as tags <TITTLE> do codigo html do documento
+
+Metodos de Document
+
+document.open() - abre um arquivo para ser escrito com document.write() ou document.writeln()
+
+document.close() - fecha o arquivo aberto para salvar alterações
+
+document.getElementsByName() - retorna um array de elementos do documento pelo nome
+
+document.getElementById() - retorna a referencia a um elemento pelo ID
+
+document.write()- escreve no documento aberto
+
+document.writeln() - escreve no documento mais pula linhas
+
+para mais informações
+
+http://www.w3schools.com/jsref/dom_obj_document.asp
+
+--------------------------------------------------------------------------------------
+
+O Objeto image
+
+um objeto image é criado para cada tag <img> em um documento html
+nele vc pode configurar a imagem
+
+Propriedades de image
+
+aling - define ou retorna o valor do atributo align 
+
+alt - define ou retorna o valor do atributo alt
+
+border - deifne ou retorna o valor de borda da imagem
+
+complete - retorna verdadeiro ou falso dizendo se a imagem foi ou não
+           carregada no browser
+
+height - define ou retorna o atributo height de uma imagem
+
+width - define ou retorna o atributo width de uma imagem
+
+hspace - define ou retorna o atributo hspace da imagem(hspace = horizontal space)
+
+vspace - define ou retorna o atributo hspace da imagem(vspace = vertical space)
+
+longdesc - define ou retorna uma url com a descrição longa da imagem
+
+lowsrc - define ou retorna uma url com a versão de resolução baixa da imagem
+
+name - define ou retorna o atributo name da imagem
+
+src - define ou retorna o atributo src da imagem
+
+useMap - define ou retora o valor do atributo useMap da imagem
+
+Eventos de imagem
+
+onabort - ocorre quando o carregamento de uma imagem é interrompido
+
+onerror - ocorre quando há um erro no carregamento da imagem
+
+onload - ocorre quando uma imagem é carregada
+
+onClick - ocorre quando o usuario clica na imagem
+
+--------------------------------------------------------------------------------------------
+
+
+Objeto history
+
+O objeto history guarda caracteristicas do historico da pagina
+
+propriedados do obejto history
+
+lenght - retorna um valor inteiro que se refere ao numero de documentos web visitados pelo usuario
+
+current - retorna a url da pagina atual sendo exibida
+
+previous - retorna a url da pagina anterior
+
+next - retorna a url da proxima pagina
+
+metodos de history
+
+back() - volta uma pagina
+
+forward() - avança uma pagina
+
+go() - vai para a url definida como parametro
+
+===============================--===================================================
+
+
+Funções nativas javascript
+
+Função prompt
+
+Cria uma janela popout para entrada de dados do usuario por meio de texto
+possui os botoes ok e cancelar
+
+exemplo de uso:
+
+prompt("Texto")
+
+--------------------------------------------------------------------
+
+Função alert
+
+Cria uma janela popout de texto que exibe um alerta e possui o botão ok
+
+exemplo de uso:
+
+alert("texto")
+
+--------------------------------------------------------------------------
+
+Função confirm
+
+Cria uma janela de confirmação que possui os botões ok e cancelar
+
+exemplo de uso:
+
+confirm("texto")
+
+-------------------------------------------------------------
+
+Função errorhandler
+
+Disparada no evento onError
+
+Possui os parametros
+
+erroeMessage - texto de erro para o usuario
+
+url - url do documento no qual o erro ocorreu
+
+line - linha do documento que houve o erro
+
+exemplo de uso
+
+function errorhandler(errerMessage,url,line){
+
+alert("Error message:"+errorMessage);
+alert("URL: " +url);
+alert("Line Number:"+line);
+return true;
+}
+onError=errorhandler;
+
+----------------------------------------------------------------------
+
+
+

@@ -1,0 +1,30 @@
+Interface Map
+
+Mapa é uma interface que não herda de Collection, mas também é considerada uma Collection
+
+A principal característica de um mapa é associar valores a chaves únicas e recupera-los desta forma
+
+=================================================================================================
+
+Declaração
+
+Map<Tipo de dado das chaves, Tipo de dados dos valores> mapa....
+
+Map<String,String> mapa = new HashMap<>();
+
+===============================================================================================
+
+Alguns métodos 
+
+mapa.put("BR","Brasil");//Insere elementos ao mapa recebe como parametros a chave e o valor.
+
+mapa.containsKey("BR");//Retorna true se esta chave existir no mapa
+
+mapa.containsValue("Brasil");//Retorna true se este valor existir no mapa
+
+mapa.get("BR");//Recebe uma chave e retorna o valor relacionado a ela
+
+mapa.remove("BR");//Recebe uma chave e remove o elemento da lista
+
+Set<String> keys = mapa.keySet();//retorna uma coleção do tipo Set com todas as chaves do mapa
+				 // detalhe é do tipo set porque as chaves são unicas não pode haver repetição

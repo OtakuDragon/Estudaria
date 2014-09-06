@@ -1,0 +1,36 @@
+Objeto Number
+
+O objeto number representa o tipo 
+primitivo number
+
+==============================================
+Criação de um objeto Number
+
+Um objeto Number pode ser criado
+com um numero inteiro ou de ponto flutuante
+ou com a representação em string de um numero
+
+ex:
+
+var a = new Number(5);
+var a = new Number("5");
+var a = new Number(5.8);
+var a = new Number("5.8");
+
+===============================================
+Atributos estaticos de Number
+
+- Number.MAX_VALUE  //É uma constante com o maior valor numerico suportado pelo javascript
+- Number.MIN_VALUE  //É uma constante com o menor valor numerico suportado pelo javascript
+- Number.NaN  //representação do tipo especial NaN
+- Number.NEGATIVE_INFINITY  //representação do infinito abaixo de 0
+- Number.POSITIVE_INFINITY  //representação do infinito 
+
+============================================
+Metodos de Number
+
+a.valueOf(); // retorna o valor do objeto como dado primitivo
+a.toString(); // retorna o valor do objeto como uma string
+a.toFixed(); //formata um numero recebe o numero de casas apos a virgula como parametro
+a.toPrecision(); // transforma o numero na precisão do numero passsado como parametro
+a.toExponential();//Transforma o numero em notação cientifica com precisão do numero passado como parametro

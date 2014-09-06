@@ -1,0 +1,56 @@
+Anotações de javax.Annotations 
+
+O Spring implementa algumas anotações padrão java
+veja como algumas delas funcionam abaixo
+
+===========================================================
+Anotação @Resource
+
+A anotação @Resource anota um setter de um
+atributo de uma classe e realiza um autowiring
+por nome
+
+este nome pode ser definido no atributo name da anotação
+ou se nenhum nome for definido o spring considerará o proprio
+nome do atributo
+
+ex:
+
+@Resource(name="pointC")
+public void setCenter(Point center){
+	this.center=center;
+
+}
+
+
+==================================================================
+Anotação @PostConstruct
+
+A anotação @PostConstruct anota um metodo
+em um bean dizendo ao spring que este metodo
+deve ser executado como um metodo inicializador do bean
+
+ex:
+
+@PostConstruct
+public void initializeCircle(){
+
+//codigo de inicialização do bean
+
+}
+
+================================================================
+Anotação @PreDestroy
+
+A anotação @PreDestroy anota um metodo
+em um bean dizendo ao spring que este metodo
+deve ser executado como um metodo de destruição do bean
+
+ex:
+
+@PreDestroy
+public void destroyCircle(){
+
+//codigo de destruição do bean
+
+}

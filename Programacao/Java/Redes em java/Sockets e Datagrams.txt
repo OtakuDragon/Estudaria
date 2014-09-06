@@ -1,0 +1,228 @@
+Socket, ServerSocket 
+
+Socket é o mecanismo de comunicação entre dois programas
+que funcionam na mesma rede
+
+==============================================================
+
+Tipos de protocolo
+
+Os sockets são classificados em dois protocolos que definem
+como esta comunicação acontece
+
+* TCP/IP
+
+-Estabelece uma conexão entre cliente e servidor na porta
+especificada.
+
+-Consegue passar dados pro meio de stream do servidor para o cliente
+e vice-versa
+
+-É seguro não a perda de dados.
+
+-E a ordem dos dados enviadas é 
+sempre a mesma ordem dos dados recebidos
+
+* UDP/IP
+
+- Não estabelece conexão com o servidor
+
+- Consegue apenas enviar datagramas que são como cartas
+  com remetente , receptor e conteudo
+
+- Há a possibilidade de perda de dados
+
+- A ordem dos dados enviados não é mantida
+
+- É muito mais rapida do que TCP/IP
+
+
+========================================================================================
+
+Conexão TCP/IP
+
+A Conexão TCP/IP é baseada em uma conexão e esta conexão é criada
+na hora da criação de um socket com a classe socket
+
+-----------------------------------------------------------------------
+O canal de comunicação
+
+Alem da conexão a um canal todos socket possui um
+
+- OutputStream
+
+canal de dados para o envio de informações
+
+e um
+
+-InputStream
+
+canal de dados para o recebimento de informações
+
+
+
+estes canais são recuperados em um objeto Socket por
+meio dos metodos:
+
+getOutputStream() - retorna o outputStream do socket
+
+
+getInputStream() - retorna o inputStream do socket
+
+================================================================================
+Classe Socket
+
+Representa a criação de um cliente na rede
+seu objeto recebe uma string com o ip do servidor
+ao qual ira se conectar e um int com a porta tcp
+na qual esta o programa que este cliente usará
+
+Porta TCP
+
+Nos computadores modernos vão de 0 a 65535 mas 
+de 0 a 1023 estão reservadas para serviços
+como http e ftp de 1024 a 65535 podem ser utilizadas
+para identificar qual programa naquele servidor o cliente
+acessara.
+
+Criação de um objeto
+
+Socket s = new Socket("127.0.0.1", 5000);//cliente indicando o servidor de ip do localhost e o programa da  porta tcp 5000
+					//joga alguma exceptions BindException significa que a porta ja esta sendo usada então escolha outra
+
+
+*Um socket representa uma conexão e conexões abertas precisam ser fechada
+* para isso os sockets possuem o metodo close()
+
+===============================================================================================================================
+Manipulando inputStream e OutputStream
+
+InputStreams e OutputStreams nunca são tratados diretamente eles são 
+encapsulados em classes que possuem metodos para escrita(output) e leitura(input)
+
+
+Abaixo temos algumas classes que fazer isso
+
+---------------------------------------------------------------------------------------------------------------
+
+try(PrintWriter w = new PrintWriter(socket.getOutputStream())){
+                                                           // o metodo socket.getOutputStream() retorna um OutputStream
+w.println("Mensagem ao cliente");			   // que pode ser utilizado por classes de E/S para o envio de informações
+							  //para o servidor
+}
+
+
+try(Scanner s = new Scanner(socket.getInputStream())){
+System.out.println(s.NextLine());			// o metodo socket.getInputStream()
+}							//é utilizado para escrever mensagens recebidas pelo socket
+
+----------------------------------------------------------------------------------------------------------------------------
+Para dados primitivos
+
+OutputStream os = socket.getOutputStream();
+
+InputStream is = socket.getInputStream();
+
+DataOutputStream dos = new DataOutputStream(os);//encapsula um output stream e possui metodos como dos.writeInt(4) para a facil manipulação do stream com dados primitivos
+
+DataInputStream dis = new DataInputStream(is);//encapsula um input stream e possui metodos como dos.readInt() para a facil manipulação do stream com dados primitivos
+
+//dis.readUTF();// lê uma string no formato UTF-8 enviada pelo stream
+
+//dis.writeUTF("string");// Envia uma string no formato UTF-8 pelo stream
+
+-----------------------------------------------------------------------------------------------------------------------------
+Para Strings com quebra de linha
+
+PrintStream out = new PrintStream(socket.getOutputStream());// Possui o metodo out.println() que envia uma string ao servidor e quebra uma linha
+
+BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));// Possui o metodo in.readLine() que lê as linhas enviadas  uma por uma
+										      // separando-as por quebra de linha e retorna uma string.
+
+
+=======================================================================================
+
+Classe ServerSocket
+
+Representa um servidor que receberá sockets de clientes 
+e terá codigos que se comunicarão com os clientes
+
+Criação de objeto
+
+ServerSocket server = new ServerSocket(5000);// a criação de um socket server recebe somente um int de porta tcp para o programa
+
+Alguns metodos
+
+Socket socket = server.accept();//sempre que um socket se conectar ao servidor o metodo server.accept()
+				// retornara uma referencia a este socket, este metodo é utilizado dentro de
+				// um while(true) para ficar sempre olhando por novos sockets
+				// o metodo accept() é bloqueante ele esperará uma conexão para seguir com o codigo do programa
+				
+*Um socket server representa uma conexão e conexões abertas precisam ser fechada
+* para isso os sockets possuem o metodo close()
+
+============================================================================================
+
+Conexão UDP/IP
+
+Acontece por meio do envio e recebimento de DatagramPackets, por meio de DatagramSockets
+as informações só podem se enviadas por um datagramapacket no formato de um array de bytes
+
+-----------------------------------------------------------------------------------------
+Recebendo um datagramPacket
+
+- Crie um datagram socket com a porta aonde serão recebidos os dado
+
+DatagramSocket socket = new Datagramsocket(3000);
+
+- Crie um DatagramPacket vazio e um array de bytes vazio para receber os dados
+
+byte[] buff = new byte[1024];
+
+DatagramPacket dp = new DatagramPacket(buff,buff.lenght);//este construtor recebe o array de bytes e o tamanho maximo do array de bytes 
+
+- Chame o metodo receive() do datagram socket e passe o datagram packet vazio como parametro
+
+socket.receive(dp); // o codigo ficara parado aqui até este metodo receber um packet
+---------------------------------------------------------------------------------------
+
+Enviando um DatagramPacket
+
+- Crie um datagram socket com o construtor vazio
+
+DatagramSocket socket = new Datagramsocket();
+
+- Crie um DatagramPacket e o preencha com um dados no fomato de array de bytes,o tamanho maximo do array, o nome do computador no formato de objeto InetAdress, a porta do servidor
+
+byte[] buff = new byte[1024];
+
+String dado = "enviar";
+
+buff = dado.getBytes();
+
+DatagramPacket dp = new DatagramPacket(buff,buff.lenght,InetAdress.getLocalhost(),3000);
+
+- Chame o metodo send() do datagram socket e passe o datagram packet como parametro
+
+socket.send(dp); 
+
+===================================================================================================
+Multicast
+
+Enviar um datagrama para varios computadores
+com um ip classe "D" em comum
+
+Envio multicast
+
+para isso o objeto InetAdress tem que conter um endereço classe D que representa um grupo
+na hora do envio
+
+
+Recebimento multicast
+
+é necessario criar um socket do tipo MulticastSocket ao inves de DatagramSocket
+e utilizar o metodo .joinGroup() deste metodo que recebe o InetAdress do grupo
+e o resto funciona normalmente
+
+
+

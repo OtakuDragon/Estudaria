@@ -1,0 +1,15 @@
+Injeção de dependencia EJB
+
+A injeção de dependencia em EJB
+pode ser feita atravez de 4 anotações
+cada uma consegue injetar tipos diferentes
+de objetos
+
+elas são:
+
+@EJB                - Session beans
+@Resource           - multi uso
+@PersistenceContext - JPA
+@PersistenceUnit    - JPA
+
+============================================

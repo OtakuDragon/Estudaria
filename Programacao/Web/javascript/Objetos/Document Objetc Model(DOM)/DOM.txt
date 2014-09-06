@@ -1,0 +1,34 @@
+DOM
+
+Document object model é uma API independente de plataforma
+criada pela w3c para acessar e atualizar dinamicamente a
+estrutura o conteudo e a estilização de documentos.
+
+O DOM é dividido em três APIs distintas
+
+*API DOM core
+*API DOM HTML
+*API DOM XML
+
+Tudo que as apis html e xml podem fazer é possivel
+se fazer com a api core,mas elas facilitam a manipulação 
+para o seu tipo de documento
+
+=========================================================
+API DOM core e HTML
+
+Na API DOM core API tudo são nós(nodes) que estão organizados
+em uma estrutura de arvore
+
+E para documentos HTML estes nós podem ter quatro tipos diferentes
+esses tipos podem ser acessados pelo atributo nodeType da DOM core
+
+este atributo retorna
+
+1 - Para tipo Elemento(tags)
+2 - Para tipo Atributo(src,id,etc..)
+3 - Para tipo texto
+
+Todos os nós são relacionados em um parentesco com pais,irmãos e filhos
+dependendo da sua posição na arvore, utilizando a DOM api é possivel criar,
+editar ou excluir qualquer aspecto do documento HTML

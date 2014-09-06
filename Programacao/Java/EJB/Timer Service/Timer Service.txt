@@ -1,0 +1,104 @@
+Timer Service
+
+O serviço de timer do framework EJB serve
+para executar metodos em um momento futuro
+uma unica vez ou em intervalos de tempo.
+
+E é muito util para executar processos
+ou metodos de monitoração.
+
+*Timers só podem ser utilizados em SLSB e MDB
+*Timers não desaparacem quando o servidor é desligado.
+
+=============================================
+Recuperando o objeto TimerService
+
+O objeto timer service pode ser recuperado
+de duas maneiras,
+
+por DI:
+
+@Resource
+TimerService timerService;
+
+Ou pelo context:
+
+@Resource SessionContext context;
+TimerService timerService = context.getTimerService();
+==============================================
+Criando timers
+
+O objeto TimerService é utilizado para criar
+timers e recuperar todos os timers ativos
+
+as 4 maneiras de criar times são:
+
+timerService.createTimer(long duration, Serializable info); //Cria um timer de execução unica no qual o primeiro parametro é
+						            //o tempo em milisegundos a esperar até a execução 
+
+timerService.createTimer(Date expiration,Serializable info);//Funciona da mesma maneira que o anterior só que com tempo a esperar em data ao inves de long
+
+timerService.createTimer(long initialDuration,long intervalDuration, Serializable info);//Cria um timer de execução continua no qual o primeiro parametro é
+											//o tempo em milisegundos a esperar até a primeira execução e o segundo é o
+											//intervalo de tempo para as proximas execuções 
+
+timerService.createTimer(Date initialExpiration, long intervalDuration, Serializable info);//Funciona da mesma maneira que o anterior só que com o valor que define o tempo a esperar até a
+											   //primeira execução como uma data
+
+obs: todos os metodos createTimer podem receber um objeto Serializavel que estará disponivel
+     na execução do metodo de timeout, se não houver a necessidade basta passar null.
+
+obs: todos os metodos createTimer retornam um objeto Timer que não precisa ser utilizado
+     apenas chamando o metodo ja define o timer
+
+ex:
+
+timerService.createTimer(15*60*1000, 15*60*1000, objetoSerializavel);
+
+------------------------------------------------------------
+Recuperando timers
+
+Atraves do objeto timerService é possivel recuperar
+os objetos dos timers ativos, o metodo abaixo
+retorna uma coleção de objetos Timer.
+
+timerService.getTimers();
+=====================================================
+Definindo um metodo de timeout
+
+O metodo de timeout é o metodo do bean que será executado
+pelo timer na hora definida, um metodo timeout deve estar
+anotado com @Timeout e seguir a seguinte assinatura:
+
+//O objeto Timer do timer que executou o metodo será
+//passado para o metodo pelo EJB container
+@Timeout
+public void nomeDoMetodo(Timer timer){
+
+}
+
+======================================================
+O Objeto Timer
+
+Um objeto timer representa um timer e é passado para o metodo
+de timeout no momento da sua execução
+
+atraves deste objeto nós conseguimos:
+
+timer.cancel(); //Cancela o timer, se o timer for continuo este metodo
+                //deve ser chamado em algum momento ou o timer executará para sempre
+
+timer.getTimeRemaning(); // retorna um long dizendo quantos milisegundos faltam para a proxima
+			 //execução do metodo de timeout
+                         
+
+timer.getNextTimeout();// retorna a data na qual ocorrera a proxima
+		       //execução do metodo de timeout  
+
+timer.getInfo();//Retorna o objeto serializavel passado no metodo de criação do timer ou null
+                //se não houver nenhum.
+
+timer.getHandle();//retorna o objeto timer como um objeto serializavel TimerHandle utilizado para guardar
+		  //o timer no banco de dados
+      
+           

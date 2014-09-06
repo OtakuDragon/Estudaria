@@ -1,0 +1,31 @@
+Traits
+
+Traits são uma estrutura de agrupamento
+de codigo semelhante as classes mas que
+não pode ser instanciadas por si só e sim
+usadas pelas classes
+
+Uma classe pode utilizar multiplos traits
+
+===============================================
+Sintaxe:
+
+trait nomeDoTrait{
+
+//metodos e atributos
+//como em uma classe normal
+
+
+}
+
+-----------------------------------------------------
+Acrescentando codigo de traits em classes
+
+class Classe1 {
+
+	use trait1,trait2,...;
+
+
+
+
+}

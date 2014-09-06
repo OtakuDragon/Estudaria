@@ -1,0 +1,77 @@
+Input
+
+O input em um jogo unity é feito por meio
+de metodos estaticos da classe Input
+
+ela possui metodos para eventos de teclado
+e mouse.
+
+===============================================
+Input do teclado
+
+Movimento em direções
+
+A função mas indicada para o movimento de 
+um gameObject é a
+
+Input.GetAxis("Horizontal");//para movimento esquerda e direita
+
+e
+
+Input.GetAxis("Vertical");//para movimento cima e baixo
+
+Estas funções pegam input do teclado por meio das
+teclas direcionais ou wasd e tambem por teclas direcionais
+dos joysticks sem nenhuma configuração extra necessaria
+
+ela retorna um numero float que diz a intensidade da direção
+pressionada
+
+como no caso do analogico de um joystick é possivel manter este
+numero em qualquer valor por entre -100 e +100
+
+e variar a velocidade do objeto de acordo com a intensidade do pressionamento
+
+ex:
+
+no caso horizontal vai de
+
+
+-100 = esquerda,0 = parado, +100 = direita
+
+IMPORTANTE: para que o objeto mova-se em uma velocidade independente de framerate e sim de tempo
+            é importante multiplicar o retorno da função GetAxis() por Time.deltaTime 
+
+Time.deltaTime = tempo em segundos que levou para completar a ultima frame
+
+
+function Update () {
+		// Move the object 10 meters per second!
+		var translation : float *= Time.deltaTime;
+		transform.Translate (0, 0, translation);
+	}
+
+-----------------------------------------------------
+Leitura de teclas
+
+Com a utilização do metodo Input.GetKey(KeyCode)
+é possivel verificar se qualquer tecla do teclado foi
+pressionada utilizando um metodo if, pois se a tecla foi
+pressionada e enquanto ela estiver sendo pressionada o metodo
+GetKey() retornara true
+
+esta função pode receber como parametro a string com o nome da
+tecla ou uma variavel estatica da classe KeyCode que representa a tecla
+
+Variações
+
+Input.GetKeyDown();//Somente retorna true no momento em que a tecla é pressionada
+Input.GetKeyUp();//Somente retorna true no momento em que a tecla é solta
+
+ex:
+
+if(Input.GetKey(KeyCode.W){
+
+	Debug.Log("A tecla w foi pressionada");
+
+}

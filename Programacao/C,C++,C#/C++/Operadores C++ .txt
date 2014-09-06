@@ -1,0 +1,45 @@
+Operadores C++
+
+Operadores Aritmeticos
+
+- subtração
+* multiplicação
+/ divisão
+% módulo
+++ Incremento
+-- Decremento
+
+============================================
+Caracteres de escape
+
+\n caractere de nova linha
+\t caractere de tabulação (tab)
+\b caractere backspace
+\" aspa dupla
+\' aspa simples
+\? ponto de interrogação
+\\ barra invertida
+
+========================================
+
+Comentarios
+
+// 
+
+e
+
+/*
+*/
+
+=========================================
+Concatenação de Strings
+
++ - Concatenação
+
+
+==========================================
+Operadores logicos
+
+&& - AND
+|| - OR
+!  - NOT

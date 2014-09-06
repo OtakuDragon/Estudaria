@@ -1,0 +1,59 @@
+Classes DAOSupport
+
+Alem de facilitar extremamente a codificação com jdbc
+o spring tambem oferece uma classe DAO generica que possui
+toda a estrutura necessaria para a utilização de um jdbctemplate
+
+esta classe possui um atributo JdbcTemplate e um atributo DataSource
+e seus getters e setters
+
+para utiliza-la basta criar um bean de uma classe que extenda está
+e atribuir um data source ao atributo dataSource da classe 
+
+=================================================================
+ex:
+
+no spring.xml
+
+//Definição de um bean DataSource com o nome dataSource
+<bean id="dataSource" class="...">
+...
+</bean>
+
+//Configuração do dataSource na classe DAO
+
+//Declaração do bean da classe DAO que extende da DAO support
+//o atributo name recebe o nome do atributo do tipo DataSource herdado da classe DAO suporte neste caso dataSource
+//o atributo ref recebe o id do bean DataSource declarado acima
+
+<bean id="minhaDAO" classe="pacotes.MinhaDao">
+
+	<property name="dataSource" ref="dataSource">
+
+</bean>
+
+
+Na classe
+
+public class MinhaDAO extends JdbcDaoSupport{
+
+	//Nesta classe basta apenas chamar o getter do template herdado e utiliza-lo para executar queries
+	
+	public int getUserCount(){
+
+		String sql = "SELECT COUNT(*) FROM usuarios";
+		return this.getJdbcTemplate().queryForObject(sql,Integer.class);
+
+	}
+
+
+}
+
+
+Na aplicação
+
+//Na aplicação é necessario recuperar este bean atraves do applicationcontext e executar
+//os metodos atraves deste bean
+
+
+obs: existe tambem uma classe DAO support para o template nameparameters

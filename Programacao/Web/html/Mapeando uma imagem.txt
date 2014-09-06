@@ -1,0 +1,57 @@
+Usando varios link em uma mesma imagem
+
+Para se usar varios link em uma mesma imagem é preciso mapear a imagem e definir links para as areas mapeadas
+
+a tag <img> possui o atributo map="#nome da mapa" que recebe o nome do mapa como em links internos
+
+cria-se um mapa em uma imagem com a tag <map>
+
+define-se um nome para o mapa com o atributo name que sera utilizado em <img>
+
+exemplo
+
+<map name="nome do mapa">
+
+codigo
+
+
+</map>
+
+
+o "codigo" citado acima é composto por <area>'s cada <area> possui uma forma coordenadas, link e alt
+
+<area>
+
+atributos
+
+shape - pode ser pode receber "rect", "circle", "polygon" define a forma da area na imagem
+
+coords - define as coordenadas da area cada forma possui a sua
+
+rect - coords "x1,y1,x2,y2"
+
+0           x
+
+
+
+
+
+y
+
+x e y são medidos em pixels
+
+
+circle - coords "x,y,r" r = raio do circulo
+
+polygon - "pontos cartesianos"
+
+ps: programas fazem isso automaticamente
+
+exemplo de uso 
+
+<img src="imagem.jpg" usemap="#menu">
+
+<map name="menu">
+<area shape="rect" coords"25,30,148,62" href="link.html" alt="link 1">
+<area shape="rect" coords"26,72,149,104" href="link2.html" alt="link 2">
+</map>

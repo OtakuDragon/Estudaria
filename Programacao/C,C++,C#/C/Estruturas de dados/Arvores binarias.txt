@@ -1,0 +1,69 @@
+Caracteristicas de uma arvore binaria
+
+Niveis
+
+Os niveis de arvore binaria começam em 0
+na raiz e vão aumentando conforme são criados
+descendentes, da raiz para baixo, aumentando
+
+Profundidade
+
+O nivel em que estao os elementos mais
+afastado da raiz, representam a profundidade
+da arvore
+
+---------------------------------------------
+
+Tipos de arvore
+
+Arvore estritamente binaria
+
+não possui nenhum nó com apenas um
+descendente, ou possui folhas ou nós
+com dois descendentes
+
+
+Arvores binarias completas
+
+É uma arvore estritamente binaria
+mas que todas as suas folhas devem
+estar no mesmo nivel, o nivel de
+profundiddade da arvore
+
+---------------------------------------
+
+Numerando elementos de uma arvore
+
+Atribui-se o número 1 à raiz;
+Um filho esquerdo recebe a atribuição de um número equivalente
+ao dobro do número atribuído a seu pai e
+Um filho direito recebe a atribuição de um número equivalente
+ao dobro do número atribuído a seu pai mais um.
+
+
+formulas de Arvores binarias 
+
+Formula de arvore estritamente binaria
+
+r = 2n-1
+
+*r numero de elementos da arvore
+
+*n numero de folhas
+---------------------------------------------
+
+Formulas de arvores binarias completas
+
+Numero de Folhas = 2^d
+
+Numeros de nós sem folhas = 2^d - 1
+
+Profundidade da arvore d = log (tn + 1) - 1
+                              2
+
+*d sendo a profundidade da arvore
+
+-------------------------------------------------
+
+
+

@@ -1,0 +1,201 @@
+Configurando Spring security com o applicationContext-security.xml
+
+O arquivo applicationContext-security.xml possui como raiz a tag <b:beans>
+e dentro dela duas subtags principais <http> e <authentication-manager>
+
+===================================================================
+A tag <http>
+
+Esta tag é uma agrupadora das configurações referentes ao contexto
+web do sistema os seus atributos visam configurar estes aspectos
+
+-------------------------------------------------------------------------------
+
+atributos de <http>
+
+auto-config - se definido como true gera algumas sub-tags de configuração automaticamente
+              com atributos e valores default
+
+lowercase-comparisons - se definido como true convertará todas as urls processadas pela subtag 
+			<intercept-url> arquivo para lowercase antes de fazer comparações
+
+path-type - define qual o padrão que o atributo pattern da subtag <intercept-url> entenderá
+	    os valores possiveis são ant e regex , e ant é o padrão
+
+session-fixation-protection - Indica o que fazer com a sessão existente quando o usuário se autenticar
+			      em uma nova sessão, seus valores são none, não fazer nada,newSession criar
+			      uma nova sessão do 0 e migrateSession que é o padrão que cria uma nova sessão
+			      mas copia os dados da sessão antiga para a nova
+
+use-expressions - define se o atributo acess da sub tag <intercept-url> aceitara expressões booleanas
+		  recebe true ou false o padrão é false
+
+===================================================================
+Subtags de <http>
+
+A tag <intercept-url>
+
+A tag <intercept-url> é aqui que as regras de acesso são definidas é
+a tag mais importante do spring security, ela recebe como atributos
+basicos uma expressão que diz sobre quais urls proteger e um atributo
+dizendo quem pode acessar aquelas paginas
+
+uma tag <http> pode ter varias <intercept-url> uma para cada pattern necessario
+
+
+-----------------------------------------------------------------------
+Atributos de <intercept-url>
+
+pattern - define o padrão de url que será interceptado pelo spring security
+	  para controlar o acesso este padrão por padrão é no formato ant
+	  mas pode ser definido como regex no atributo path-type de <http>
+
+method - Indica qual o metodo de requisição será considerado válido para permitir
+	 o acesso pode receber um dos valores GET,DELETE,HEAD,OPTIONS e POST se
+	este atributo nao for definido qualquer metodo será aceito
+
+acess - Lista separada por vírgula dos nomes de permissão(Roles) que poderão acessar este
+	recurso, cada usuário registrado deve possuir um tipo de permissão e por padrão o nome
+        das permissões no banco de dados começam com ROLE_nomedapermissão
+
+requires-channel - Limita a conexão somente para conexões http, https ou any para qualquer um 
+		   o padrão é any
+-------------------------------------------------------------------------------
+ex:
+
+<intercept-url pattern="/admin/**" access="ROLE_ADMINISTRADOR" />
+
+note que pattern possui aqueles dois asteristicos por que é assim que o padrão
+ant define "qualquer coisa" ou seja, não importa o nome da pagina se ela estiver
+dentro do diretorio admin do site somente usuarios com a permissão role_administrador
+poderão acessar
+
+==========================================================================
+tag <form-login>
+
+Esta é uma tag opcional mas importante pois é nela que a pagina de login
+é definida,a pagina de login registrada aqui será mostrada sempre que o
+spring security receber uma requisição proibida para usuários não logados
+
+se nenhuma pagina for definida uma bastante simples será definida pelo spring security
+
+--------------------------------------------------------------------
+Atributos de <form-login>
+
+login-page - recebe a url da pagina de login do sistema
+
+default-target-url - url para redirecionar o usuário caso ele consiga efetuar login
+		     geralmente a pagina principal
+
+always-use-default-target - se definida como true após o login sempre redirecionara o usuario
+			    para a default-target-url se definida como false antes de cada pagina
+			    que possui restriçaõ de role pedira mostrar a pagina de login e depois
+                            a pagina
+
+authentication-failure-url - define a página qual redirecionar caso o login falhe
+
+===============================================================================
+A tag <logout>
+
+Habilita o recurso de logout do sistema quando a url /j_spring_security_logout for chamada
+por padrão a sessão do usuario  que fez logout é invalidada e ele é redirecionado para a pagina
+de login
+
+------------------------------------------------------------------------------
+Atributos de <logout>
+
+invalidate-session - permite configurar se a sessão do usuário será invalidada
+		     no logout ou não o valor padrão é true
+
+logout-sucess-url - permite definir a qual pagina redirecionar após o logout o padrão
+		    é a pagina de login
+
+
+==================================================================================
+A tag <remember-me>
+
+Permite a ativação do recurso de manter o usuario logado por um certo periodo
+de tempo, isto somente funcionará se a pagina de login possuir uma checkbox
+com o nome(atributo name) com o valor "_spring_security_remember_me" se está
+checkbox for marcada o login do usuario durará duas semanas por padrão
+
+----------------------------------------------------------------------------------
+Atributos de <remember-me>
+
+token-validity-seconds  - Permite configurar quanto tempo o login do usuário irá
+                          durar em segundos o valor padrão é 1209600 que é equivalente
+			  a duas semanas
+
+========================================================================================
+Subtags de http acabam aqui
+===================================================================================
+A tag <authentication-manager>
+
+A outra subtag principal do documento é está ela agrupa tags de recuperação dos dados
+de registro dos usuários para que <intercept-url> possa usa-los
+
+=====================================================================================
+Subtag de <authentication-manager>
+
+A tag <authentication-provider>
+
+é nesta tag que o metodo pelo qual os registros do sistema são reconhecidos pelo
+spring security existem varias maneiras de fazer isto a mais simples é definir
+usuarios com a tag user
+
+ex:
+
+<authentication-manager>
+	<authentication-provider>
+		<user name="jose" password="jose123" authorities="ROLE_ADMIN,ROLE_USER"/>
+	</authentication-provider>
+</authentication-manager>
+
+está maneira é simples mas estatica em uma aplicação real o modo mais usado é da
+recuperaçaõ de usuários e permissões do banco de dados
+
+para isso a tag <jdbc-user-service> é utilizada
+
+--------------------------------------------------------------------------------------
+A tag <jdbc-user-service>
+
+está é a tag que recupera dados de login e permissão do banco de dados
+para a comparação no spring security
+
+seus atributos são uma referencia ao DataSource que faz conexão com o banco 
+de dados e duas queries SQL
+
+Atributos de <jdbc-user-service>
+
+data-source-ref - Este atributo recebe o id do bean de applicationContext que define o
+		  DataSource
+
+users-by-username-query - este atributo recebe uma query SQL que busca login,senha e status
+			  de ativo dos usuários,nesta ordem o nome dos campos não importa desde que
+			  estejam na seguinte ordem login, tipo texto, notnull;senha, tipo texto, notnull.
+			  e ativo, tipo booleano, notnull na query
+
+			  é obrigatorio tambem uma clausula where aonde o campo login é comparado com ?
+			  
+ex:
+
+users-by-username-query="SELECT login,senha,ativo FROM usuario WHERE ?";	
+
+note que o nome dos campos pode ser qualquer um mas seus tipos devem ser
+o mesmo e na mesma ordem.
+
+
+authorities-by-username-query - este atributo busca as permissões do usuarios em uma tabela de
+				permissões de acordo com o username ou seja o nome de login ta
+				tabela de registros
+
+				ele exige dois dados Login,tipo texto, not null e Permissão tipo texto not null
+				sendo que login é da primeira tabela e permissão da segunda tabela relacionados pela
+				chave estrangeira que é o nome do login
+				
+				é obrigatorio tambem uma clausula where aonde o campo login é comparado com ?
+ex:
+
+authorities-by-username-query="SELECT u.login,p.permissao FROM usuario u,usuario_permissao p WHERE u.codigo=p.usuario and u.login=?"
+
+

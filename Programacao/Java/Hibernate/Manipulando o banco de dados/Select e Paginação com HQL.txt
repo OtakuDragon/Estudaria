@@ -1,0 +1,132 @@
+Objeto Query
+
+O objeto query é um objeto retornado pelo
+metodo createQuery de session, por meio dele
+é possivel manipular o banco de dados por meio
+de queries HQL
+
+*obs:a classe que deve ser importada para o objeto query
+ é org.hibernate.Query
+
+Instanciação:
+
+String HQLQuery;
+
+Query query = session.createQuery(HQLQuery);
+
+=======================================================
+HQL
+
+Hibernate query language é a linguagem de query
+do hibernate e tem como caracteristica tratar de
+classes e atributos
+
+diferentemente da SQL que trata de tabelas e
+campos
+
+obs: a query select de HQL pode conter funções padrão sql como MAX()
+
+========================================================
+Recuperando objetos do banco com HQL
+
+É possivel recuperar um conjunto de objetos do banco de
+dados utilizando o objeto query e uma query HQL
+
+obs: o nome das colunas e tabelas não importam para o HQL
+     as queries são montadas com os nomes das classes e atributos
+
+//dentro de session.beginTransaction()
+
+//recuperando objetos
+
+String sintaxeHQLParaSelectObjetos = "from NomeDaClasseEntidade where Condição";//na condição são usados os nomes dos atributos da classe		  
+                                                                                //o where não é obrigatorio 
+
+HQLQuery = "from User where userId > 5";                                
+
+Query query = session.createQuery(HQLQuery);
+List<User> users = query.list(); //esta lista é java.util.List e possui todos os objetos que atendem a condição 
+
+//finalização da transação e sessão 
+
+============================================================
+Recuperando atributos do banco
+
+Algumas vezes não é necessario recuperar o objeto completo
+somente o valor de um ou alguns atributos
+    
+//dentro de session.beginTransaction()
+
+//recuperando atributos
+
+String sintaxeHQLParaSelectAtributos = "select nomeDoAtributo,(outros atributos) from NomeDaClasseEntidade where Condição";		  
+                                                                                
+
+HQLQuery = "select userName from User";                                
+
+Query query = session.createQuery(HQLQuery);
+List<String> users = query.list(); //neste caso a lista retornada será do tipo do atributo no caso string
+                                   //caso varios atributos sejam selecionados a lista será composta de listas
+
+
+//finalização da transação e sessão        
+===============================================================
+Paginação com HQL
+
+Antes de recuperar a lista de uma HQL de select
+é possivel configurar uma paginação para controlar
+o numero de resultados na lista
+
+metodo query.setFirstResult()
+
+Este metodo define o offset da paginação e recebe
+um numero inteiro dizendo quantos registros pular
+
+
+metodo query.setMaxResult()
+
+Este metodo define o limit da paginação e recebe
+o numero de registros o qual se recuperar apartir
+do registro definido pelo metodo acima
+
+ex:
+
+//dentro de session.beginTransaction()
+
+
+HQLQuery = "from User where userId > 5";  
+                       
+Query query = session.createQuery(HQLQuery);
+
+query.setMaxResult(5);//pula os 5 primeiros objetos
+query.setMaxResult(5);//Define que a lista tera 5 objetos apartir do 5º ou seja do 5º ao 10º
+
+
+List<User> users = query.list(); 
+
+//finalização da transação e sessão 
+=============================================================
+Manipulando o tipo de dado da lista de select
+
+é possivel manipular o tipo de dado da lista retornada
+do metodo query.list() utilizando new() na clausula select
+
+Abaixo um exemplo mostrando como criar uma lista de mapas
+
+ex:
+
+
+//dentro de session.beginTransaction()
+
+HQLQuery = "select new Map(userId,userName) from User";                                
+
+Query query = session.createQuery(HQLQuery);
+List<Map> users = query.list(); 
+                                   
+
+//finalização da transação e sessão 
+
+===============================================================
+
+
+                                                     

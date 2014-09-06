@@ -1,0 +1,36 @@
+Echo
+
+A principal função do PHP é receber um pedido processar
+os dados necessarios e enviar uma resposta essa reposta
+é enviada atraves do echo
+
+echo é a maneira do php de fazer output de texto no web browser
+
+*o echo, ecoa variaveis simples entre "" como variaveis
+** aspas simples '' não enviam o valor da variavel
+
+ex:
+
+$var = 2
+
+echo ("$var teste");
+
+saida:
+
+2 teste
+
+=================================================================
+Print
+
+O mesmo resultado pode ser obtido utilizando
+a palavra print ao inves de echo
+
+ex:
+
+$var = 2
+
+print ("$var teste");
+
+saida:
+
+2 teste

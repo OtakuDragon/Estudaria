@@ -1,0 +1,29 @@
+javax.swing.JOptionPane
+
+JOptionPane é um metodo simples de input e output
+com janelas popout para sair um pouco do prompt
+aqui vão dois metodos basicos dessa classe
+
+showInputDialog()
+
+o metodo showInputDialog pode ser usado como metodo de classe
+para criar uma janela popout com uma janela de texto um botão ok e
+um cancelar, ela retorna um string do que foi digitado e recebe
+como parametro uma mensagem ao usuario
+
+ex:
+
+String nome = JOptionPane.showInputDialog("Qual é seu nome");
+
+
+showMessageDialog()
+
+Mostra uma mensagem para o usuario em uma janela popout
+tem retorno void, e recebe como parametro, o compomente a 
+qual a mensagem pertence, no caso de um programa sem frame
+o valor pode ser null e a mensagem em string
+possui apenas um botão de ok
+
+ex:
+
+JOptionPane.showMessageDialog(null,"Óla Mundo");

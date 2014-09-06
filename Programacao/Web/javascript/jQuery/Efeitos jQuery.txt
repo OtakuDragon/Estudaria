@@ -1,0 +1,168 @@
+Efeitos jQuery
+
+Efeitos no jquery são funções no elementos
+que ativam animações como show,hide, fade, etc..
+
+==================================================
+Efeitos basicos
+
+hide()
+
+Esconde um elemento pode receber como parametro
+uma string dizendo em que velocidade esconder o elemento
+(slow,normal,fast) ou o tempo em milisegundos de duração
+da animação de hiding
+
+ex:
+
+$("#MeuMenu").hide();
+
+ou
+
+$("#MeuMenu").hide("slow");
+
+ou
+
+$("#MeuMenu").hide(1000);
+
+----------------------------------------------------
+show()
+
+Mostra um elemento que foi escondido utilizando qualquer efeito
+tambem recebe como parametro a velocidade da animação
+de showing da mesma forma que hide()
+
+ex:
+
+$("#MeuMenu").show();
+
+ou
+
+$("#MeuMenu").show("slow");
+
+ou
+
+$("#MeuMenu").show(1000);
+
+--------------------------------------------------
+toggle()
+
+Alterna o elemento entre show() e hide()
+tambem recebe como parametro a velocidade da animação
+de showing da mesma forma que hide() e show
+
+ex:
+
+$("#MeuMenu").toggle();
+
+ou
+
+$("#MeuMenu").toggle("slow");
+
+ou
+
+$("#MeuMenu").toggle(1000);
+
+===============================================
+Efeito Fade
+
+O efeito fade esconde ou mostra o elemento
+utilizando a opacidade de 100 à 0 ou de 0 à 100
+respectivamente
+
+fadeOut()
+
+Esconde um elemento utilizando o efeito fade
+e pode receber parametros de velocidade
+
+ex:
+
+$("#MeuMenu").fadeOut();
+
+ou
+
+$("#MeuMenu").fadeOut("slow");
+
+ou
+
+$("#MeuMenu").fadeOut(1000);
+
+-----------------------------------------------
+fadeIn()
+
+Mostra um elemento que foi escondido utilizando qualquer efeito
+e pode receber parametros de velocidade
+
+ex:
+
+$("#MeuMenu").fadeIn();
+
+ou
+
+$("#MeuMenu").fadeIn("slow");
+
+ou
+
+$("#MeuMenu").fadeIn(1000);
+
+----------------------------------------------------
+fadeTo()
+
+Define uma opacidade para o elemento
+o efeito fade acontecerá até aquele nivel
+de opacidade
+
+este valor é entre 0 e 1 sendo 0 inivisivel e 1 solido
+
+esta função recebe dois parametros a velocidade como
+em todas as outras funções e este valor entre 0 e 1
+
+
+ex:
+
+$("#MeuMenu").fadeTo("slow",0.4);
+
+-------------------------------------------------------
+fadeToggle()
+
+Alterna o elemento entre os efeitos fadeOut() e fadeIn()
+
+
+ex:
+
+$("#MeuMenu").fadeToggle("fast");
+
+=========================================================
+Efeito slide
+
+Esconde ou mostra o elemento com um efeito de persiana
+
+-----------------------------------------------------
+slideUp()
+
+Esconde o elemento de baixo para cima
+
+ex:
+
+$("#MeuMenu").slideUp("fast");
+
+------------------------------------------------------
+slideDown()
+
+Mosta um elemento escondido de cima para baixo
+
+ex:
+
+$("#MeuMenu").slideDown("fast");
+
+----------------------------------------------------
+slideToggle()
+
+Alterna o elemento entre os efeitos slideUp() e slideDown()
+
+ex:
+
+$("#MeuMenu").slideToggle("fast");
+
+
+

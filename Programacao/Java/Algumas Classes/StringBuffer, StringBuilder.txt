@@ -1,0 +1,30 @@
+StringBuffer e StringBuilder
+
+StringBuffer é sincronizado e melhor para ser acessado por varias
+threads ao mesmo tempo
+
+As duas classes possuem os mesmos metodos de String e mais alguns:
+
+append()
+
+O metodo append() adiciona seu parametro  a o valor
+do objeto diretamente, sem a necessidade da criação de outro objeto
+
+toString()
+
+Converte objetos destas classes para Strings comuns
+
+capacity()
+
+retorna o numero inteiro de quantos caracteres ainda podem ser
+"append()" antes de precisar alocar outro espaço na memoria
+
+ex:
+
+
+StringBuilder s1 = new StringBulder("Java");
+
+int caracteres = s1.capacity;
+
+s1.append(" Programmer");
+

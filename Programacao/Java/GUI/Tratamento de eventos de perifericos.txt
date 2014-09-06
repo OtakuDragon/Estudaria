@@ -1,0 +1,232 @@
+Eventos
+
+São interações do usuario com a interface grafica elas são capturadas automaticamente
+por metodos e vc pode sobre escrever esses metodos para reeagir a certos eventos
+
+Eventos do mouse
+
+Metodo mouseDown()
+
+O metodo mouseDown() é ativado pelo applet sempre que o botão do mouse é esquerdo apertado
+
+uso
+
+public boolean mouseDown(Event evt, int x, int y){
+
+//comandos
+
+}
+
+O parametro Event é passado pelo applet , e x e y são as coordenadas de onde o clique aconteceu e podem ser manipuladas
+no metodo
+
+evt.clickCount - representa um numero inteiro de cliques consecutivos.
+
+Metodo mouseUp()
+
+O metodo mouseUp() é ativado pelo applet sempre que o botão do mouse é esquerdo solto
+
+uso
+
+public boolean mouseUp(Event evt, int x, int y){
+
+//comandos
+
+}
+
+Metodo mouseMove()
+
+O metodo mouseMove() é ativado pelo applet sempre que o mouse se movimenta dentro do applet
+
+uso
+
+public boolean mouseMove(Event evt, int x, int y){
+
+//comandos
+
+}
+
+x,y são as coordenadas atuais do mouse na tela do applet
+
+
+Metodo mouseDrag()
+
+O metodo mouseDrag() é ativado pelo applet sempre que o mouse se movimenta com o botão esquerdo apertado dentro do applet
+
+uso
+
+public boolean mouseDrag(Event evt, int x, int y){
+
+//comandos
+
+}
+
+x,y são as coordenadas da posição no cursos no momento final do drag ou seja quando o botão é solto
+
+
+Metodo mouseEnter() e mouseExit()
+
+Estes metodos são ativados quando o mouse entra(mouseEnter) ou sai (mouseExit) da tela do applet
+
+uso
+
+public boolean mouseEnter(Event evt, int x, int y){
+
+//comandos
+
+}
+
+x,y representam as coordenadas de qual ponto na borda do applet o ponteiro saiu ou entrou
+
+
+Eventos de Teclado
+
+metodo keyDown()
+
+O metodo keyDown() é chamado sempre que uma tecla é apertada no teclado
+
+uso
+
+public boolean keyDown(Event evt, int key){
+//comandos
+ }
+
+// O parametro int key se trata da tecla apertada na sua representação numerica da tabela ascii e pode ser
+//convertida para char = (char)key
+
+metodo keyUp()
+
+O metodo keyUp() é chamado sempre que uma tecla é solta no teclado
+
+uso
+
+public boolean keyUp(Event evt, int key){
+
+}
+
+A classe Event tem variaveis inteiras locais para representar teclas que não tem representação grafica
+
+Event.HOME
+Event.END
+Event.PGUP
+Event.PGDN
+Event.UP
+Event.DOWN
+Event.LEFT
+Event.RIGHT
+Event.F1 (até F12)
+
+Metodo requestFocus()
+
+coloca o foco do applet no componente desejado para receber eventos
+
+
+Teclas modificadoras Ctrl, shift, alt, botão do meio, e direito do mouse
+
+Dentro da variavel Event evt que todos os eventos tem como argumento existem metodos para se
+saber se estas teclas foram apertadas
+
+evt.shiftDown() retorna true se o shift estiver apertado
+evt.controlDown() retorna true se o ctrl estiver apertado
+evt.metaDown() retorna true se o alt estiver apertado
+
+para o mouse
+
+evt.metaDown() retorna true se o botão direito do mouse apertado
+evt.controlDown() retorna true se o botão central do mouse apertado
+
+metodo handleEvent()
+
+É a superclasse de todos os eventos e pode ser sobre escrito para tratar de eventos especiais
+
+public boolean handleEvent(Event evt){
+
+}
+
+//O parametro Event possui uma variavel inteira que se chama id e que identifica qual o tipo de evento ocorreu
+
+exemplo de uso
+
+public boolean handleEvent(Event evt){
+if (evt.id == Event.MOUSE_DOWN){
+
+//processa o botão do mouse para baixo
+return true;
+}else{ return super.handleEvent(evt);} // Define a classe padrão para todos os outros metodos
+}
+
+ids possiveis
+
+Event.KEY_PRESS
+Event.KEY_RELEASE
+Event.ACTION
+Event.MOUSE_DOWN
+Event.MOUSE_UP
+Event.MOUSE_MOVE
+Event.MOUSE_DRAG
+Event.MOUSE_ENTER
+Event.MOUSE_EXIT
+Event.LIST_SELECT
+Event.LIST_DESELECT
+Event.SCROLL_ABSOLUTE
+Event.SCROLL_LINE_DOWN
+Event.SCROLL_LINE_UP
+Event.SCROLL_PAGE_DOWN
+Event.SCROLL_PAGE_UP
+Event.WINDOW_DESTROY 
+Event.WINDOW_EXPOSE
+Event.WINDOW_ICONIFY
+Event.WINDOW_DEICONIFY
+Event.WINDOW_MOVED
+Event.WINDOW_CLOSE // chamado quando a caixinha de close da janela é apertada
+
+Eventos de componente
+
+Eventos de ação
+
+metodo action()
+
+É ativado sempre que um componente é clicado ou que uma caixa de texto é enviada com enter
+
+public boolean action(Event evt, Object arg){
+//Comandos
+}
+
+//O evt é o evento que ocorreu e o argumento Object arg depende de qual classe é o evento
+//evt.target é uma referencia do objeto que recebeu o evento
+
+Object args possiveis
+
+Classe   Tipo de argumento    Contem
+
+Button     String             O Rotulo do botão
+Checkbox   boolean            true
+Choice     String             O Rotulo do item selecionado
+TextField  String             O texto que esta dentro do campo
+
+exemplo de uso
+
+public boolean action(Event evt, Object arg){
+
+if (evt.target instanceof TextField){
+//comandos para o campo de texto
+
+}
+else if (evt.target instanceof Choice){
+
+//Comandos para a caixa de seleção
+}
+
+
+}
+
+
+metodos gotFocus() e lostFocus()
+
+são executados quando certo componente ganha o foco ou perde o foco
+
+public boolean gotFocus(Event evt,Object arg){
+//comandos
+}
+
+

@@ -1,0 +1,63 @@
+Configurando uma conexão com o DB comum entre Hibernate e Spring Security
+
+Levando em consideração que o Spring secuirity
+tambem utiliza um conexão com o banco de dados
+não é mais viavel manter a conexão dentro do arquivo
+hibernate.cfg.xml pois o spring não terá acesso a esta conexão
+
+Abaixo os passos para criar um DataSource uma conexão que pode ser
+usada pelo dois frameworks
+=====================================================================
+
+1º Criação do arquivo context.xml na pasta WebContent/META-INF
+
+template:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Context reloadable="true">
+	<!--O nome pode ser qualquer um e será utilizado em web.xml para identificar este resource-->
+	<!--mas devera ser precedido de jdbc/-->
+	<Resource name="jdbc/financeiroDB"
+	auth="Container"
+	type="javax.sql.DataSource"
+	maxActive="100"
+	maxIdle="30"
+	maxWait="10000"
+	username="postgres"
+	password="otaku789"
+	<!--Correspondente ao valor da propriedade hibernate.connection.driver_class de hibernate.cfg.xml-->
+	driverClassName="org.postgresql.Driver"
+	<!--Url de conexão ao banco-->
+	url="jdbc:postgresql:diadia"
+		/>
+</Context>
+
+2º Acrescentar o recurso criado no passo 1º ao web.xml
+
+com a tag:
+
+<resource-ref>
+	<!--Aqui é inserido o atributo name de Resource-->
+	<res-ref-name>jdbc/financeiroDB</res-ref-name>
+	<res-type>javax.sql.DataSource</res-type>
+	<res-auth>Container</res-auth>
+</resource-ref>
+
+
+3º Alterar o hibernate.cfg.xml para remover os dados de conexão e adicionar
+   o DataSource
+
+Remover as seguintes propriedades:
+
+<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+<property name="hibernate.connection.password">otaku789</property>
+<property name="hibernate.connection.url">jdbc:postgresql:diadia</property>
+<property name="hibernate.connection.username">postgres</property>
+
+Adicionar a seguinte propriedade:
+
+<property name="connection.datasource">java:/comp/env/jdbc/financeiroDB</property>
+
+
+4º Adicionar o JDBC connector do banco de dados a pasta lib do servidor
+   noo caso do tomcat %TOMCAT_HOME%\lib

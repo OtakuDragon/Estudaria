@@ -1,0 +1,170 @@
+Regular expressions
+
+São a maneira de criar expressões padrão para validação de dados
+
+regex, são independentes de linguagem
+=================================================================================
+Criando um objeto RegExp em javascript
+
+var a = new RegExp("regex");
+
+ou
+
+var a = /regex/; 
+
+*obs: regex = codigo da expressão regular
+
+
+=================================================================================
+Modificadores
+
+ i - Ignora maiusculas e minusculas
+ m - Multilinhas
+ g - Faz a uma busca em toda a string nao parando apos o primeiro match
+
+uso:
+
+var a = RegExp("regex","igm");
+var a = /regex/g;
+
+==================================================================================
+
+Metacaracteres
+
+representa um tipo de caractere
+
+ . - qualquer caractere
+ 
+ \d - Digitos[0-9]
+
+ \D - não é digito[^0-9]
+
+ \s - espaços e tabulações [ \t\n\x0B\f\r]
+
+ \S - não é espaço 
+
+ \w - letras [a-zA-z_0-9]
+ 
+ \W - não é letra 
+
+ \b - Verifica se o texto que segue este caractere esta no começo ou no final da string
+ 
+ \B - Verifica se o texto que segue este caractere não esta no começo nem final da string
+
+uso:
+
+var a = /\btexto \w \s/i;
+
+====================================================================================
+
+Quantificadores
+
+cada metacaractere se refere a um elemento do regex
+para se referir a varios elementos ao mesmo tempo
+use quantificadores
+
+X - metacaractere
+
+	X{n} - X, exatamente n vezes
+	X{n,} - X pelo menos n vezes
+	X{n,m} - X pelo menos n vezes mas não mais do que m vezes
+	X? - X, 0 ou 1 vez
+	X* - X, 0 ou + vezes
+	X+ - X, 1 ou + vezes
+
+uso:
+
+var a = /\d{2}-\d{2}/;
+
+
+=======================================================================================
+
+Metacaractere de fronteira
+
+Metacaracteres que indicam se a expressão deve estar no começo no final ou
+possui mais de uma possibilidade na regex
+
+^ inicia
+$ finaliza
+| ou
+
+uso:
+
+var a = /^a/;      //indica que a expressão tera que começar com "a"
+var a = /a$/;      //indica que a expressão tera que terminar com "a"
+var a = /(^a | a$)/; //indica que a expressão tera que começar com "a" ou terminar com "a"
+
+--------------------------------------------------------------------------------------------
+Agrupadores
+
+Cria conjuntos de letras ou numeros
+os conjuntos incluem a primeira e a ultima letra.
+
+[a-z] - Alcance, refere-se a todas as letras de a à z
+
+[a-d][i-u] - União, refere-se a todas as letras entre "a" e "d" e entre "i" e "u" 
+
+[a-d&&[c-e]] - Interseção refere-se a todas as letras comuns aos dois conjuntos
+
+[^abc] - Exceção,diz que estas letras não podem existir
+
+[a-z&&[^m-p]] - Subtração, todas as letras de "a" a "z" que nao estejam entre "m" e "p"
+
+\x Fuga literal
+
+uso:
+
+var a = /[a-z]/; //indica que a expressão somente tera letras entre "a" e "z"
+
+var a = /[Gg]ilson/; // indica que a expressão aceitara Gilson ou gilson
+
+====================================================================================
+Atributos de RegExp
+
+a.global		Specifies if the "g" modifier is set
+a.ignoreCase		Specifies if the "i" modifier is set
+a.lastIndex		The index at which to start the next match
+a.multiline		Specifies if the "m" modifier is set
+a.source		The text of the RegExp pattern
+
+
+==================================================================================
+Metodos de RegExp
+
+a.exec(string); //recebe uma string e se ele corresenpoder com a regexp retorna a primeira
+		//ocorrencia
+
+a.test(string); // recebe uma string e se ela correseponder a regexp retorna true senão retorna false
+
+====================================================================================
+Metodos de string que utilizam Regex
+
+str.match(regex); //recebe uma expressão regular e retorna todos os pedaços da string que
+		  //correspondem a ela
+
+str.replace(regex,string); //procura uma corresepondencia com a regex na string e se for achada à
+			   // substitui pela string passada.
+
+
+=====================================================================================
+
+Variaveis de regex
+
+em uma String regex é possivel separar partes do texto com ()
+estas partes serão variaveis que podem ser acessadas por $1,$2....
+dependendo da su posição no texto
+
+var a = /(www).(google).(com)/;
+
+var b = a.replace(re,"$3.$2.$1");
+
+// o valor de b sera "com.google.www";
+// por que nesse caso a variavel $1 representa "www", a variavel $2 "google" e a variavel $3 "com";
+
+
+
+
+
+
+
+

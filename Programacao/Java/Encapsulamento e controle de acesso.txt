@@ -1,0 +1,66 @@
+ 
+CONTROLE DE ACESSO
+
+
+     Visibilidade                                   public	protected	default		private
+
+A partir da mesma classe                              sim	sim		sim		sim
+
+A partir de qualquer classe do mesmo pacote           sim	sim		sim		não	
+
+A partir de qualquer classe fora do pacote            sim	não		não		não		
+
+A partir de uma subclasse no mesmo pacote             sim	sim		sim		não
+
+A partir de uma subclasse fora do mesmo pacote        sim	sim		não		não
+
+Resumo
+
+private - Visivel somente dentro da propria classe
+
+default - visivel dentro do mesmo pacote
+
+protected - visivel dentro do mesmo pacote e para subclasses fora do pacote
+
+public - visivel em qualquer pacote
+
+
+ENCAPSULAMENTO
+
+O ato de criar variaveis private, que são alteradas ou acessadas por meio de metodos
+esse metodo pode conter medidas de validação ou acesso para o dado
+
+por convenção os metodos são:
+
+para definir metodos
+
+private int idade;
+
+public void int setIdade(int dado){
+
+	
+	this.idade = dado;
+	
+
+}
+
+-----------------------------------------------------
+
+para recuperar metodos
+
+public int getIdade(){
+	
+	return idade;
+
+}
+
+--------------------------------------------------------
+
+para recuperar metodos booleanos
+
+public boolean isLive(){
+	
+	return Live;
+
+}
+

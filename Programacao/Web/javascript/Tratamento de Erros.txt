@@ -1,0 +1,70 @@
+Tratamento de erros
+
+No javascript existem erros, exceções problemas
+que acontecem no codigo e estes erros não são indentificados
+automaticamente pois javascript é uma linguagem interpretada
+então para impedir que estes erros aconteçam ou trata-los
+quando acontecerem existe a estrutura try,catch,finally
+
+
+=================================================================
+Erros 
+
+Objeto Error todos os erros do javascript derivam
+do objeto error que possui 2 atributos e 1 metodo
+
+- message //explica o que é o erro
+
+- name // mostra o nome do erro
+
+- toString() // mostra o nome do erro : e a mensagem
+
+-------------------------------------------------------------
+Erros possiveis e suas causas
+
+ - EvalError	//Erro causado quando acontece uma exceção em um metodo eval()
+ - RangeError	//Numero extrapola limites
+ - ReferenceError //Referência a valor indefinido
+ - SintaxeError //Erro de sintaxe da linguagem
+ - TypeError	//operando diferente do esperado
+ - URIError     //Erro de localização pro URI
+
+===========================================================================
+Estrutura try,catch,finally
+
+try {
+	//Codigo no qual o possivel erro pode acontecer
+
+
+}catch(erro){//o nome dentro dos parenteses do catch pode ser qualquer um
+	     // vai ser o nome atribuido ao que quer que for pegado pelo catch
+
+	//O que fazer se o erro acontecer
+
+	alert(erro.toString);
+
+}finally{
+
+//rodar este codigo um erro acontecendo ou não
+//não é obrigatorio
+
+}
+
+---------------------------------------------------------------------------
+throw
+
+A palavra-chave throw é usada quando o usuario quer jogar alguma coisa para o catch
+que pode ser um objeto um numero qualquer dado ou até mesmo qualquer um dos Errors
+
+ele deve ser usado dentro do try{}
+
+ex:
+
+try {
+	
+	throw "jogando uma string";
+
+}catch(erro){
+
+	alert(erro); 
+}

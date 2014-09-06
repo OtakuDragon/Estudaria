@@ -1,0 +1,32 @@
+Entendendo o WSDL
+
+Estrutura
+
+obs: a maioria dos elementos abaixo possuem o atributo name
+
+Uma classe anotada com @WebService gera:
+
+ - <service> Conjunto de portas
+
+ - <port>    Possui a localização do webservice e a referencia a um binding 
+
+ - <binding> define como o webservice se comunica com o cliente é referenciado em <port>
+	     possui o atributo type que é uma referencia a <portType>
+
+ - <portType> Este elemento define a classe em si com os seus metodos chamados <operations>
+
+ - <operation> Este elemento é filho de <portType> e representa os metodos do web service
+               cada <operation> possui um <input> e um <output>
+
+ - <input> e <output> Representam respectivamente os parametros de entrada e saida dos <operation> (metodos)
+		      e são formados por uma wsam:Action e a referencia a uma <message>
+
+ - <message> Mensagens são o que compoem <input> e <output> e são compostas por <types>, uma mensagem pode conter
+             varios parametros
+
+ - <types>   Representam os tipos de dados e são o que compoem <message>
+              	
+ 
+
+
+	     	

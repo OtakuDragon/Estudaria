@@ -1,0 +1,169 @@
+Managed beans
+
+Managed beans são classes que trabalham juntas
+com as paginas JSF para:
+
+1. Fornecer dados que serão exibidos nas telas.
+2. Receber os dados enviados nas requisições.
+3. Executar tarefas de acordo com as ações dos usuários.
+
+Os metodos de um manaaged bean seguem um padrão
+eles devem ser public e retornar uma string ou
+não retornar nada.
+==================================================
+Mapeando uma classe managed bean com annotations
+
+Para se transformar uma classe normal em um backing
+bean são obrigatorias duas anotações
+
+@ManagedBean(name="nomeDoBackingBean") //o atributo nome não é obrigatorio por padrão é utilizado o nome simples
+				       //da classe com a primeira letra minuscula para o backing bean se nenhum
+				       // nome for definido
+
+e
+
+Uma anotação que define o escopo do bean ou seja
+até aonde ele está acessivel os valores possiveis 
+são:
+
+@ApplicationScoped - Apenas uma instancia de classe Backing bean para todo a aplicação
+
+@SessionScoped - Uma instancia por usuário(browser), dura durante toda a aplicação e é unica por usuário
+		 e só em excluida em logout ou quando o server fecha a sessão por inatividade
+
+@RequestScoped - A instancia do objeto somente dura durante uma requisição
+
+@NoneScoped - Toda vez que o classe for referenciada será criada uma nova instancia
+
+@ViewScoped - Armazena a instancia da classe durante o acesso a uma pagina que está sendo exibida e só dura enquanto
+	      o usuario não mudar de pagina(atualizar a pagina não conta como mudar de pagina)
+
+@CustomScoped - é definido em um mapa criado pelo programador
+
+
+A anotação @ManagedProperty é opcional e aparece em cima dos
+atributos da classe quando é necessario injetar valores neles
+utilizando a unified expression language
+
+
+*obs: se o managed bean preencher um objeto com os dados do formulario
+      este objeto deve ser instanciado em um construtor
+
+------------------------------------------------------
+ex:
+
+@ManagedBean(name="usuarioBean") 
+@RequestScoped 
+public class UsuarioBean {
+
+	
+	private String nome;
+	private String email;
+	private String senha;
+	private String confirmarSenha;
+	private List lista;
+	@ManagedProperty(value="#{param}")  //param é um objeto implicito mapa que paginas jsf contem 
+	private Map mapa;
+		
+		public String novo(){
+			
+			//operação
+			
+			return "resultado";
+		}
+		
+		public String salvar(){
+			FacesContext context = FacesContext.getCurrentInstance();
+			if(this.senha.equalsIgnoreCase(this.confirmarSenha)){
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senha confirmada incorretamente",""));
+				return "usuario";
+			}
+			
+			
+			return "sucesso";
+		}
+		
+		
+
+		public List getLista() {
+		return lista;
+		}
+
+		public void setLista(List lista) {
+			this.lista = lista;
+		}
+
+		public Map getMapa() {
+			return mapa;
+		}
+
+		public void setMapa(Map mapa) {
+			this.mapa = mapa;
+		}
+
+		public String getNome() {
+			return nome;
+		}
+
+		public void setNome(String nome) {
+			this.nome = nome;
+		}
+
+		public String getEmail() {
+			return email;
+		}
+
+		public void setEmail(String email) {
+			this.email = email;
+		}
+
+		public String getSenha() {
+			return senha;
+		}
+
+		public void setSenha(String senha) {
+			this.senha = senha;
+		}
+
+		public String getConfirmarSenha() {
+			return confirmarSenha;
+		}
+
+		public void setConfirmarSenha(String confirmarSenha) {
+			this.confirmarSenha = confirmarSenha;
+		}
+		
+		
+}
+
+========================================================================================================
+Configurando por xml
+
+Tambem é possivel configurar backing beans
+por xml com um arquivo xml chamado faces-config.xml
+dentro de web-inf
+
+template:
+
+<?xml version="1.0"?>
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+ <managed-bean>
+  <managed-bean-name>usuarioBean</managed-bean-name>
+  <managed-bean-class>aprendendo.OtakuDragon.UsuarioBean</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+  <managed-property>
+   <property-name>confirmarSenha</property-name>
+   <property-class>java.lang.String</property-class>
+   <value>123</value>
+  </managed-property>
+  <managed-property>
+   <property-name>mapa</property-name>
+   <property-class>java.util.Map</property-class>
+   <map-entries>
+ 	<map-entry><key>aa</key><value>bbb</value></map-entry>
+  </map-entries>
+  </managed-property>
+ </managed-bean>
+</faces-config>

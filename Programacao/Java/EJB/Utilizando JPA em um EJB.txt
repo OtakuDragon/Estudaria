@@ -1,0 +1,18 @@
+Utilizando JPA em um EJB
+
+Para se utilizar JPA em componentes EJBs
+ou em qualquer aplicação é necessaria uma
+instancia de EntityManager, o java EE container
+consegue injetar uma instancia de entity manager
+dentro de um EJB atraves da anotação:
+
+//O objeto entity manager é buscado apartir do nome da unidade
+//de persistencia configurada em um persistence.xml
+@PersistenceContext(unitName="nomeDaUnidadeDePersistencia") 
+private EntityManager entityManager;
+
+//com o objeto injetado pode-se utiliza-lo
+private Bid save(Bid bid) {
+ entityManager.persist(bid); |#2
+ return bid;
+}

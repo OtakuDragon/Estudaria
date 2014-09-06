@@ -1,0 +1,190 @@
+A variavel predefinida $_SERVER
+
+É um array contendo informações como headers,caminhos e localizações
+do script e do servidor, este array é preenchido pelo servidor e não
+há garantia de que todas as variaveis sejam preenchidas
+
+$_SERVER é uma variavel superglobal
+
+Conteudos:
+
+$_SERVER['PHP_SELF']
+
+O nome do arquivo do script atualmente em uso, relativo ao document root. Por exemplo, $_SERVER['PHP_SELF" target="_blank"> em um script com o endereço http://www.oficinadanet.com.br/redirect.php?urlout=http://example.com/test.php/foo.bar" rel="nofollow" pode ser /test.php/foo.bar.
+Se estiver rodando o PHP em linha de comando, esta variável não está disponível. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['argv']
+
+Array de argumentos passado para o script. Quando o script é executado na linha de comando, isto permite um acesso aos parâmetros de linha de comando no estilo do C. Quando chamado via método GET, ele conterá a query string. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['argc']
+
+Contém o número de parâmetros da linha de comando passados para o script (se executando da linha de comando). 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['GATEWAY_INTERFACE']
+
+O número de revisão da especificação CGI que o servidor está utilizando, por exemplo : 'CGI/1.1'. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['SERVER_NAME']
+
+O nome host do servidor onde o script atual é executado. Se o script está rodando em um host virtual, este será o valor definido para aquele host virtual. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['SERVER_SOFTWARE']
+
+A string de identificação do servidor, fornecida nos headers quando respondendo a requests. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['SERVER_PROTOCOL']
+
+Nome e número de revisão do protocolo de informação pelo qual a página foi requerida, por exemplo 'HTTP/1.0'; 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['REQUEST_METHOD']
+
+Contém o método de request utilizando para acessar a página. Geralmente 'GET', 'HEAD', 'POST' ou 'PUT'. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['QUERY_STRING']
+
+A query string (string de solicitação), se houver, pela qual a página foi acessada. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['DOCUMENT_ROOT']
+
+O diretório raiz sob onde o script atual é executado, como definido no arquivos de configuração do servidor. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['HTTP_ACCEPT']
+
+O conteúdo do header Accept: da requisição atual, se houver. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['HTTP_ACCEPT_CHARSET']
+
+O conteúdo do header Accept-Charset: da requisição atual, se houver. Exemplo: 'iso-8859-1,*,utf-8'. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['HTTP_ACCEPT_ENCODING']
+
+O conteúdo do header Accept-Encoding: da requisição atual, se houver. Exemplo: 'gzip'. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['HTTP_ACCEPT_LANGUAGE']
+
+O conteúdo do header Accept-Language: da requisição atual, se houver. Exemplo 'en'. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['HTTP_CONNECTION']
+
+O conteúdo do header Connection: da requisição atual, se houver. Exemplo: 'Keep-Alive'. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['HTTP_HOST']
+
+O conteúdo do header Host: da requisição atual, se houver. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['HTTP_REFERER']
+
+O endereço da página (se houver) através da qual o agente do usuário acessou a página atual. Essa diretiva é informada pelo agente do usuário. Nem todos os browsers geram esse header, e alguns ainda possuem a habilidade de modificar o conteúdo do HTTP_REFERER como recurso. Em poucas palavras, não é confiável. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['HTTP_USER_AGENT']
+
+O conteúdo do header User_Agent: da requisição atual, se houver. É uma string denotando o agente de usuário pelo qual a página é acessada. Um exemplo típico é: Mozilla/4.5 [en] (X11; U; Linux 2.2.9 i586). Além de outras coisas, você pode utilizar este valor com get_browser() para personalizar a geração de suas páginas para as capacidades do agente do usuário. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['REMOTE_ADDR']
+
+O endereço IP de onde o usuário está visualizado a página atual. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['REMOTE_PORT']
+
+A porta TCP na máquina do usuário utilizada para comunicação com o servidor web. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['SCRIPT_FILENAME']
+
+O caminho absoluto o script atualmente em execução. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['SERVER_ADMIN']
+
+O valor fornecido pela diretiva SERVER_ADMIN (do Apache) no arquivo de configuração do servidor. Se o script está sendo executado em um host virtual, este será os valores definidos para aquele host virtual. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['SERVER_PORT']
+
+A porta na máquina servidora utilizada pelo servidor web para comunicação. Como default, este valor é '80'. Utilizando SSL, entretanto, mudará esse valor para a porta de comunicação segura HTTP. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['SERVER_SIGNATURE']
+
+String contendo a versão do servidor e nome do host virtual que é adicionado às páginas geradas no servidor, se ativo. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['PATH_TRANSLATED']
+
+O caminho real do script relativo ao sistema de arquivos (não o document root), depois realizou todos os mapeamentos de caminhos (virtual-to-real). 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['SCRIPT_NAME']
+
+Contém o caminho completo do script atual. Útil para páginas que precisam apontar para elas mesmas (dinamicamente).
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['REQUEST_URI']
+
+O URI fornecido para acessar a página atual, por exemplo, '/index.html'. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['PHP_AUTH_USER']
+
+Quando executando sob o Apache como módulo e fazendo autenticaçào HTTP, esta variável estará definida com o username fornecido pelo usuário. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['PHP_AUTH_PW']
+
+Quando executando sob o Apache como módulo e fazendo autenticaçào HTTP, esta variável estará definida com a senha fornecida pelo usuário. 
+
+--------------------------------------------------------------------------------------------------------
+
+$_SERVER['PHP_AUTH_TYPE']
+
+Quando executando sob o Apache como módulo e fazendo autenticaçào HTTP, esta variável estará definida com o tipo de autenticação utilizado.
+
+Leia mais no Oficina da Net: http://www.oficinadanet.com.br/artigo/707/variaveis_do_servidor__server#ixzz2aDWYqy6J

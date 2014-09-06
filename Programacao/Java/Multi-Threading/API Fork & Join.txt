@@ -1,0 +1,56 @@
+API Fork & Join
+
+Divide uma tarefa do codigo em sub-tarefas para serem processadas por diversos
+nucleos do processador ao mesmo tempo
+
+Esta api é composta por duas interfaces 
+
+- RecursiveTask //executa uma tarefa e retorna um resultado
+
+- RecursiveAction //executa uma tarefa
+
+
+Ex: 
+
+public class SumArray extends RecursiveTask<Long>{
+
+
+	public Long compute(){ //metodo que as interfaces obrigam a implementar
+				//recebe o codigo a ser dividido
+	
+	
+	SumArray subTask = new SumArray();//para dividir o codigo em task é necessario criar um objeto da classe
+					  //geralmente classes a serem divididas possuem um construtor e neste construtor é passado
+					// o que esta tarefa dividida devera fazer
+	
+	subTask.fork();//e chamar o metodo fork() para dividir a task em uma subtask
+
+	//codigo para o processamento 
+
+
+
+	
+	
+
+	Long result = subTask.join();//o metodo join reune o resultado da subtask
+				    // e ele aguarda a sub tarefa terminar
+	return result;
+
+	}
+
+
+
+
+
+}
+
+-------------------------------------------------------------------------------------------
+
+Execução de uma task com fork & join
+
+SumArray task = new SumArray();
+
+ForkJoinPool pool = new ForkJoinPool();//Define quantas threads executarão aquela tarefa se nenhum numero for definido o numero de nucleos do processador 
+					//será adotado
+
+Long result = pool.invoke(task); //o metodo invoke da pool recebe o objeto recursiveTask executa o metodo compute e retorna se tiver retorno

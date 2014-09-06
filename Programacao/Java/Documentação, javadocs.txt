@@ -1,0 +1,49 @@
+Documentação
+
+Documentação são comentarios especiais que são utilizados
+pela ferramenta javadocs para gerar uma documentação em html
+no formato da documentação oficial java
+
+O texto de documentação é composto de comentarios sobre o que a 
+classe ou o metodo fazem e marcas
+
+marcas são utilizadas pelo javadocs para prencher certos campos 
+na pagina de documentação
+
+marcas:
+
+@author //Definem o autor do codigo
+@param //Explica quais parametros um metodo recebe
+@throws //Explica a exceção que um metodo joga
+@version // diz qual é a versão do programa
+@since //diz desde qual versão java este programa funciona
+@return // Explica o que o metodo retorna
+
+Uso
+
+/**
+* Tudo o que esta aqui dentro sera utilizado pelo javadocs
+* <h1> este texto pode receber tags html</h1>
+* @author Gilson Carlos Lopes
+*
+*
+*
+*
+*
+*/
+
+
+Gerando a documentação de um projeto
+
+Botão direito do projeto
+
+Export...
+
+javadoc
+
+Em javadoc command colocar o caminho do arquivo javadoc
+no seu computador
+
+Em Destination escolher a pasta na qual a documetação será salva
+
+finish

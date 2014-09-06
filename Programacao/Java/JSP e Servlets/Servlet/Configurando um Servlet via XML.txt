@@ -1,0 +1,49 @@
+Configurando um servlet via XML
+
+Por padrão a criação de servlets no eclipse
+configura o servlet utilizando annotations
+este modo de configuração é recente somente
+possivel apartir do java 5.
+
+A maneira original de se configurar um servlet
+é criar uma classe simples que herda de HttpServlet
+e configura-la como servlet no deployment descriptor
+(web.xml) vamos a como fazer isso
+
+===================================================
+Configuração de servlet no web.xml
+
+IMPORTANTE: qualquer modificação no web.xml requer que o servidor
+            seja reiniciado para que tenha efeito
+
+Todo projeto web java possui o web.xml que possui
+como tag raiz <web-app> e uma tag com o nome do projeto
+<display-name> dentro da tag raiz <web-app> se criam
+servlets
+
+Criando um servlet
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+ <display-name>Nome Do Projeto</display-name>
+ 
+ <!-- Define um servlet -->
+ <!-- uma web-app pode possuir varios servlets -->
+ <servlet>
+   <!-- Nome que indentifica o servlet pode ser qualquer um -->
+   <servlet-name>NomeDoServlet</servlet-name>
+   <!-- Endereço da classe que herda de HttpServlet do servlet com o nome dos pacotes e sem .java ex: org.otkdrg.NomeDaClasse -->
+   <servlet-class>EndereçoDaCompletoDaClasse</servlet-class>
+ </servlet>
+ 
+ <!-- Define qual URL ira rodar o servlet -->
+ <servlet-mapping>
+   <!-- Nome que identifica um servlet existente -->
+   <servlet-name>NomeDoServlet</servlet-name>
+   <!-- Nome que executara o servlet na url sintaxe: /nome -->
+   <!-- uma tag servlet-mapping pode possuir varias url-pattern -->
+   <url-pattern>/endereçoURL<url-pattern>
+ </servlet-mapping>
+
+	
+
+</web-app>

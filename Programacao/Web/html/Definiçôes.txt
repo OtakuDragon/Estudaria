@@ -1,0 +1,41 @@
+HTML = Hyper text markup language
+
+Protocolo
+
+Conjunto de regras para a comunicação em uma rede.
+Eles determinam como computadores em uma rede se comunicam, 
+como começar, como manter e como terminar a comunicação.
+
+tipos de protocolo para comunicação de servidores web
+
+
+HTTP = Hyper text transfer protocol
+
+é o protocolo usado pelos servidores Web para transmitir documentos HTML pela Internet.
+
+FTP = File trasfer protocol
+
+é o protocolo usado pelos servidores Web para transmitir arquivos
+
+TCP = Transfer control protocol
+
+é um conjunto de protocolos usado para a transmissão de informação pela Web,
+e possui a função de verificar se os dados são transferidos de forma correta,
+na sequência apropriada e sem erros.
+
+IP = Internet Protocol
+
+Protocolo de endereçamento, identifica o computador na rede
+
+////////////////////////==////////////////////////////////////
+
+URL = Universal Resource Locator
+
+ é o sistema de endereçamento usado pelos browsers para localizar redes, computadores e arquivos na Internet.
+
+Um URL especifica:
+
+
+ Protocolo a ser usado para acessar o arquivo.
+ Endereço do servidor.
+ Nome do arquivo no servidor

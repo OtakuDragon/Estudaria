@@ -1,0 +1,111 @@
+Mapeando a navegação de paginas
+
+Apos criar as classes backing bean e
+construir as paginas jsf é necessario definir
+a navegação das paginas.
+
+a navegação é baseada nas strings
+retornadas por metodos de backing
+beans
+
+e pode ser definida de duas maneiras xml e implicitamente
+
+======================================================
+Definindo a navegação por xml
+
+para a navegação xml um arquivo faces-config.xml deve ser criado
+dentro de web-inf
+
+<?xml version="1.0"?>
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
+
+<!-- Define uma regra de navegação uma aplicação pode ter varias -->
+<navigation-rule>
+	<!-- Define de qual pagina se aplicara este redirecionamento "*" significa que este caso se aplica a todas as paginas -->
+	<!-- poderia ser por exemplo /nomeDaPagina.xhtml-->
+	<from-view-id>*</from-view-id>
+		
+		<!-- Esta tag define para que pagina redirecionar dependendo do retorno do metodo de backing bean -->
+		<!-- para aquele link ou botão da pagina -->
+		<navigation-case>
+			<!--Se o valor da string retornada pelo metodo for igual a: -->
+			<from-outcome>sucesso</from-outcome>
+			<!-- ir para pagina: -->
+			<to-view-id>/mostraUsuario.xhtml</to-view-id>
+		</navigation-case>
+
+	
+		<navigation-case>
+			<from-outcome>cadastro</from-outcome>
+			<!-- Tambem é possivel utilizar condicionais por meio da UEL-->
+			<if>#{usuarioBean.email ne ""}</if>
+			<to-view-id>/usuarioComEmail.xhtml</to-view-id>
+		</navigation-case>
+
+
+</navigation-rule>
+
+</faces-config>
+
+==========================================================
+Definindo a navegação implicita
+
+Na navegação implicita o arquivo faces-config pode não
+existir, mas se existir terá preferencia caso o mesmo
+endereço esteja definido nele
+
+Na navegaçaõ implicita a pagina de destino do redirecionamento
+será a que tiver o nome igual a string retornada pelo metodo
+no managed bean
+
+alem de metodos é possivel definir o caminho diretamente em command botões 
+ou links no valor action
+
+e em botões e links comuns no atributo outcome
+
+ex:
+
+//Command
+
+<h:commandButton value ="Página1" action ="pagina1"/>
+
+//Comum
+
+<h:link outcome ="pagina1">
+
+//metodo da backing bean
+
+public String novo(){
+			
+	//operação
+			
+			
+	return "pagina1";//o nome pode referenciar diretorios ou extensões caso seja necessario como /pages/pagina1.xhtml
+			//se um <from-outcome>pagina1</from-outcome> existir em um faces-config a pagina redirecionada
+			//será a definida em  <to-view-id>
+
+
+
+}
+
+<h:commandLink action="#{usuarioBean.novo}"  value="novo cadastro" />
+
+//redirecionará para a pagina
+
+pagina1.xhtml //que será interpretada como jsf
+
+-----------------------------------------------------------
+Observações
+
+*Se o metodo do backing bean returnar null a pagina atual será recarregada
+
+*Quando o caminho é definido começando com / significa q é apartir da pasta root
+ ou seja web content quando o caminho começa sem / significa apartir do diretorio atual
+
+*Em caso de acesso a paginas em pastas a root é webcontent dai se
+ webcontent possuir um diretorio de paginas chamado publico o metodo do
+ backing bean deverá retornar a string "/publico/pagina"
+

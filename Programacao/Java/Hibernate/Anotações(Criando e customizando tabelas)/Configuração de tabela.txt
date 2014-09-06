@@ -1,0 +1,100 @@
+Configuração de tabela
+
+as anotações abaixo modificam os padrões de criação 
+de tabelas do hibernate
+
+=======================================================
+@Column 
+
+A anotação @Column pode ser adicionada
+acima de um atributo ou no seu metodo getter
+e ela configura como a coluna será gerada na
+tabela para aquele atributo
+
+*no caso de um atributo @Id a tag @Column
+ vem depois da anotação @Id
+
+Propriedades:
+
+name - Define o nome da coluna na tabela
+       se não for definida será o proprio nome do atributo
+
+nullable - define se a coluna poderá ser NULL ou deverá ser NOT NULL
+           seu valor é um boolean
+
+ex:
+
+@Id
+@Column(name="NomeDaColuna",nullable="false")
+private int UserID;
+
+-----------------------------------------------------
+@Table
+
+Anotação que configura as caracteristicas
+da tabela criada apartir da entidade(classe)
+deve estar posicionada após a anotação @Entity
+e antes da declaração da classe
+
+Propriedades:
+
+name - Define o nome da tabela gerada apartir da entidade
+
+@Entity
+@Table(name="NomeDaTabela")
+public class User {
+
+//criará uma tabela com o nome da 
+//definido no atributo name
+
+
+}
+   
+----------------------------------------------------
+@Transient
+
+O hibernate por padrão não criará colunas na tabela
+para atributos estaticos ou com o modificador transient
+
+para dizer ao hibernate para ignorar um atributo também
+é possivel adicionar a anotação @Transient sobre ele  
+
+ex:
+
+@Transient
+private int userId;  
+
+
+-------------------------------------------------------
+@Temporal
+
+No caso de objetos do tipo Date por padrão o hibernate
+armazena o timestamp completo com data e hora caso
+deseje modificar este comportamento a tag @Temporal
+deve ser usada ele recebe como valor constantes que 
+dizem o que salvar do objeto
+
+
+@Temporal(TemporalType.DATE)
+public Date data1; //salvará na tabela somente a data do objeto date
+
+@Temporal(TemporalType.TIME)
+public Date data2;//salvará na tabela somente a hora do objeto date
+
+@Temporal(TemporalType.TIMESTAMP)
+public Date data2;//(padrão)salvará na tabela a data e a hora do objeto date
+
+---------------------------------------------------------
+@Lob
+
+Por padrão o hibernate define o tamanho de uma string
+para 255 caracteres no maximo caso seja necessário
+armazenar uma string maior do que isso é necessario
+utilizar a anotação @Lob que significa large object
+
+e tambem pode ser usado em arrays de byte
+
+ex:
+
+@Lob
+private String livroGrande;

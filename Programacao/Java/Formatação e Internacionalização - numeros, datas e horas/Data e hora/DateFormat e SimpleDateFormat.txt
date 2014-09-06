@@ -1,0 +1,68 @@
+Formatando as horas e datas
+
+Data padrão
+
+O objeto Date pro padrão tem o formato
+
+Thu Mar 28 14:49:17 BRT 2013; // Dia_Da_Semana_Abreviado Mes_Abreviado Dia_Do_Mes Hora_Min_Seg Timezone Ano
+
+Para formatar isso usa-se as seguintes classes
+
+
+
+Classe DateFormat
+
+A Classe DateFormat possui três construtores
+
+DateFormat f = DateFormat.getDateInstance();//ira formatar a data padrão para somente dia/mês/ano
+
+
+DateFormat f = DateFormat.getTimeInstance();//ira formatar a data padrão para somente hora:min:seg
+
+
+DateFormat f = DateFormat.getDateTimeInstance();//ira formatar a data padrão para dia/mes/ano hora:min:seg
+
+//Cada construtor desses pode receber como parametro um valor que define
+//se a data sera escrita por extenso, mais resumida ou completamente resumida
+//e um locale
+
+//os parametros são
+
+DateFormat.FULL//formato mais extenso
+DateFormat.LONG
+DateFormat.MEDIUM
+DateFormat.SHORT//formato mais resumido
+
+uso: 
+
+DateFormat f = DateFormat.getDateInstance(DateFormat.FULL);
+
+--------------------------------------------------------------------------------------------------------
+
+para formatar um objeto Date usa-se o metodo format()
+ele recebe um parametro Date e retorna a String da data formatada
+
+f.format(Date data);//ira formatar de acordo com o construtor
+
+--------------------------------------------------------------------------------------------------------
+
+A classe DateFormat possui um metodo que recebe
+uma string e tenta converte-la a um objeto Date
+o metodo parse(), ela jogara ParseException se não for possivel a conversão
+
+Date dez = f.parse("10/10/2010");
+
+===========================================================================================================
+
+Classe SimpleDateFormat
+
+A classe SimpleDateFormat pode ser instanciada
+normalmente e recebe como parametro uma String pattern
+que será a formatação desejada da data, uma lista de caracteres
+para a construção desse patern consta na documentação
+
+uso:
+
+SimpleDateFormat sdf = new  SimpleDateFormat ("dd/MM/yyyy");//Este é um tipo de pattern
+
+//esta classe possui os metodos format() e parse() tambem

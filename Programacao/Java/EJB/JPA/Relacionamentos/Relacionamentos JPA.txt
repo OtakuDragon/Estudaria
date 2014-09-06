@@ -1,0 +1,13 @@
+Relacionamentos
+
+Relacionamentos em ORM nada mais são do que
+referencias a entidades dentro de entidades, e no 
+mundo relacional são tratados como chaves estrangeiras
+
+existem 4 tipos de relacionamento em ORM:
+
+@OneToOne       - 1..1
+@OneToMany     - 1..*
+@ManyToOne     - *..1
+@ManyToMany   - *..*
+=======================================

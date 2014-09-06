@@ -1,0 +1,34 @@
+Imagens
+
+Deixe sua pagina HTML mais bonita
+coloque imagens nela.
+
+
+================================================================================
+A tag <img> 
+
+Adiciona uma imagem ao site (formatos possiveis: .jpg .gif .png)
+
+gif = 256 cores, pode ter o fundo transparente para se adaptar ao background da pagina, não há perda
+
+jpg = 16 milhões de cores fundo não transparente, ha um perda na imagem pq há uma compactação para o uso pela pagina
+
+
+---------------------------------------------------------------------------------------
+Atributos de <img>:
+
+src - Source, Local aonde se localiza a imagem
+
+alt - Texto que aparece caso a imagem não seja carregada
+
+title - Descrição da imagem quando o cursor esta em cima dela
+
+width - Largura da imagem em pixels
+
+height - Altura da imagem em pixels
+
+Align - posiciona a imagem na tela pode receber top, middle, bottom, left e right seu default é bottom
+
+exemplo de uso:
+
+<img src="imagem.jpc" alt="error" title="it's a puppy" width="800" height="600" align="left">

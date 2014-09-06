@@ -1,0 +1,13 @@
+Bliblioteca
+
+<time.h> //para usar srand.
+
+srand(time(NULL));// ele randomiza de acordo com o horário do pc, para q os numeros aleatorios tenham sempre uma sequencia diferente.
+
+Código:
+variavel = rand();
+Isso vai randomizar números muito grande. Então a melhor maneira é você colocar um mod, de modo que ele defina um limite. Se você quiser os 10 primeiros em uma variável e os 30 primeiros em outra, você faz:
+
+Código:
+variavel1 = rand() % 10;   // até < 10.
+variavel2 = rand() % 30;  // até < 30.

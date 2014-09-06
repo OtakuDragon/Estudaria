@@ -1,0 +1,119 @@
+Manipulação de atributos com jQuery
+
+Com o jQuery é possivel adicionar,modificar,definir e recuperar
+atributos, classe e propriedades dos elementos HTML
+
+===========================================================
+Atributos
+
+Recupera o atributo:
+
+$("elemento").attr("nome");
+
+Define o atributo:
+
+$("elemento").attr("nome","valor");
+
+Remove o atributo:
+
+$("elemento").removeAttr("nome");
+
+
+ex:
+
+$("#minhaImagem").attr("src","img/outraImagem.jpg");
+
+---------------------------------------------------------------
+
+Propriedades
+
+Adiciona uma propriedade:
+
+$("elemento").prop("nome","valor");
+
+Recupera uma propriedade:
+
+$("elemento").prop("nome");
+
+Remove um atributo:
+
+$("elemento").removeProp("nome");
+
+============================================================
+Manipulação de CSS
+
+recuperando propriedades CSS
+
+$("elemento").css("height");
+
+Definindo propriedades CSS
+
+$("elemento").css("height","500px");
+
+ou
+
+$("elemento").css({width:"300px",height:"300px"});
+
+
+--------------------------------------------------------
+Classe
+
+Adiciona classe:
+
+$("elemento").addClass("nome");
+
+Verifica se possui determinada classe:
+
+$("elemento").hasClass("nome");
+
+Remove Classe:
+
+$("elemento").removeClass("nome");
+
+Adiciona se não possuir ou remove se ja possuir:
+
+$("elemento").toggleClass("nome");
+
+-------------------------------------------------------------
+Largura e altura
+
+$("elemento").width(); //recupera a largura do elemento em si
+
+$("elemento").innerWidth(); //recupera a largura do elemento + padding
+
+$("elemento").outerWidth(); //recupera a largura do elemento + padding + border
+
+$("elemento").outerWidth(true); //recupera a largura do elemento + padding + border + margin
+
+O mesmo funciona para height
+
+----------------------------------------------------------------
+Posicionamento
+
+$("elemento").position(); //possui dois atributos .top e .left que retornam ou definem
+                          //o numero de pixels de distancia naquela direção o elemento está
+			  //com relação ao elemento-pai
+
+$("elemento").offset(); //possui dois atributos .top e .left que retornam ou definem
+                        //o numero de pixels de distancia naquela direção o elemento está
+                        // com relação ao documento
+
+ex:
+
+$("elemento").position().top;
+
+$("p:last").offset({top:10,left:30});
+
+--------------------------------------------------------------------
+Rolamento
+
+$("elemento").scrollLeft(); //Retorna ou define numero de pixels que a barra e rolamento do elemento esta para a direita
+
+$("elemento").scrollTop(); //Retorna ou define numero de pixels que a barra e rolamento do elemento esta para baixo
+
+ex:
+
+$("elemento").scrollTop(300);
+
+
+

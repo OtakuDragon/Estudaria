@@ -1,0 +1,33 @@
+Element image
+
+O elemento image representa a tag html <img> 
+e possui como atributos todos os atributos 
+e metodos de node alem dos seus proprios atributos HTML
+e alguns eventos proprios da DOM HTML API
+
+
+
+=============================================
+Atributos de image
+
+image.align	//Sets or returns the value of the align attribute of an image	
+image.alt	//Sets or returns the value of the alt attribute of an image	
+image.border	//Sets or returns the value of the border attribute of an image	
+image.complete	//Returns whether or not the browser is finished loading an image	
+image.height	//Sets or returns the value of the height attribute of an image	
+image.hspace	//Sets or returns the value of the hspace attribute of an image	
+image.longDesc	//Sets or returns the value of the longdesc attribute of an image	
+image.lowsrc	//Sets or returns a URL to a low-resolution version of an image	
+image.name	//Sets or returns the name of an image	
+image.src	//Sets or returns the value of the src attribute of an image	
+image.useMap	//Sets or returns the value of the usemap attribute of an image	
+image.vspace	//Sets or returns the value of the vspace attribute of an image	
+image.width	//Sets or returns the value of the width attribute of an image	
+	
+
+================================================
+Eventos de image
+
+image.onabort	//Loading of an image is interrupted	
+image.onerror	//An error occurs when loading an image	
+image.onload	//An image is finished loading	

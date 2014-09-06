@@ -1,0 +1,56 @@
+Logging
+
+Monitorar o que o programa esta fazendo ou quais resultados
+ele gera por meio de mensagens
+
+=======================================================================
+System.out e System.err
+
+são uma maneira simples de utilizar logging mas
+que possuem algumas desvantagens:
+
+* Falta de flexibilidade - não é possivel alterar o comportamento do logging
+			  sem mexer no codigo
+
+* Mensagens sempre no mesmo destino.
+
+* Não há como destivar o logging em alguns casos - ou mostra tudo ou não mostra nada
+
+* Não há uma formatação especial
+
+=========================================================================
+Algumas APIs
+
+Java Logging API
+
+*Incluida no JDK
+
+* Muito simples
+
+* Exige esforço de programação para customiza-la
+
+----------------------------------------------------------------
+Apache Commons Logging (JCL)
+
+serve como uma camada entre o codigo e uma API de logging
+para a mais facil migração para outras APIs de logging
+
+----------------------------------------------------------------
+Log4j
+
+* API muito Difundida 
+
+* Permite bastante flexibilidade
+
+* Possuia alguns defeitos e seus desenvolvimento desacelerou
+
+----------------------------------------------------------------
+SLF4J
+
+* SLF4J surgiu aproveitando a falta de atualizações e defeitos do log4J
+
+* corrigiu defeitos do log4j e utiliza os mesmos conceitos
+
+* SLF4J assim como JCL é apanas uma camada ela precisa de uma API de logging qualquer
+  para trabalhar junto com ela e é ai que entra o Backlog uma API de logging
+  criada pelos mesmos desenvolvedores de SLF4J.

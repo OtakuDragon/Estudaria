@@ -1,0 +1,75 @@
+Constantes em C++
+
+Existem 3 maneiras de se declarar
+constantes em C++
+
+=====================================
+1º #define
+
+#define cria uma constante com apenas
+nome e valor e não define um tipo por isso
+não é aconselhavel o uso desta declaração
+
+sintaxe:
+
+#define nomeDaConstante valor
+
+ex:
+
+//sem ;
+
+#define HORAS_DIA 24
+
+=====================================
+2º const
+
+const cria uma constante com um tipo
+definido e é a declaração mais indicada
+para constantes individuais
+
+sintaxe:
+
+const float PI = 3.1415;
+
+=====================================
+3º enum
+
+Uma enumeração se trata de um conjunto
+de constantes identificadas por um indice inteiro
+
+sintaxe:
+
+enum NomedaEnumeração{
+
+constante1 = indice,
+constante2 = indice2,
+constante3 = indice3
+
+
+}
+
+//Se o indice não for definido será atribuido o indice padrão de 0,1,2 etc
+//se apenas um indice for definido as constantes posteriores a este indice terão seu indice = indice anterior++
+
+-------------------------------------------
+ex:
+
+enum DiasDaSemana{
+
+Segunda = 100,
+Terca, //indice 101
+Quarta,//indice 102
+Quinta,//indice 103
+Sexta = 200,
+Sabado,//indice 201
+Domingo//indice 202
+
+
+}
+
+//recuperando um valor
+
+DiasDaSemana variavel = DiasDaSemana(102);//retorna Quarta note que a enum se torna um tipo de dado
+
+//o valor de impressão de variavel é 102 e a comparação de variavel com Quarta é igual a true
+

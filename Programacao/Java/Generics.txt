@@ -1,0 +1,94 @@
+Generics
+
+Generics é o metodo java de parametrizar tipos de dados
+
+
+===============================================================================================
+
+Parametrizando tipos de dados em classes
+
+Uso:
+
+
+class Generica <E>{//A letra E neste caso pode ser qualquer nome definido pelo programador mas geralmente são nomes curtos
+
+	E dadoGenerico;// Esta variavel tera o tipo de dado passado na hora da instanciação do objeto
+
+
+		public void setDadoGenerico(E dadoGenerico){
+
+			this.dadoGenerico = dadoGenerico;
+
+
+		}
+
+
+		public E getDadoGenerico(){
+
+
+			return this.dadoGenerico;
+
+
+
+		}
+
+	public static void main(String[] args){
+
+
+		Generica<int> numero = new Generica<>();
+		
+		numero.setDadoGenerico(5);//define o tipo de dadoGenerico como int e seu valor como 5
+		numero.getDadoGenerico();//retorna o inteiro dadoGenerico
+
+	}
+
+}
+
+=========================================================================================================
+Wild Card
+
+wild card (<?>) é utilizado para dar uma flebilidade maior na parametrização
+sem ele o tipo de dado aceito é somente o definido na hora da instanciação com ele
+pode ser:
+
+public double soma(ArrayList<?> lista){
+
+//aceita ArrayList de qualquer tipo de dado
+
+
+}
+
+
+public double soma(ArrayList<? extends Number> lista){
+
+//Este metodo pode receber ArrayLists de qualquer tipo que herda de Number(number é só um exemplo)
+//extends tambem vale como implements no wild card
+//no caso de um coleção a wild card com extends restringe ela a somente leitura
+//ou seja não é possivel alterar a coleção
+
+
+} 
+
+public double soma(ArrayList<? super Number> lista){
+
+//Este metodo pode receber ArrayLists de qualquer tipo que Number herda
+
+//nesse caso é possivel modificar o arraylist mas é necessario tratar
+//lista como um Object e realizar o cast para o tipo desejado
+
+
+
+} 
+
+=====================================================================================================
+
+Parametrizando tipos de dados em metodos
+
+A variavel que representa o nome do tipo de dado
+parametrizado vem logo antes o tipo de retorno do metodo
+
+public <E> void nomeDoMetodo(E variavel){
+
+
+
+}

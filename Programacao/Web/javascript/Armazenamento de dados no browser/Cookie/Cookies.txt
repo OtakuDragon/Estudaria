@@ -1,0 +1,54 @@
+Cookies
+
+Cookie é um atributo de document que consegue
+armazenar dados no browser mesmo após ele ser fechado
+por um determinado tempo
+
+=====================================================
+Algumas limitações
+
+*Cada dominio pode apenas possuir 20 cookies
+*Um cookie pode armazenar no maximo 4kb de informação
+*Cookies podem ser desativados ou apagados a qualquer momento pelo usuario
+
+=======================================================
+Criando um novo cookie
+
+A sintaxe de criação de um cookie é bastante especifica
+e rigida, possui um nome e um valor, uma data de expiração de um
+caminho indicando aonde o cookie é valido "/" significa q é valido para
+todo o dominio
+
+Sintaxe:
+
+document.cookie = 'myCookie=valorDoCookie; expires=Thu, 2 Aug 2001 20:47:11 UTC; path=/';
+
+*note que a data deve necessariamente estar neste formato
+*atribuir um outro valor ao objeto document.cookie desde que
+ a chave no caso myCookie seja outra não ira apagar nem sobreescrever
+ este cookie e sim adicionar mais um
+*chamar document.cookie como uma string ira imprimir todos so cookies registrados no browser
+ separados por ";"
+
+========================================================
+Ler um cookie
+
+Para ler um cookie é necessario pegar a string
+document.cookie indentificar aonde está a chave
+e então recuperar o valor por meio de metodos de manipulação de string
+
+
+===========================================================
+Remover um cookie
+
+Para remover um cookie basta criar um cookie com o mesmo nome
+de uma ja existente e definir a data de expiração dele para algum tempo
+no passado.
+
+============================================================
+Biblioteca
+
+Junto com este .txt existe um arquivo javascript com metodos
+prontos para criar,ler e excluir cookies
+
+obs: o google chrome não cria cookies de arquivos locais por padrão

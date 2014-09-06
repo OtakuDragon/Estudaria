@@ -1,0 +1,91 @@
+pom.xml
+
+Quando um projeto maven é criado
+um arquivo pom.xml tambem é criado nele
+este arquivo define as configurações do maven
+para o projeto
+
+-------------------------------------------------------
+ex:
+
+<project namespaces>
+
+
+//Identificação do projeto
+
+<name>Nome do projeto</name>
+<groupId>Nome do grupo a qual o projeto pertence</groupId>
+<artifactId>Nome que identifica o projeto</artifactId>
+<version>Versao do projeto</version>
+<packaging>Tipo de arqvuivo gerado no release do software um valor possivel é jar</packaging>
+
+//propriedades maven
+
+<properties>
+</properties>
+
+
+//dependecies são os arquivos jars necessarios para o projeto
+//como frameworks, eles são identificados como artifacts maven
+//e são adicionados ao projeto automaticamente atraves do seu download online
+//dos repositorios maven
+
+<dependecies>
+
+	<dependency>
+		<groupId>Nome do grupo a qual o projeto pertence</groupId>
+		<artifactId>Nome que identifica o projeto</artifactId>
+		<version>Versao do projeto</version>
+		
+		//A tag scope define em qual fase os jars deve estar disponiveis para
+		//o projeto o default é compile
+		<scope>compile</scope>
+	</dependecy>
+
+</dependencies>
+
+
+
+//Plugins e suas configurações
+//o maven é composto por varios plugins padrões
+//como o compiler todos estes pertencem ao grupoId org.apache.maven.plugins
+//estes plugins ja fazem parte do maven por padrão e somente precisam ser declarados
+//quando houver a necessidade de mudar configurações
+
+//novos plugins tambem podem ser adicionados ao projeto
+
+//A sintaxe de execução de comandos de plugin é a seguinte:
+// mvn nomeDoPlugin:comando
+
+<build>
+	<plugins>
+		<plugin>
+			<groupId>Nome do grupo a qual o projeto pertence</groupId>
+			<artifactId>Nome que identifica o projeto</artifactId>
+			<version>Versao do projeto</version>
+			<configuration>
+			</configuration>
+		</plugin>
+	</plugins>
+
+</build>
+
+
+</project>
+
+===============================================================================
+adicionando dependecies
+
+Quando é necessario adicionar dependecias ao projeto
+é necessario saber a identificação daquela dependecia como
+um artifact
+
+existem varios sites que pelo nome de uma api ou framework
+dizem qual é a dependecia ou dependecias necessarias para adiciona-lo
+ao projeto com o codigo da tag <dependecy>
+
+basta apenas adiciona-las ao pom.xml do projeto e compila-lo novamente
+
+Ex de site:
+
+mvnrepository.com

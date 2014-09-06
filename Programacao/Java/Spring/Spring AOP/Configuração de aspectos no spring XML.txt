@@ -1,0 +1,49 @@
+Configuração de aspectos no spring XML
+
+É possivel configurar aspectos pelo spring XML
+e ter os mesmos resultados das configurações com anotações
+
+=======================================================
+ex:
+
+//no spring.xml
+
+
+<bean name="loggingAspect" class="pacotes.LoggingAspect"/>
+
+//toda a configuração de aspectos deve ficar dentro da tag <aop:config>
+<aop:config>
+
+	//Declarando um aspect
+	//O id pode ser qualquer um 
+	//ref deve ser o nome ou id do bean da classe aspect
+	<aop:aspect id="loggingAspect" ref="loggingAspect">
+
+	//Criando um pointcut
+	//Equivale à
+	//@Pointcut("execution(* get*())")
+	//public void allGetters(){}
+	<aop:pointcut id="allGetters" expression="execution(* get*())" />
+
+	//Anotando um advice
+	//Existem anotações para todos os tipos de advice(before,after,etc.)
+	//o atributo method recebe o nome do metodo sem "()" o qual representa o advice
+	//neste caso a classe LoggingAspect possui um metodo myAroundAdvice()
+
+	//o atributo pointcut recebe a expressão pointcut diretamente tambem pode ser
+	//usado o atrubto pointcut-ref que recebe o id de uma tag <aop:pointcut>
+	//para executar o codigo dequele pointcut, no caso abaixo seria pointcut-ref="allGetters"
+	<aop:around pointcut="execution(* get*())" method="myAroundAdvice">
+
+	
+	//Equivale à
+	//@Before("args(param1.param2)")
+	//public void myAroundAdvice2(String param1,String param2){//codigo}
+	<aop:before method="myAroundAdvice2" arg-names="param1,param2">
+
+
+
+	</aop:aspect>
+
+
+</aop:config>

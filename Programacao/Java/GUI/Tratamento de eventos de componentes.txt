@@ -1,0 +1,75 @@
+Eventos de componentes
+
+Cada tipo de componente possui seus tipos 
+de eventos e para cada tipo de evento existe
+um Listener especifico
+
+ActionEvent : ActionListener
+
+MouseEvent  : MouseListener
+
+WindowEvent : WindowListener
+
+KeyEvent    : KeyListener
+
+
+e todo componente possui um metodo que adiciona um Listener
+a ele para a captura de eventos
+
+add*Listener(*Listener);// * representa, Action,Mouse,Window ou Key dependendo do componente
+
+//este metodo recebe como parametro uma classe que implementa a interface Listener do componente
+//Estas interfaces possuem metodos de tratamento de evento que recebem um objeto evento,estes metodos serão executados
+//sempre que algum evento for ouvido no componente
+
+uso:
+
+public class Tratadora implements ActionListener{
+
+public void actionPerformed(ActionEvent e){//este é o metodo abstrato da interface ActionListener
+					   // ele sera chamado sempre que algum evento for ouvido no botão
+System.out.println("o botão foi clicado"); // e recebe como padrametro uma variavel ActionEvent com todas as
+					   //informações sobre o evento 
+
+}
+
+}
+
+
+No caso de um componente JButton
+
+public class teste{
+
+public void static main(String[] args){
+
+JButton botao = new JButton("botão");
+
+botao.addActionListener(Tratadora);
+
+
+}
+} 
+
+-------------------------------------------------------------------------------------------------
+
+O Objeto parametro da classe implementadora do Listener no caso acima "e"
+tera o metodo getSource(), que retorna a referencia do objeto o qual executou o evento
+o que pode ser usado para instanciar este objeto no metodo action perfomed assim:
+
+JButton b = (JButton) e.getSource();
+
+uso:
+
+public class Tratadora implements ActionListener{
+
+public void actionPerformed(ActionEvent e){
+
+if(e.getSource == botao){
+
+System.out.println("O objeto Button botao foi clicado");
+
+}
+
+  }
+
+}

@@ -1,0 +1,67 @@
+Links
+
+Links ou ancoras são hipertexto
+que levam você a algum lugar na mesma pagina
+HTML ou te levam a outra pagina HTML
+
+=========================================================================================
+A tag <a>
+
+Âncora define um link
+
+========================================================================================
+
+atributos de <a>:
+
+name  - cria uma seção interna na sua pagina que depois pode ser usada em href
+
+<a name="capitulo 1"><h2> Titulo do capitulo 1</h2></a>
+
+------------------------------------------------------------------------------
+Link interno
+
+Acessando o capitulo 1 por meio de um link na mesma pagina
+direcionara para a tag HTML que possuir o id="capitulo1"
+
+<a href="#capitulo 1"> Clique aqui para ir ao capitulo 1 </a>
+
+-----------------------------------------------------------------------------
+link externo
+
+href - Cria um link para uma outra pagina html.
+
+
+exemplo de uso:
+
+<a href="paginaDeDestino.html (ou uma url)"> Clica Eu (Texto do link ou imagem do link)</a>
+
+
+Link para e-mail
+
+<a href="mailto:nobody@html.net">Enviar e-mail para nobody em HTML.net</a>
+
+
+Definindo o titulo de um Link (texto que aparece quando o cursor esta sobre o link)
+
+<a href="http://www.html.net/" title="Visite HTML.net e aprenda HTML">HTML.net</a>
+
+Link com imagem ao inves de texto
+
+<a href="http://www.html.net"><img src="logo.png"></a>
+
+
+----------------------------------------------------------------------------
+
+target
+
+target em um link mostra ao link como ele deve ser aberto
+
+Valores para target
+
+_blank - abrir o link em uma nova janela
+
+_self - abrir o link no mesmo frame
+
+_parent - carrega a frame do frame pai (não sei como se define o frame pai)
+
+_top - carrega a pagina no frame mais alto da página

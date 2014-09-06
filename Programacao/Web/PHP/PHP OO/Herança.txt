@@ -1,0 +1,38 @@
+Herança
+
+A herança de classe no php assim como no java
+permite apenas a herança unica
+
+a palavra chave utilizada é extends
+
+=========================================
+sintaxe:
+
+class ClasseFilho extends ClassePai{
+
+//propriedades
+//funções
+
+
+
+}
+
+============================================
+Polimorfismo
+
+É possivel sobreescrever as funções
+da classe pai em uma classe filho apenas
+utilizando a mesma assinatura
+
+==========================================
+Acessando a classe pai
+
+É possível acessar os métodos sobrescritos ou membros estáticos referenciado-os com parent::
+
+ex:
+
+function displayVar()
+    {
+        echo "Classe Herdeira\n";
+        parent::displayVar();
+    }

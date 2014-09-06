@@ -1,0 +1,17 @@
+Carregando Scenes por meio de script
+
+Scenes são os leveis do jogo quando um level
+acaba é necessario iniciar o proximo isto é feito
+por meio da classe Application com o metodo estatico
+LoadLevel("nomeDaScene");
+
+===========================================
+
+ex:
+
+Application.LoadLevel("level 02");
+
+
+obs:Se algum erro ocorrer isto significa que a scene não foi encontrada
+    na build do jogo para resolver isto basta ir para a scene que você quer carregar
+    e em file>Build Settings...> add current

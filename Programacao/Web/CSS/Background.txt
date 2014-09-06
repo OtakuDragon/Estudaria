@@ -1,0 +1,72 @@
+Background
+
+todo elemento em css possui um background que é definido 
+da seguinte forma, os bakgrounds por padrão tem a cor definida
+como transparente
+
+--------------------------------------------------------------------
+
+Cor do background
+
+Propriedade background-color
+
+valores de background-color
+
+background-color:nome de uma cor; // algumas cores ja possuem um nome definido como background-color:black;
+
+background-color:#RRGGBB; // RR = valor hexadecimal de red de 00 a FF,GG = valor hexadecimal de green de 00 a FF, BB = valor hexadecimal de blue de 00 a FF
+
+background-color:rgb(R,G,B); // R = valor decimal de Red de 0 a 255, G = valor decimal de Green de 0 a 255, B = valor decimal de Blue de 0 a 255, pode ser tambem em porcentagem
+
+*Estes valores tambem são validos para a propriedade color que define a cor do foreground de um elemento
+
+====================================================================================================================
+
+Imagem de background
+
+É possivel definir uma imagem para o background com o uso da propriedade 
+
+backgroud-image:url("endereço da imagem");
+
+-----------------------------------------------------------------------------------------------------------
+background-repeat
+
+A propriedade background-repeat define se e como a imagem de background deve ser repetida
+
+valores de background-repeat
+
+background-repeat:no-repeat; //Define a não repetição da imagem
+
+background-repeat:repeat; //repete a imagem para ocupar todo os espaço do background valor padrão
+
+background-repeat:repeat-x; //repete a imagem somente no eixo x
+
+background-repeat:repeat-y; //repete a imagem somente no eixo y
+
+-------------------------------------------------------------------------------------------------------------
+background-attachment
+
+Define como a imagem de background deve interagir com o background
+
+valores de background-attachment
+
+background-attachment:scroll; //faz a imagem começar dentro do conteiner definido
+
+background-attachment:fixed;//faz a imagem tentar se adaptar ao background que esta atrás
+
+-------------------------------------------------------------------------------------------------------------
+background-position
+
+Define a posição da imagem no background caso a imagem seja menor que o background e 
+não haja repetição
+
+valores de background-position
+
+background-position:right,center,left top,center,bottom; //exemplo background-position:right bottom; posiciona a imagem no canto inferior direito do background
+
+background-position:x% y%;//exemplo background-position:50% 50%; posiciona a imagem no centro
+
+background-position:xpx ypx;//exemplo background-position:20px 40px; posiciona a imagem nesta posição pode usar qualquer unidade de medida
+
+
+

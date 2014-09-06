@@ -1,0 +1,116 @@
+Pseudo seletores e classes
+
+São atributos especiais dados a seletores para
+identificar o uso em situações especiais como no foco
+de um campo de texto, no clique de um link..
+
+Sintaxe:
+
+seletor:pseudo-elemento{
+
+	propriedade:valor;
+
+}
+
+ou
+
+seletor.classe:pseudo-elemento{
+
+	propriedade:valor;
+
+}
+
+//este só sera utilizado se o componente tiver aquele atributo classe
+//o seletor não é obrigatorio
+
+======================================================================
+
+Pseudo-elementos e Pseudo-classes
+
+Pseudo-classes de links <a>
+
+
+:link - seleciona todos os links ainda não clicados
+
+:visited - seleciona todos os links ja clicados
+
+:active - seleciona o link quando esta sendo clicado
+
+:hover - seleciona o link quando o mouse esta em cima dele funciona em <label> tambem
+
+---------------------------------------------------------------------
+
+Pseudo-classes de <input>
+
+:focus - seleciona o input quando ele possui o foco
+
+-----------------------------------------------------------------------
+
+Pseudo-elementos de <p> e <hx> ou outros
+
+:first-letter - seleciona a primeira letra do paragrafo
+
+:first-line - seleciona a primeira linha do paragrafo
+
+:first-child - seleciona a primeira tag filha
+
+:before - insere conteudo antes da tag conteudo são inseridos pelo css atraves da propriedade content que recebe um "texto" ou uma url(imagem.gif);
+
+:after - insere conteudo depois da tag 
+
+==========================================================================
+
+ex:
+
+
+input.classe1:focus {
+
+	propriedade:valor;
+
+
+}
+
+//adicionara as propriedades quando o seguinte campo de input for focado
+//<input type="text" class="classe1">
+
+ex2:
+
+#id1:link {
+
+	color:#0C0;
+	
+
+	
+	}
+
+//mudara a cor do seguinte link enquanto ele não for ativado
+//<a href="exemplo.html" id="id1"> LINK </a>
+
+==================================================================
+
+Regrinhas
+
+Note: a:hover MUST come after a:link and a:visited in the CSS definition in order to be effective!!
+
+Note: a:active MUST come after a:hover in the CSS definition in order to be effective!!
+
+Note: Pseudo-class names are not case-sensitive.
+
+===================================================================
+Efeitos de menu e escondendo elementos
+
+é possivel se utilizar os eventos destes pseudos elementos e classes
+para esconder certos elementos no codigo com a propriedade
+
+display:none;
+
+e supondo que você quer mostrar um elemento somente quando outro elemento
+esta sendo hover
+
+ul:hover > ul{
+	display;block; //block para elementos em bloco e inline para elementos inline
+			//este codigo faz uma segunda lista aparecer somente quando a lista
+			//pai dela esta sendo hovered
+
+
+}

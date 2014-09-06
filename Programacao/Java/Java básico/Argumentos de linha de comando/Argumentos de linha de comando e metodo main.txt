@@ -1,0 +1,24 @@
+Metodo main
+
+Metodo que indica aonde o programa começa 
+cada programa só possui um
+
+public static void main (String[] args){
+
+
+
+}
+
+* o metodo main é chamado pela JVM e pode receber argumentos 
+   separados por espaço e recupera-los dentro do programa no array de strings args[]
+
+==========================================================================
+Argumentos de linhas de comando no eclipse
+
+No botão run vá na setinha
+
+escolha run configurations...
+
+arguments
+
+program arguments

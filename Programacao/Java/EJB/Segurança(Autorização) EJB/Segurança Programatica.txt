@@ -1,0 +1,40 @@
+Segurança Programatica
+
+A Segurança programatica do EJB, nos permite validar
+as autorizações do usuário dentro do codigo, e só deve
+ser utilizada quando realmente necessario ou seja para
+realizar algo que a segurança declarativa não pode fazer.
+
+================================================
+Utilizando segurança programatica
+
+Atraves da utilização de segurança programatica
+nós não precisamos definir um @SecurityDomain como
+na segurança declarativa.
+
+A funcionalidade de segurança programatica é composta
+por dois metodos que são econtrados no EJB Context:
+
+context.getCallerPrincipal().getName() - Geralmente retorna o nome de usuário do usuário logado, mas o seu
+					 retorno pode diferir de implementação para implementação
+
+context.isCallerInRole(String role) - Recebe uma String e compara o role do usuário que chamou o metodo
+				      com ela, e retorna um booleano dizendo se o usuário possui aquele role ou não
+ex:
+
+@Override
+public void acaoADM() {
+	if(context.isCallerInRole("ADMIN")){
+		System.out.println("Realizei ação ADM!");
+	}else{throw new Exception("Acesso Negado!");}
+}
+
+=======================================================
+Boa prática - interceptors
+
+Como podemos observar a segurança programatica funciona apenas
+comparando o usuário com roles em ifs, fazer isso constantemente
+pode poluir o codigo, portanto aconselha-se que se houver a necessidade
+deste tipo de validação de autorização que ela seja feita em interceptadores
+
+

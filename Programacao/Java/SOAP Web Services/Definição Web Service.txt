@@ -1,0 +1,15 @@
+Definição Web Service
+
+Web service é a tecnologia que permite uma aplicação
+em um determinado servidor utilizar serviços(chamar metodos)
+de outra aplicação definida como web service em outro servidor
+desde que eles estejam em uma mesma rede.
+
+A diferença entre um web site e um web service é que
+o web site é utilizado pelo usuário e o web service
+é utilizado por aplicações
+
+
+web services possuem interoperabilidade entre linguagens
+o que significa que uma aplicação .net pode utilizar um
+web service java e utilizar o seu retorno sem nenhum problema

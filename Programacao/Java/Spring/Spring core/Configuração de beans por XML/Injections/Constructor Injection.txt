@@ -1,0 +1,41 @@
+Declaração de bean com definição de valores dos atributos
+por construtor(Constructor Injection) 
+
+Tambem é possivel atribuir valores aos atributos de um objeto utilizando
+seus construtores,esta forma não exige que o atributo possua um setter
+mas obriga a classe a possuir pelo menos um construtor
+
+==========================================================================
+ex:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans> 
+	<bean id="triangle" class="shapesPack.Triangle">
+		<!-- Cada parametro parametro passado para o construtor é definido em uma tag constructor-arg -->
+		<!-- aonde o index é a posição do parametro no construtor -->
+		<!-- e value é o valor para aquele parametro -->
+
+		<constructor-arg index="0" value="Equilateral" />
+		<constructor-arg index="1" value="200" />
+
+		<!-- tambem é possivel identificar o parametro do construtor com o atributo type
+		     que recebe o nome da classe ou primitivo do tipo de dado do parametro -->
+	</bean>
+
+
+</beans>
+
+-----------------------------------------------------------------------
+Construtor da classe Triangle para o exemplo acima
+
+//note que o construtor abaixo recebe dois parametros
+//type(index 0) e height(index 1)
+
+public Triangle(String type,int height){
+
+	this.type=type;
+	this.height=height;
+
+
+}

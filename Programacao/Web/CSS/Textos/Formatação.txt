@@ -1,0 +1,35 @@
+Formatação
+
+
+Espaçamentos:
+
+
+letter-spacing:2em; //Define a distancia entre as letras
+
+word-spacing:2em; //Define a distancia entre as palavras
+
+line-height:1;//Define a distancia entre as linhas e tem como base o font-size
+
+text-indent:5px; //define a distancia do espaçamento na primeira linha do paragrafo
+
+---------------------------------------------------------------------------------
+
+text-align:valor; //define o alinhamento do texto
+
+Valores de text-align
+
+text-align:left; //é o valor padrão de texto à esquerda
+
+text-align:right; //alinha o texto a direita
+
+text-align:center; //centraliza o texto
+
+text-align:justify; //alinha o texto igualmente
+
+
+---------------------------------------------------------------------------------
+
+para elementos inline:
+
+vertical-align:sub ou sup;//define o alinhamento vertical de uma palavra na linha
+

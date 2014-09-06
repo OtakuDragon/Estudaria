@@ -1,0 +1,126 @@
+FacesEvent
+
+Os FacesEvent são dividido em dois tipos ActionEvent e ValueChangeEvent.
+
+------------------------------------------------------------------------------------
+ActionEvent
+
+Um ActionEvent é gerado quando um botão ou link
+é pressionado pelo usuário. Métodos de um managed bean podem
+ser associados a esses eventos.
+
+Para associar métodos de um managed bean a um ActionEvent,
+podemos utilizar os atributos action ou actionListener dos
+componentes <h:commandButton> e <h:commandLink> 
+
+
+O atributo action deve estar associado com um metodo no managed
+bean que retorna string ou void e, é utilizado para executar
+uma regra de negocio
+
+*Ordem de execução 1º metodo do atributo actionListener 2º metodos das tags f:actionListener 3º o metodo do atributo action
+
+*Os metodos dos eventos ActionEvent são executados na fase InvokeApplication
+ do JSF
+
+ex:
+
+<h:commandButton value ="Salva" action ="#{produtoBean.salva}"/>
+
+@ManagedBean
+public class ProdutoBean {
+ private Produto produto = new Produto();
+ private List <Produto> produtos = new ArrayList <Produto>() ;
+
+ public String salva() {
+ this.produtos.add(this.produto);
+ this.produto = new Produto();
+ return "lista-produtos";
+ }
+}
+
+O atributo actionListener deve estar associado a um metodo no managed
+bean que retorna void e recebe ActionEvent como parametro e deve realizar
+operações que modificam a interface do usuário
+
+<h:commandButton value ="Clique Aqui" actionListener ="#{cliqueBean.mudaTexto}"/>
+
+@ManagedBean
+public class CliqueBean {
+ public void mudaTexto(ActionEvent e) {
+ UICommand c =(UICommand) e.getComponent();
+ c.setValue ("Clicado");
+ }
+}
+
+
+Podemos tambem utilizar a tag f:actionListener para
+adicionar varios eventos a um input a tag f:actionListener
+recebe o fully qualified name da classe que implementa a interface
+javax.faces.event.ActionListener, este classe define o metodo
+public void processAction(ActionEvent e) que contem o codigo a ser
+executado quando o evento acontece
+
+ex:
+
+<h:commandLink value ="Enviar" action = ...">
+ <f:actionListener type ="eventos.actionListeners.MudaCorDaFonte"/>
+</h:commandLink >
+
+package eventos.actionListeners;
+
+public class MudaCorDaFonte implements ActionListener{
+@Override
+public void processAction (ActionEvent e){
+
+UICommand c = ( UICommand ) e. getComponent ();
+c. getAttributes().put("style","color:red;");
+
+}
+}
+
+----------------------------------------------------------------------------------
+ValueChangeEvent
+
+Um ValueChangeEvent é produzido quando o valor de uma caixa de texto ou a opção de uma
+caixa de seleção são alterados. Podemos associar métodos de um managed bean a esses eventos.
+
+Tais métodos devem receber um parâmetro do tipo ValueChangeEvent e serem públicos. Para estabelecer
+essa associação, podemos utilizar o atributo valueChangeListener das caixas de texto ou de
+seleção ou a tag <f:valueChangeListener>.
+
+*ordem de execução 1º metodo do atributo valueChangeListener 2º metodos das tags f:valueChangeListener na ordem
+
+*Os metodos dos eventos ValueChangeEvent são executados na fase ProcessValidations
+ do JSF
+
+ex:
+
+<h:outputLabel value ="Preço :" for ="preco" />
+<h:inputText valueChangeListener="#{produtoBean .mudaPreco}" id="preco" />
+
+@ManagedBean
+public class ProdutoBean {
+public void mudaPreco (ValueChangeEvent e){
+System.out.println ("Preço antigo :" + e. getOldValue());
+System.out.println ("Preço novo :" + e. getNewValue());
+}
+}
+
+ex tag:
+
+<h:outputLabel value ="Preço :" for ="preco" />
+<h:inputText id=" preco ">
+<f:valueChangeListener type ="eventos.valueChangeEvent.RegistraAlteracao" />
+</h:inputText>
+
+
+package eventos.valueChangeEvent;
+
+ public class RegistraAlteracao implements ValueChangeListener {
+@Override
+ public void processValueChange (ValueChangeEvent e) {
+ System.out.println ("Preço antigo : "+ e. getOldValue ());
+ System.out.println ("Preço novo : "+ e. getNewValue ());
+ }
+}

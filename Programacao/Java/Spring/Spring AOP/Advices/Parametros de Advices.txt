@@ -1,0 +1,104 @@
+Parametros de Advices
+
+Advices tambem podem receber parametros,por meio destes
+parametros o advice consegue informações sobre o metodo
+ao qual se aplica como:
+
+- objeto que chamou o metodo
+
+- valor dos parametros do metodo
+
+- etc.
+
+===========================================================
+JoinPoint
+
+Um advice pode receber como parametro um objeto
+JoinPoint, um JoinPoint representa a entidade a qual
+o advice se aplica.
+
+no caso do Spring AOP JoinPoints somente podem
+ser metodos ou seja o objeto JoinPoint representa o metodo
+no Spring 
+
+este objeto é passado para o advice no momento em que ele é chamado
+pelo spring
+
+ex:
+
+@Before("public void metodo()")
+public void advice(JoinPoint joinPoint){
+
+
+//Um metodo importante de joinPoint esta expresso abaixo
+//ele retorna uma referencia ao objeto que invocou o metodo
+//ao qual este advice esta inserido
+
+//o retorno é do tipo Object mas o cast é possivel para recuperar
+//o objeto na sua classe de origem
+
+Object obj = joinPoint.getTarget();
+
+
+}
+
+============================================================
+Recuperando os parametros de um metodo pelo advice
+
+Se o metodo utilizado para a expressão pointcut for args()
+o spring consegue recuperar os parametros do metodo e
+atribui-los ao advice  da seguinte forma
+
+ex:
+
+//O metodo args abaixo tem o mesmo efeito de args(String,Float,Integer)
+//mas utilizando o nome dos parametros definidos no advice ao inves dos seus tipos
+//faz com que o spring atribua estes à estes parametros os valores dos parametros do metodo em questão.
+
+@After("args(param1,param2,param3)")
+public void advice(String param1,Float param2,Integer param3){
+
+//codigo
+
+}
+
+
+obs: a anotação não importa
+
+================================================================
+@AfterReturning e @AfterThrowing
+
+Se o pointcut utilizado for um dos dois é possivel recuperar
+o retorno do metodo ou a exceção que o metodo jogou da seguinte forma:
+
+ex @AfterReturning:
+
+
+//A anotação pointcut que apenas recebia a expressão agora
+//passa a receber dois atributos um pointcut que recebe a expressão
+
+//e o segundo returning recebe o nome de um parametro do advice ao qual o spring
+//deverá atribuir o retorno deste metodo
+
+//note que o tipo deste parametro limita a quais metodos o advice pode se aplicar
+//pois o metodo deverá obrigatoriamente retornar o tipo definido, ou o parametro
+//returning pode ser do tipo Object nesse caso o tipo do retorno não importa
+
+@AfterReturning(pointcut="expressão pointcut",returning="returnString")
+public void advice(String returnString){
+
+}
+
+
+ex @AfterThrowing:
+
+//O mesmo se aplica a anotação @AfterThrowing com a diferença de que
+//o segundo parametro se chama throwing e que para que throwing não limite
+//o advice a um tipo de exceção sua variavel deve ser do tipo Exception
+
+//obs: limitar o advice a um tipo de exception pode ser muito util
+
+@AfterThrowing(pointcut="expressão pointcut",throwing="exception")
+public void advice(Exception exception){
+
+}

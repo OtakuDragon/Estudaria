@@ -1,0 +1,10 @@
+Spring security
+
+Spring security é uma framework de segurança de restrição
+de acesso feita pela Spring e é consolidada no mercado e existe
+desde 2003
+
+com o spring security se as paginas estiverem separadas em pastas
+de acordo com o se nivel de acesso é possivel especificar estes niveis de acesso
+o spring security tratara de pedir o login verificar as permissões e dar ou não
+acesso as paginas do sistema.

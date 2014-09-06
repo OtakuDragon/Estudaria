@@ -1,0 +1,258 @@
+Configurando execução de Advices
+
+Advices são os metodos de um aspect eles podem ser
+configurados para serem executados quando metodos
+de outras classes são executados
+
+esta configuração é feita por meio de anotações
+no proprio aspect
+
+================================================
+Anotações
+
+As anotações de advices descrevem "QUANDO"
+os advices devem ser executados na aplicação
+
+elas recebem como parametro obrigatorio uma expressão
+pointcut que diz (AONDE)as quais metodos o advice se aplicará
+
+
+@Before	- Especifica que o advice deverá ser executado antes da execução dos metodo
+	  ao qual for atribuido
+
+@After - Especifica que o advice deverá ser executado após a execução dos metodo
+	 ao qual for atribuido
+
+@AfterReturning - Especifica que o advice deverá ser executado após a execução dos metodo
+	          ao qual for atribuido mas apenas se não ocorrer nenhuma exceção
+
+@AfterThrowing - Especifica que o advice deverá ser executado após a execução dos metodo
+	         ao qual for atribuido mas apenas se ocorrer alguma exceção
+
+@Pointcut - Especifica uma expressão de pointcut generica, esta anotação é utilizada
+	    para centralizar muitos advices que possuem a mesma expressão para que não
+            haja repetição no codigo.
+
+	    A expressão é inserida nesta anotação e a anotação anota um metodo vazio
+	    e todas as advices que utilizam a mesma expressão utilizam em sua expressão
+	    o nome deste metodo para que sempre que este metodo vazio seja executado todos os
+            advices relacionados e ele sejam executados.
+
+---------------------------------------------------------------------------------
+A anotação @Around
+
+A anotação @Around representa o tipo de advice mais poderoso de todos
+pois ele consegue executar codigo em todos os estagios acima alem de
+decidir se o metodo deve executar ou não e da possibilidade de mudar 
+o valor de retorno do metodo
+
+@Around tem este nome porque ela envolve o metodo ou seja é executada antes
+e depois
+
+obs: apesar da anotação @Around fazer a função de todas as outras somente é recomendado
+     seu uso quando nenhuma das outras anotações for o suficiente
+
+ex:
+
+//O tipo de retorno do metodo vai depender do tipo de retorno ao qual ele irá se aplicar
+//pode ser void caso não se deseje alterar o retorno do metodo, Object para qualquer tipo de retorno
+//ou de um tipo de retorno especifico
+
+@Around("pointcut expression")
+public Object myAroudAdvice(ProceedingJoinPoint pjp){
+
+//Um device around deve obrigatoriamente receber PELO MENOS um parametro
+//um objeto ProceedingJoinPoint 
+
+//este objeto possui um metodo proceed()
+//que significa executar o metodo alvo, caso este metodo não seja chamado
+//no advice o metodo alvo não será executado e isso pode acontecer sem problemas
+
+Object returnValue=null;
+
+	try{
+	
+	//Codigo executado antes do metodo alvo @Before
+	System.out.println("BeforeAdvice");
+
+	//Metodo que dispara a execução do metodo alvo e retorna o seu valor de retorno
+	//como object
+	returnValue = pjp.proceed();
+
+	//Codigo executado após o retorno caso nenhuma exceção acontece @AfterReturning
+	System.out.println("After Returning");
+
+
+	
+	}catch(Throwable e){
+	//Codigo executado caso o metodo alvo jogue uma exceção @AfterThrowing
+	System.out.println("After Throwing");
+
+	}
+	
+	//Codigo executado após o metodo não importando se ocorreram exceções ou não @After
+	System.out.println("After");
+
+
+}
+
+==============================================================
+Metodos
+
+Metodos são o que dizem ao spring como interpretar a expressão
+passada eles dizem ao que ela se aplicara
+
+* execution() - Execution refere-se a metodos e recebe uma pointcut expression que
+		identifica metodos
+
+* within() - Within recebe diz ao spring que o advice deverá se aplicar a todos os metodos
+	     de uma classe, a expressão pointcut deste metodo descreve classes
+
+ex:
+//O advice se aplicara a todos os metodos da classe 1
+@Pointcut("within(pacotes.Classe1)")
+//O advice se aplicara a todos os metodos de todas as classes neste pacote
+@Pointcut("within(pacotes.*)")
+//O advice se aplicara a todos os metodos de todas as classes deste pacote e de
+//seus subpacotes
+@Pointcut("within(pacotes..*)")
+
+
+* args() - tambem recebe uma expressão pointcut que descreve classes 
+	   e diz que o advice deve se aplicar a todos os metodos que possuirem
+	   os parametros das classes descrevidas nele,podem ser varias classes
+
+ex:
+
+@Pointcut("args(String)")
+
+============================================================
+Expressões pointcut(exemplos: execution())
+
+As expressões pointcut são responsaveis por espeficicar AONDE
+os advices serão executados elas são um parametro obrigatorio
+para os metodos passados como valor das anotações acima.
+
+como AONDE para advices significa em quais metodos expressões
+pointcut expressam a assinatura de metodos da seguinte forma:
+
+"metodo(Visibilidade Retorno NomeDoMetodo(Parametros))"
+
+#Metodo       - Um dos metodos acima
+
+#Visibilidade - A visibilidade dos metodos a serem afetados(ex:public,private,etc.)
+
+#Retorno      - O tipo de retorno dos metodos a serem afetados(ex:void,String,etc.)
+
+#NomeDoMetodo - Nome do metodo(s) a serem afetados podem ser simples para afetar todos os metodos
+		com o mesmo nome ou completo com o nome dos pacotes e classe para aplicar a apenas
+		um metodo especifico(ex:pacotes.MinhaClasse.meuMetodo() ou meuMetodo())
+
+#Parametros   - Caracteristicas dos parametros dos metodos que serão afetados pode possuir tres valores
+		
+		-(*)  possui algum parametro
+		-(..) possui nenhum parametro ou algum(ns) parametro(s)
+		-()   não possui nenhum parametro
+
+ex:
+
+//Irá se aplicar a todos os metodos getNome da aplicação que possuam nenhum,um ou varios parametros
+@After("execution(public void getNome(..))")
+public void Advice1(){
+
+//codigo
+
+}
+
+
+//Irá ser executado somente antes da execução de um metodo atualizar chamado por um objeto Service
+@Before("execution(public void pacotes.Service.atualizar(..))")
+public void Advice2(){
+
+//codigo
+
+}
+
+ex2 pointcut:
+
+//No exemplo abaixo Advice1 e Advice2 devem se aplicar a um mesmo grupo
+//de metodos definidos por uma mesma expressão, para facilitar a manutenção
+//e não repetir o codigo a expressão fica em uma anotação pointcut de um metodo
+//vazio e os outros advices recebem este metodo como sua expressão significando
+//que sempre que um metodo atender aquela expressão todos os advices serão executados
+
+@Pointcut("execution(public void getNome(..))")
+public void advice3(){}
+
+@Before("advice3()")
+public void advice1(){
+
+//codigo
+
+}
+
+@Before("advice3()")
+public void advice2(){
+
+//codigo
+
+}
+===============================================================
+Combinando pointcuts
+
+é possivel combinar pointcuts em uma expressão and
+quando é necessario que o metodo atenda a duas ou mais expressões
+para que o advice seja executado
+
+ex:
+
+@Before("advice3() && advice2()")
+public void advice1(){
+
+//codigo
+
+}
+===============================================================
+Wildcards para execution()(*)
+
+Muitas das vezes ao definir uma expressão você não quer que
+ela se aplique apenas a uma visibilidade, tipo de retorno ou nome
+do metodo e sim a todos para isto exitem as wildcards (*)
+
+
+o simbolo de wildcard "*" pode aparecer no lugar da visibilidade
+para indicar que a expressão se aplica a todas as visibilidades
+e funciona da mesma forma com o tipo de retorno
+
+já o nome do metodo funciona um pouco diferente
+
+
+ex:
+
+//A expressão abaixo se aplicará a metodos de qualquer visibilidade, qualquer tipo de retorno e sem parametros
+//desde que o seu nome comece com as letras me
+
+
+@Before("execution(* * me*())")
+public void advice1(){
+
+//codigo
+
+}
+
+
+//A expressão abaixo se aplicará a todos os metodo publicos com qualquer tipo de retorno sem parametros e dos quais
+//tenham o nome que termine com a letra o
+
+@Before("execution(public * *o())")
+public void advice1(){
+
+//codigo
+
+}
+
+==============================================================
+
+
+
+

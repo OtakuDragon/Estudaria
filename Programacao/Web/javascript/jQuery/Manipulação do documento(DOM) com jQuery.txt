@@ -1,0 +1,109 @@
+Manipulação do documento(DOM) com jQuery
+
+Criação de elementos
+
+Um elemento pode ser criado no jQuery
+da seguinte forma
+
+----------------------------------------
+Criando um elemento sem atributos
+
+var div = $("<div/>");
+
+----------------------------------------
+Criando um elemento com atributos
+
+var div = $("<div/>",{name:"meuDiv",id:"menu"});
+
+====================================================
+Adicionando um elemento ao documento
+
+Um elemento é inserido ao documento com o uso
+de uma das funções abaixo a diferença entre elas
+é o posicionamento do elemento inserido em relação ao
+elemento-pai
+
+Um elemento pode ser inserido por variavel ou diretamente
+criado dentro da função
+
+ex:
+
+$("body").append("<div/>");
+
+ou
+
+var div = $("<div/>",{name:"meuDiv",id:"menu"});
+$("body").append(div);
+
+
+obs: O texto passado como parametro para uma das funções de inserção
+     será inserido ao documento o conteudo não esta limitado apenas há tags
+
+--------------------------------------------------
+Funções de inserção
+
+append() - Adiciona o elemento dentro do elemento-pai na ultima posição(ultima tag dentro do elemento pai)
+
+prepend() - Adiciona o elemento dentro do elemento-pai na primeira posição(primeira tag dentro do elemento pai)
+
+after() - Adiciona o elemento como a proxima tag após o elemento pai
+
+before() - Adiciona o elemento como a ultima tag antes do elemento pai
+
+clone() - Retorna uma copia do elemento
+
+wrap() - O elemento adicionado envolve o elemento pai
+
+ex:
+
+$("pai").wrap("<filho/>")
+
+<filho>
+	<pai>
+	
+	</pai>
+</filho>
+
+====================================================
+Removendo elementos de um documento
+
+remove()
+
+Remove o elemento ou todos os elementos selecionados
+
+ex:
+//Exclui todas as divs da pagina
+$("div").remove();
+
+
+//Exclui apenas uma div da pagina
+$("div").remove("#MinhaDiv");
+
+------------------------------------------------------
+empty()
+
+Remove todos os elementos filhos do elemento
+em questão
+
+ex:
+
+//perde todo o seu conteudo e se torna apenas uma div vazia
+$("#MinhaDiv").empty();
+
+------------------------------------------------------
+unwrap()
+
+Remove o primeiro elemento que envolve 
+o elemento em questão
+
+<div id="outraDiv"><div id="MinhaDiv"></div></div>
+
+//no caso do exemplo acima remove a div outraDiv do documento
+$("#MinhaDiv").unwrap();
+
+
+
+
+
+
+

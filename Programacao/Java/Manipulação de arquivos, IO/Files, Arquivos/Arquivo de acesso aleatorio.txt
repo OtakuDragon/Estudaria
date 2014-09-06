@@ -1,0 +1,44 @@
+Arquivo de acesso aleatorio
+
+Um arquivo de acesso aleatorio é um arquivo no qual
+não precisa ser lido linha por linha, é possivel definir
+a partir de qual byte começar a ler, os dados são escritos
+no arquivo em forma de bytes(não são legiveis no arquivo)
+
+Isto é feito pela classe
+
+RandomAccessFile raf = new RandomAccessFile("arquivoAleatorio.txt","rw");//recebe como parametro o arquivo e o modo de abertura r ou rw
+									
+=========================================================
+Inserindo dados no arquivo aleatorio
+
+Se insere dados em um arquivo aleatorio com os metodo write
+
+ex:
+
+raf.writeBoolean(true);
+raf.writeInt(10);
+
+é possivel definir em qual byte do arquivo começar a escrever
+com o metodo seek
+
+raf.seek(15);//ira até o byte representa o byte 14 porque o primeiro byte do arquivo é o byte 0
+
+raf.writeDouble(1.5);//escrevera este double no byte 14
+
+raf.close();//precisa ser fechado pois se trata de um stream
+
+
+*o metodo para escrever strings é writeUTF() e ler readUTF()
+==========================================================
+Lendo dados de um arquivo aleatorio
+
+Utilizam-se os metodos read para ler
+
+RandomAcessFile raf = new RandomAcessFile("arquivoAleatorio.txt","r");// o r não cria um nova file lê de uma existente
+
+raf.seek(15);//representa o byte 14 porque o primeiro byte do arquivo é o byte 0
+
+double d = raf.readDouble();//Lêra um double apartir do byte 14 do arquivo e o retornará
+
+raf.close();//precisa ser fechado pois se trata de um stream

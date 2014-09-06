@@ -1,0 +1,122 @@
+InnerClass
+
+Classes declaradas dentro de outras classes
+geralmente são utilizadas quando você deseja criar
+uma classe que só precisará ser acessada por uma classe
+
+========================================================
+Obtendo referencias
+
+Para se obter a referencia da innerclass dentro da innerclass
+se faz como em qualquer classe no java com o operador this, 
+mas dentro da innerclass,é possivel fazer referencia ao um objeto
+da sua outer class para isso de usa a sintaxe:
+
+NomeDaOuterClass.this;
+
+
+
+============================================================
+
+Tipos de InnerClass
+
+Regular:
+
+É uma classe declarada dentro de outra como abaixo e
+tem acesso aos elementos(metodos e atributos) da classe aonde está inserida
+
+uso:
+
+public class MyOuter{
+
+class MyInner{
+
+}
+
+MyInner objeto = new MyInner();
+
+
+}
+
+----------------------------------------------------------------
+Method-Local
+
+São inneclasses declaradas dentro de metodos
+e apenas o metodo enxerga a classe 
+
+uma innerclass method local consegue acessar atributos locais
+do metodo desde que eles tenham o modificador final.
+
+public class MyOuter{
+
+	public void metodo(){
+
+		final int atributo = 15;
+
+		class MyInner{
+			
+			public void metodoInner(){
+
+			System.out.println(atributo);
+
+			}
+
+		}
+
+		MyInner objeto = new MyInner();
+
+	}//fim do metodo
+
+
+	//se eu tentar instanciar MyInner aqui fora do metodo não conseguirei
+
+
+}
+
+-----------------------------------------------------------------------
+Anonymous inner classes ou classe anônimas
+
+São classes que não possuem um nome e geralmente sobreescrevem metodos
+de uma interface ou de uma classe existente e são escritas após o construtor
+em uma instanciação
+
+para interfaces:
+
+botao.addActionListener(new ActionListener(){
+
+
+	public void actionPerformed(ActionEvent e){
+
+	
+	
+	}
+
+
+});
+
+para classes:
+
+ClasseExemplo obj = new ClasseExemplo(){
+
+	//codigo
+	//uma classe anonima é sempre uma sub-classe da classe que sobre escreve
+
+
+}
+
+--------------------------------------------------------------------
+Static Inner class
+
+Uma inner class estatica não tem relação nenhuma com a
+outer class, e deve ser instanciada da seguinte forma:
+
+public class MyOuter{
+
+static class MyInner{
+
+}
+
+MyOuter.MyInner objeto = new MyOuter.MyInner();
+
+
+}

@@ -1,0 +1,15 @@
+this 
+
+this refere-se ao objeto atual
+
+this.
+
+acessa todos os metodos e atributos daquela instancia
+
+super
+
+refere-se a superclasse do objeto
+
+super.
+
+acessa todos os metodos e atributos da superclasse daquela instancia

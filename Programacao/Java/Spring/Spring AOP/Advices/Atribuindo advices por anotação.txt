@@ -1,0 +1,41 @@
+Configurando advices por anotação
+
+Alem das pointcuts expressions para a seleção de metodos
+tambem é possivel criar uma anotação qualquer e dizer ao
+spring que o advice deve se aplicar a todos os metodos
+anotados com aquela anotação
+
+da seguinte forma:
+
+==========================================================
+ex:
+
+1º passo - Criar uma anotação
+
+//Uma anotação vazia
+//obs: a anotação não precisa estar vazia
+public @interface Exemplo{
+
+}
+
+
+-------------------------------------------------------------------------
+2º passo - criar o advice que se aplica a anotação
+
+//obs: pode ser qualquer tipo de advice não apenas before
+//A expressão pointcut se trata de @annotation(fully qualified name da anotação)
+@Before("@annotation(pacotes.Exemplo)")
+public void advice(){
+
+//codigo
+
+}
+--------------------------------------------------------------------
+3º passo -  anotar metodos
+
+//O advice configurado acima se aplicará a todos os metodos da aplicação anotados 
+//com a anotação criada
+@Exemplo
+public void metodo(){
+//codigo
+}

@@ -1,0 +1,10 @@
+Tipos de modelagem de dominio
+
+Existem dois tipos de modelagem de dominio:
+
+Modelagem anemica: quando as classes nada mais são do que representações das
+		   tabelas no banco de dados ou seja são apenas um conjunto de atributos
+
+Modelagem rica: quando as classes utilizam dos recursos da OO(polimorfismo,herança,encapsulamento) e possuem
+                metodos de persistencia.
+

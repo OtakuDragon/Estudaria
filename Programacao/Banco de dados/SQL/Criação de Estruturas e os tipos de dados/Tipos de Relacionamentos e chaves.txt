@@ -1,0 +1,56 @@
+Chaves
+
+Chaves são valores unicos que identificam um registro
+elas podem ser:
+
+*Chave primária(Primary Key,PK)
+
+Coluna com valores unicos
+
+*Chave composta
+
+Composição de duas ou mais coluna para gerar 
+uma combinação unica
+
+*Chave estrangeira
+
+Coluna que armazena chave primaria de outra tabela
+
+======================================================================
+Relacionamentos
+
+Por meio de chaves estrangeiras as tabelas se relacionam
+exusten 3 tipos de relacionamento
+
+*Relacionamento 1 para 1(1:1)
+
+Para cada registro da primeira tabela existe no maximo um corres
+pondente na segunda tabela e vice-versa.
+
+simbolo:
+
+tabela1 -||------||- tabela2
+
+Relacionamento 1 para muitos(1:*)
+
+Para cada registro na segunda tabela podem existir um ou mais 
+correspondentes na segunda tabela mas para cada registro na segunda
+tabela existe apenas um correspondente na primeira tabela.
+
+simbolo:
+                  /
+tabela1 -||------| - tabela2
+                  \
+
+Relacionamento muitos para muitos(*:*)
+
+Para cada registro na primeira tabela pode existir um ou mais
+correspondentes na segunda tabela e vice-versa.
+
+simbolo:
+        \         /
+tabela1 -|-------| - tabela2
+        /         \
+
+
+=================================================================================

@@ -1,0 +1,47 @@
+Metodos magicos
+
+Metodos magico são metodos
+especiais do php que podem ser
+implementados em classes e executados
+em situações especiais
+
+todos eles começao com _
+
+==========================================
+Alguns metodos magicos
+
+_toString()
+
+O metodo _toString() define como uma classe deve se comportar
+quando for convetido para string (ex: echo $obj;) uma regra
+para sobre escrever este metodo é que ele deve sempre retornar
+uma string
+
+ex:
+
+public function _toString(){
+
+return "exemplo";
+
+}
+
+----------------------------------------------
+_invoke()
+
+é o metodo chamado quando um script tenta
+chamar uma função em um objeto
+
+ex:
+
+$obj = new Classe1();
+
+$obj(); //o metodo _invoke() sera executado caso esteja implementado
+	//é possivel passar parametros
+
+ex de implementação:
+
+public function _invoke($x){
+ 
+ //codigo
+
+}

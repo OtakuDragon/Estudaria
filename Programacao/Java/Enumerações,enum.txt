@@ -1,0 +1,28 @@
+Enumerações
+
+
+Enumerações são conjuntos de constantes public static final
+
+E são criadas como arquivos separados do tipo enum
+
+e utilizadas como abaixo
+
+public enum Constantes{
+
+public String valor;
+
+	Constante1("valor1"),Constante2("valor2"),Constante3("valor3");
+
+
+	
+
+	public Constantes(String valor){  //construtor
+		this.valor = valor;
+	}
+
+
+}
+
+as constantes definidas podem ser acessadas assim
+
+Constantes.Constante1.valor;//seria igual a valor1

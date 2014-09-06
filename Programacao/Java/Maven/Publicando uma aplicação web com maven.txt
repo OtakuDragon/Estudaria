@@ -1,0 +1,25 @@
+Publicando uma aplicação web com maven
+
+
+War
+
+Quando uma aplicação de archetype web passa pela
+fase package do maven um arquivo .war é criado
+
+servidores recebem aplicativos por meio do upload de
+.war files
+
+
+=========================================================
+Plugin
+
+Alguns servidores possuem plugin maven este plugin
+pode ser adicionado ao projeto
+
+e isso faz com que o projeto 
+seja inserido no servidor quando o plugin é executado 
+
+ex de servidores com plugin maven:
+
+*tomcat
+*jetty

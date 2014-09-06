@@ -1,0 +1,44 @@
+Interfaces de Objetos
+
+Interfaces de Objetos permite a criação
+de código que especifica quais métodos e
+variáveis uma classe deve implementar,
+sem ter que definir como esses métodos
+serão tratados.
+
+Interfaces são definidas usando a palavra-chave
+'interface', da mesma maneira que uma classe comum,
+mas sem nenhum dos métodos ter seu conteúdo definido.
+Todos os métodos declarados em uma interface devem ser
+public, essa é a natureza de uma interface.
+
+É possível as interfaces terem constantes.
+Constantes de interfaces funcionam exatamente
+como class constants. Elas não podem ser sobrescritas
+por uma classe/interface que a herda.
+
+
+===================================================================
+Sintaxe:
+
+interface nomeDaInterface{
+
+//codigo
+
+}
+
+*interfaces podem herdar de outras interfaces
+
+interface nomeDaInterface extends outraInterface{
+
+//codigo
+
+}
+
+*uma classe pode implementar varias interfaces
+
+class Classe implements interface1,interface2{
+
+//codigo
+
+}

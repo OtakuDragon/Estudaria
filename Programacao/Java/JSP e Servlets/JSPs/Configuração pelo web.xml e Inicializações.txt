@@ -1,0 +1,56 @@
+Inicializações
+
+Assim como nos servlets comuns
+nos jsps é possivel ter um metodo
+init() com um nome diferente e adicionar
+parametros iniciais por xml
+
+========================================
+Metodo inicializador
+
+Nos jsps o metodo init() é
+chamado:
+
+public void jspInit()
+{
+
+//este é o metodo equivalmente a init()
+//em jsps
+
+
+}
+
+===========================================
+Adicionando parametros iniciais por xml
+
+O modo como adicionar parametros iniciais
+é semelhante ao de servlets e tambem acontece
+no web.xml
+
+-------------------------------------------------
+No web.xml
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+ <display-name>Nome Do Projeto</display-name>
+ 
+ 
+ <servlet>
+   <servlet-name>NomeDoServlet</servlet-name>
+   <jsp-file>/arquivo.jsp</jsp-file>
+  
+   <init-param>
+     <param-name> nome </param-name>
+     <param-value> valor </param-value>
+   </init-param>
+ </servlet>
+ 
+ 
+ <servlet-mapping>
+   <servlet-name>NomeDoServlet</servlet-name>
+   <!-- O url-pattern deve ter o mesmo valor de jsp-file ou seja a localização do arquivo jsp -->
+   <url-pattern>/arquivo.jsp<url-pattern>
+ </servlet-mapping>
+
+	
+
+</web-app>

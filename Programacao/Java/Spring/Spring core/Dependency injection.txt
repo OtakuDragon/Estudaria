@@ -1,0 +1,153 @@
+Dependancy injection
+
+Dependancy injection trata-se de uma forma de
+utilização do polimorfismo mais eficiente
+
+ela consiste no isolamento de uma classe que poderá
+executar metodos de varias outras desde que estas
+herdem ou implementem(caso seja uma interface e não uma classe).
+
+este isolamento significa que ela não possui
+referencia a nenhum dos objetos das classes que ela poderá
+executar os metodos.
+
+ela somente possuira uma referencia a classe-pai(ou interface)
+e receberá este objeto que define qual o metodo será executado
+por meio de um setter
+
+isto é chamado do de injeção de dependecia por que por si só
+a classe que executa o metodo não depende de nenhum tipo de objeto
+especifico este objeto é passado como parametro(injeção)
+
+isto causa uma separação da classe executora dos metodos dos
+objetos que possuem o metodo em si.
+
+A framework spring implementa maneiras mais simplificadas
+de realizar Dependency injection e é bem famoso por isso
+
+===================================================================
+ex:
+
+- classe-pai (pode ser interface ou classe abstrata):
+
+Shape
+
+-Metodos:
+
+draw();//não desenha nada
+
+
+- classe-filho (herda ou implementa Shape):
+
+Triangle
+
+-Metodos:
+
+draw();//desenha um triangulo
+
+
+- classe-filho (herda ou implementa Shape):
+
+Circle
+
+-Metodos:
+
+draw();//desenha um circulo
+
+-----------------------------------------------------------------------
+Classe "isolada" de polimorfismo
+
+protected class Drawing{
+
+	private Shape shape;//referencia ao objeto generico que pode receber
+                            //objetos das classes filho
+
+	public setShape(Shape shape){
+		this.shape=shape //injection dependency: recebe o objeto do qual o metodo será executado
+	
+	}
+
+	public drawShape(){
+		this.shape.draw(); //metodo a ser executado será diferente dependendo do
+                                   //objeto atribuido a shape (polimorfismo)
+	
+	}
+
+
+
+
+
+}
+
+-------------------------------------------------------------------------
+Outra classe utilizando dependency injection
+
+public class Test{
+
+
+	public static void main(){
+		Drawing drawing = new Drawing();
+		Triangle myTriangle = new Triangle();
+		
+		drawing.setShape(myTriangle);//um objeto é definido para a classe isolada
+                                             //definindo que o metodo executado será o implementado aqui
+					     //qualquer outro objeto que implemente Shape poderia ser passado aqui
+                                             //modificando o comportamento do metodo executado a seguir
+
+		drawing.drawShape();//o metodo draw() da classe Triangle é executado 
+	}
+
+
+
+
+
+
+}
+
+========================================================================
+Dependency injection com o Spring
+
+Utilizando o spring dependency injection se torna muito mais simples
+com o uso de interfaces
+
+Interface:
+
+public interface Shape{
+
+public void draw();
+
+}
+
+Triangulo:
+
+public class Triangle implements Shape{
+
+	public void draw(){//desenha triangulo}
+
+}
+
+Circulo:
+
+public class Circle implements Shape{
+
+	public void draw(){//desenha Circulo}
+
+}
+
+
+Aplicação:
+
+public class App{
+
+public static void main(String[] args){
+
+ApplicationContext context = new ClassPathApplicationContext("spring.xml");
+Shape shape = (Shape) context.getBean("circle");
+shape.draw();
+Shape shape = (Shape) context.getBean("triangle");
+shape.draw();
+
+}
+
+
+}

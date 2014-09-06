@@ -1,0 +1,9 @@
+Adicionando mensagens a pagina JSF
+
+é possivel adicionar mensagens exibidas na tag <h:messages/>
+do jsf em metodos do managed bean da seguinte forma
+
+ex:
+
+FacesMessage mensagem = new FacesMessage ("Turma adicionada");
+FacesContext.getCurrentInstance().addMessage(null,mensagem);

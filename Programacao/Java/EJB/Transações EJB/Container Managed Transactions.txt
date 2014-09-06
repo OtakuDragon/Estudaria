@@ -1,0 +1,143 @@
+Container Managed Transactions(CMT)
+
+Nas transações gerenciadas pelo container, uma transação
+será é iniciada antes de o metodo ser invocado, e é commitada
+após a execução do metodo se nada der errado.
+
+O programador consegue controlar como este processo acontece
+e definir quando efetuar rollbacks
+=================================================================
+Configurando Transações(CMT)
+
+Metodos de EJBs podem reagir a transações de
+6 maneiras, estas maneiras são definidas na anotação
+@TransactionAttribute.
+
+A anotação @TransactionAttribute pode anotar metodos
+para definir o seu comportamento individualmente ou o
+a classe do EJB para definir o comportamento de todos
+os metodos
+
+Valores:
+
+TransactionAttributeType.REQUIRED - é o default e significa que se o invocador do metodo ja possui uma transação
+									aberta este metodo entra nesta transação, se o invocador não possuir cria uma nova transação
+									para o metodo
+									
+TransactionAttributeType.REQUIRES_NEW - Cria uma nova transação para o metodo de qualquer maneira, se o invocador ja possuir uma transação
+										ela é pausada enquanto a transação deste metodo é executada, é util para que se houver rollback somente
+										o metodo volta ao seu estado anterior o invocador mantem o seu estado
+										
+TransactionAttributeType.MANDATORY    - Obriga que o invocador do metodo tenha uma transação aberta se ele não tiver joga a exceção EJBTransactionRequiredException
+
+TransactionAttributeType.NOT_SUPPORTED - Pausa qualquer transação ativa do seu invocador executa o metodo sem transação.
+
+TransactionAttributeType.SUPPORTS	  -  Se o invocador possuir uma transação entra nela, se ele não possuir executa sem transação
+
+TransactionAttributeType.NEVER        - O metodo nunca pode ser invocado por um invocador com transação ativa, se for jogará uma EJBException
+
+ex:
+
+@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+public void meuMetodo(){
+...
+}
+====================================================================
+Configuração de transações CMT em MDBs
+
+O metodo onMessage do MDB só pode ser configurado como:
+
+TransactionAttributeType.REQUIRED(Default)
+
+ou
+
+TransactionAttributeType.NOT_SUPPORTED
+
+Dizendo se o processento da mensagem deve ser transacional(required)
+ou não(NOT_SUPORTED)
+
+=======================================================================
+Efetuando Rollback atraves do contexto
+
+O rollback, em uma transação CMT pode ser definido
+manualmente atravez do EJBContext, se dentro do metodo
+você chamar: 
+
+context.setRollbackOnly();
+
+Isto não irá efetuar o rollback imediatamente e sim setar
+uma flag na transação para que quando a sua execução acabar
+o container saiba que ele deve efetuar o rollback
+
+ATENÇÃO: chamar context.setRollbackOnly(); se o metodo não estiver
+	 sendo executado em uma transação causa uma IllegalStateException,
+	 por isso aconselha-se marcar metodos que utilizam este estilo de rollback
+	 como REQUIRED, REQUIRED_NEW ou MANDATORY.
+
+Existe tambem o metodo:
+
+context.getRollbackOnly()
+
+que retorna um boolean dizendo o valor desta flag, e pode
+ser utilizada em um if para não executar algum codigo pesado se
+o rollback ja estiver setado ja que tudo executado será desfeito
+
+=======================================================================
+Efetuando Rollback atraves de exceções
+----------------------------------------------------------------------
+Unckecked Exceptions(extends RuntimeException ou RemoteException)
+
+Por padrão quando um metodo sendo executado em uma transação
+joga uma unchecked exception, a transação é rolledback e o bean
+é destruido, destruir beans constantemente pode ser tornar um probelma
+de performance.
+
+----------------------------------------------------------------
+Checked Exceptions(Qualquer outra exceção, exceções feitas para serem tratadas)
+
+Checked exceptions jogadas por um metodo em uma transação por padrão
+NÃO CAUSAM ROLLBACK, mas é possivel anotar exceções para fazer-las
+causarem rollback.
+
+Anotação @ApplicationException
+
+Por padrão todas as checked exceptions são Application exceptions
+isso significa que elas serão retornadas para o cliente para que
+ele as trate.
+
+Esta anotação nos permite definir qualquer exceção como uma Application Exception
+e definir com que a Application exception cause rollback, atraves da propriedade
+de anotação booleana rollback(default false)
+
+ex:
+
+//Se esta exceção for jogada em um metodo contido em uma transação esta transação
+//será rolledback
+@ApplicationException(rollback=true) 
+public class MinhaExcecao extends Exception {
+}
+//Transforma a unchecked exception em Application exception
+//e faz com que não haja rollback quando ela é jogada
+@ApplicationException(rollback=false)
+public class DatabaseException extends RuntimeException {
+}
+
+=======================================================================
+Callbacks de transação
+
+Stateful Session Beans tem acesso a metodos de ciclo
+de vida de transação se eles implementarem a interface
+SessionSynchornization, estes metodos são:
+
+void afterBegin() // Metodo executado pelo container no momento antes de cirar 
+                  //uma nova transação
+
+void beforeCompletion()//Metodo executado após o metodo retornar mas antes
+                       //de a transação ser finalizada(commit/rollback)
+
+void afterCompletion(boolean commited)//Metodo chamado após a transação ser finalizada
+				      //e recebe como parametro um boolean que é true se houve
+				      //commit e false se hoube rollback
+
+*Não faz sentido ter acesso a estes metodos em SLSBs e MDBs ja
+ que eles somente executam metodos, e não armazenam dados,entre uma chamada e outra.

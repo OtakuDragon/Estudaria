@@ -1,0 +1,169 @@
+Eventos em javascript
+
+Eventos são usados em tags HTML como atributos determinadas tags suportam determinados eventos
+são utilizados pela linguagem javascript para realizar ações com codigos javascript, geralmente por meio de funções
+
+Na DOM HTML API  é possivel acessar os eventos dentro dos elementos HTML com o operador ponto
+
+
+Os eventos suportados pelo javascript são:
+
+------------------------------------------------------------------------------------------
+Eventos de janela(window)
+
+Eventos referentes ao documento HTML mais precisamente a tag body
+
+
+onload - Disparado quando o navegador carrega a pagina da web
+
+onunload - disparado quando uma janela é fechada no navegador
+
+onerror - Disparado quando ocorre um erro
+
+----------------------------------------------------------------------------------------------
+Eventos de formulario(form)
+
+Eventos referentes a formularios e seus itens de input
+
+
+onblur - Disparado quando a área de inserção é diferente da área necessaria do foco
+
+onchange - Disparado quando o valor de um campo em foco é modificado
+
+onfocus - Disparado quando a área de inserção é a mesma da área necessaria do foco
+
+onselect - Disparado quando o usuario seleciona um campo do formulario
+
+onsubmit - Disparado quando um formulario é enviado
+
+-----------------------------------------------------------------------------------------------
+Eventos de teclado
+
+onkeypress - Dispara quando o usuario pressiona uma tecla
+
+onkeydown - Dispara quando o usuario esta pressionando uma tecla
+
+onkeyup - Dispara quando o usuario solta uma tecla
+
+-------------------------------------------------------------------------------------------------
+Eventos de mouse
+
+Todos estes eventos existem nos elementos html
+
+
+onclick - disparado quando o usuario clica o botão do mouse
+
+ondblclick - disparado quando há um clique duplo
+
+onmousedown - disparado quando o botão do mouse é apertado 
+
+onmouseup - disparado quando o botão do mouse é solto
+
+onmousemove - disparado quando o botão do mouse passa por cima
+
+onmouseover - disparado quando o botão do mouse passa por cima
+
+onmouseout - disparado quando o ponteiro do mouse está fora da area de foco
+
+onmouseover- Disparado quando o ponteiro do mouse se move sobre a area de foco
+
+
+
+----------------------------------------------------------------------------------
+
+ex:
+
+<img id='img' src='imgs/img.jpg' onclick="window.alert('Clicou');">
+
+
+====================================================================================================
+Objeto Event
+
+Um Objeto Event possui todas as informações sobre um evento
+
+---------------------------------------------------------------------------------------
+
+Recuperando um objeto Event
+
+Em uma função literal que trata um evento o objeto é 
+retornado como um parametro definido nesta função
+
+Ex:
+
+elemento.onclick = function(event){alert("Recuperou o evento!");} //o objeto Event deste onclick sera atribuido a variavel
+							          //event, sendo possivel utilizar metodos e atributos dele dentro da função
+								  //literal
+
+
+
+----------------------------------------------------------------------------------------------
+Propriedades de Event
+
+bubbles - Retorna um booleano falando se o evento procura um listener acima de seu nivel caso ele nao possua um
+
+cancelable - Retorna um booleando falando se a ação padrão do evento pode ou não ser cancelada
+
+currentTarget - Retorna o elemento cujo os listeners dispararam o evento em caso de bubbling
+
+target - Retorna o elemento que disparou o evento
+
+timeStamp - retorna o tempo que o evento aconteceu em milisegundos referente a 1 jan 1970
+
+type - retorna o nome do evento
+
+//Propiedades de Events de mouse
+
+altKey - retorna um boolean dizendo se a tecla alt estava ou não apertada quando o evento aconteceu
+
+ctrlKey - retorna um boolean dizendo se a tecla ctrl estava ou não apertada quando o evento aconteceu
+
+shiftKey - retorna um boolean dizendo se a tecla shift estava ou não apertada quando o evento aconteceu
+
+button - retorna qual foi o botão do mouse que causou o evento:
+	0	Specifies the left mouse-button
+	1	Specifies the middle mouse-button
+	2	Specifies the right mouse-button
+
+clientX - retorna as coordenadas horizontais do ponteiro do mouse quando o evento aconteceu
+	  com relação ao janela do browser
+
+clientY - retorna as coordenadas verticais do ponteiro do mouse quando o evento aconteceu
+	  com relação ao janela do browser
+
+screenX - retorna as coordenadas horizontais do ponteiro do mouse quando o evento aconteceu
+	  com relação a tela do computador
+
+screenY - retorna as coordenadas verticais do ponteiro do mouse quando o evento aconteceu
+	  com relação a tela do computador
+
+relatedTarget - retorna o elemento que possui o elemento que disparou o evento dentro
+		ex: <body><div>evento aconteceu aqui</div> </body>
+		// o valor de relatedTarget sera a tag body
+
+-------------------------------------------------------------------------------------------------------------
+Metodos de Event
+
+preventDefault(); // anula o listener padrão de um evento caso seja possivel
+
+stopPropagation(); // define a progagação de evento para aquele evento como false
+
+
+===================================================================================================================
+Propagação de eventos
+
+Propagação de eventos acontece quando um elemento
+html sobrepoe outros e todos eles disparam seus eventos
+com uma ação semelhante , entao o evento de todos eles acontece
+
+para impedir isso e deixar que apenas o evento do elemento mais
+de dentro do documento html aconteça chame o metodo stopPropagation();
+
+======================================================================================================================
+Chamando Eventos
+
+É possivel fazer um evento acontecer mesmo que sua ação
+não tenha sido realizada pelo usuario basta chama-lo como uma função
+
+ex:
+
+elemento.onclick(); //faz o evento onclick acontecer no script 

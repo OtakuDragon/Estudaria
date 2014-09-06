@@ -1,0 +1,9 @@
+Criando um jsp
+
+*Botão direito em WebContent
+
+*new JSP file
+
+*Definir o nome
+
+*pronto

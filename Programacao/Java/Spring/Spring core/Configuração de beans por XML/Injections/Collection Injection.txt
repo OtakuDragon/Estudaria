@@ -1,0 +1,57 @@
+Inicializando collections em beans
+
+Quando o atributo do bean se trata de uma collection
+tambem é possivel configura-la por xml desde que ela
+seja uma lista,mapa ou set da seguinte forma
+
+esta maneira de preencher a lista de um objeto não é
+muito utilizada na prática
+
+======================================================================================
+ex:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans> 
+	<!-- o exemplo abaixo serve para uma collection do tipo lista existem tags para maps e set tambem -->
+	<bean id="triangle" class="shapesPack.Triangle">
+		<list>
+			<!-- a tag ref recebe o id de um bean para adicionar a lista de objetos-->
+			<!-- cada tag representa um novo elmento na lista, tambem é possivel ter-->
+			<!-- valores primitivos e innerbeans dentro da tag list -->
+			<ref="beanPointA" />
+			<ref="beanPointB" />
+			<ref="beanPointC" />
+		</list>
+		
+	</bean>
+
+	<bean id="beanPointA" class="shapesPack.Point">
+		<property name="x" value="0"/>
+		<property name="y" value="0"/>
+		
+	</bean>
+
+	<bean id="beanPointB" class="shapesPack.Point">
+		<property name="x" value="-20"/>
+		<property name="y" value="0"/>
+		
+	</bean>
+
+	<bean id="beanPointC" class="shapesPack.Point">
+		<property name="x" value="20"/>
+		<property name="y" value="0"/>
+		
+	</bean>
+
+</beans>
+
+//classe
+
+public class Triangle{
+
+	private List<Point> points;
+
+//getters and setters
+
+}

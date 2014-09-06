@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename Java project &apos;Java Avançado Sofblue&apos; to &apos;Java Avançado Softblue&apos;&#x0D;&#x0A;- Original element: &apos;Java Avançado Sofblue&apos;&#x0D;&#x0A;- Renamed element: &apos;Java Avançado Sofblue&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename Java project &apos;Java Avançado Sofblue&apos;" flags="7" id="org.eclipse.jdt.ui.rename.java.project" input="=Java Avançado Sofblue" name="Java Avançado Softblue" references="true" stamp="1368224283585" version="1.0"/>
+</session>

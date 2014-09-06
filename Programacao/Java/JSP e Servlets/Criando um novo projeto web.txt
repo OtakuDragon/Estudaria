@@ -1,0 +1,31 @@
+Criando um novo projeto web
+
+Para criar um projeto web é necessario ter um servidor
+instalado no eclipse no caso deste curso será o tomcat 7.0
+
+========================================
+No Eclipse:
+
+*File/New/Dynamic web project
+*Definir o nome do projeto
+*selecionar src como source folder
+*Parte importante:
+
+-Definir o nome do Context root
+
+Context root é como o servidor vai indentificar
+o projeto, será o nome utilizado na uri para acessar
+o site do projeto (ex: localhost:8080/Context_root)
+
+-Definir o nome do Content directory
+
+é no content directory que todos é o arquivo root
+do projeto ele possuira todos os arquivos html,css,
+jsp,etc.. do site e pode ter qualquer nome por padrão WebContent
+
+
+- Marcar a opção de definir o web.xml, arquivo xml que define
+  qual será a pagina index do projeto ou seja a pagina que será
+  acessada quando somente o context root for chamado
+
+*Finish and have fun

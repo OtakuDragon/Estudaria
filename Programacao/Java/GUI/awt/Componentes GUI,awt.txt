@@ -1,0 +1,266 @@
+Botões
+
+Classe Button
+
+Criação de objeto
+
+Button botao1 = new Button ("Rotulo do botão");
+Button botao1 = new Button ();// cria um botao sem rotulo o rotulo pode ser definido depois
+
+Rotulos
+
+Classe Label
+
+Criação de objeto
+
+Label rotulo =new Label();//Cria um rotulo vazio com seu texto alinhado a esquerda
+Label rotulo =new Label("Rotulo");//Cria um rotulo com o string definida e alinhado a esquerda
+Label rotulo =new Label(String arg, int arg);//Cria um rotulo com o string definida e alinhado de acordo com a argumento int
+
+argumentos int para label
+
+Label.RIGHT
+Label.LEFT
+Label.CENTER
+
+
+
+Caixas de seleção
+
+Classe Checkbox
+
+Criação de objeto
+
+Checkbox c1 = new Checkbox("Rotulo")//Cria uma checkbox com o texto rotulo
+
+metodo
+
+c1.setState(boolean arg); //true = marcada false = desmarcada
+c1.getCurrent(); //retorna a opção maracada no momento
+
+Classe CheckboxGroup
+
+Agrupa varias checkboxes, e em um grupo apenas uma caixa pode ser selecionada 
+
+Criação de objeto
+
+CheckboxGroup grupo1 = new CheckboxGroup();
+
+uso
+
+Checkbox r1 = new Checkbox ("Rotulo",grupo1,false);
+// arg1 = rotulo da caixa arg2= grupo a qual ela pertence arg3= estado da caixa
+
+Classe Choice
+
+Cria uma lista suspensa
+
+Criação de objeto
+
+Choice novaLista - new Choice();
+
+adicionar itens
+
+novaLista.addItem(String rotulo);
+
+Classe TextField
+
+Cria um campo de texto
+
+criação de objeto
+
+TextField txt = new TextField();
+
+construtores
+
+TextField(String arg, int arg);
+// int representa tamanho maximo de caracteres do campo de texto e string um texto escrito dentro do campo de texto
+//pode ter nenhum dos argumentos somente um ou os dois
+
+metodos
+
+txt.setEchoCharacter(char arg); converte o texto escrito naquele campo de texto no character definido usado para senhas
+txt.getText(); retorna o texto do campo
+txt.setText(); escreve texto no campo
+txt.setEditable(boolean arg); true torna o campo editavel false não editavel é true por padrão
+txt.isEditable(); retorna o q foi definido em setEditable();
+
+Classe TextArea
+
+criação de objeto
+
+TextArea txta = new TextArea();
+
+construtores
+
+TextArea(String textopadrao,int height,int width);
+// cria um campo de texto com o texto definido altura e largura definidas
+//pode ser usado sem nenhum argumento só o argumento string ou só os argumentos int
+
+metodos
+
+mesmos que os de TextField
+
+Classe List
+
+Lista de rolagem
+
+cria uma lista de rolagem na qual um ou mais elementos pode ser escolhidos
+
+criação de objeto
+
+List lista = new List(int numeroMAximoDeItens,boolean Itens);
+//int representa o numero maximo de itens e boolean true = varios itens podem ser selecionados false = unico item
+
+lista.add(String arg); para adicionar um novo item
+
+Classe Scrollbar
+
+criação de objeto
+
+Scrollbar bar = new Scrollbar( int orientação, int valorInicial, int LarguraOuAltura, int Minimo, int Maximo);
+
+metodos
+
+bar.getValue(); retorna o valor atual
+bar.setValue(); da uma valor para a barra
+
+Classe Canvas
+
+cria um componente que possui seu proprio metodo paint() e pode ser adicionado ao applet
+
+criação de classe
+
+class nomeDaClasse extends Canvas{
+
+ public void paint(Graphics g){
+
+//desenho
+
+ }
+} 
+
+Classe Panel
+
+um painel é um componente que serve de conteiner para outros componentes e possui um layout exclusivo
+
+criação de objeto
+
+Panel painel = new Panel();
+
+metodos
+
+painel.setLayout(Layout);
+painel.add(componente);
+
+
+
+As classes window
+
+Os componentes da classe window são frame e dialog e se tratam de componentes que contem componentes assim como os 
+panes só que em uma janela independente
+
+Classe Frame
+
+em portugues quadro é um componente de janela independente que pode conter outros componentes
+
+Construtor
+
+Frame janela = new Frame("String titulo"); //recebe um string para definir o titulo da nova janela ou não
+
+Adicionar componentes
+
+janela.add(componente);
+
+Definir layout
+
+janela.setLayout();
+
+Definir tamanho da janela
+
+janela.resize(int height, int width);
+
+Mostrar ou não mostrar
+
+janela.show(); //mostra a frame na tela
+janela.hide();//esconde a frame
+janela.isShowing();//retorna true se a janela estiver sendo mostrada e false se estiver escondida
+janela.setFont();
+
+Classe Dialog
+
+Ou caixas de dialogo, são tambem janelas associadas a frames que podem conter componentes mas com menos recursos
+são geralmente usadas para alertas e erros no programa, podem ser modais ou não modais sendo que modais
+impedem os outros componentes do programa de ser executados até que a janela seja escondida
+
+Construtores
+
+Dialog Alerta = new Dialog(Frame arg,String titulo,boolean modal);
+
+//Frame arg associa a caixa de dialogo a um frame existente
+//String titulo funciona como o titulo de frame e tambem é opcional
+//boolean modal = true nenhum componente da frame recebe foco ou açoes até que a caixa seja escondida
+
+possue os mesmos metodos de customização de frame
+
+
+Menus
+
+barra de menus é o que fica entre o titulo da janela e o lugar dos componentes como no notepad Arquivo....
+
+Classe MenuBar
+
+cria uma barra de menu que pode conter menus
+
+uso
+
+MenuBar mbar = new MenuBar();
+
+window.setMenuBar(mbar);
+
+//window é uma instancia da classe frame
+
+Classe Menu
+
+São menus que são colocados na menu bar
+
+uso
+
+Menu MyMenu = new Menu("File");//"File" é o nome do menu
+mbar.add(MyMenu);
+
+mbar.setHelpMenu(MyMenu); //define um menu de ajuda
+
+Ativando e desativando menus
+
+MyMenu.disable();
+Mymenu.enable();
+
+Classe MenuItem
+
+Cria itens para serem adicionados em menus
+
+uso
+
+Menu myMenu = new Menu("tools");
+myMenu.add(new MenuItem("Info"));
+
+Menu submenu = new Menu("sizes");
+myMenu.add(submenu);
+submenu.add(new MenuItem("small"));
+
+CheckboxMenuItem coords = new CheckboxMenuItem("Show Coordinates");// cria um item de menu em forma de check box
+myMenu.add(coords);
+
+//Se o argumento de menuitem for ("-") cria um separador de itens em um menu
+
+
+
+
+
+
+
+
+
+
+

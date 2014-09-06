@@ -1,0 +1,14 @@
+Element meta
+
+O elemento meta representa
+a tag html <meta> e possui como atributos
+todos os atributos e metodos de node 
+alem dos seus proprios atributos HTML
+
+=============================================
+Atributos de meta.
+
+meta.content	//Sets or returns the value of the content attribute of a meta element	
+meta.httpEquiv	//Sets or returns an HTTP header for the information in the content attribute	
+meta.name	//Sets or returns a name for the information in the content attribute	
+meta.scheme	//Sets or returns how the value of content should be interpreted		

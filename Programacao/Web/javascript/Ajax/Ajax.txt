@@ -1,0 +1,23 @@
+Ajax - Assychronous Javascript and XML
+
+Ajax é a maneira do codigo javascript se
+comunicar com o servidor assicronamente ou seja,
+em uma linha de execução separada por meio de
+pedidos(requests) e respostas(responses)
+
+Uma request consiste em uma URL com ou
+sem parametros extras e a resposta pode 
+ser em XML ou em texto(que pode conter codigo HTML)
+ou seja um output de uma pagina server-side
+
+ou seja é possivel enviar uma url com variaveis a
+o servidor e receber uma resposta em html para uma variavel
+javascript e adiciona-la a pagina por meio da DOM API
+
+o ajax é uma tecnologia que foi criada pela microsoft
+
+=================================================
+
+
+
+	 

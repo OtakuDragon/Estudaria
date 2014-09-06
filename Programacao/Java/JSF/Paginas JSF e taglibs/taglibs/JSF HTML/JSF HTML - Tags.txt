@@ -1,0 +1,165 @@
+JSF HTML
+
+A biblioteca HTML do JSF contem as tags do JSF
+que correspondem diretamente às tags normais do HTML
+com a diferença de que essas tags no JSF estarão diretamente
+ligadas à inteligencia e ao dinamismo do JSF
+
+Todas as tags que representam alguma tag do HTML possuem
+os mesmos atributos e eventos da tag HTML estes valores serão
+passados para a tag quando ela for gerada pelo jsf
+
+note que por mais que as tags possuam eventos como onclick
+não é aconselhavel utilizar UEL para executar um metodo
+do backing bean neste evento, os eventos devem ser processados
+por meio de funções javascript
+
+*Todas as tags possuem o atributo rendered que recebe um booleano
+ dizendo se o componenente deve ser exibido na tela ou não o padrão é true
+
+*Todos as tags que presentam <input> de formularios
+ podem receber um atributo value que recebe o atributo
+ do backing bean ao qual atribuir o dado quando enviar
+
+ex: <h:inputText id="nome" label="Nome" value="#{usuarioBean.nome}" required="true"/>
+
+*commandLinks e commandButtons executam metodos de backing beans com o atributo action
+
+ex:
+
+<h:commandButton action="#{usuarioBean.salvar}" value="salvar" />
+
+====================================================
+xml name space:
+
+xmlns:h="http://java.sun.com/jsf/html"
+
+prefixo
+
+<h:nomeDaTag>
+
+=======================================================
+Tags			Descrição
+
+<h:body>		Representa a tag <body> do HTML
+
+<h:button>		Cria um botão <input type="button"> cujos parâmetros podem ser montados com as tags
+			<f:param> aninhadas,Além disso permite usar um nome de mapeamento de pagina como destino
+			do botão no atributo outcome, O redirecionamento será acionado no evento onclick
+
+<h:dataTable> 		Representa uma tabela HTML que pode ser gerada dinamicamente por meio de dados fornecidos
+
+<h:column>		Configura uma coluna da tabela(<tr>) em uma tag <h:dataTable> 
+
+<h:form>		Representa um formulario HTML a action do form é definida no botão submit, por padrão o metodo
+			de envio dele é POST
+
+<h:commandButton>	Gera um botão de submit ou reset de formulario precisa obrigatoriamente estar dentro de um
+			<h:form> , possui o atributo action que recebe por UEL qual metodo executar no backing bean
+			quando o formulario for enviado, envia o formulario pelo metodo POST
+
+<h:commandLink>		Gera um link exclusivo para acionar recursos do JSF precisa obrigatoriamente estar dentro de um
+			<h:form>
+
+<h:graphicImage> 	Representa a tag <img> do HTML
+
+<h:head> 		Representa a tag <head> do HTML
+
+<h:inputHidden>		Gera um campo invisível, corresponde a <input type="hidden">
+
+<h:inputSecret>		Gera um campo de senha, corresponde a <input type="password">
+
+<h:inputText>		Gera um campo de texto, corresponde a <input type="text">
+
+<h:inputTextarea>	Gera uma area de texto, corresponde a <textarea>
+------------------------------------------------------------------------------------------
+<h:link>		Cria um link <a href> cujos parametros podem ser montados
+			com as tags <f:param> aninhadas,além disso,permite usar um nome
+			de mapeamento a página como destino do link no atributo outcome
+ex:
+
+Funciona para o JSF como um metodo de managed bean retornando a string de outcome no caso home
+para o redirecionamento
+
+<h: link value ="Home" outcome ="home"/>
+---------------------------------------------------------------------------------------------
+
+<h:message>		Mostra o texto das mensagens de erro ou alerta associadas ao componente
+			no lugar aonde está tag for colocada na pagina um componente a associado a tag
+			por meio do atributo for="idDoComponente"
+
+<h:messages>		Mostra todas as mensagens de erro geradas no lugar aonde está tag for colocada na pagina
+
+obs: por padrão mensagens completas são mostradas as tags de mensagem possuem os atributos showSummary
+     e showDetail booleanas que definem qual parte da mensagem mostrar por padrão em h:message as duas são true
+     e em h:messages uma é true a outra é false
+
+------------------------------------------------------------------------------------------------------------------
+<h:outputFormat>	Permite montar mensagens compostas no padrão java.text.MessageFormat e consegue exibir textos
+			com partes dinamicas com o uso da tag <f:param>
+
+ex:
+Note que {0} se refere ao valor do primeiro f:param e {1} ao segundo se existisse um terceiro parametro
+ele seria inserido no texto por meio de {2}
+
+<h:outputFormat value ="Preço do produto {0}: R$ {1}">
+ <f:param value ="#{lojaBean.produto.nome}"/>
+ <f:param value ="#{lojaBean.produto.preco}"/>
+</h:outputFormat >
+------------------------------------------------------------------------------------------------------------------
+
+<h:outputLabel>		Gera uma tag <label> que pode estar associada a um campo da tela possui o atributo for
+			que recebe o id do elemento ao qual este label pertence, e value recebe o texto da label
+
+<h:outputLink>		Gera um link HTML com a tag <a href> diferentemente de <h:link> você deverá montar manualmente
+			a url de destino
+-----------------------------------------------------------------------------------------------------------------------
+<h:outputScript>	Adiciona um bloco <script> na pagina o atributo target permite especificar aonde esse bloco
+			será gerado podendo ser definido como head para a tag <head>
+
+<h:outputStylesheet>	Permite adicionar a referencia para um arquivo css na pagina
+
+ex:
+
+lembrando que pastas library são pastas dentro de webContent/resources
+
+<h:outputScript name="k19.js" library ="javascript" target ="head" />
+<h:outputStylesheet name ="k19.css "library="css" />
+--------------------------------------------------------------------------------------------------------------------
+
+<h:outputText>		Gera em tela o texto especificado no atributo value ou no corpo da tag
+
+<h:panelGrid>		Permite montar um layout para disposição de componentes o resultado será uma
+			tabela HTML, recebe o atributo columns que define quantas colunas terá o layout
+
+<h:panelGroup>		Permite agrupar componentes para que eles sejam interpretados como um só em <h:panelGrid>
+
+<h:selectBooleanCheckbox>	Gera um unico componente <input type="checkbox"/> do html
+
+<h:selectManyCheckbox>	Gera uma lista de componentes <input type="checkbox"/> do html com base nos valores fornecidos
+			pelas tags <f:selectItem/> ou <f:selectItems/>
+
+
+<h:selectOneListbox>    Gera um componente <select> com varias linhas visiveis no qual é possivel selecionar apenas um item
+			
+
+
+<h:selectManyListbox>	Gera um componente <select> com varias linhas visiveis no qual é possivel selecionar varios itens
+			ao mesmo tempo
+
+<h:selectManyMenu>	Gera um componente <select> com com uma linha visivel no qual é possivel selecionar varios itens
+			ao mesmo tempo
+
+<h:selectOneMenu>	Gera um componente <select> com com uma linha visivel no qual é possivel selecionar um item
+ 
+
+			
+<h:selectOneRadio>	Gera uma lista de componentes <input type="radio" /> do HTML,com base em valores fornecidos pelas
+			tags <f:selectItem/> ou <f:selectItems/>
+
+==============================================================================================
+
+
+
+
+		

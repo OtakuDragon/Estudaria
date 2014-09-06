@@ -1,0 +1,281 @@
+JDBC
+
+Java database connectivity
+
+classes que o java utiliza para se conectar a um banco de dados
+
+Serve como uma camada intermediaria entre o programa e os bancos de dados
+ele flexibiliza as aplicações porque as aplicações somente tem contato com o
+jdbc e o jdbc com os diferentes bancos de dados.
+
+ou seja, se todas as queryes forem programadas em SQL padrão que todos os bancos
+de dados possuem é possivel mudar de banco de dados sem a necessidade de alterar 
+o codigo das queries
+
+Para que o JDBC funcione ele utiliza um driver de banco de dados programado
+pela empresa que criou o banco de dados.
+
+==============================================================================
+Importando um driver
+
+O primeiro passo é importar o driver jdbc do banco de dados para seu projeto 
+copie o .jar do driver de banco de dados para o projeto e vá em
+em propriedades do projeto/java buildpath/libraries/ add jar/ selecione o jar
+
+Após o driver inserido no classpath é necessario inseri-lo no codigo
+que irá utiliza-lo isto é feito da seguinte forma
+
+Class.forName("Fully qualified name do driver").newInstance();
+
+esta linha deve aparecer antes da conexão
+
+ex:
+
+String driver = "com.mysql.jdbc.Driver";
+Class.forName(driver).newInstance();
+============================================================================
+
+O proximo passo é criar uma conexão com um banco de dados existente
+
+uma url é necessaria "jdbc:oracle:thin:@nomeOuIPDoServidor:PortaTCP:TipoDOBancoDeDados"
+no curso a url usada foi "jdbc:oracle:thin:@localhost:1521:xe"//eu acredito que a porta tcp possa ser escolhida
+cada banco de dados possui uma url diferente
+
+está url esta na documentação que vem junto com o driver de cada banco de dados
+
+A classe Connection cria uma conexão com o banco de dados e recebe no construtor a url usuario e senha
+
+uso:
+
+Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","Gilson","123");
+
+*uma conexão precisa ser fechada com o metodo con.close(); quando não for mais necessaria
+
+==============================================================================================
+
+O Proximo passo é se comunicar com este banco de dados por meio de Statements
+
+Isto é feito por meio das Interfaces Statement e PreparedStatement
+
+
+------------------------------------------------------------------------------
+Interface Statement
+
+Os objetos Statement são criados apartir de um objeto de conexão
+podem ser utilizados varias vezes e precisam ser fechados após o seu ultimo 
+uso com o metodo close()
+
+Criação de objetos:
+
+Statement st = con.createStatement();
+
+
+-----------------------------------------------------------------------------------
+Metodos importantes:
+
+Nos Statements o codigo sql é passado como parametro destes metodos
+
+ResultSet rs = stm.ExecuteQuery("String com o codigo SQL");
+
+que é utilizado quando é necessaria a leitura de dados do banco de dados como neste statement acima
+ou seja quando não ocorre alteração este metodo retorna um ResultSet com os dados requisitados
+
+e
+
+stm.ExecuteUpdate("String com o codigo SQL");//retorna um numero inteiro indicando quantos registros foram modificados
+
+é utilizado quando é necessaria a escrita em um banco de dados 
+ou seja quando ele será alterado com um comando insert por exemplo
+este metodo retorna um inteiro dizendo se a alteração foi feita ou não
+
+-----------------------------------------------------------------------------------------
+Interface PreparedStatement
+
+Os objetos PreparedStatement tem as mesmas caracteristicas dos Statement com uma diferença
+o codigo sql é passado no construtor e pre-compilado no banco de dados na hora da instanciação
+do statement o que causa um aumento de performance
+
+Criação de objetos:
+
+PreparedStatement stm  = con.prepareStatement("select * from login");//Observe que o codigo sql é passado no construtor
+
+Este objeto PraparedStatement tem dois metodos importantes:
+
+ResultSet rs = stm.ExecuteQuery();
+
+que é utilizado quando é necessaria a leitura de dados do banco de dados como neste statement acima
+ou seja quando não ocorre alteração este metodo retorna um ResultSet com os dados requisitados
+
+e
+
+stm.ExecuteUpdate();//retorna um numero inteiro indicando quantos registros foram modificados
+
+é utilizado quando é necessaria a escrita em um banco de dados 
+ou seja quando ele será alterado com um comando insert por exemplo
+este metodo retorna um inteiro dizendo se a alteração foi feita ou não
+
+
+================================================================================================================
+Parametros variaveis no PreparedStatement
+
+O codigo sql definido da criação de um preparedstatement pode ter
+parametros definidos após sua criação basta substitui-los na declaração por "?"
+
+ex:
+
+stm.ExecuteUpdate("INSERT INTO nomeDaTabela VALUES(?,?)");//a query será carregada mas sem os valores
+
+//para se definir os valores basta utilizar os metodos set de preparedstatement com a posição e o dado
+
+stm.setInt(1,5);//supondo que no banco de dados o primeiro campo é um inteiro define o numnero 5 para ele
+stm.setString(2,'Gilson');//define um valor string para o segundo parametro de VALUES
+stm.executeUpdate();//executa a query
+stm.close();//fecha o statement
+
+
+
+================================================================================================================
+ResultSets
+
+ResultSet é uma coleção retornada por queries do tipo de leitura no banco de dados com
+o metodo executeQuery()
+
+Percorrendo um ResultSet:
+
+O result set é dividido em colunas assim como o banco de dados
+cada coluna possui um campo com um valor.
+
+as colunas são percorridas com o metodo next() de resultset
+e as linhas(campos) são recuperadas com metodos get*()
+
+Ex:
+
+String sql = "SELECT id,nome FROM cliente";
+Statement stmt = con.createStatement();
+ResultSet rs = stsmt.executeQuery(sql);
+
+while(rs.next){//percorre linha por linha
+	
+	int id = rs.getInt("id");//recupera o dado em tal coluna
+	String nome = ris.getString("nome");//os dados podem ser recuperados pelo nome do campo ou posição da coluna na linha
+
+
+
+}
+
+rs.close();
+
+===============================================================================================================
+Obtendo informações sobre o banco de dados e resultsets
+
+Estas informações são chamadas de meta dados
+
+As informações sobre o banco de dados como
+Bancos de dados disponiveis e Tabelas podem ser recuperadas
+
+atraves do metodo getMetaData() de um objeto connection
+
+ex:
+
+DatabaseMetaData info = con.getMetadata();
+
+//o objeto info tera todas essas informações
+
+------------------------------------------------------------------
+Obtendo meta dados de ResultSets
+
+Os resultssets tambem possuem meta dados que dizem por exemplo
+quantas colunas ele tem quais os tipos de dados das colunas
+estes meta dados são recuperados com o metodo de ResultSet getMetaData()
+
+ex:
+
+ResultSetMetaData info = rs.getMetaData();
+
+//o objeto info tera todas essas informações
+
+ 
+===============================================================================================================
+Adicionando varios registros de uma vez:
+
+Para melhorar a performance da aplicação é possivel se enviar
+varios registros em um só statement em um pacote(batch)
+
+String sql = "INSERT INTO cliente VALUES (?,?)";
+
+Statement stsmt = conn.prepareStatement(sql);
+
+//Cria um primeiro registro e o adiciona ao batch
+
+stmt.setInt(1,1);
+stmt.setString(2,'Cliente1');
+stsmt.addBatch();
+
+//Cria um segundo registro e o adiciona ao batch
+
+stmt.setInt(1,2);
+stmt.setString(2,'Cliente2');
+stsmt.addBatch();
+
+//Executa o Batch (substitui executeUpdate()) e fecha o statement
+
+stmt.executeBatch();
+stmt.close();
+===================================================================================================================
+SQLException
+
+Quase todos os metodos do jdbc jogam SQLException
+esta Exception tem alguns metodos especiais para a indentificação
+do erro:
+
+getMessage();//retorna a mensagem de erro como em qualquer exceção
+getSQLState();/retorna um dos códigos de estado do padrão ANSI-92 SQL
+getErrorCode();//retorna o código do erro especifico do fabricante do banco de dados
+getNextException();//retorna a exceção aninhada
+
+====================================================================================================================
+Transações
+
+são operações no banco de dados que só alteram o banco 
+nenhum erro ocorrer em nenhuma delas
+
+para definir transações é necessario 
+definir uma conexão que não altera os dados automaticamente
+apos cada pedido de update, mas sim espera um comando commit()
+
+e isso se faz
+
+try{
+
+ objetoDeConnection.setAutoCommit(false);
+
+ //passos da transação
+
+ objetoDeConnection.commit();
+
+}catch(Exception e ){objetoDeConnection.rollback();//desfaz o que foi alterado caso algum erro ocorra}
+
+
+====================================================================================================
+
+////////////IMPORTANTE\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+Assim como a Connection os objetos de PreparedStatement e de ResultSet
+precisam ser fechados por isso é aconselhado utiliza-los dentro de um try()
+
+Um codigo java com comandos sql não irá rodar com o prompr de comandos sql da oracle aberto
+
+Sempre tentar fazer o minimo de conexões possivel uam boa pratica é fazer uma conexão e passar ela como parametros
+que realizam ações no banco de dados
+
+O uso direto do JDBC foi substituido pelas frameworks ORM(object-relation mapping), que deixa
+o programador somente com objetos e abstrai toda a programação SQL dele, esta tecnologia é uma camada
+acima do JDBC que o manipula automaticamente e facilita a migração de codigos pra diferentes bancos de dados
+
+A primeira vertente de ORM que surgiu foi o Hibernate que esta sendo usado até hoje
+vendo o sucesso do hibernate a sun criou a Java Persistence API(JPA), que faz as mesmas
+coisas que o hibernate mas é oficialmente parte da linguagem.
+
+
+========================================================================================

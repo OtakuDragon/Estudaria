@@ -1,0 +1,25 @@
+Implementando o link de logout 
+
+se no arquivo de configuração applicationContext-security.xml a tag
+<logout> foi declarada é possivel definir um link em qualquer pagina
+da aplicação que realizará logout do usuario
+
+======================================================================
+O link
+
+A unica obrigação que o link de logout deve cumprir é direcionar para a url
+
+"#{request.contextPath}/j_spring_security_logout"
+
+Esta variavel UEL imprime o caminho relativo da pasta principal do projeto
+web na URL
+
+o link pode ser definido em uma tag <a> normal
+
+ex:
+
+<a href="#{request.contextPath}/j_spring_security_logout">Logout</a>
+
+ou se houver necessidade em um link JSF
+
+<h:outputLink onclick="document.location='#{request.contextPath}/j_spring_security_logout'">logout</h:outputLink>

@@ -1,0 +1,15 @@
+O ciclo de vida especifico dos SLSB
+
+Os stateless session beans, possuem o ciclo de vida
+abaixo:
+
+* O EJB container cria instancias do bean quando necessario(postConstruct)
+* Injeta os recursos atribuidos a ela por meio de injeção de dependencia
+* Coloca a instancia no pool de beans
+* Quando um cliente chama um metodo em uma interface de negocio, pega um bean
+  que estava pronto para uso no pool
+* Executa o metodo chamado com aquele bean
+* Quando o bean termina de executar o metodo ele volta ao pool no estado de pronto novamente
+* Quando necessario o EJB container destroy beans(preDestroy)
+
+==================================================================

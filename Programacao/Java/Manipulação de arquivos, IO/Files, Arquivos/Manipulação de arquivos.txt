@@ -1,0 +1,106 @@
+Manipulação de arquivos
+
+Manipulação de arquivos se trata de criar pastas e arquivos
+midifica-los e utiliza-los em seus programas
+
+*é recomendando utilizar o pacote java.nio.*;
+*para a manipulação de arquivos porque nio é new input/output
+*existe tambem o velho que é java.io
+
+
+Classe Path
+
+Serve para criar um objeto de caminho no programa
+para localizar diretorios ou arquivos.
+
+uso:
+
+Path caminho = Paths.get("D:/Users/Gilson/Desktop/Programação/Java/Manipulação de arquivos.txt"); // o metodo é da classe Paths mesmo
+
+Com esse objeto Path é possivel
+
+caminho.toAbsolutePath();//retorna uma string com o caminho
+
+caminho.getParent();// retorna uma string com o caminho da pasta pai ou seja nesse caso "D:\Users\Gilson\Desktop\Programação\Java"
+
+caminho.getRoot();// retorna uma string somente com a pasta raiz neste caso "D:\"
+
+path.getFileName();//retorna o nome do arquivo alvo "Manipulação de arquivos.txt"
+
+--------------------------------------------------------------------------------------------------------
+
+Criando uma nova pasta com o java
+
+para criar uma pasta com java use o metodo
+createDirectories da classe Files, que recebe
+como parametro a variavel Path para saber aonde criar a pasta
+
+uso:
+
+Path caminho = Paths.get("D:/Users/Gilson/Desktop/Programação/Java/Nova Pasta"); // os windows usa "\" e o java "/" para acessar diretorios
+
+Files.createDirectories(caminho);
+
+//Este metodo acessara o caminho dado e quando ele encontrar a pasta que não existe
+// ira cria-la
+
+-----------------------------------------------------------------------------------------------------
+
+Criando novos arquivos, escrevendo e lendo deles
+
+Para se criar um arquivo e escrever coisas ao mesmo tempo
+use o metodo Files.write(path,bytes);
+
+
+uso:
+
+Path caminho = Paths.get("D:/Users/Gilson/Desktop/Programação/Java/Manipulação de arquivos.txt");
+
+String c = "Conteudo do arquivo"
+
+Bytes[] b = c.getBytes();
+
+Files.write(caminho,b);// este metodo recebe os dados em formato de array de bytes então para inserir uma string use o metodo
+			//getBytes() para transformala em um array de bytes e envie.
+			//o arquivo Manipulação de arquivos.txt sera criado por ser a unica parte do caminho que nao existe ainda
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+Lendo do arquivo
+
+Para se ler dados de uma arquivo usa-se 
+o metodo Files.read(path); que recebe
+o caminho do arquivo e retora o array de bytes
+do conteudo
+
+uso:
+
+Path caminho = Paths.get("D:/Users/Gilson/Desktop/Programação/Java/Manipulação de arquivos.txt");
+
+Bytes[] retorno = Files.read(caminho);
+
+String resultado = new String(retorno);//é possivel passar um array de bytes para construtor de uma string
+                                       //caso os dados sejam um texto
+
+System.out.println(resultado);
+
+
+------------------------------------------------------------------------------------------------------------------------------
+
+Alguns metodos de Files
+
+Todos estes metodos recebem uma variavel path
+e retornam um informação sobre o arquivo
+
+Files.exists(path); //checa se o arquivo existe
+Files.isDirectory(path);// checa se é uma pasta
+Files.isRegularFile(path);// checa se é um arquivo
+Files.isReadable(path);// checa se é um possivel ler o arquivo
+Files.isExecutable(path);// checa se o arquivo é executavel
+Files.size(path);// retorna o tamanho do arquivo
+Files.getLastModifiedTime(path);// retorna a string com a data e a hora da ultima modificação
+Files.getOwner(path);// retorna o dono do arquivo
+Files.probeContentType(path);// retorna uma string com o tipo do arquivo
+
+
+

@@ -1,0 +1,43 @@
+Importando
+
+Importações de classes ou outros arquivos
+jsps são feitas por meio de tags diretivas
+
+*uma pagina pode ter diversas tags diretivas
+*tags diretivas de pagina devem estar antes do <doctype>
+ 
+
+==========================================
+Importando classes
+
+Para se utilizar metodos e atributos de classes
+nativas do java é necessario importa-las para o 
+codigo esta importação não pode ser feita dentro 
+das tags de script ou de declaração mas sim em tags
+diretiva de pagina
+
+-------------------------------------------
+Sintaxe
+
+<%@ page import="java.util.Date" %>
+
+*A importação é feita pelo nome completo
+ da classe com os pacotes
+
+==========================================
+Importando outros JSPs
+
+Tambem é possivel importar outros arquivos
+jsp para o seu jsp com o uso de uma tag
+diretiva include
+
+----------------------------------------------
+Sintaxe:
+
+<%@ include file="/arquivo.jsp" %>
+
+*A tag diretiva include não precisa estar no começo
+ do arquivo
+
+*Este exemplo importa um jsp que esta na mesma pasta que o
+ jsp que chama a tag

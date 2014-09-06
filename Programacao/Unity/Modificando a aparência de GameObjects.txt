@@ -1,0 +1,47 @@
+Modificando a aparência de GameObjects
+
+Todo game object possui um component basico
+que o exibe na tela do jogo, esté component
+é o mesh renderer
+
+Dentro deste component existe um subcomponent
+chamado materials e é por meio da adição de um material
+ao mesh renderer do game object que nós mudamos sua aparencia
+
+===================================================
+Composição de um material
+
+Um material é composto basicamente de:
+
+*textura ou cor - imagem ou cor que irá revestir o gameObject
+
+*configurações para esta textura ou cor
+
+*shader - Elemento que define como o gameObject interage com a luz
+
+====================================================
+Exemplos de shaders
+
+Diffuse - pouco refletivo como um pedaço de madeira
+
+Specular - leve reflexão da luz como um objeto metalico
+
+Self-Illum - Possui uma luz propria bem fraca e por isso é menos afetado pela sombra da cena
+
+====================================================
+Adicionando um material a um gameObject
+
+-Clique com o botão direito no projeto> Create... > Material
+
+-Isto criará um material em branco é necessario atribuir uma textura ou cor e o shader
+ a ele isto pode ser facilmente feito no inspector do material
+
+-Para adicionar uma textura ao projeto basta arrasta-la do computador para dentro do unity
+
+-Para atribuit um material a um game object basta arrastar o material para cima do game object
+
+===============================================
+Site para dowload de texturas
+
+http://www.cgtextures.com/
+

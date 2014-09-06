@@ -1,0 +1,36 @@
+A tag <h:graphicImage>
+
+Esta tag é a equivalente a <img> do HTML e serve
+para a impressão de imagens esta tag do jsf torna
+simples a utilização de imagens com endereço dinamico
+
+=======================================================
+A pasta resources e o dinamismo
+
+A tag <h:graphicImage> condidera por padrão a fonte de
+todas as imagens do aplicativo uma pasta resources dentro
+de WebContent esta pasta deve ser criada sempre que trabalhar
+com imagens em um projeto 
+
+exemplo estatico:
+
+<h:graphicImage library="imagens" name="bandeira_brasil.png" />
+
+--------------------------------------------------------------
+Atributos da tag <h:graphicImage>
+
+library - Aponta para uma pasta dentro da pasta WebContent/resources
+ 	  aonde procurar a imagem definida em name, ou seja a pasta resources
+          pode ter varias subpastas em si estas são consideradas como libraries
+
+name - Nome da imagem ao qual buscar naquela library, apenas o nome e a exntesão
+       sem preocupação nenhuma com localização, o valor name pode receber expressões UEL
+       para causar um dinamismo na busca da imagem como no exemplo abaixo
+---------------------------------------------------------------
+exemplo dinamico:
+
+<h:graphicImage library="imagens" name="bandeira_#{usuarioBean.pais}.png" />
+
+obs: A imagem exibida será diferente dependendo do valor do atributo pais do backing bean usuarioBean
+
+

@@ -1,0 +1,24 @@
+Recuperar valores de formularios
+
+1º criar um formulario com atributo id e campos com o atributo name
+
+2º recuperar uma referencia a esse formulario em uma variavel
+
+ex:
+    var forumlario = document.getElementById("id do formulario");
+
+3º referenciar os campos pelo nome atraves da variavel formulario
+
+ex:
+
+	var campo1 = formulario.nomeDoCampo1
+
+
+4º atraves destes campos acesse seus atributos e metodos
+
+
+ex:
+	formulario.email.value = "Gilson@123.com"; //supondo que o formulario tenha um campo tipo text com nome email
+	var email = formulario.email.value;
+
+	*o atributo value é do tipo string					

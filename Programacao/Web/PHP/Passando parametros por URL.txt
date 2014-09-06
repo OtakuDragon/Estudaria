@@ -1,0 +1,28 @@
+Passando parametros por URL
+
+O metodo GET dos formularios passa
+os parametros de um formulario por
+URL automaticamente
+
+mas é possivel passar parametros por URL
+manualmente com a seguinte sintaxe
+
+====================================================
+Sintaxe:
+
+localhost/pasta/script.php?parametro1=valor1&parametro2=valor2
+
+*Geralmente é util para recarregar a pagina para passar
+ valores diferentes para variaves
+
+=====================================================
+Recuperando
+
+Estes dados podem ser recuperados por meio
+de um dos arrays pre definidos
+
+$_REQUEST['parametro1'];//testado
+
+$_GET['parametro2'];//não testado
+
+

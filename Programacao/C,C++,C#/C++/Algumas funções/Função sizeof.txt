@@ -1,0 +1,8 @@
+Função sizeof
+
+Recebe um tipo de dado como parametro e
+retorna o seu tamanho em bytes 
+
+ex:
+
+cout<<sizeof(int);

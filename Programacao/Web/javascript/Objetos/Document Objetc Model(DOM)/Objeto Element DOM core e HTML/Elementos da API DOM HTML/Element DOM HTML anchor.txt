@@ -1,0 +1,18 @@
+Element anchor
+
+O elemento anchor representa
+a tag html <a> e possui como atributos
+todos os atributos e metodos de node 
+alem dos seus proprios atributos HTML
+
+=============================================
+Atributos de anchor
+
+anchor.charset	//Sets or returns the value of the charset attribute of a link	
+anchor.href	//Sets or returns the value of the href attribute of a link	
+anchor.hreflang	//Sets or returns the value of the hreflang attribute of a link	
+anchor.name	//Sets or returns the value of the name attribute of a link	
+anchor.rel	//Sets or returns the value of the rel attribute of a link	
+anchor.rev	//Sets or returns the value of the rev attribute of a link	
+anchor.target	//Sets or returns the value of the target attribute of a link	
+anchor.type	//Sets or returns the value of the type attribute of a link	

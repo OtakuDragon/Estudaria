@@ -1,0 +1,12 @@
+Adicionando AOP a um projeto
+
+1º opção
+
+criar uma user library com os jars que estão em Estudaria\Stuff\Libs\AOP lib
+e adiciona-la ao projeto
+
+2º opção
+
+Ver os jars necessarios neste video e baixa-los,criar a biblioteca e adiciona-la ao projeto
+
+https://www.youtube.com/watch?v=4P0TME-AbSw

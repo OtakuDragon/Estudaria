@@ -1,0 +1,62 @@
+Routines
+
+Tambem conhecidas como stored procedures é um conjunto de codigo 
+sql como uma função em uma linguagem de programação que fica guardada
+no banco de dados para ser executada facilmente quando necessaria
+
+===================================================================
+Criando uma routine
+
+Sintaxe:
+
+CREATE PROCEDURE 'nomeDoBanco'.'nomeDaProcedure' ()
+BEGIN
+
+//Codigo SQL
+
+END; 
+
+------------------------------------------------------------------
+Chamando uma routine
+
+Sintaxe:
+
+CALL nomeDaProcedure();
+
+------------------------------------------------------------------
+Excluindo uma procedure
+
+DROP PROCEDURE 'nomeDoBanco'.'nomeDaProcedure' ();
+
+=================================================================
+Triggers
+
+São tambem trechos de codigo sql armazenados no banco de dados
+com a diferença de que podem ser executados por eventos
+
+Sintaxe:
+
+CREATE TRIGGER nomeDoTrigger evento ON nomeDaTabela FOR EACH ROW
+BEGIN
+
+//Codigo SQL
+
+END;
+
+------------------------------------------------------------------
+Tipos de evento
+
+- BEFORE INSERT
+
+- BEFORE UPDATE
+
+- BEFORE DELETE
+
+- AFTER INSERT
+
+- AFTER UPDATE
+
+- AFTER DELETE
+
+- TEMPORAIS //é definido uma hora do dia e uma data para que o codigo seja executado
+

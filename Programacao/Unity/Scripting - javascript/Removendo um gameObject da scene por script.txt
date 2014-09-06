@@ -1,0 +1,29 @@
+Removendo um gameObject da scene por script
+
+Um game object pode ser completamente removido
+da scene atraves da chamda do metodo
+
+Destroy(gameObject);
+
+ou
+
+Destroy(gameObject,int time);//Esta assinatura recebe como parametro alem do objeto gameObject um numero inteiro
+			     //que diz ao metodo quantos segundos esperar antes de destruir o objeto
+
+Ela recebe como parametro a referencia de qual gameObject
+excluir, se o objeto nativo gameObject for passado o gameObject
+que possui o script será excluido
+
+=============================================
+Desativando um objeto
+
+Um objeto removido com Destroy não pode
+ser mais recuperado a menos que a cena seja
+recarregada
+
+para apenas desativar(esconder) um gameObject caso você
+precise apresenta-lo novamente utilize o metodo
+
+gameObject.setActive(boolean);//por padrão é true mas se for definido para false
+                              //apenas desativará o objeto e se em outro ponto esta
+                              //propriedade voltar a ser true o objeto será apresentado novamente

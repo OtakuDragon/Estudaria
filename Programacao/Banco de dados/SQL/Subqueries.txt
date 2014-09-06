@@ -1,0 +1,11 @@
+Subqueries
+
+São pesquisas dentro de uma tabela que veio de outra pesquisa
+um SELECT aninhado
+
+Sintaxe:
+
+SELECT * FROM nomeDaTabela WHERE condição IN (Comando SELECT que ira pesquisar dentro da tabela retornada pelo primeiro select)
+
+//IN representa que o resultado da primeira tabela tem q estar no resultado final
+//NOT IN em contrapartida remove o primeiro select do resultado

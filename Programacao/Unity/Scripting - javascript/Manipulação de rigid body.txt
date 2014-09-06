@@ -1,0 +1,45 @@
+Manipulação de rigid body
+
+Rigid Body é um component de física
+que pode ser adicionado a qualquer objeto
+
+este component faz com que o objeto tenha uma
+massa e que seja possivel aplicar forças a ele
+
+============================================
+Recuperando o objeto
+
+O objeto rigidbody esta disponivel
+em qualquer script pela palavra rigidbody
+
+==============================================
+Aplicando Torque
+
+Torque é uma força de rotação
+é possivel aplicar esta força atraves do metodo
+
+
+//relative torque porque ele é relativo as coordenadas do game object
+rigidbody.AddRelativeTorque(Vector3.forward * 10);//O parametro passado para este metodo é um vetor tridimensional que
+                                                 //diz em qual direçaõ rodar multiplica-lo aumenta a velocidade
+
+ou
+
+rigidbody.AddRelativeTorque (0, 10, 0);
+
+==============================================
+Aplicando velocidade
+
+Atraves da propriedade velocity de rigidbody
+é possivel atribuir uma velocidade ao gameObject
+em um de seus eixos
+
+dependendo do cenário esta velocidade será afetada
+pela massa do objeto,gravidade e atrito causando com que ele pare
+
+ex:
+
+rigidbody.velocity.y = 10;//Faz com que o objeto pule 10 pontos no eixo y
+
+rigidbody.velocity.x = -20;//faz com que o objeto seja empurrado para tras 20 pontos no eixo x 
+

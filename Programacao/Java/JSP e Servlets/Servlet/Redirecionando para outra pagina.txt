@@ -1,0 +1,51 @@
+Redirecionando com servlets
+
+A resposta de um servlet pode ser
+em text/html ou tambem uma ordem
+para o browser redirecionar para 
+outra pagina
+
+========================================
+sintaxe:
+
+protected void doGet(HttpServletRequest request,HttpServletResponse response)
+{
+
+response.sendRedirect("URL");
+
+//no caso de ser alguma pagina dentro da pasta
+//web content basta colocar o nome da pagina
+//ex: response.sendRedirect("teste.jsp");
+
+
+}
+
+==========================================
+O objeto RequestDispatcher
+
+Existe outra maneira de redirecionar para
+outra pagina, e esta maneira reaproveita
+os objetos request e response do metodo que a chama
+
+ou seja é possivel utilizar um objeto request
+para transmitir dados entre paginas utilizando
+o objeto RequestDispatcher que é recuperado de
+request
+
+Utilizando o request dispatcher a pagina é
+carregada no servidor é seu resultado é mandado
+para o browser
+
+Ex:
+
+protected void doGet(HttpServletRequest request,HttpServletResponse response)
+{
+
+RequestDispatcher dispatcher = request.getRequestDispatcher("URL");//define qual pagina carregar no servidor e retornar a resposta
+
+request.setAttribute("nome","Gilson");//utlizando requestDispatcher é possivel passar valores por meio do request
+                                      //pois o request é o mesmo para as duas paginas
+
+dispatcher.forward(request,response); //recebe os objetos request e response para utilizar na outra pagina
+
+}

@@ -1,0 +1,54 @@
+Objetos implicitos em Managed beans
+
+Managed beans possuem acesso a varios objetos
+importantes para a manipulação e gerenciamento
+da aplicação web.
+===================================================
+Acessoando estes objetos
+
+para acessar estes objetos dentro da classe managed bean
+é necessario possuir um atributo do tipo de dado do objeto
+e atribuir o objeto impicito a ele por meio da anotação @ManagerProperty
+utilizando expression language
+
+ex:
+
+@ManagedProperty(value = "#{headerValues}")
+private Map mapa;
+
+==================================================
+Objeto			Descrição
+
+application		(ServletContext) representa a instancia atual do ServletContext
+
+applicationScope	(Map) Representa os valores dos atributos do objeto ServletContext
+
+cookie			(Map) Representa um map das cookies válidas para a requisição atual
+			sendo o nome do cookie a chave do map
+
+facesContext		(FacesContext) Representa a instância de FacesContext para a requesição atual
+
+header			(Map) Representa um map da headers HTTP da requisição atual,sendo o nome da
+			header a chave do map
+
+headerValues		(Map) Parecido com o header porém os valores de cada header vem como um Objeto List
+			e não uma string
+
+request			(HttpServletRequest) Representa a instancia atual de HttpServletRequest
+
+requestScope		(Map) Representa um mapa com os atributos da requisição atual sendo o nome do atributo a chave do map
+
+session			(HttpSession) Representa a instancia atual de HttpSession
+
+sessionScope		(Map) representa um map com os atributos da sessão atual sendo o nome do atributo a chave do map
+
+
+initParam		(Map)Representa os valores dos parametros de inicialização do aplicativo que podem ser
+			definidos em web.xml
+
+param			(Map)Representa os valores dos parametros passados nessa requisição
+
+paramValues		(Map)Representa os valores dos parametros passados nessa requisição como um mapa de listas
+
+
+view			(UIViewRoot)Representa o UIComponent raiz que armazena toda a arvore de componentes da pagina atual

@@ -1,0 +1,20 @@
+Unidades de medida
+
+O Css possui varias unidades de medida
+
+algumas absolutas que são do mesmo tamanho independente do tamanho da janela ou
+da resolução da tela por isso seu uso não é indicado
+
+- px
+
+- cm
+
+- pt
+
+- in
+
+E algumas relativas que se baseiam em um padrão e se adaptam a ele
+
+- %
+
+- em // 1em significa o tamanho padrão da fonte 2em significa duas vezes o tamanho padrão da fonte

@@ -1,0 +1,11 @@
+Simbolos em html
+
+
+Simbolos são caracteres que não pertencem ao encoding utf-8
+que é o padrão para toda a web, simbolos como : ç à â 
+podem ser escritos de uma maneira que um browser de encoding utf-8
+entendera da segunte forma & + nome do simbolo
+
+uma lista com o nome de todos os simbolos possiveis:
+
+http://www.w3schools.com/tags/ref_symbols.asp 

@@ -1,0 +1,5 @@
+Localização e criação de arquivos
+
+Varios metodos que mexem com arquivos recebem um caminho
+seja um URL,URI,Path quando o caminho dado é somente o nome do arquivo
+o eclipse considera a local como a pasta do projeto para a criação e localização de arquivos

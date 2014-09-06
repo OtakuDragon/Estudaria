@@ -1,0 +1,7 @@
+Tag para indentificação do codigo php
+
+<?php
+
+//codigo
+
+?>

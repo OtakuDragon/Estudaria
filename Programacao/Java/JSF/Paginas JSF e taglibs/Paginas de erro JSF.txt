@@ -1,0 +1,14 @@
+Paginas de erro JSF
+
+No jsf é possivel associar uma pagina a uma exceção java
+para que o usuário seja redirecionado para esta pagina
+sempre que aquela exceção ocorrer isto é feito adicionando
+esta tag ao web.xml
+
+<error-page>
+ <exception-type>java.lang.Exception</exception-type>
+ <location>/pagina-de-erro.xhtml</location>
+</error-page>
+
+//O codigo acima define que se qualquer exceção acontecer na aplicação
+//a pagina pagina-de-erro.xhtml deve ser mostrada

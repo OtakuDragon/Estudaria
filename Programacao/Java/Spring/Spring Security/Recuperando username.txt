@@ -1,0 +1,23 @@
+Recuperando username
+
+==========================================================
+Em pagina JSF
+
+O username do usuário logado pode ser recuperado na pagina jsf
+por meio do objeto implicito request
+
+ex:
+
+#{request.remoteUser}
+
+ou
+
+#{request.userPrincipal.name}
+
+========================================================
+No Backing bean
+
+FacesContext context = FacesContext.getCurrentInstance();
+ExternalContext external = context.getExternalContext();
+String login = external.getRemoteUser();
+

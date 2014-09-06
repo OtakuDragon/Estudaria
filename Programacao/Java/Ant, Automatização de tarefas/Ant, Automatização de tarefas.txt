@@ -1,0 +1,89 @@
+Ant
+
+O Ant é uma API voltada para a automatização de tarefas
+ela já vem incluida no eclipse e é um projeto open source e free da apache
+
+===============================================================================
+Build File
+
+Para a utilização do ant em um projeto é necessario a criação de um arquivo xml
+por padrão chamado build.xml na pasta do projeto este arquivo tem todas as tarefas
+a serem realizadas e é executado como ant file para que as tarefas sejam realizadas
+
+------------------------------------------------------------------------------------
+
+Criando uma buid file
+
+crie um arquivo xml na pasta do projeto
+
+ctrl + espaço
+
+BuildFile template
+
+
+===================================================================================
+Estrutura do build file
+
+Tag raiz <project>
+
+Esta tag é a tag raiz do build file e cada build file contem somente uma
+ela possui dois atributos basicos:
+
+*name //indica o nome do projeto pode ser qualquer um
+
+*default // indica o nome da tag target padrão que sera executada quando nenhuma target for escolhida
+
+---------------------------------------------------------------------------------------------
+
+Tag <target> 
+
+Cada build file deve possuir pelo menos uma tag target, as tarefas a serem realizadas
+vão dentro das tags target, um target é um conjunto de tarefas(tasks).
+
+cada taget pode ser executado separadamente, a menos que haja dependencia nesse caso todos os targets
+dependentes são executados.
+
+Tags target tem dois atributos importantes:
+
+*name // define qual o nome da target para diferencia-las caso seja necessario a escolha de um target
+
+*depends // recebe um nome de um outro target, no caso de este target depender da execução de outro target
+	//é opcional
+
+---------------------------------------------------------------------------------------------------
+
+Tasks
+
+Tasks não são uma tag especifica cada tarefa tem sua tag e seus atributos 
+elas vão dentro de target e são o que realmente são executadas,
+para uma lista de todas as targets e seus atributos cheque a documentação Ant
+
+em uma task na hora de definir um caminho, o ant pega como base o caminho do arquivo build.xml
+ou seja a pasta do projeto
+
+Lista da documentação de todas as tasks
+
+http://ant.apache.org/manual/tasklist.html
+
+------------------------------------------------------------------------------------------------
+Tag Property
+
+A tag property é usada para criar variaveis para valores de atributos nas tags ao inves de ir diretamente
+no atributo e colocar o valor, é possivel dar ao atributo o valor de uma variavel e depois
+somente mudar o valor desta variavel para mudar o valor de todos os atributos que a referenciam
+
+Properties podem ser de nivel project vistas em todo o arquivo ou de nivel target vistas somente dentro daquela target
+
+ex:
+
+criando uma property
+
+<property name="srcDir" value="src">
+
+Usando o valor da property
+
+<fileset dir="${srcDir}" /> // o valor do atributo dir desta tarefa sera o valor da property srcDir
+
+===========================================================================================
+
+

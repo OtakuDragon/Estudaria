@@ -1,0 +1,10 @@
+Visibilidade
+
+A visibilidade de uma propriedade ou método pode ser definida prefixando
+a declaração com as palavras-chave: 'public','protected' ou 'private'.
+
+* public - Itens declarados como public podem ser acessados por todo mundo.
+* protected - limita o acesso a classes herdadas (e para a classe que define o item).
+* private -  limita a visibilidade para apenas a classe que define o item.
+
+//se nenhuma palavra-chave for definida sera usada a padrão public

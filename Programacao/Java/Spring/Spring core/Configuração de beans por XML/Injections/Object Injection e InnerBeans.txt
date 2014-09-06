@@ -1,0 +1,111 @@
+Declaração de bean que possui como atributo outros beans(objeto)
+(Object Injection)
+
+Quando o atributo de um bean é um objeto ele tambem precisa ser um 
+bean configurado e é atribuido ao bean por meio da tag property com
+o atributo ref
+
+ 
+------------------------------------------------------------------------
+ex:
+
+//Classe da qual o bean será gerado
+
+public class Triangle{
+
+	//Point é uma classe que possui dois atributos x e y
+	//que agem como coordenadas e seus getters e setters
+	private Point PointA;
+	private Point PointB;
+	private Point PointC;
+
+
+//getters and setters
+
+}
+
+
+-------------------------------------------------------------------------
+No arquivo de configuração dos beans
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans> 
+	<bean id="triangle" class="shapesPack.Triangle">
+		<!-- os beans declarados e configurados abaixo são atribuidos a os atributos -->
+		<!-- de triangle assim como no setter injection name recebe o nome do atributo -->
+		<!-- e o atributo é passado pela propriedade ref que recebe como valor o id do bean -->
+		<property name="PointA" ref="beanPointA"/>	
+		<property name="PointB" ref="beanPointB"/>
+		<property name="PointC" ref="beanPointC"/>
+	</bean>
+
+	<!-- Abaixo os objetos que o bean (id)triangle possui referencias são declarados como beans e configurados -->
+
+	<bean id="beanPointA" class="shapesPack.Point">
+		<property name="x" value="0"/>
+		<property name="y" value="0"/>
+		
+	</bean>
+
+	<bean id="beanPointB" class="shapesPack.Point">
+		<property name="x" value="-20"/>
+		<property name="y" value="0"/>
+		
+	</bean>
+
+	<bean id="beanPointC" class="shapesPack.Point">
+		<property name="x" value="20"/>
+		<property name="y" value="0"/>
+		
+	</bean>
+
+</beans>
+
+==================================================================================
+InnerBeans
+
+outra opção para a realização de um object injection é
+a criação de um bean interno a uma propriedade que só
+é visivel para aquela propriedade
+
+esta tecnica é indicada quando o bean somente será utilizado
+para aquele atributo especifico e nada mais
+
+Os innerbeans são declarados como beans normais dentro de uma
+tag property de um atributo da classe 
+
+innerbeans não precisam ter id ja que não poderão ser chamados
+em nenhum outro lugar no codigo
+
+ex:
+
+<beans> 
+	<bean id="triangle" class="shapesPack.Triangle">
+		
+		<property name="PointA">
+			<bean class="shapesPack.Point">
+				<property name="x" value="0"/>
+				<property name="y" value="0"/>
+			</bean>
+		</property>
+	
+		<property name="PointB">
+			<bean class="shapesPack.Point">
+				<property name="x" value="-20"/>
+				<property name="y" value="0"/>
+		
+			</bean>
+		</property>
+
+		<property name="PointC">
+			<bean class="shapesPack.Point">
+				<property name="x" value="20"/>
+				<property name="y" value="0"/>
+			</bean>
+		</property>
+	</bean>
+
+</beans>
+
+==============================================================================

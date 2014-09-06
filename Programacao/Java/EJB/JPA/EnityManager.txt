@@ -1,0 +1,6 @@
+EnitityManager
+
+é a interface da JPA que contem
+os metodos para persistir,recuperar,
+atualizar e deletar objetos do banco
+de dados.

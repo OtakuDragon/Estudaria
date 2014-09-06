@@ -1,0 +1,11 @@
+Diagrama de objetos
+
+Em um diagrama de objetos é possivel
+ilustar as relações entre instancias de classe(objetos)
+
+uma instancia é representada por um retangulo com o seu nome
+e nome da sua classe na parte de cima e os seus atributos
+e seus valores na parte de baixo
+
+uma instancia se relaciona a outra por meio de links que são
+uma linha

@@ -1,0 +1,77 @@
+PhaseEvent
+
+Os PhaseEvents são eventos disparados
+automaticamente pelo JSF antes e depois de cada uma
+das fases do processamento de uma requisição.
+
+Esses eventos são úteis basicamente para monitorar
+a execução dessas fases.
+
+===========================================================
+Implementando um PhaseEvent
+
+Para tratar um PhaseEvent, podemos criar uma classe
+que implemente a interface javax.faces.event.PhaseListener.
+
+Além disso, precisamos registrar essa classe no arquivo faces-config.
+xml.
+
+A interface PhaseListener obriga a implementação de três métodos: afterPhase(), beforePhase()
+e getPhaseId().
+
+------------------------------------------------------------
+O metodo getPhaseId()
+
+Este metodo deve retornar um objeto
+javax.faces.event.PhaseId este metodo especifica
+a qual fase do processamento JSF o evento será executado
+
+os valores possiveis são:
+
+• PhaseId.RESTORE_VIEW
+• PhaseId.APPLY_REQUEST_VALUES
+• PhaseId.INVOKE_APPLICATION
+• PhaseId.PROCESS_VALIDATIONS
+• PhaseId.UPDATE_MODEL_VALUES
+• PhaseId.RENDER_RESPONSE
+• PhaseId.ANY_PHASE		//todas as fases
+
+---------------------------------------------------------------
+Os metodos beforePhase() e afterPhase()
+
+Estes metodos possuem o codigo que será executado
+antes e depois que a fase definida do metodo getPhaseId()
+acontecer
+
+---------------------------------------------------------------
+ex:
+
+package br.com.k19;
+
+public class MonitorPhaseListener implements PhaseListener {
+
+ @Override
+ public void afterPhase (PhaseEvent event){
+ System.out.println("MonitorPhaseListener.afterPhase()");
+ System.out.println(event.getPhaseId ());
+ }
+
+ @Override
+ public void beforePhase (PhaseEvent event){
+ System.out.println("MonitorPhaseListener.beforePhase()");
+ System.out.println(event.getPhaseId());
+ }
+
+ @Override
+ public PhaseId getPhaseId(){
+ return PhaseId.ANY_PHASE;
+ }
+}
+
+------------------------------------------------------------------------
+No arquivo faces-config.xml
+
+<lifecycle>
+<phase-listener>br.com.k19.MonitorPhaseListene </phase-listener>
+</lifecycle>
+

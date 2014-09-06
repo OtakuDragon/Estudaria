@@ -1,0 +1,65 @@
+Bancos de dados
+
+Bancos de dados são mecanismos para o armazenamento de dados
+um conjunto de dados com estrutura regular
+
+Conceito dos livros:
+
+"Coleção de dados organizados de modo a satisfazer necessidades do usuário"
+							-Ralph M. Stair
+=========================================================================
+Sistema de banco de dados
+
+Sistema computadorizado com o propósito geral de armazenar dados centralizados
+eles permitem que o usuario busque e manipule dados quando necessário
+e tem como objetivo gerar informações.
+
+é composto por,banco de dados,SGBD,hardware,software e usuarios
+
+=========================================================================
+SGBD
+
+Sistema gerenciador de banco de dados software utilizado para
+a manipulação do banco de dados
+
+--------------------------------------------------------------------------
+Modelos de dados de SGBD
+
+Modelo de dados é uma coleção de ferramentas conceituais para descrição
+dos dados e seus relacionamentos além de suas restrições e semântica
+
+Models de dados:
+
+- Modelo hierarquico
+- Modelo de rede
+- Modelo Relacional	
+
+O padrão mundial atualmente(2013) para banco de dados é o de banco de dados relacionais
+
+- Banco de dados relacionais
+	
+	Compostos por tabelas, relação na metamatica significa 
+	relação entre linhas e colunas,ocupa menos espaço e é mais rapido
+	do que os bancos não relacionais
+
+
+============================================================================
+A Estrutura dos Bancos de dados relacionais
+
+Bancos de dados relacionais são ferramentas que permitem o armazenamanto e
+manipulação de dados organizados em formas de tabelas
+
+São formados por tabelas que possuem:
+
+* Colunas - representam os campos que formam um registro
+
+* Linhas - representam os registros 
+
+obs: Consultas geram novas tabelas(temporarias)
+
+==============================================================================
+Banco de dados Free
+
+*PostgreSQL
+
+*Firebird

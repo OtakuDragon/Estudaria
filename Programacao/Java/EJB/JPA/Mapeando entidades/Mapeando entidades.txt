@@ -1,0 +1,14 @@
+Mapeando entidades
+
+Mapear entidades(POJO), a tabelas de um banco 
+de dados relacional, é uma das bases do ORM(a outra
+sendo mapear relacionamentos)
+
+
+
+
+	
+
+
+
+

@@ -1,0 +1,18 @@
+Organizando
+
+Clicar no projeto com o botão direito
+
+selecionar propriedades
+
+java build path
+
+add folder
+
+adicone um folder com o nome src
+
+confirme,confirme
+
+Arraste seu pacote principal para dentro de src
+
+bin sera invisivel e possuira todas as classes compiladas e src sera
+visivel e possuira todos os codigos

@@ -1,0 +1,17 @@
+Element link
+
+O elemento anchor representa
+a tag html <link> e possui como atributos
+todos os atributos e metodos de node 
+alem dos seus proprios atributos HTML
+
+=============================================
+Atributos de link.
+
+link.charset	//Sets or returns the character encoding of a linked document	
+link.href	//Sets or returns the URL of a linked document	
+link.hreflang	//Sets or returns the language code of the linked document	
+link.media	//Sets or returns the media type for the link element	
+link.rel	//Sets or returns the relationship between the current document and the linked document	
+link.rev	//Sets or returns the reverse relationship from the linked document to the current document	
+link.type	//Sets or returns the content type of the linked document	

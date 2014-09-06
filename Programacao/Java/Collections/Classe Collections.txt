@@ -1,0 +1,32 @@
+Classe Collections
+
+A Classe Collections possui um grupo de metodos staticos para a manipulação de
+coleções de qualquer tipo
+
+Alguns métodos:
+
+List<String> list = new ArrayList<>();
+
+list.add("joão");
+list.add("maria");
+list.add("josé");
+
+Collections.sort(list);//Recebe como parametro uma coleção e a ordena em ordem alfabetica para strings
+		       // e provavelmente e ordem crescente para numeros
+
+Collections.reverse(list);//Inverte a coleção 
+
+Collections.shuffle(list);//Embaralha a coleção, toda vez que este metodo é executado a coleção tera uma ordem
+			  // randomica diferente
+
+Collections.frequency(list,"joão");//recebe como parametro uma coleção e um elemento e retorna o inteiro de quantas
+				   // vezes aquele elemento aparece na coleção
+
+Collections.disjoint(list,list2);//recebe duas coleções e retorna true se não existir elementos da list2 na list1
+
+Collections.fill(list,"maria");//Recebe uma coleção e um elemento e substitui todos os elementos da lista por aquele
+			       // elemento
+
+Collections.unmodifiableCollection(list);//Recebe uma coleção como parametro e retorna uma coleção do mesmo tipo 
+					// a coleção retornada não pode ser modificada ou seja é constante 
+

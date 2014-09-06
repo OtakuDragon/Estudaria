@@ -1,0 +1,24 @@
+Migrando um projeto maven para um projeto eclipse
+
+Para transformar um projeto maven em um projeto eclipse
+é necessario ir na pasta do projeto e executar o plugin eclipse
+com o comando eclipse
+
+ex:
+
+mvn eclipse:eclipse
+
+
+o projeto será transformado depois basta apenas importa-lo
+
+==============================================================
+Repositorios
+
+Após a importação todos os jars estarão com um caminho
+não encontrado porque eles estão no repositorio local maven
+e este endereço é representado por uma variavel que o eclipse não
+conhece
+
+basta apenas criar esta variavel no projeto com o endereço dos repositorios
+locais maven
+

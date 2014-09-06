@@ -1,0 +1,5 @@
+action="URL da pagina"
+action="<?php $PHPSELF ?>"
+action="?"
+action="#"
+

@@ -1,0 +1,35 @@
+Math
+
+É a classe java para calculos matematicos comuns
+
+ela não deve ser instanciada todos os seus metodos e
+constantes são estaticos
+
+algumas funções
+
+Valor de PI - Math.PI // Constante
+
+Valor da constante de euler "e" - Math.E //Constante
+
+Raiz quadrada de um numero - Math.sqrt(numero);
+
+Raiz cubica de um numero - Math.cbrt(numero);
+
+seno, cosseno e tangente de um numero - Math.sin(numero);Math.cos(numero);Math.tan(numero);
+
+Constante de euler "e" elevado a um numero - Math.exp(numero);
+
+Logaritmo natural de um numero - Math.log(numero);
+
+x elevado a y - Math.pow(x,y);
+
+Arredondar um numero - Math.round(numero);
+
+Comparar numeros x,y para saber qual é o maior ou menor - Math.max(x,y),Math.min(x,y)
+
+Saber se um numero é possitivo, negativo ou igual a 0 - Math.signum(numero)//retorna -1 quando numero negativo
+									 // 1 quando numero positivo
+									// e 0 quando numero = 0
+Arredondar para cima e arredondar para baixo - Math.ceil(numero)// para cima
+					       Math.floor(numero)//para baixo
+

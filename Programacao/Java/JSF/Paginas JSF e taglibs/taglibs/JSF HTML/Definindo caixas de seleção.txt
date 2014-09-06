@@ -1,0 +1,49 @@
+selectitem 
+
+<h:selectOneMenu value ="#{cursosBean.siglaDoCursoEscolhido}">
+ <f: selectItem itemValue =" K11 " itemLabel =" Orientação a Objetos em Java ">
+ <f: selectItem itemValue =" K12 " itemLabel =" Desenvolvimento Web com JSF2 e JPA2 ">
+</h: selectOneMenu >
+
+Atributos:
+
+value - Nome do atributo do managed bean no qual a opção escolhida será armazenada
+
+itemValue - Valor que será atribuido ao atributo do managed bean caso esta opçaõ seja escolhida
+
+itemLabel - Descrição da opção como aparecerá para o usuário
+
+========================================================================
+selectitems
+
+<h: selectOneMenu value ="#{cursosBean.siglaDoCursoEscolhido}"> //value1
+ <f: selectItems value ="#{cursosBean.cursos}" var ="curso"    //value 2
+  itemValue ="#{curso.sigla}"
+  itemLabel ="#{curso.nome}"/>
+</h: selectOneMenu >
+
+value1 - Nome do atributo do managed bean no qual a opção escolhida será armazenada
+
+value2 - Nome da coleção de objetos que preenchera os itens
+
+var - como em dataTable nome da variavel que é usada para definir como as infomações serão imprimidas
+      cada item da lista iterado será atribuido a esta variavel criada pela f:selectItems
+
+itemValue - Valor que será atribuido ao atributo do managed bean caso esta opçaõ seja escolhida
+
+itemLabel - Descrição da opção como aparecerá para o usuário
+
+
+*obs: no caso de uma caixa de seleção de multipla escolha será retornado ao managed bean uma lista
+      ou seja como nos exemplos acima siglaDoCursoEscolhido deveria ser uma lista de strings
+      se o tipo de seleção fosse selectManyMenu
+
+======================================================================
+Pseudo-seleção
+
+Quando em uma caixa de seleção é necessario definir uma opção que não tem nenhum
+valor ela é adicionada da seguinte forma
+
+<f: selectItem itemLabel ="Nenhum" noSelectionOption ="true" />
+
+O item label pode ser qualquer um como "nenhuma das alternativas" por exemplo

@@ -1,0 +1,38 @@
+Decoração
+
+A decoração de textos no css é feita pela propriedade
+
+text-decoration
+
+Valores para text-decoration
+
+text-decoration:none; //define nenhuma decoração é o valor padrão
+
+text-decoration:underline; //sublinha o texto
+
+text-decoration:overline: //desenha uma linha acima do texto
+
+text-decoration:line-through;// desenha uma linha em cima do texto
+
+text-decoration:blink; //faz o texto piscar
+
+text-decoration:inherit; //herda da tag pai
+
+==========================================================================
+Transformação
+
+A transformação é feita pela propriedade
+
+text-transform
+
+Valores para text-trasform
+
+text-transform:none;//define nenhuma transformação é o valor padrão
+
+text-transform:capitalize;//todas as primeiras letras de todas as palavras se tornam maiusculas
+
+text-transform:uppercase;//transforma todo o texto para letras maiusculas
+
+text-transform:lowercase;//transforma todo o texto para letras minusculas
+
+text-transform:inherit;//herda da tag pai

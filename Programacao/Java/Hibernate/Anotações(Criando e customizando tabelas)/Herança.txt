@@ -1,0 +1,160 @@
+Herança
+
+Herança é uma ferramenta muito importante
+da programação OO e o hibernate torna possivel
+sua implementação nos bancos de dados 
+
+*Obs: se uma classe herda o atributo anotado com @Id
+      de outra não é necessario declara-lo nela
+=============================================================
+Implementação Single Table
+
+Existem varias maneiras de se implementar herança no hibernate
+a mais simples delas e padrão é a single table na qual todos os
+objetos da hierarquia são colocados em uma mesma tabela
+
+esta tabela possui uma coluna especial e esta coluna identifica
+qual é a classe do objeto guardado o nome desta coluna é
+Discriminator column
+
+a tabela terá todos os campos de todas as classes herdadas
+sendo as mais altas na hierarquia tendo campos 
+
+O numero de campos que a tabela em questão terá vai depender do numero
+de entidades que herdam da classe base esse numero é ilimitado
+
+ex:
+
+@Entity
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="Coluna_Especial"
+                     discriminatorType=DiscriminatorType.STRING
+
+)
+public class Fruta{
+
+@Id @GeneratedValue
+private int pK;
+
+private String nome;
+
+//getters and setters
+}
+
+@Entity
+@DiscrimantorValue("Naranja")
+public class Laranja Extends Fruta{
+
+
+public String gomos;
+
+//getters and setters
+
+}
+
+A tabela gerada pelo exemplo acima:
+
+terá uma coluna discriminadora com os tipos(classes) dos objetos
+esses tipos por padrão são o nome da classe mas podem ser modificados
+pela anotação @DiscrimantorValue, a anotação @DiscriminatorColumn configura
+esta coluna definindo um nome e um tipo de dado por padrão tring
+
+
+Uma coluna Id
+
+Uma coluna nome
+
+Uma coluna gomos
+
+
+sendo que por mais que os objetos do tipo fruta possuam um campo gomos
+na tabela esse valor sempre vai ser vazio
+
+===================================================================================
+Implementação Table per Class
+
+Na implementação single table um problema que ocorre é a criação de muitos
+campos que ficarão vazios por ocorrer a generalização da tabela
+
+Na implementação table per class esse problema não existe pois cada classe
+possui uma tabela e um detalhe é que todas elas dividemr o mesmo Id
+
+
+ex:
+
+
+@Entity
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+public class Fruta{
+
+@Id @GeneratedValue(strategy=GenerationType.TABLE) //IMPORTANTE
+private int pK;
+
+private String nome;
+
+//getters and setters
+}
+
+@Entity
+public class Laranja Extends Fruta{
+
+
+public String gomos;
+
+//getters and setters
+
+}
+
+
+=====================================================================================
+Implementação Joined
+
+Na implementação Table per Class existe uma problema de normalização
+todos os campos da superclasse aparecem nas tabelas das subclasses
+o que causa muitos campos repetidos
+
+A implementação joined resolve este problema utilizando a tabela da
+superclasse como a tabela principal nela existe uma chave primaria
+e todos os atributos que pertencem a superclasse armazenados
+
+para salvar os atributos das subclasses para cada subclasse é criada
+uma tabela com um campo estrangeiro que recebe a chave primaria do objeto
+na tabela da superclasse, e os outros campos são os atributos especificos
+daquela subclasse
+
+para buscar todos os atributos de um objeto é necessario executar uma query JOIN
+por isso o nome do metodo, com a tabela da superclasse e a tabela da subclasse
+que se deseja
+
+ex:
+
+@Entity
+@Inheritance(strategy=InheritanceType.JOINED)
+public class Fruta{
+
+@Id @GeneratedValue
+private int pK;
+
+private String nome;
+
+//getters and setters
+}
+
+@Entity
+public class Laranja Extends Fruta{
+
+
+public String gomos;
+
+//getters and setters
+
+}
+
+
+
+Com as entidades acima para se buscar informações sobre um
+atributo laranja é preciso se executar a seguinte query no sql
+
+SELECT * FROM Fruta INNER JOIN Laranja USING(pK) WHERE pK = 1; //seleciona a laranja com @Id 1
+
+

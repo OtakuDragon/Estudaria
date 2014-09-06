@@ -1,0 +1,104 @@
+JSF Ajax
+
+O Ajax(Asynchronous Javascript And XML) utiliza o javascript
+para realizar varias requisições http em uma mesma pagina
+
+sendo possivel a alteração de valores e processamento de dados
+sem que haja a mudança ou atualização de pagina
+
+=========================================================
+A tag <f:ajax>
+
+Esta tag é a unica necessaria para realizar operações
+com ajax.
+ 
+ela deve estar posicionada dentro da tag de
+input que disparara a requisição ajax ou para agrupar
+todas os inputs que dipararão requisições ajax
+
+-------------------------------------------------------
+Atributos de <f:ajax>
+
+event	- recebe o nome do evento javascript naquele componente que executará
+	  a requisição ajax, sem o prefixo on, (exemplo: evento javascript onclick
+	  valor para event click)
+
+execute - recebe o id dos componentes(separados por espaço) de input aos quais enviar para o servidor
+	  no request
+
+render  - recebe o id dos componentes(separados por espaço) aos quais atualizar após a requisição ao
+	  servidor ter sido feita,usado para imprimir o resultado
+
+listener - recebe por uel um metodo de managed bean que retorna void e recebe como parametro um objeto
+	   AjaxBehaviorEvent, este metodo é executado sempre que a requisição daquela tag é executada
+
+=================================================================
+Valores especiais
+
+os atributos render e execute podem receber valores especiais
+
+@all  - refere-se a todos os componentes da tela.
+@none - refere-se a nenhum componente.
+@this - refere-se ao componente que disparou a requisição AJAX.
+@form - refere-se aos componentes do formulário que contém o componente que disparou a requisição
+        AJAX.
+
+*recebem estas anotações como string exemplo execute="@all"
+ envia todos os campos da pagina para o servidor
+
+==================================================================
+ex:
+
+Simples:
+
+<h:inputText id="valor" value="#{dolarBean.valor}">
+ <f:ajax listener="#{dolarBean.teste}" event="click"  execute="valor" render="output"/>
+</h:inputText>
+
+<h:outputText value="#{dolarBean.valor}" id="output"/>
+
+managed bean
+
+@ManagedBean
+@SessionScoped
+public class DolarBean {
+
+float valor;
+float variacao;
+Date data;
+	
+public void teste(AjaxBehaviorEvent event){
+	System.out.println("O metodo executou");
+		
+}
+
+//getters + setters
+
+Explicação:
+
+Este exemplo acima quando o campo inputText acima é clicado o seu valor é enviado para
+o servidor(managed bean) e o campo outputText é atualizado para mostrar o valor dele
+o metodo teste() tambem é executado
+
+-----------------------------------------------------------------------
+ex:
+
+Multiplos campos executados e renderizados
+
+<h:inputText id="valor" value="#{dolarBean.valor}">
+ <f:ajax listener="#{dolarBean.teste}" event="click"  execute="valor campo1 campo2" render="output campo1 campo2"/>
+</h:inputText>
+
+----------------------------------------------------------------------
+ex:
+
+Uma tag ajax para diversos inputs
+
+<f:ajax event="mouseout">
+<h:inputText/>
+<h:inputSecret/>
+<h:commandButton value ="OK"/>
+</f:ajax>
+
+
+	  

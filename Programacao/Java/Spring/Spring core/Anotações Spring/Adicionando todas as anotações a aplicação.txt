@@ -1,0 +1,8 @@
+Adicionando todas as anotações a aplicação
+
+Se o spring.xml possuir os namespaces
+spring é possivel declarar todos os postprocessors
+de anotações com somente uma tag:
+
+<context:annotation-config/>
+

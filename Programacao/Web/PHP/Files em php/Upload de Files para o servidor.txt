@@ -1,0 +1,76 @@
+Upload de files por formulario
+
+Os formulario HTML tem um input do tipo
+file para o envio de arquivos para o servidor
+
+para que o envio de arquivos seja bem sucedido
+é necessario definir um atributo extra no
+formulario
+
+===========================================
+Atributo no formulario para upload
+
+Para que o upload seja possivel é
+preciso definir o seguinte atributo
+na tag <form>:
+
+enctype="multipart/form-data"
+
+*Files sempre devem ser passadas pelo metodo POST
+
+==============================================
+Array pré-definido $_FILES
+
+Quando o arquivo é enviado ao servidor
+ele vai para o array $_FILES na posição
+do nome da sua tag input type="file"
+
+Um arquivo neste array trata-se de um array
+tambem neste array é possivel recuperar 4
+informações sobre o arquivo enviado
+
+ex:
+
+no form:
+
+<input type="file" enctype="multipart/form-data" name"MeuArquivo"/>
+
+no php:
+
+$_FILES['MeuArquivo']; //refere-se a um array com informações sobre o arquivo
+$_FILES['MeuArquivo']['name']; //Retorna o nome do arquivo (ex: arquivo.txt,arquivo2.gif)
+$_FILES['MeuArquivo']['type']; //Retorna o tipo do arquivo (ex: plain/text,application/pdf)
+$_FILES['MeuArquivo']['tmp_name'];//retorna a url do arquivo temporario criado no servidor para o arquivo
+$_FILES['MeuArquivo']['size']; //retorna o tamanho do arquivo em numero de bytes
+$_FILES['MeuArquivo']['error']; //retorna 1 se ocorrer algum erro e 0 se não
+
+*Estas informações são utilizadas para a validação do arquivo
+ 
+
+=========================================================
+Transferindo o arquivo para o servidor
+
+O arquivo passado pelo formulario vira um arquivo 
+temporario, para realmente copia-lo para o servidor
+é necessario utilizar a função:
+
+move_uploaded_file("URLDoArquivo","LocalNoServidor");
+
+Este função recebe dois parametros que são URLs
+a primeira é aonde esta o arquivo e para aonde ele tem que ir
+
+esta função retorna true se o upload for feito com sucesso e false
+se não
+
+ex:
+
+move_uploaded_file($_FILES['MeuArquivo']['tmp_name'],"Uploads/".$_FILES['MeuArquivo']['name']);
+
+//A localização do arquivo temporario é sempre feita por meio de $_FILES['MeuArquivo']['tmp_name']
+  E o alvo pode ser qualquer pasta no servidor e deve acabar com o $_FILES['MeuArquivo']['name']
+
+//Se somente $_FILES['MeuArquivo']['name'] for usado como alvo o arquivo sera copiado para a pasta
+ do script que chamou a função 
+
+
+ 

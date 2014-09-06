@@ -1,0 +1,94 @@
+Named Queries
+
+Deixar varias queries espalhadas por 
+varias partes do codigo torna a manutenção
+complicada
+
+para resolver este problema é possivel declarar
+queries dentro de uma entidade por meio de anotações
+e apenas chama-las e passar seus devidos parametros
+
+é aconselhavel agrupar todas as queries que afetem uma
+entidade como named queries dela com a sintaxe mostrada abaixo
+para uma mais facil manutenção e organização do codigo
+
+==================================================
+Anotação @NamedQuery
+
+A anotação @NamedQuery deve ser utilizada abaixo
+da anotação @Entity em uma entidade e é por meio 
+dela que uma name query HQL é declarada
+
+ex:
+
+@Entity
+@NamedQuery(name="User.nomeDaQuery",query="from User where userId > :id")
+public class User
+{
+
+//codigo
+
+}
+
+obs: por convenção os nomes de named queries devem começar com o nome da entidade
+     . o nome da query
+
+obs: o atributo query recebe o codigo HQL a ser executado quando a query for chamada
+
+obs: ":id" é a variavel da query
+
+====================================================
+Anotação @NamedNativeQuery
+
+A anotação @NamedNativeQuery deve ser utilizada abaixo
+da anotação @Entity em uma entidade e é por meio 
+dela que uma name query SQL é declarada
+
+
+ex:
+
+@Entity
+@NamedQuery(name="User.nomeDaQuerySQL",query="select * from TABELA_USER where userId > :id", resultClass=User.class)
+@Table(name="TABELA_USER")
+public class User
+{
+
+//codigo
+
+}
+
+obs: por convenção os nomes de named queries devem começar com o nome da entidade
+     . o nome da query
+
+obs: o atributo query recebe o codigo SQL a ser executado quando a query for chamada
+     note que por ser codigo SQL ele leva em consideração o nome da tabela e suas colunas
+     diferentemente da HQL que leva em consideração nome da classe e atributos
+
+obs: ":id" é a variavel da query
+
+obs: O atributo resultClass define qual tipo de objeto retornar para a query.list() ou
+     outro metodo de resultado
+
+===========================================================
+Executando named queries
+
+@NamedQuery e @NamedNativeQuery são executadas com
+o mesmo metodo session.getNamedQuery() que retorna
+um objeto query
+
+ex:
+
+//dentro de session.beginTransaction()
+
+
+Query query = session.getNamedQuery("User.nomeDaQuery");//executa a named query de HQL definida acima se o nome fosse
+						        //User.nomeDaQuerySQL executaria a query SQL sem que nenhuma alteração seja necessaria
+query.setInteger("id",5);//Define o parametro :id para a query HQL
+
+List<User> users = query.list(); 
+
+//finalização da transação e sessão 
+
+
+
+

@@ -1,0 +1,28 @@
+JFrame
+
+Todos os programas começam com a janela
+e para criar sua propria janela você pode criar
+um objeto JFrame, ou uma classe que herda de JFrame
+
+Alguns metodos
+
+JFrame janela = new JFrame();//cria um novo objeto JFrame
+
+janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //recebe um parametro de uma constante que define
+							// o que deve acontecer quando o botão "X" fechar for clicado
+							// por padrão ele não faz nada
+
+janela.setSize(int Width,int Height);// define a resolução da janela
+
+janela.setLocation(int Width,int Height);// define a posuição da janela em pixels na tela
+
+janela.setVisible(Boolean visivel);// define se a janela deve ser mostrada ou não com um parametro boolean
+
+janela.getContentPane();//retorna o Conteiner da janela ou seja a parte da janela que pode receber componentes
+
+uso:
+
+
+janela.getContentPane().add(Component componente);//adiciona um componente a janela
+
+//o layout padrão do Conteiner de JFrame  é o BorderLayout

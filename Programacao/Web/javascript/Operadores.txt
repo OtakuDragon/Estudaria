@@ -1,0 +1,104 @@
+Operadores Javascript
+
+Comparação
+
+=== - Identidade(valor e tipo de dados iguais)
+
+!== - Identidade Diferente(valor e tipo de dados diferentes)
+
+== - Igual
+
+!= - Diferente
+
+> - Maior que
+
+< - Menor que
+
+>= - Maior ou igual
+
+<= - Menor ou igual
+
+
+
+//maior e menor que tambem comparam ordem alfabetica
+
+===============================
+
+logica
+
+&& - e
+
+|| - ou
+
+! - negação
+
+=============================================================
+
+Aritmeticos
+
++ - soma // o operador + utilizado unariamente na frente de um valor tentara converter este
+	 // valor para o tipo number ex: var a = "5"; var b = +a;
+         //neste caso var a tem o tipo string e var b tipo number
+
+- - Subtração // o operador - funciona tambem unariamente mas tornando o numero ou valor negativo
+
+* - multipicação
+
+/ - divisão
+
+% - modulo
+
+++ - incremento
+
+-- - decremento
+
+================================================================
+
+string
+
++ - concatenação (como em java)
+
+* de bits
+
+& - bitwise AND
+
+| - bitwise OR
+
+^ - bitwise XOR
+
+<< - bitwise left shift
+
+>> - bitwise right shift
+
+==================================================================
+
+atribuição
+
+= - atribuição
+
++= - atribuição de soma
+
+-= - atribuição de subtração
+
+/= - atribuição de divisão
+
+%= - atribuição de mod
+
+================================================================
+Caracteres de Escape
+
+\n nova linha;
+\r retorno de carro (semelhante a \n)
+\t tabulação horizontal
+\\ a própria barra (\)
+\/ barra invertida
+\’ aspas simples
+\” aspas duplas
+\u + codigo unicode //imprime caracteres unicode ex: \u123
+
+==========================================================
+Comentarios
+
+// comentario simples
+
+/* comentario em bloco */

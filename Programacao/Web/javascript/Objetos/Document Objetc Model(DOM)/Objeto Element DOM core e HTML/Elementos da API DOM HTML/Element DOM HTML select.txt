@@ -1,0 +1,25 @@
+Element select
+
+O elemento select representa
+a tag html <select> e possui como atributos
+todos os atributos e metodos de node 
+alem dos seus proprios atributos HTML
+
+=============================================
+Atributos de select.
+
+select.options		//Returns a collection of all the options in a dropdown list
+select.disabled		//Sets or returns whether the dropdown list is disabled, or not	
+select.form		//Returns a reference to the form that contains the dropdown list	
+select.length		//Returns the number of options in a dropdown list	
+select.multiple		//Sets or returns whether more than one item can be selected from the dropdown list	
+select.name		//Sets or returns the name of a dropdown list	
+select.selectedIndex	//Sets or returns the index of the selected option in a dropdown list	
+select.size		//Sets or returns the number of visible options in a dropdown list	
+select.type		//Returns which type of form element a dropdown list is	
+
+================================================
+Metodos de select
+
+select.add()	//Adds an option to a dropdown list	
+select.remove()	//Removes an option from a dropdown list

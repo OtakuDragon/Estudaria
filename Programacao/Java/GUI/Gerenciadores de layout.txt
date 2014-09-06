@@ -1,0 +1,114 @@
+Conteiners possuem o metedo setLayout();
+
+que recebe como argumento objetos de um dos gerenciadores de layouts que se seguem:
+
+Classe FlowLayout
+
+é o layout padrao quando nenhum é definido e insere componentes da esquerda para direita até acabar a linha e pula para proxima linha
+
+Criação de objeto
+
+FlowLayout layout = new FlowLayout(int alinhamento,int distanciaHorizontalEntreComponentes,int distanciaVerticalEntreComponentes).
+
+
+alinhamentos
+
+FlowLayout.CENTER;
+FlowLayout.LEFT;
+FlowLayout.RIGHT;
+
+==============================================================================================================================
+
+Classe GridLayout
+
+Layout em grade recebe o numero de linhas e colunas que o layout deve ter
+
+Criação de objeto
+
+GridLayout layout = new GridLayout(int linhas, int colunas,int distanciaHorizontalEntreComponentes,int distanciaVerticalEntreComponentes);
+
+uso:
+
+conteiner.add(Component c ou Conteiner c);//posiciona o elemento em ordem assim que a primeira linha acabar começara a colocar componentes na segunda linha
+===============================================================================================================================
+
+Classe BorderLayout
+
+border layout organiza componentes com base nos pontos cardeais seu metodo add(String arg, componente) recebe alem do componente uma string
+que pode ser North,South,East,West e Center
+
+Criação de objeto
+
+BorderLayout layout = new BorderLayout(int intervaloHorizontal,int intervaloVertical); 
+
+uso:
+
+conteiner.add(BorderLayout.NORTH, Component c ou Conteiner c);//posiciona o elemento na posição da constante
+
+===============================================================================================================================
+
+Classe CardLayout
+
+armazena paineis em items que chama de cartas
+
+Criação de objeto
+
+CardLayout layout = new CardLayout()
+
+adicionando um carta
+
+add(String nomeDaCarta,Panel conteiner);
+
+mostrando uma carta
+
+show(Class classe, String nome);
+
+============================================================================================================================
+
+Classe GridBagLayout
+
+Cria um layout de linhas e colunas mas com atributos muito bem definidos para a posição de cada componente
+nesas linhas e colunas chamadas contraint
+
+criação de objeto
+
+GridBagLayout layout = new GridBagLayout();
+
+criação de constraint
+
+GridBagConstraints constraint = new GridBagConstraints();
+
+atributos de constraint
+
+constraint.gridx = int ; Define a coluna da celula para aquele componente
+constraint.gridy = int; define a linha da celula para aquele componente
+constraint.gridwitdth = int; define quantas colunas a celula vai ocupar
+constraint.gridheigth = int; define quantas linhas a celula vai ocupar
+constraint.weightx = int; define qual a proporção da coluna aquela celula vai ocupar
+constraint.weighty = int; define qual a proporção da linha aquela celula vai ocupar
+constraint.fill = int;
+constraint.ipadx = int; adiciona espaço nos lados do componente
+constraint.ipady = int; adiciona espaço em cima e embaixo do componente
+valores para fill
+
+GridBagConstraints.BOTH;//alonga o componente nas duas direções caso a janela seja redimensionada
+GridBagConstraints.NONE;//Faz com que o componente não se ajuste a redimensão da tela e seja do seu menor tamanho
+GridBagConstraints.HORIZONTAL;//Alonga o componente na vertical
+GridBagConstraints.VERTICAL;//Alonga o componente na horizontal
+
+constraint.anchor= int;
+
+define a orientação do componente dentro da celula
+
+valores para anchor
+
+GridBagConstraints.CENTER; //padrão
+GridBagConstraints.NORTH;
+GridBagConstraints.NORTHEAST;
+GridBagConstraints.EAST;
+GridBagConstraints.SOUTHEAST;
+GridBagConstraints.SOUTH;
+GridBagConstraints.SOUTHWEST;
+GridBagConstraints.WEST;
+GridBagConstraints.NORTHWEST;
+

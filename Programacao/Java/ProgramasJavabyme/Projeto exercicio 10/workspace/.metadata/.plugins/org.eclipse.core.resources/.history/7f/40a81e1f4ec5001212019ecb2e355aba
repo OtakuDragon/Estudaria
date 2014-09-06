@@ -1,0 +1,12 @@
+
+public class Cliente {
+
+	
+	
+	public static void main(String[] args) {
+		double x = 5;
+		double y = 5;
+
+	}
+
+}

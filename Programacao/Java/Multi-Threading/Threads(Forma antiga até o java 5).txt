@@ -1,0 +1,105 @@
+Threads 
+
+Um programa é um processo e um processo é dividido em threads
+todo programa possui no minimo uma thread
+
+Threads são a maneira de o software(Processo) executar várias tarefas paralelamente e não 
+somente uma execução linear
+
+=========================================================================================
+
+Modificador synchronized
+
+é utilizado em metodos acessados por threads e somente permite que uma thread
+utilize o metodo por vez.
+
+=============================================================================
+Interface Runnable
+
+É uma interface implementada por classes que desejam ter seu código executado
+em uma thread separada.
+
+public void run(){//metodo a ser sobre escrito para dizer o que a thread devera executar
+
+//Codigo a ser executado pela thread
+
+}
+
+//para executar o codigo deste metodo se chama o metodo start() de um objeto
+//que implemente runnable
+
+
+Alguns problemas da interface Runnable
+
+*O metodo run não pode retornar dados
+
+*O metodo run não pode lançar(throws) exceptions, ou seja,
+ todas as exceções dentro dele devem ser tratadas
+
+Para resolver estes problemas foi criada a interface Callable no pacote java.util.concurrent
+=====================================================================================
+
+Classe Thread
+
+Classe Thread implenta a interface Runnable é geralmente usada como superclasse
+para threads, a classe Thread possui os seguntes metodos
+
+start();//Diz a jvm que a thread esta pronta para o uso
+
+public void run(){//metodo a ser sobre escrito para dizer o que a thread devera executar
+
+//Codigo a ser executado pela thread
+
+}
+
+Thread.sleep(long millis);//metodo estatico da classe Thread que diz para a jvm colocar a thread em espera
+			//por um determinado tempo joga a exceção InterruptedException.
+
+
+stop();// é chamado automaticamente pela jvm ao fim de run ou quando run retorna por meio de return;
+
+
+uso:
+
+Classe Teste implements Runnable{//a interface runnable possui o metodo run e é aconselhavel ser usada para criar threads porque
+				//o construtor de Thread pode receber um objeto Runnable e não ocupa o espaço de herança
+
+	public void run(){
+
+	System.out.print("paralelo");
+
+
+	}
+
+
+
+public static void main(String[] args){
+
+Thread a = new Thread(new Teste());
+Thread b = new Thread(new Teste());
+
+
+
+a.start();
+b.start();
+
+
+
+}
+
+
+
+
+
+
+}
+
+=============================================================================================================================
+
+Metodos de Object para Threads
+
+wait();//usado em um while e pede para que todas as threads que acessam aquele metodo esperarem
+	//até a condição do while ser falsa
+
+notifyAll();//Quando uma boolean que diz que o metodo ja pode ser usado por Threads muda de valor
+	   // este metodo é chamado para avisar a todos os Threads

@@ -1,0 +1,137 @@
+Regras de implementação de MDBs
+
+Um Message Driven Bean é um consumer JMS cuja a função é
+receber mensagens e processa-las, a logica de negocio para
+processar mensagens deve ser mantida em session beans. 
+
+MDBs que deve seguir as seguintes regras:
+
+* A classe do MDB deve implementar a interface MessageListener para mensagens JMS
+
+* A classe do MBD não pode ser final nem abstrata e deve ser public
+
+* A classe do MBD não pode ser subclasse de outro MDB
+
+* A classe do MBD deve possuir um construtor sem argumentos que será
+  utilizado pelo EJB container para instanciar o bean
+
+* A classe do MBD não pode jogar RuntineExceptions isto causa com que o 
+  bean seja destruido quando a exceção é lançada, e a mensagem volte para
+  a queue ou topic(poison message), por isso sempre trate todas as exceções
+  possiveis.
+
+==================================================================
+Definindo e configurando um MDB
+
+Um MBD é caracterizado pela anotação @MessageDriven
+que possui os seguintes atributos(todos opcionais):
+
+*String name - define o nome do MDB o padrão é o nome simples da classe
+
+*Class messageListenerInterface - um .class da interface MessageListener
+				  uma opção ao operador implements
+
+*Activation ConfigProperty[]    - Um Array de anotações @ActivationConfigProperty
+                                 que configura todos os aspectos JMS do MDB
+
+*String mappedName
+
+*String description
+
+-----------------------------------------------------------------------
+Propriedades de ativação dos MDB
+
+O Array de @ActivationConfigProperty pode configurar 
+as propriedades abaixo:
+
+*Propriedades Obrigatorias
+
+propertyName	      Definição e valores
+
+destinationType       Define o tipo de destination que será consumido valores possiveis são
+                      javax.jms.Queue e javax.jms.Topic
+
+connectionFactory     Nome JNDI da fabrica de conexões com o MOM que será utilizado para
+                      instanciar o consumer do MDB
+
+destinationName       Nome JNDI da destination da onde o MDB consumira mensagens
+
+
+
+*Propriedades Opcionais
+
+propertyName	      Definição e valores
+
+acknowledgeMode	       O mesmo acknowledgeMode que os producers estão utilizando valores possiveis
+                       AUTO_ACKNOWLEDGE,CLIENT_ACKNOWLEDGE,DUPS_OK_ACKNOWLEDGE,SESSION_TRANSACTED
+
+subscriptionDurability Define no caso de um tipo de envio publisher-subscriber se a mensagem será enviada
+                       somente aos subscribers disponiveis(valor Non-Durable(Default)) ou se o MOM deve  guardar a mensagem
+                       dos indisponiveis e quando possivel entregar para todos os subscribers (valor Durable)
+
+messageSelector	       recebe como valor uma query que funciona como uma clausula dizendo que este mdb só deve
+                       consumir mensagens que possuam properties que atendam a clausula ex: valor FirstName IS NOT NULL
+		       atenderá mensagems que tiverem message.getStringProperty("FirstName") != null;
+		       ver tabela de possibilidades messageSelector
+
+		       message selectors são uteis quando se deseja utilizar uma fila para varios tipos de mensagens
+                       processadas por beans diferentes.
+
+--------------------------------------------------------------------------
+ex:
+
+@MessageDriven(activationConfig = {@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+@ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/MyQueue"),
+@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge")})
+public class MessageConsumer implements MessageListener {
+	
+
+    //Utilizado para ter acesso ao gerenciamento de transações
+    @Resource
+    private MessageDrivenContext context;
+
+    public MessageConsumer() {
+ 
+    }
+ 
+    public void onMessage(Message message) {
+ 
+        TextMessage tm = (TextMessage) message;
+        try {
+            System.out.println("Received message is ==========> " + tm.getText());
+        } catch (JMSException e) {
+ 
+            e.printStackTrace();
+	    context.setRollbackOnly();
+        }
+ 
+    }
+
+   @PostConstruct
+   public void initialize() {
+    connection = dataSource.getConnection();
+
+   }
+
+   @PreDestroy
+   public void cleanup() {
+   connection.close();
+   connection = null;
+   }
+}
+
+-----------------------------------------------------------------------
+Enviando mensagens com MDB
+
+MDB's tem acesso a uma fabrica de conexão e a uma destination
+portanto tambem podem enviar mensagens como qualquer outro producer
+
+ex:
+
+Session session = jmsConnection.createSession(true,
+Session.AUTO_ACKNOWLEDGE);
+MessageProducer producer = session.createProducer(errorQueue);
+...
+producer.send(message);
+session.close();
+=======================================================================

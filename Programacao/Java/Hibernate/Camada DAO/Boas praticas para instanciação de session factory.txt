@@ -1,0 +1,37 @@
+Boas praticas
+
+O recomendado para o metodo de intanciação de session factory
+ja que seu codigo é consideravelmente extenso é declara-lo
+como o metodo estatico de uma classe e utilizar esta classe
+para invoca-lo em classes DAO
+
+e chama-lo sempre que for necessario abrir uma sessão
+
+===========================================================
+ex:
+
+public class HibernateUtil{
+
+	public static SessionFactory getSessionFactory() {
+
+		SessionFactory sessionFactory = null;
+	    try {
+	        Configuration configuration = new Configuration();
+
+	        configuration.configure();
+
+	        ServiceRegistry  serviceRegistry = new ServiceRegistryBuilder().applySettings(
+
+	        configuration.getProperties()).buildServiceRegistry();
+
+	        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+	    } catch (HibernateException hbe) {
+
+	        hbe.printStackTrace();
+
+	    }
+
+	    return sessionFactory;
+	}
+
+}

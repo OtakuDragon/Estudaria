@@ -1,0 +1,114 @@
+tags Stantard actions
+
+Tag <jsp:useBean>
+
+A tag useBean é utilizada para recuperar um objeto de
+um dos escopos ou criar um novo objeto no jsp
+
+equivalente a new Object()
+
+Atributos:
+
+*id - nome do objeto ao qual criar e nome pelo qual a tag
+      procurará o objeto nos escopos(chave do objeto)
+
+*class - classe parar criar o objeto ou tipo de retorno do
+        metodo getAttribute() do escopo tipo para o qual converter
+
+
+*scope - em qual escopo procurar o objeto, valores: page(padrão),session,request,application
+
+*beanName -  define o nome para referenciar o bean através do método instatiate() da classe java.beans.Beans.
+
+
+-----------------------------------------------------
+ex:
+
+<jsp:useBean id="user" class="org.koushik.javaBrains.dto.User" scope="request"> </jsp:useBean>
+
+------------------------------------------------------
+Tag <jsp:setProperty>
+
+Esta tag atribui a um atributo de um objeto
+um valor, deve ser usada como tag interna de <jsp:useBean>
+
+equivalente a metodos setters de classes
+
+Atributos:
+
+*property - Nome do atributo na classe ao qual atribuir o valor
+            deve ser o nome da variavel
+
+*name - Nome do objeto ao qual aplicar a atribuição(id do useBean)
+
+*value - Valor ao qual atribuir ao atributo
+
+-----------------------------------------------------
+ex:
+
+
+<jsp:setProperty property="userName" name="user" value="otakudragon" />
+
+---------------------------------------------------------------
+Tag <jsp:getProperty>
+
+Recupera o valor de um atributo de um objeto
+o objeto deve ter sido instanciado normalmente
+ou por meio de uma tag useBean
+
+a tag getProperty não precisa estar dentro de useBean
+
+equivalente a metodos setters de classes
+
+Atributos:
+
+
+*name - nome do objeto ao qual recuperar o atributo
+
+*property - nome do atributo ao qual recuperar
+
+*a propria tag  retorna o valor ou seja o lugar aonde
+ esta a tag será substituido pelo valor do atributo na pagina html
+
+---------------------------------------------------------------
+ex:
+
+<jsp:getProperty property="userName" name="user" />
+
+-----------------------------------------------------------------------
+Tag <jsp:include>
+
+Adiciona um arquivo jsp na pagina em tempo de execução
+o include das diretivas adiciona a pagina em tempo de
+compílação
+
+
+Atributos:
+
+
+*page - recebe o endereço da pagina jsp
+
+---------------------------------------------------------------------
+ex:
+
+<jsp:include page=”includedPage.jsp” />
+
+-----------------------------------------------------------------------
+Tag <jsp:forward>
+
+Redireciona para a pagina passada
+na propriedade page
+
+Atributos:
+
+
+*page - recebe o endereço da à qual redirecionar
+
+------------------------------------------------------------------
+ex:
+
+<jsp:forward page=”forwardedPage.jsp” />
+
+
+
+

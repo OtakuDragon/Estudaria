@@ -1,0 +1,165 @@
+Element input
+
+O elemento input representa a tag html <input> 
+e possui como atributos todos os atributos 
+e metodos de node alem dos seus proprios atributos HTML
+e cada type de tag <input> possui seus proprios atributos
+
+=============================================
+Element input type="button"
+
+Representa o botão em um formulario
+
+-----------------------------------------------
+
+Atributos de input type="button"
+
+button.disabled	//Sets or returns a boolean that defines whether a button is disabled, or not	
+button.form	//Returns a reference to the form that contains a button	
+button.name	//Sets or returns the value of the name attribute of a button	
+button.type	//Sets or returns the type of a button	Yes
+button.value	//Sets or returns the value of the value attribute of a button	
+
+=============================================
+Element input type="reset"
+
+Representa o botão reset em um formulario
+
+-----------------------------------------------
+
+Atributos de input type="reset"
+
+reset.disabled	//Sets or returns a boolean that defines whether a button is disabled, or not	
+reset.form	//Returns a reference to the form that contains a button	
+reset.name	//Sets or returns the value of the name attribute of a button	
+reset.type	//Sets or returns the type of a button	Yes
+reset.value	//Sets or returns the value of the value attribute of a button	
+
+=============================================
+Element input type="submit"
+
+Representa o botão submit em um formulario
+
+-----------------------------------------------
+
+Atributos de input type="submit"
+
+submit.disabled	//Sets or returns a boolean that defines whether a button is disabled, or not	
+submit.form	//Returns a reference to the form that contains a button	
+submit.name	//Sets or returns the value of the name attribute of a button	
+submit.type	//Sets or returns the type of a button	Yes
+submit.value	//Sets or returns the value of the value attribute of a button		
+
+================================================
+Element input type="checkbox"
+
+Representa o checkbox em um formulario
+
+-----------------------------------------------
+
+Atributos de input type="checkbox"
+
+checkbox.disabled	//Sets or returns whether a checkbox is disabled, or not	
+checkbox.checked	//Sets or returns the checked state of a checkbox	
+checkbox.defaultChecked	//Returns the default value of the checked attribute	
+checkbox.form		//Returns a reference to the form that contains the checkbox	
+checkbox.name		//Sets or returns the value of the name attribute of a checkbox	
+checkbox.type		//Returns which type of form element the checkbox is	
+checkbox.value		//Sets or returns the value of the value attribute of a checkbox
+
+================================================
+Element input type="file"
+
+Representa o file em um formulario
+
+-----------------------------------------------
+
+Atributos de input type="file"
+
+file.disabled	//Sets or returns whether the fileUpload button is disabled, or not	
+file.accept	//Sets or returns a comma-separated list of accepted content types	
+file.form	//Returns a reference to the form that contains the FileUpload object	
+file.name	//Sets or returns the value of the name attribute of the FileUpload object	Yes
+file.type	//Returns which type of form element the FileUpload object is	
+file.value	//Returns the path or the name of the selected file
+
+================================================
+Element input type="hidden"
+
+Representa o hidden em um formulario
+
+-----------------------------------------------
+
+Atributos de input type="hidden"
+
+hidden.form	//Returns a reference to the form that contains the hidden input field	
+hidden.name	//Sets or returns the value of the name attribute of the hidden input field	
+hidden.type	//Returns which type of form element a hidden input field is	
+hidden.value	//Sets or returns the value of the value attribute of the hidden input field	
+
+================================================
+Element input type="password"
+
+Representa o password em um formulario
+
+-----------------------------------------------
+
+Atributos de input type="password"
+
+password.defaultValue	//Sets or returns the default value of a password field	
+password.disabled	//Sets or returns whether the password field is disabled, or not	
+password.form		//Returns a reference to the form that contains the password field	
+password.maxLength	//Sets or returns the maximum number of characters allowed in a password field	
+password.name		//Sets or returns the value of the name attribute of a password field	
+password.readOnly	//Sets or returns whether a password field is read-only, or not	
+password.size		//Sets or returns the width of a password field (in number of characters)	
+password.type		//Returns which type of form element a password field is	
+password.value		//Sets or returns the value of the value attribute of the password field	
+
+-------------------------------------------------
+Metodos de input type="password"
+
+password.select()	//Seleciona a senha escrita no campo como clicar com o botão esquerdo do
+			//mouse e arrastar
+
+================================================
+Element input type="radio"
+
+Representa o radio em um formulario
+
+-----------------------------------------------
+
+Atributos de input type="radio"
+
+radio.checked		//Sets or returns the checked state of a radio button	
+radio.defaultChecked	//Returns the default value of the checked attribute	
+radio.disabled		//Sets or returns whether the radio button is disabled, or not	
+radio.form		//Returns a reference to the form that contains the radio button	
+radio.name		//Sets or returns the value of the name attribute of a radio button	
+radio.type		//Returns which type of form element the radio button is	
+radio.value		//Sets or returns the value of the value attribute of the radio button
+
+================================================
+Element input type="text"
+
+Representa o text em um formulario
+
+-----------------------------------------------
+
+Atributos de input type="text"
+
+text.defaultValue	//Sets or returns the default value of a text field	
+text.disabled		//Sets or returns whether the text field is disabled, or not	
+text.form		//Returns a reference to the form that contains the text field	
+text.maxLength		//Sets or returns the maximum number of characters allowed in a text field	
+text.name		//Sets or returns the value of the name attribute of a text field	
+text.readOnly		//Sets or returns whether a text field is read-only, or not	
+text.size		//Sets or returns the width of a text field (in number of characters)	
+text.type		//Returns which type of form element a text field is	
+text.value		//Sets or returns the value of the value attribute of the text field
+
+-------------------------------------------------
+Metodos de input type="text"
+
+text.select()	//Seleciona o texto escrito no campo como clicar com o botão esquerdo do
+		//mouse e arrastar	

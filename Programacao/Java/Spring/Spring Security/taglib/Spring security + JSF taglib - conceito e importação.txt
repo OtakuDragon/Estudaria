@@ -1,0 +1,22 @@
+Spring security + JSF taglib
+
+O spring security possui uma taglib padrão mas ela
+só funciona em paginas JSP, como no JSF 2.0 a recomendação
+é utilizar paginas xHTML existe uma taglib equivalente a oficial
+que funciona em arquivos xHTML que são JSF ela pode
+ser encontrada no link abaixo
+
+https://code.google.com/p/spring-security-facelets-taglib/
+
+são dois jars, facelets-taglib-jsf20-3-0.5.jar e taglib-core-0.4.jar
+que devem ser adicionados a pasta web-inf/lib do projeto estes jars
+estão incluidos aos outros jars do spring security na pasta jars
+================================================================
+Adicionando esta taglib a pagina
+
+a url para a importação desta tag lib é:
+
+xmlns:sec="http://www.springframework.org/security/faceletes/tags"
+
+deve ser adicionado como atributo na tag <html> do arquivo xhtml que
+utilizará a tag lib

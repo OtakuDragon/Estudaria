@@ -1,0 +1,35 @@
+Particles
+
+Particulas são um recurso muito utilizado em jogos
+para representar, fumaça,vapor, fogos de artificio
+qualquer modelo em um jogo que é composto por varios
+pequenos pedaços
+
+particulas tambem podem ser utilizadas para criar
+projeteis ja que as particulas podem possuir qualquer
+forma e serem lançadas em qualquer numero,direção,sentido,
+distancia, etc.. são completamente flexiveis
+
+==================================================
+Particle Emitter
+
+Particulas são adicionadas a uma scene
+pela criação do gameObject ParticleEmitter
+que é criado no gamenu GameObject pelo nome
+particle system
+
+um particle emitter nada mais é do que um objeto
+invisivel cuja a unica função é lançar particulas
+este lançamento de particulas pode ser configurado completamente
+
+todos os aspectos possiveis de lançamento,aparência,physics,colisão,etc. das particulas pode ser
+configurado no menu do particle emitter
+
+=========================================================
+Colisão de particulas
+
+O unity consegue saber quando uma particula atinge
+um gameObject com a função function OnParticleCollision(other : GameObject)
+
+isto torna possivel a utilização de particulas como projeteis
+mais sobre este metodo no arquivo A Estrutura de um Script e seus Metodos

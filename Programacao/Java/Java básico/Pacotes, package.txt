@@ -1,0 +1,14 @@
+Pacotes são o jeito do java de agrupar classes 
+para uma melhor organização e até um melhor controle de acesso
+
+inserindo uma variavel a um pacote
+
+package nomeDoPacote;
+
+
+*esta linha deve estar acima dos imports no codigo
+*por convenção nomes de pacotes começam com letras minusculas e de classes por letras maiusculas
+*Pacotes podem possuir pacotes dentro deles
+
+um class normal ou seja não possui nenhum modificador de acesso
+só pode ser acessada por classes do mesmo pacote

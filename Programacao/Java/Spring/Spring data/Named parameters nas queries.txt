@@ -1,0 +1,66 @@
+Named parameters nas queries
+
+As queries executadas por um objeto JdbcTemplate
+somente podem receber parametros "?" em um array
+de objetos
+
+para a implementação de parametros com nomes 
+é necessario utilizar uma outra classe a
+NamedParameterJdbcTemplate
+
+=======================================================
+Implementando named parameters
+
+A classe NamedParameterJdbcTemplate possui metodos
+parecidos com os de JdbcTemplate
+
+mas os seus metodos podem receber um SqlParameterSource
+que se trata de um mapa no qual os named parameters são definidos
+
+ex:
+
+public void insertUsuario(Usuario usuario){
+
+//Instanciação do template recebe como parametro o datasource
+
+NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(ds);
+
+//Definição da query com os named parameters que possuem a sintaxe :nomeDoParametro
+
+String sql = "INSERT INTO usuario(id,nome) VALUES (:id,:nome)";
+
+//Instanciação do mapa que conterá a definição dos parametros
+
+SqlParameterSource nameParameters = new MapSqlParameterSource(); 
+
+//Definição dos parametros com String nome do parametro sem ":" e o objeto que representa o seu valor
+
+nameParameters.add("id",usuario.getId());
+nameParameters.add("nome",usuario.getName());
+
+
+//O metodo de execuçaõ da query recebe a query e o mapa dos parametros
+
+template.update(sql,namedParameters);
+
+
+
+
+}
+
+=============================================================
+NamedParameterJdbcTemplate VS JdbcTemplate
+
+é aconselhavel instanciar Somente um dos templates em uma aplicação
+o NamedParameterJdbcTemplate não possui todos os metodos de JdbcTemplate
+
+mas é possivel recuperar o JdbcTemplate atraves do objeto NamedParameterJdbcTemplate
+da seguinte forma:
+
+
+JdbcTemplate jdbcTemplate = template.getJdbcOperations();
+
+portanto quando houver a necessidade da utilização de named parameters
+NamedParameterJdbcTemplate deve ser instanciado e o JdbcTemplate recuperado
+atraves dele, para utilidades adicionais
+

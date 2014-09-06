@@ -1,0 +1,10 @@
+Modelagem de dominio
+
+Após a definição dos casos de uso, o proximo passo
+no desenvolvimento de uma aplicação que utiliza ORM
+é criar um diagrama de classe que descreve as entidades
+do sistema e como elas se relacionam, isto é chamado de
+modelagem de dominio.
+
+é como um modelo entidade-relacionamento, em forma de classes
+

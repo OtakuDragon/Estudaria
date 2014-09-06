@@ -1,0 +1,134 @@
+Annotations
+
+Annotations são um tipo de arquivo java que servem para
+guardar informações sobre um codigo de uma maneira que programas
+de gerenciamento possam acessar estas informações sem problemas
+
+como por exemplo, um programa que identificaria todas as classes
+criadas pelo mesmo autor ou na mesma data por meio das annotations
+de cada uma delas
+
+A annotation anota o elemento que vem logo abaixo dela
+é possivel anotar metodos,construtores, atributos e classes.
+
+-----------------------------------------------------------------
+
+Criando uma anotação
+
+botão direito no pacote
+
+new...
+
+Annotation
+
+----------------------------------------------------------------
+
+
+isto vai criar algo parecido com isso
+
+@Target(ElementType.TYPE)
+@Documented
+
+public @interface nomeDaAnotacao {
+
+//@interface é a palavra chave que representa uma anotation
+
+//aqui dentro podem ser criados campos que serão
+//preenchidos no momento da chamada da anotação no codigo
+//os campos podem ser de tipos primitivos(String incluida)
+//ou arrays de tipos primitivos(String incluida)
+
+String campo1(); // tipoDoCampo, NomeDoCampo e ().
+
+int campo2() default 5;//é possivel definir valores padrões para annotations com
+		      // a palavra chave default
+
+
+}
+
+-------------------------------------------------------------------
+preenchendo uma anotação...
+
+package teste;
+
+@nomeDaAnotacao(campo1 = "valor1" , campo2 = 6) //sem ponto e virgula
+
+
+public class Teste{
+
+
+//codigo
+
+
+}
+---------------------------------------------------------------------
+O elemento value
+
+Quando uma annotation possui um elemento apenas com o nome
+value, não é necessario na hora da atributição de valores utilizar
+o nome da variavel value
+
+ex:
+
+public @interface Autor{
+
+	String value();
+
+
+}
+
+@Autor("Gilson Lopes")   //perceba q esta declaração possui apenas um valor e não uma atribuição
+public class exemplo{
+
+
+
+}
+
+
+----------------------------------------------------------------------
+Annotations de Annotations
+
+@Target
+
+Anotações possuem a anotação @Target que define
+em qual elemento a anotação pode ser aplicada
+
+@Target(ElementType.TYPE)//definir a anotação para classes,interfaces ou enums
+@Target(ElementType.METHOD)//definir a anotação apenas para metodos
+@Target(ElementType.FIELD)//definir a anotação apenas para atributos
+@Target({ElementType.METHOD,ElementType.TYPE})//é possivel ter uma target com mais de um valor
+
+@Documented
+
+A annotation @Documented diz a o javadocs para documentar
+aquela anotação
+
+@Retention
+
+Define se a anotação sera utilizada apenas em tempo de compilação
+em tempo de execução(para ser utilizada por meio de reflection)
+ou se sera ignorada pelos dois.
+
+@Retention(RetentionPolicy.RUNTIME) //define que a anotação podera ser lida tempo de execução, utilize esta anotação quando quiser utilizar a Annotation por reflexão
+
+@Retention(RetentionPolicy.CLASS) //define que a anotação podera ser lida em tempo de compilação
+
+@Retention(RetentionPolicy.SOURCE) //define que a anotação não podera ser lida nem em compilação nem em execução
+
+------------------------------------------------------------------------------------------
+Annotations da linguagem JAVA
+
+Estas anotações são utilizadas pela propria JVM
+
+
+@Deprecated // utilizada em metodos para dizer que o metodo sera removido em versões futuras
+
+@Override // indica que um metodo sobreescreve outro, é opcional mas quando utilizado força o compilador a verificar se este metodo existe na superclasse
+
+@SuppressWarnings("nome do warning") // Utilizado para remover warnings do codigo , "unchecked" é a warning mais comum
+
+*existem muitas outras estas são só as mais utilizadas.
+
+
+
+

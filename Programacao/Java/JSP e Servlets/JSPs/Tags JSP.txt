@@ -1,0 +1,62 @@
+Tags JSP
+
+Um arquivo JSP é como um arquivo HTML que possui
+tags especiais e por estas tags o servidor
+consegue criar um servlet temporario
+
+==================================================
+Tag de diretiva
+
+Diretivas são tags de propriedades para o servidor 
+deve estar no começo do arquivo jsp e podem ser de
+diversos tipos
+
+<%@ page %> //exemplo de diretiva de pagina 
+
+----------------------------------------------------
+Tag declarativa
+
+<%!
+
+//Dentro da tag declarativa é possivel se declarar metodos 
+//que estarão disponiveis em todas as tags de script 
+//Metodos aqui declarados estarão dentro do corpo da classe
+//do servlet
+
+
+%>
+
+---------------------------------------------------
+Tag de script
+
+<%
+
+//O codigo aqui será colocado dentro de um metodo
+//equivalente ao metodo http utilizado geralmente doGet()
+
+
+//Dentro ta tag de script é possivel inserir
+//codigo java
+
+
+
+//output para o HTML
+
+out.println("<h1>Esta mensagem aparecera no html</h1>");//funciona como o echo no php
+
+//O output na tag de script é feito atraves do
+//objeto out do tipo JSP writer que ja existe na pagina
+
+%>
+
+
+-----------------------------------------------------
+Tag de script para output
+
+Uma maneira mais simplificada de fazer output de valores
+variaveis ou expressões java é utilizando a tag abaixo
+que não necessita do objeto out
+
+<%= /*valor*/ %>
+
+

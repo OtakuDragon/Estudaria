@@ -1,0 +1,114 @@
+Classe Locale
+
+Um objeto Locale identifica uma região por meio de uma combinação
+entre lingua e país.
+
+Construção
+
+Um objeto Locale pode ser construido de duas maneiras
+
+Locale pais = new Locale(String language, String country);//essas duas strings estão definidas em padrões ISO 639 para linguas
+							 // e ISO 3166 para paises
+
+uso:
+
+Locale brasil = new Locale("pt","BR");// cria o Locale com os parametros brasileiros
+
+ou
+
+Locale pais = Locale.US;//criada por meio de constantes pre-definidas
+
+==============================================================================================
+Locale Padrão
+
+Todo aplicativo possui um locale padrão que é definido pela
+jvm de acordo com as informações do SO e pode ser recuperado da seguinte forma:
+
+Locale padrao = Locale.getDefault();
+
+==============================================================================================
+ResourceBundle
+
+É uma maneira de mudar dados no seu programa de acordo com a localização
+você armazena estes dados em um arquivo ou classe, com uma chave e um valor
+e depois os recupera pela chave o valor vai depender do locale
+
+Criando um arquivo para ResourceBundle
+
+Um arquivo para resource bundle tem que ter a extensão
+.properties o nome base e um sufixo de locale ou não no caso
+do arquivo padrão
+
+o arquivo ou classe padrão ou seja nomebase.properties ou nomebase é o ultimo na hierarquia
+de procura de arquivos a segunda opção é o locale padrão do sistema
+
+e é composto por chaves e valores
+
+ex:
+
+nome do arquivo: application_pt_BR.properties  //nome base application, pt_BR sufixo locale que indica que o resource bundle ira utilizar ester valores so o locale
+					      //da aplicação for pt_BR um titulo sem sufixo indica arquivo padrão.
+conteudo do arquivo:
+
+menuop1 = abrir
+menuop2 = novo
+menuop3 = salvar
+menuop4 = carregar
+
+----------------------------------------------------------------------------------
+Criando uma classe para ResourceBundle
+
+class application_pt_BR extends ListResourceBundle{
+
+private static Object[][] contents = {
+		{"menuop1","abrir"},
+		{"menuop2","novo"},
+		{"menuop3","salvar"},
+		{"menuop4","carregar"},
+
+
+	};
+
+
+}
+
+//representa o mesmo que acima mas pode receber valores do tipo object
+
+protected Object[][] get Contents(){
+return contents;
+}
+
+}
+
+-------------------------------------------------------------------------------------
+Lendo os dados de acordo com a linguagem
+
+ResourceBundle bundle = ResourceBundle.getBundle("nomeBase", Locale l);//recebe o nome base definido para as classes ou os arquivos e o locale que define quais valores recuperar
+
+recuperando valores por chaves
+
+String s = bundle.getString("menuop1");
+
+----------------------------------------------------------------------------------
+Mensagens compostas
+
+é possivel criar mensagens compostas que recebem valores variaveis do codigo
+em um resource bundle para fazer isto basta no lugar do dado variavel no valor da chave
+colocar {int PosiçãoNoArray,formatações} 
+
+ex:
+
+msg = fui ao shopping e comprei {0,number} {1} custou {2,number,currency}
+i = camisas
+
+//{1} representa uma string porque é a formatação padrão
+
+montar a mensagem
+
+Object[] msgArgs = {new Integer(2),bundle.getString("i"),200.0}
+
+String msgTemplate = bundle.getString("msg");//recupera a mensagem do bundle
+MessageFormat formatter = new MessageFormat(msgTemplate);//mota um objeto MessageFormat com a string da mensagem
+formatter.setLocale(loc);//recebe um locale para saber com qual .properties utilizar
+String msg = formatter.format(msgArgs);//recebe um string de Object com o valor de cada posição no vetor
+

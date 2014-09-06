@@ -1,0 +1,52 @@
+Definindo a tabela de permissões
+
+A tabela de permissões não exige uma entidade hibernate
+exclusiva ela pode ser uma @ElementCollection na entidade
+que representa o usuário do sistema
+
+abaixo está um template explicado de como implementar esta
+tabela da maneira mais simples possivel
+
+==========================================================
+Definição da tabela de permissões
+
+//Define que o atributo coleção desta entidade terá uma tabela propria
+@ElementCollection(targetClass=String.class)
+//Configura esta tabela
+@JoinTable(
+	//nome da tabela
+	name="´Pessoas_permissao´",
+	//define uma contraint unique para o id do usuario e uma permissão
+	//para que nao exista um usuário com duas permissões iguais
+	uniqueConstraints={@UniqueConstraint(columnNames={"seq_pessoa","permissao"})},
+	//Define qual a coluna desta entidade será foreign key na tabela da coleçaõ esta coluna
+	//deve ser a chave primaria da entidade usuario do sistema
+	joinColumns=@JoinColumn(name="seq_pessoa")
+	)
+	//configura a coluna do tipo texto que receberá o nome das permissões
+	@Column(name="permissao",length=50)
+	//A coleção definida para a criaçaõ da tabela uma Set ja que os registros nao devem se repetir
+	private Set <String> permissao = new HashSet<String>();
+
+==============================================================
+Uso
+
+Definindo esta tabela todos os usuários do sistema possuirão uma lista
+disponivel na qual é possivel adicionar permissões e remover permissões
+e esta lista será acessada pelo spring security tambem
+----------------------------------------------------------
+Adicionando permissão a um usuario:
+
+O nome das permissões por padrão deve começar com ROLE_ 
+e seguir de um nome tudo em capslock as permissoes definidas aqui
+na lista serão adicionadas a tabela e verificadas pelo spring security
+para definir quem pode acessar oque
+
+ex:
+
+usuario.permissao.add("ROLE_USUARIO"); //exemplo da adição da permissão usuario a um usuario
+session.save(usuario);
+---------------------------------------------------------
+Verificando pemissão de usuario na pagina JSF
+
+#{usuario.permissao.contains('ROLE_USUARIO_VIP')}

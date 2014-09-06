@@ -1,0 +1,63 @@
+Validadores
+
+Validadores são tags que validam dados
+inseridos em formularios se o dado não
+passar na validação uma mensagem é mostrada
+e o submit do formulario falha
+
+a validação acontece após a conversão
+
+=====================================================
+Validador required
+
+Este validador é o unico que se encaixa na taglib JSF HTML
+mas está aqui por ser o unico
+
+As tags jsf de formularios possuem um atributo chamado required
+que recebe um valor boleano como string, padrão false se for definido
+como true o campo não pode ser deixado vazio no envio do formulario
+
+Se o campo for deixado vazio é gerada uma mensagem de erro padrão
+é possivel definir uma mensagem customizada com o atributo requiredMessage
+que recebe a string da mensagem
+
+ex:
+
+<h:inputText id="nome" value="#{usuarioBean.usuario.nome}" required="true" requiredMessage="Você não tem nome?">
+
+=====================================================
+Validador length
+
+Este validador valida o tamanho do dado sendo enviado
+é possivel validar qualquer dado,somente Doubles ou somente Longs
+
+a tag deste validador deve ser utilizada dentro das
+tags do campo de input e ela recebe dois valores minimo
+e maximo que deifnem qual é o tamanho valido
+
+ex:
+
+<h:inputText id="nome" value="#{usuarioBean.usuario.nome}" required="true" requiredMessage="Você não tem nome?">
+	<!--Valida o dado inserido no campo-->
+	<f:validateLenght minimum="10" maximum="30"/>
+
+	<!--Valida o numero Double inserido no campo-->
+<!--	<f:validateDoubleRange minimum="10" maximum="30"/> -->
+
+	<!--Valida o numero Long inserido no campo-->
+<!--	<f:validateLongRange minimum="10" maximum="30"/> -->
+
+</h:inputText>
+
+====================================================
+Validador Regular Expression
+
+Valida o dado inserido no campo de acordo com uma expressão
+regular definida
+
+ex:
+
+<h:inputText id="nome" value="#{usuarioBean.usuario.nome}" required="true" requiredMessage="Você não tem nome?">
+	<!--Valida o campo de acordo com a expressão regular passada no atributo pattern -->
+	<f:validateRegex pattern="[a-z]*"/>
+</h:inputText>

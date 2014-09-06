@@ -1,0 +1,11 @@
+Look & Feel 
+
+Define como os componentes devem ser por padrão como
+a cor, textura e formato deles
+
+Mudando o look & feel
+
+é possivel mudar o look & feel da segunite forma
+
+UIManager.setLookAndFeel("Localização completa de uma classe look and fell");// ex: com.sun.java.swing.plaf.windows.WIndowsLookAndFeel
+

@@ -1,0 +1,69 @@
+Conversores
+
+O JSF possui conversores padrões para os tipos de dados
+mais comuns do java e converte o dado enviado em um formulario
+dependendo do tipo da variavel que o irá receber no managed bean
+
+Conversores são responsaveis por pegar o dado em plain text
+de um request HTTP e converte-lo para um tipo de dado java
+para que este  possa ser atribuido a um atributo de uma classe managedbean
+
+mas tambem é possivel customizar estes conversores ou até mesmo criar
+conversores
+
+=============================================================
+Conversor DateTime
+
+O Conversor DateTime é utilizado para formatar output de data e hora
+para que o atributo Date que receber seu valor saiba como formata-lo
+
+Atributos:
+
+*dateStyle:
+
+Configura o formato da data pode receber default,short,medium,long ou full
+
+*timeStyle:
+
+Configura o formato da hora pode receber default,short,medium,long ou full
+
+*pattern:
+
+Poder receber uma expressão de SimpleDateFormat para formatar a hora
+
+*locale:
+
+Define o formato da data e hora dependendo do local definido
+
+ex:
+
+<h:outputText value="contextoBean.hoje">
+	<f:convertDateTime dataStyle="full"/>
+
+</h:outputText>
+
+=========================================================================
+Conversor convertNumber
+
+Especifica conversões para formatação de output de valores numericos
+
+Atributos:
+
+*maxFractionDigits - recebe o numero de casas decimais maximas que o numero poderá ter
+
+*minFractionDigits - recebe o numero de casas decimais minimas que o numero deverá ter
+
+*pattern	-    recebe a expressão regular , que define como o numero deverá ser formatado
+
+*type		-    recebe o tipo de numero que aquele numero representa(currency,percentage)
+
+*currencySymbol -   no caso de um numero type="currency" define qual é o simbolo da moeda
+
+*locale -   no caso de um numero type="currency" define qual é o simbolo da moeda baseado no local
+
+ex:
+
+<h:outputText value ="#{ testeBean.numero}" >
+ <f:convertNumber currencySymbol ="R$" type ="currency"/>
+</h:outputText>
+

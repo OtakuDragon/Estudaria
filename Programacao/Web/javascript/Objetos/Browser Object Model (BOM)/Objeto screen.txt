@@ -1,0 +1,15 @@
+Objeto screen
+
+O Objeto screen é recuperado
+atraves do objeto window e possui
+informações sobre a tela do usuario
+
+====================================================
+Atributos de screen
+
+screen.availHeight	//Retorna a altura da tela do usuario sem contar a barra do menu iniciar
+screen.availWidth	//Retorna a largura da tela do usuario sem contar a barra do menu iniciar
+screen.height		//Retorna a altura total da tela do usuario
+screen.width		//Retorna a largura total da tela do usuario
+screen.pixelDepth	//Returns the color resolution (in bits per pixel) of the screen
+screen.colorDepth	//Returns the bit depth of the color palette for displaying images

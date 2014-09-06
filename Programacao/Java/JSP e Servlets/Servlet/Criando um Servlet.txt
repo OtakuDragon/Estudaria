@@ -1,0 +1,21 @@
+Criando um servlet
+
+No Eclipse
+
+*Botão direito no projeto/New/Servlet
+
+*Definir o nome do pacote //Servlets são classes portanto se organizam em pacotes
+
+*Definir o nome da classe //nome do servlet
+
+*Superclasse: javax.servlet.http.HttpServlet
+
+*Definir uma descrição do servlet 
+
+*Definir o nome pelo qual o servlet será chamado por URL(URL mappings)
+ pode possuir mais de um.
+ ex: localhost:8080/nomeDoProjeto/EsteNome
+
+*Definir modificadores interfaces e metodos abstratos da classe HttpServlet os quais implementar
+
+*pronto

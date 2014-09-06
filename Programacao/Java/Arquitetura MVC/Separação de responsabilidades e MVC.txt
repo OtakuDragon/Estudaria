@@ -1,0 +1,58 @@
+Separação de responsabilidades
+
+Separar resposabilidades em um sistema torna-o
+muito mais organizado e de facil manutenção
+
+as camadas que um sistema deve ter separadamente são:
+
+
+Camada 1: Acesso aos dados(DAO):
+
+Está camada trata de toda a comunicação com o banco de dados, desde a conexão até as operações CRUD,
+ela contém toda a complexidade exigida nas operações de acesso a dados, e serve como uma interface
+para que a camada de regras de negocio possa manipular o banco de dados de uma forma simples e encapsulada
+
+Camada 2:Regra de Negocio(RN):
+
+Está camada é responsavel pelas tomadas de decisão ela representa toda a inteligência do sistema
+ela tem acesso direto a camada de acesso de dados pois é ela que decide o que será gravado no banco
+de dados ou quais informações obter do banco de dados
+
+Camada 3: Camada de apresentação: 
+
+A camada de apresentação é representada pelas telas do sistema.Sua responsabilidade é exibir e coletar
+informações do usuário e garantir que o usuário tenha feito isso corretamente(validação),está camada acessa
+diretamente a de regra de negocios(RN) e nunca deve ter ligação direta com a camade de acesso de dados(DAO).
+
+=========================================================
+MVC
+
+Model-View-Controller é um modelo de
+arquitetura de software que visa separar
+um software em 3 partes com funções diferentes
+e distintas
+
+isto facilita a manutenção e a reutilização
+de codigo
+--------------------------------------------------------
+Separação MVC
+
+Modelo: encapsula os dados e as funcionalidades da aplicação.
+
+Visão: é responsável pela exibição de informações, cujos dados são obtidos do modelo.
+
+Controlador: recebe as requisições do usuário e aciona o modelo e/ou a visão.
+
+*Segundo a filosofia MVC modelo e visão nunca devem ser relacionar diretamente somente
+ atraves do controlador
+
+-------------------------------------------
+exemplo pratico:
+
+Um bom exemplo de um MVC seria
+
+controller - Managed beans(JSF)
+
+model - Classes DAO e Classes RN
+         
+view - JSF,JSP.

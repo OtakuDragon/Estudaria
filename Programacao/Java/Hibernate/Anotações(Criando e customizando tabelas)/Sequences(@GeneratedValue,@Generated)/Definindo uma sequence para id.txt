@@ -1,0 +1,11 @@
+	@Id 
+	@GeneratedValue(generator = "Author_SequenceStyleGenerator")
+	 @GenericGenerator(name = "Author_SequenceStyleGenerator", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+	 parameters = {
+	 @Parameter(name = "sequence_name", value = "`nomeDaSequencia`"),
+	 @Parameter(name = "optimizer", value = "hilo"),
+	 @Parameter(name = "initial_value", value = "1"),
+	 @Parameter(name = "increment_size", value = "1") }
+	 )
+	@Column(nullable=false,columnDefinition="serial NOT NULL")
+	private int seq_pessoa;

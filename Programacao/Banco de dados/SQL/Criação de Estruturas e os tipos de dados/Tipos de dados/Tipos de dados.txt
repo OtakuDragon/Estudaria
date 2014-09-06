@@ -1,0 +1,31 @@
+Tipos de dados
+
+Todos os tipos de dados e suas variações de nome
+em diferentes bancos de dados estão no pdf nesta pasta
+
+==========================================================
+
+Informações extras
+
+Sempre escolher o menor tipo de dado possivel para os seus campos
+isso diminui o uso de memoria no disco e aumenta a velocidade de processamento 
+do banco.
+
+A diferença entre char e varchar é que char preenche todos os campos deixados em
+branco ou seja ocupa todos os espaçoes e varchar aceita um tamanho variavel ou seja 
+não preenche os campos vazios .
+
+==============================================================
+
+Outros tipos de dados
+
+Existem alguns outros tipos de dados que variam de servidor para
+servidor eles são:
+
+BLOB - Tipo de dado que armazena informações binarias como imagens e arquivos
+
+TEXT  - tipo de dados para textos muito grandes como livros
+
+REDES - tipo de dado para armazenamento de endereços ip e outras informações de rede
+
+Monetarios - tipo de dado para aramzenamento de informações monetarias

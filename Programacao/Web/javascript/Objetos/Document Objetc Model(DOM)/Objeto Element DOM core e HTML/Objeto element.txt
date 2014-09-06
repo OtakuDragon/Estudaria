@@ -1,0 +1,84 @@
+Objeto element
+
+O objeto Elemento como todos os objetos
+da DOM API herda de node e representa as tags
+HTML, ou seja todas as tags HTMl possuem todos
+os metodos e atributos abaixo, alem dos especificos
+da DOM HTML API que estão nesta pasta.
+
+Em sua maioria o objeto element possui
+atributos que resentam os principais
+atributos HTML comuns a todas as tags
+e atributos que definem seu conteudo textual ou HTML
+
+=========================================================
+Atributos de element alem dos herdados de node
+
+//Conteudo da tag
+
+element.innertHTML //define ou retorna o conteudo de uma tag(pode ser codigo HTML)
+element.textContent //define ou retorna o conteudo textual de uma tag
+
+
+//Atributos HTML comuns a todas as tags
+
+element.accessKey //define ou retora o accesskey de uma tag
+element.className //define ou retorna o valor do atributo class da tag
+element.dir //define ou retorna o valor do atributo dir ta tag(text direction)
+element.id //define ou retorna o atributo da tag
+element.lang //define ou retorna o valor do atributo lang ta tag(en-us,pt-br...)
+element.style //define ou retorna o valor do atributo style ta tag(css)
+element.tabIndex //define ou retorna o valor do atributo tabIndex da tag
+element.tagName //retorna o nome da tag
+element.title //define ou retorna o valor do atributo title da tag
+
+--------------------------------------------------------------
+Metodos de element alem dos herdados de node
+
+//Atributos
+
+element.getAttribute() 	   //recebe como parametro o nome de um atributo e retorna seu valor na tag
+element.getAttributeNode() //funciona da mesma meneira de getAttribute mas não retorna apenas
+			   //o valor e sim o objeto nó do atributo completo
+element.hasAttributes()    //retorna um boolean dizendo se a tag possui algum atributo ou não
+element.hasAttribute()     //recebe o nome de um atributo e retorna um boolean dizendo se a tag possui aquele atributo ou não
+element.removeAttribute()  //recebe uma string com o nome do atributo e o remove da tag
+element.removeAttributeNode()    //recebe um attribute node o remove da tag e o retorna
+element.setAttributeNode()       //Define ou edita um atributo na tag recebe como parametro um objeto attribute
+element.setAttribute(nome,valor) //Define ou edita um atributo de uma tag recebe duas strings uma com 
+				 // o nome do atributo outra com o valor
+
+//Localização de childNodes
+
+element.getElementsByTagName()//recebe uma string com o nome de uma tag e retorna todos os 
+			      //elementos filhos deste elemento que possuirem aquela tag
+
+//Comparação
+
+element.isEqualNode(node) //verifica se dois nós são do mesmo tipo
+element.isSameNode(node) //verifica se dois nós são o mesmo
+
+
+
+
+
+element.compareDocumentPosition(element) //compara a posição de uma tag com a outra
+					 //e retorna um numero indicando qual é a posição
+					//de uma tag em relação a outra
+
+Possible return values:
+
+1 (No relationship, the two nodes do not belong to the same document)
+
+2 (The first node (p1) is positioned after the second node (p2))
+
+4 (The first node (p1) is positioned before the second node (p2))
+
+8 (The first node (p1) is positioned inside the second node (p2))
+
+16 (The second node (p2) is positioned inside the first node (p1))
+
+32 (No relationship, or the two nodes are two attributes on the same element)
+
+
+

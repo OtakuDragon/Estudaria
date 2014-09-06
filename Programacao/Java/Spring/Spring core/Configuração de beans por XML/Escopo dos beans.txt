@@ -1,0 +1,27 @@
+Escopo dos Beans
+
+Existem dois tipos basicos de escopos no spring:
+
+*Singleton - (Padrão) Um bean no escopo singleton é instanciado na inicialização
+	     do application context e esta mesma instancia do objeto é retornada
+             sempre que um o bean é recuperado(getBean())
+
+*Prototype - Um bean no escopo prototype somente é instanciado quando há um pedido(getBean())
+	     ou referencia, e para cada pedido ou referencia uma nova instancia é retornada
+
+e três escopos para aplicações web(os escopos basicos tambem funcionam em aplicações web)
+
+*Request  - A instancia do bean dura somente durante a request HTTP
+
+*Session  - A instancia do bean dura durante a sessão do usuário
+
+*Global Session - A instancia do bean dura durante toda a aplicação web
+
+===================================================================================
+Definindo escopo no Spring.xml
+
+<!--A atributo scope é utilizado, caso o escopo não seja definido será por padrão singleton-->
+
+<bean id="triangle" class="shapesPack.Triangle" scope="prototype" />
+
+

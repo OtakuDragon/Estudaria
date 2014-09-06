@@ -1,0 +1,23 @@
+Element area
+
+O elemento area representa
+a tag html <area> e possui como atributos
+todos os atributos e metodos de node 
+alem dos seus proprios atributos HTML
+
+=============================================
+Atributos de area
+
+area.alt	//Sets or returns the value of the alt attribute of an area	
+area.coords	//Sets or returns the value of the coords attribute of an area	
+area.hash	//Sets or returns the anchor part of the href attribute value	
+area.host	//Sets or returns the hostname:port part of the href attribute value	
+area.hostname	//Sets or returns the hostname part of the href attribute value	
+area.href	//Sets or returns the value of the href attribute of an area	
+area.noHref	//Sets or returns the value of the nohref attribute of an area	
+area.pathname	//Sets or returns the pathname part of the href attribute value	
+area.port	//Sets or returns the port part of the href attribute value	
+area.protocol	//Sets or returns the protocol part of the href attribute value	
+area.search	//Sets or returns the querystring part of the href attribute value	
+area.shape	//Sets or returns the value of the shape attribute of an area	
+area.target	//Sets or returns the value of the target attribute of an area	

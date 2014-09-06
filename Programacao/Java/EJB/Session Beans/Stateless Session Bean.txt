@@ -1,0 +1,119 @@
+Stateless Session Beans(SLSB)
+
+é o tipo de Session bean que não armazena
+dados entre uma invocação e outra.
+
+é apropriado para serviços que podem ser completados
+com apenas uma invocação pelo cliente
+
+o EJB container mantem uma pool de SLSBs na qual
+ele mantem algumas instancias, e sempre que algum
+metodo é chamado ele atribui uma dessas instancias
+a um cliete, e após o EJB container perceber que o cliente
+não está mais utilizando o SLSB retorna aquela instancia ao
+pool para que ela possa servir outros clientes 
+
+cada vez que o cliente invocar um ou varios metodos de
+um bean ele estará invocando em um objeto "novo" ou seja
+todos os valores daquela intancia serão resetados,
+o container recuperará do pool de objetos um objeto "limpo"
+
+--------------------------------------------------
+Criando um SLSB
+
+1 - Criar uma interface com a assinatura dos metodos de negocio(interface de negocio) um session bean
+    pode implementar uma ou mais interfaces de negocio diferentes
+
+2 - Criar uma classe(por padrão com o prefixo nome da interface e sufixo bean)
+	
+3- Anotar a classe com a anotação @Stateless definindo o bean com um SLSB
+
+4- Anotar a classe ou a interface de negocio definindo aonde o SLSB será acessivel:
+	@Local(interface.class) - somente dentro do servidor de aplicação.
+
+	@Remote(interface.class)- acessivel por aplicações java fora do cointainer atraves da api RMI
+				  todos os parametros e retornos de um metodo anotado como remote devem ser Serializable
+                                  ja que somente objetos Serializable conseguem trafegar em um ambiente RMI.
+
+	@WebService		- SLSB tambem podem ser disponibilizados como SOAP WebServices anotando a interface de negocio
+                                  com esta anotação 
+
+	obs: *interface.class é o objeto Class da interface que define os metodos do SLSB
+	      e somente é necessaria quando anotando a classe
+
+*Um SLSB implementar por exemplo uma interface @Local com 5 metodos uma @Remote com 3 e uma @WebService com 2
+ sendo que os metodos estarão disponiveis para o cliente de acordo com o tipo de acesso e que interface eles utilizam
+ na injeção de dependencia
+
+*Não é possivel que uma interface de negocio seja mais de um tipo de acesso ao mesmo tempo(ex: @Remote,@Local)
+ (ver exemplo de boas praticas abaixo)
+	    
+----------------------------------------------------
+Utilizando um SLSB
+
+Para se obter uma instancia de um SLSB em camadas de controle(managed beans, servlet)
+se declara um atributo do tipo da interface do SLSB e anota-se este atributo com a
+anotação @EJB, o EJB container injetara uma instancia na classe em tempo de execução.
+
+ex em JSF:
+
+@ManagedBean
+ public class CalculadoraMB {
+ @EJB
+ private Calculadora calculadora ;
+ private double a ;
+ private double b ;
+ private double resultado ;
+
+ public void soma () {
+ this. resultado = this.calculadora.soma(a, b) ;
+ }
+
+ // GETTERS AND SETTERS
+ }
+
+==========================================================
+Atributos da anotação @Stateless
+
+A função da anotação @Stateless é marcar o bean como um SLSB
+e ela não faz muito mais, seus atributos tem como função definir
+um nome JNDI e uma descrição para o bean e são completamente opcionais
+
+*todo SLSB é automaticamente ligado a um nome JNDI no momento em que
+ o EJB container ganha controle sobre ele atribuindo por padrão o nome
+ simples da classe como nome JNDI
+
+seus atributos possiveis são:
+
+name - Define o nome do bean que será considerado pelo container como o nome JNDI do bean
+
+mappedName - Define o nome do bean que será considerado pelo container como o nome JNDI do bean
+              em implementações especificas de servidores de aplicação, a utilização deste atributo pode variar 
+
+description - Uma descrição do bean 
+
+ex:
+
+@Stateless(name="MinhaCalculadora".description="faz calculos")
+public class CalculadoraBean implements Calculadora{
+ //...
+
+}
+
+===========================================================
+ex de boas praticas em tipo de acesso em interfaces de negocio
+
+public interface BidManager{
+void addBid(Bid bid);
+List<Bid> getBids(Item item);
+}
+@Local
+public interface BidManagerLocal extends BidManager {
+void cancelBid(Bid bid);
+}
+@Remote
+public interface BidManagerRemote extends BidManagerLocal {
+}
+@WebService
+public interface BidManagerWS extends BidManager {
+}

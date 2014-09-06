@@ -1,0 +1,18 @@
+Objeto history
+
+O Objeto history é recuperado atraves do objeto
+window e possui informações sobre as paginas já
+visitadas pelo usuario
+
+======================================================
+Atributos de history
+
+history.length	//Retorna o numero de URL's na lista do historico
+
+=======================================================
+Metodos de history
+
+history.back()		//Carrega a pagina anterior da lista do historico(<- setinha do browser)
+history.forward()	//Carrega a proxima pagina na lista do historico(-> serinha do browser)
+history.go(number ou URL) //Carrega uma url especifica da lista recebe uma URL ou um numero 
+			  //positivo para quantas paginas avançar ou negativo para quantas paginas voltar

@@ -1,0 +1,78 @@
+WHERE 
+
+O comando where pode ser adicionado
+a quase todos os tipos de sql statements
+e serve para filtrar os dados e aplicar
+a ação somente aonde necessario
+
+
+
+ex: 
+
+SELECT * FROM tabela1 WHERE id=1;
+
+===============================================
+Operadores possiveis no where
+
+//Comuns
+
+=	Equal
+<>	Not equal. Note: In some versions of SQL this operator may be written as !=
+>	Greater than
+<	Less than
+>=	Greater than or equal
+<=	Less than or equal
+
+//Complexos
+
+*BETWEEN	Between an inclusive range
+
+- Recebe tres operandos um dizendo qual coluna avaliar dizendo aonde começar e aonde terminar
+  e seleciona todos os registros entre os dois valores
+
+- NOT BETWEEN é o oposto de BETWEEN e retorna tudo o que não estiver dentro dos limites
+
+ex:
+
+SELECT * FROM tabela1 WHERE id BETWEEN 1 AND 5; //trará os registros com id de 1 a 5
+SELECT * FROM tabela1 WHERE nome BETWEEN 'C' AND 'M';//trara os registros que possuem nomes com inicial entre C-M no alfabeto
+
+------------------------------------------------------------------------------------------------------
+
+IN	To specify multiple possible values for a column 
+
+-Recebe multiplos valores e trara todos os itens da coluna que possuem um daqueles valores
+
+ex:
+
+SELECT * FROM tabela1 WHERE nome IN ("jose","maria"); //trará os registros que possuem estes nomes
+
+--------------------------------------------------------------------------------------------------------
+LIKE	Search for a pattern
+
+- Funciona como as expressões regulares mas de uma maneira muito mais simplificada
+
+- recebe como parametro uma string com uma pattern wildcard ou uma string normal
+
+ex:
+
+SELECT * FROM nomeCliente WHERE City LIKE '[a-c]%'; //seleciona todos os registros aonde nomeClientes
+						    // começam com a b ou c
+
+======================================================================================================
+Wildcards
+
+São as expressões regulares do SQL utilizadas como operando no 
+operador LIKE do operador WHILE para selecionar strings muito especificas
+
+------------------------------------------------------------------------------------
+Seus simbolos e significados
+
+% - representa um ou mais caracteres ex: 'a%' //diz q a string deve começar com a e ter o que for depois
+_ - representa um caractere ex: 'a_' //diz q a string deve começar com a e ter apenas mais um caractere qualquer
+
+[]- representa um conjunto de letras ou um range de letras ex: '[a-z]' //diz que a string deve possuir uma letra e que ela deve estar entre a e z
+							       '[az]' //diz que a string deve possuir uma letra e q ela pode ser a ou z
+
+[!] - representa um conjunto de letras ou um range de letras que a string não deve possuir '[a-z]' //diz que a string deve possuir uma letra e que ela não deve estar entre a e z
+							       				   '[az]' //diz que a string deve possuir uma letra e q ela não pode ser a nem z

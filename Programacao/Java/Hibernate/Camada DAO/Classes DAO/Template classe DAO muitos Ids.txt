@@ -1,0 +1,172 @@
+Template muitos Ids
+
+Quanto a entidade possui mais de um id como identificador
+não é possivel recuperar um valor apenas com o metodo get
+de session então é necessario utilizar um select HQL
+
+para adapta-la basa trocar todos os nomes Documentos pela
+entidade em questão e caso haja relacionamento realizar no metoodo salvar
+
+Isto causará um cascade on persist manual
+
+this.sessao.saveOrUpdate(objeto.getAtributoDoRelacionamento());
+this.sessao.save(objeto);
+
+
+===================================================================================================
+package dao;
+
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import dto.publicSchema.Documentos;
+
+
+public class DocumentosDAO {
+	//A classe exige em seu construtor uma referencia de sessionfactory
+	//pois é aconselhavel por motivos de perfomance ter somente um sessionfactory por aplicação
+
+
+		private Session	sessao;
+		private Transaction transacao;
+		private SessionFactory fabrica;
+
+		public DocumentosDAO(SessionFactory fabrica){
+
+			this.fabrica=fabrica;
+		
+		}
+
+		public void salvar(Documentos objeto) {
+			try {
+				this.sessao = fabrica.openSession();
+				this.transacao = this.sessao.beginTransaction();
+				this.sessao.saveOrUpdate(objeto.getSeq_pessoa());
+				this.sessao.saveOrUpdate(objeto.getTp_doc());
+				this.sessao.save(objeto);
+				this.transacao.commit();
+			} catch (Exception e) {
+				this.transacao.rollback();
+				System.out.println("Não foi possível inserir o objeto. Erro: " + e.getMessage());
+			} finally {
+				try {
+					if (this.sessao.isOpen()) {
+						this.sessao.close();
+					}
+				} catch (Throwable e) {
+					System.out.println("Erro ao fechar operação de inserção. Mensagem: " + e.getMessage());
+				}
+			}
+		}
+
+		public void atualizar(Documentos objeto) {
+			try {
+				this.sessao = fabrica.openSession();
+				this.transacao = this.sessao.beginTransaction();
+				this.sessao.update(objeto);
+				this.transacao.commit();
+			} catch (Exception e) {
+				this.transacao.rollback();
+				System.out.println("Não foi possível alterar o objeto. Erro: " + e.getMessage());
+			} finally {
+				try {
+					if (this.sessao.isOpen()) {
+						this.sessao.close();
+					}
+				} catch (Throwable e) {
+					System.out.println("Erro ao fechar operação de atualização. Mensagem: " + e.getMessage());
+				}
+			}
+		}
+
+		public void excluir(Documentos objeto) {
+			try {
+				this.sessao = fabrica.openSession();
+				this.transacao = this.sessao.beginTransaction();
+				this.sessao.delete(objeto);
+				this.transacao.commit();
+			} catch (Exception e) {
+				this.transacao.rollback();
+				System.out.println("Não foi possível excluir o objeto. Erro: " + e.getMessage());
+			} finally {
+				try {
+					if (this.sessao.isOpen()) {
+						this.sessao.close();
+					}
+				} catch (Throwable e) {
+
+					System.out.println("Erro ao fechar operação de exclusão. Mensagem: " + e.getMessage());
+				}
+			}
+		}
+
+		@SuppressWarnings("unchecked")
+		public Documentos buscaEntidade(int seq_pessoa,int cd_doc) {
+			Documentos objeto = null;
+
+			try {
+				this.sessao = fabrica.openSession();
+				this.transacao = this.sessao.beginTransaction();
+				
+						String HQLQuery = "from Documentos where seq_pessoa = :seq_pessoa and cd_doc = :cd_doc";                                
+						
+						Query query = this.sessao.createQuery(HQLQuery);
+						
+						query.setInteger("seq_pessoa", seq_pessoa);
+						query.setInteger("cd_doc", cd_doc);
+						
+						List<Documentos> documentos = query.list();
+						
+						objeto = documentos.get(0);
+				
+					
+				this.transacao.commit();
+			} catch (Throwable e) {
+				
+				this.transacao.rollback();
+				
+			} finally {
+				try {
+					if (this.sessao.isOpen()) {
+						this.sessao.close();
+					}
+				} catch (Throwable e) {
+					System.out.println("Erro ao fechar operação de busca. Mensagem: " + e.getMessage());
+				}
+			}
+			return objeto;
+		}
+
+		@SuppressWarnings("unchecked")
+		public List<Documentos> listar() {
+			List<Documentos> objetos = null;
+			
+			try {
+				this.sessao = fabrica.openSession();
+				this.transacao = this.sessao.beginTransaction();
+				Criteria filtro = this.sessao.createCriteria(Documentos.class);
+				objetos = filtro.list();
+				this.transacao.commit();
+			} catch (Throwable e) {
+				
+					this.transacao.rollback();
+				
+			} finally {
+				try {
+					if (this.sessao.isOpen()) {
+						this.sessao.close();
+					}
+				} catch (Throwable e) {
+					System.out.println("Erro ao fechar operação de listagem. Mensagem: " + e.getMessage());
+				}
+			}
+			return objetos;
+		}
+	
+
+}

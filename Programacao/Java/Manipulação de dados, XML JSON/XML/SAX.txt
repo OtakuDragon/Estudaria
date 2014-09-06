@@ -1,0 +1,89 @@
+API SAX
+
+A API SAX possui uma classe chamada default handler
+que possui metodos chamados na hora do parse que fazem
+o que o programador quiser e tem parametros com as
+caracteristicas das tags
+
+===================================================
+Lendo um documento XML com SAX
+
+SAXParserFactory factory = SAXParserFactory.newInstance();
+SAXParser parser = factory.newSAXParser();
+		
+InputSource source = new InputSource("usuarios.xml");//recebe o caminho do arquivo XML
+		
+//Executa o parse de 'usuarios.xml'. Métodos do objeto XMLHandler são invocados pelo parser
+parser.parse(source, new XMLHandler());// o segundo parametro precisa ser de uma classe que extenda de DefaultHandler
+
+--------------------------------------------------------
+Exemplo de classe DefaultHandler
+
+package javaavancado.xml;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+
+public class XMLHandler extends DefaultHandler {
+	
+	private StringBuilder sb = new StringBuilder();
+
+	public void characters(char[] ch, int start, int length) //chamado sempre que um texto é encontrado no arquivo XML, seus parametros são um array de char
+			throws SAXException {			//a posição aonde aquele texto começa e aonde ele termina
+		
+		sb.append(ch, start, length);
+	}
+
+	public void endElement(String uri, String localName, String qName) //chamado sempre que uma tag termina qName representa o nome da tag
+			throws SAXException {
+		
+		if (qName.equals("nome")) {
+			System.out.println(sb.toString());
+		}
+	}
+
+	@Override
+	public void startElement(String uri, String localName, String qName,   //chamado sempre que uma tag começa qName representa o nome da tag
+			Attributes attributes) throws SAXException {
+		
+		if (qName.equals("nome")) {
+			sb = new StringBuilder();
+		}
+	}
+}
+
+//existem varios outros metodos que representam outros eventos
+
+=========================================================================
+Validando documentos XML com SAX
+
+SAXParserFactory factory = SAXParserFactory.newInstance();
+		
+//Habilita a validação via XML Schema
+factory.setValidating(true);
+factory.setNamespaceAware(true);
+		
+SAXParser parser = factory.newSAXParser();
+parser.setProperty("http://java.sun.com/xml/jaxp/properties/schemaLanguage", XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		
+InputSource source = new InputSource("usuarios.xml");
+		
+//Executa o parse de 'usuarios.xml'. Métodos do objeto XMLHandler são invocados pelo parser
+parser.parse(source, new XMLHandler());
+
+------------------------------------------------------------------
+No DefaultHandler
+
+public void error(SAXParseException e) throws SAXException {
+		throw e;
+	}
+
+public void fatalError(SAXParseException e) throws SAXException {
+		throw e;
+	}
+
+public void warning(SAXParseException e) throws SAXException {
+		throw e;
+	}
+

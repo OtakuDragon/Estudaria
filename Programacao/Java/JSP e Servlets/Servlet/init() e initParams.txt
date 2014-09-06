@@ -1,0 +1,89 @@
+Inicialização de servlets
+
+Quando um servlet é chamado pela primeira
+vez ele é instanciado no servidor e quando
+isto acontece o metodo init() é chamado
+
+o metodo init() pode ser sobreescrito no
+servlet para realizar operações de inicialização
+que são executadas apenas uma vez e afetam apenas
+o servlet que o implementa
+
+*Da segunda chamada do servlet em diante apenas 
+ threads do servlet são criadas e o metodo service
+ que define qual o metodo(doGet..) sera chamado
+
+===============================================
+Metodo init()
+
+Assinatura
+
+public void init();
+
+ex:
+
+public void init()
+{
+//codigo de inicialização
+//será executado uma vez apenas
+
+}
+
+*não podem haver mudanças na assinatura
+
+===================================================
+Definindo parametros de inicialização
+
+É possivel definir pares de chave-valor
+na inicialização do servlet para estarem
+disponiveis sempre.
+
+------------------------------------------------
+Por anotação
+
+@WebServlet(initParams={@WebInitParam(name="nome",value="valor")})
+
+---------------------------------------------------
+No web.xml
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+ <display-name>Nome Do Projeto</display-name>
+ 
+ 
+ <servlet>
+   <servlet-name>NomeDoServlet</servlet-name>
+   <servlet-class>EndereçoDaCompletoDaClasse</servlet-class>
+
+   <!-- ##AQUI## -->
+   <!-- Um servlet pode ter varios init-params -->
+   <init-param>
+     <param-name> nome </param-name>
+     <param-value> valor </param-value>
+   </init-param>
+ </servlet>
+ 
+ <!-- Define qual URL ira rodar o servlet -->
+ <servlet-mapping>
+   <!-- Nome que indentifica um servlet existente -->
+   <servlet-name>NomeDoServlet</servlet-name>
+   <!-- Nome que executara o servlet na url sintaxe: /nome -->
+   <!-- uma tag servlet-mapping pode possuir varias url-pattern -->
+   <url-pattern>/endereçoURL<url-pattern>
+ </servlet-mapping>
+
+	
+
+</web-app>
+
+==============================================================
+Recuperando valores de parametros de inicialização
+
+os parametros definidos na inicialização podem ser
+recuperados por meio do objeto ServletConfig que pertence
+a classe
+
+Sintaxe:
+
+String valor = this.getServletConfig().getInitParameter("NomeDoParametro"); //get init parameter retorna String
+
+

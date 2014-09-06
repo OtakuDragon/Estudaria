@@ -1,0 +1,24 @@
+Visões(views)
+
+Visões são comandos select que são salvos no banco de dados para um acesso
+rapido e modos diferentes de se visualizar a tabela, elas servem para que
+não seja necessario escrever o codigo do select sempre que for necessaria uma consulta
+
+====================================================================================
+Criando uma visão
+
+CREATE VIEW nome AS ExpressãoSQLDoSELECT;
+
+------------------------------------------------------------------------------
+Excluindo uma visão
+
+DROP VIEW nome;
+
+--------------------------------------------------------------------------
+Utilizando uma visão
+
+As visões são utilizadas em um select no lugar do nome de uma table
+
+Sintaxe:
+
+SELECT * FROM nomeDaView;

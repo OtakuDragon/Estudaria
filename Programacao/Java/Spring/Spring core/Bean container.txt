@@ -1,0 +1,82 @@
+Bean Factory(application context)
+
+O spring funciona como um conteiner de objetos
+é ele que controla a instanciação de objetos e
+o ciclo de vida deles, assim como o tomcat faz
+com servlets.
+
+No framework spring objetos são chamados de beans
+e para a criação de beans(instanciação de objetos)
+é necessaria a criação de um bean container que é
+configurado por um arquivo XML
+
+este arquivo XML diz quais são os beans e como
+eles deverão se comportar
+
+O objeto ApplicationContext representa este conteiner
+
+====================================================
+Instanciação de objetos com Spring
+
+//Configurando o bean no arquivo XML 
+//o nome pode ser definido pelo programador nesse caso spring.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans> 
+
+  <!-- configuração de um bean mais simples possivel -->
+  <!-- recebe o ID um nome unico que identifica o bean e será utilizado para recupera-lo -->
+  <!-- e o full qualified name da classe do objeto -->
+  <bean id="triangle" class="shapesPack.Triangle" />
+   
+
+</beans>
+
+//Instanciando um objeto utilizando o spring conteiner
+
+public class Instanciando{
+
+	public static void main(String[] args){
+	
+	ApplicationContext context= new ClassPathXmlApplicationContext("spring.xml");//Instancia o container de objetos spring
+                                                                                     //recebe como parametro o arquivo de configuraçao	
+										     //que define os beans 
+										     //o arquivo xml deve estar dentro da pasta src do projeto(como neste caso)
+										     //ou ser acessivel por meio dela
+
+	Triangle myBean = (Triangle) context.getBean("triangle"); //Cada bean definido no xml de configuração é um objeto
+								  //e este objeto é recuperado do conteiner pelo seu ID
+                                                                  //no metodo getBean() que o retorna como Object sendo necessario o cast
+
+	Triagne myBean = context.getBean("triangle",Triangle.class);//Faz a mesma coisa que o metodo acima mas faz com que o spring faça o cast
+								    //passando a classe desejada como segundo parametro de getBean()
+								
+	myBean.draw();//após recuperado o objeto pode ser usado
+                      //normalmente
+	
+	
+	}
+
+
+
+
+
+}
+
+=====================================================================
+No Java SE
+
+Em programas java desktop é necessario um objeto diferente para o bean container:
+
+AbstractApplicationContext context= new ClassPathXmlApplicationContext("spring.xml");
+
+
+A diferença é que este tipo de objeto possui um metodo:
+
+context.registerShutdownHook();
+
+que deve ser chamado em qualquer lugar do metodo main ele diz ao spring para 
+finalizar todos os beans ao fim da execução do metodo main.
+
+Em aplicações java EE isto não é necessario o spring sabe quando finalizar os beans.

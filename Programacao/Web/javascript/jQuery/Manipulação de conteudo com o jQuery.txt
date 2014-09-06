@@ -1,0 +1,70 @@
+Manipulação de conteudo com o jQuery
+
+Algumas funções tem como objetivo modificar
+o conteudo dos elementos,
+
+===================================================
+html()
+
+Recupera ou modifica o conteudo de um elemento
+processando tags html se incluidas no conteudo 
+
+ex:
+
+Recuperando:
+
+var conteudo = $("#MeuSpan").html();
+
+
+definindo:
+
+//A tag h1 será processada e o conteudo do elemento sera modificado
+$("#MeuSpan").html("<h1>Meu Texto modificado</h1>");
+
+---------------------------------------------------------
+text()
+
+Recupera ou modifica o conteudo textual de um elemento
+não processa tags html se incluidas somente as imprime
+
+ex:
+
+Recuperando:
+
+var conteudo = $("#MeuSpan").text();
+
+
+definindo:
+
+//A tag h1 não será processada e o conteudo do elemento sera literalmente o que foi escrito
+$("#MeuSpan").html("<h1>Meu Texto modificado</h1>");
+
+-----------------------------------------------------------
+val()
+
+Recupera ou modifica o valor do atributo value do elemento
+muito util para recuperar inputs de formularios
+
+ex:
+
+Recuperando:
+
+var conteudo = $("#MinhaCaixaDeTexto").val();
+
+
+definindo:
+
+$("#MinhaCaixaDeTexto").val("Valor da caixa");
+
+---------------------------------------------------------------
+replaceWith()
+
+Troca completamente o elemento em questão pelo elemento
+passado como parametro
+
+definindo:
+
+//O elemento que antes era um input type text vira um paragrafo com o uso da função
+$("#MinhaCaixaDeTexto").replaceWith("<p>A caixa de texto virou um paragrafo</p>");
+
+

@@ -1,0 +1,5 @@
+Validação CSS
+
+Assim como no HTML a W3C tambem possui um validador
+aonde você entra com o seu codigo CSS e ele te diz 
+se ele segue todas as regras padrões ou não

@@ -1,0 +1,16 @@
+Diagrama de Instalação
+
+O diagrama de instalação tem como função
+mostrar os dispositivos de hardware do sistema,
+quais suas caracteristicas, quais os softwares
+que eles possuem e como eles se comunicam com outros
+dispositivos de hardware por meio de protocolos
+
+sendo que cada representação de dispositivo
+de hardware(nó) pode possuir artefatos que são os softwares
+um artefato pode ser ilustado apenas pelo seu nome ou pelo seu
+nome,icone e caracteristicas entre {} como no exemplo
+
+um artefato de ambiente de execução é tambem um nó
+e pode se comunicar com outros ambientes de execução
+por meio de protocolo

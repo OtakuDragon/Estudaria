@@ -1,0 +1,35 @@
+A anotação @Lob
+
+Uma das funções mais importantes dos bancos de
+dados é a capacidade de armazenar large objects(Lob)
+que podem ser de dois tipos:
+
+* CLOB - Character large objects, strings ou array de characters
+		 enormes, como livros.
+
+* BLOB - Bynary large objects, qualquer outro objeto que não se encaixe
+		 como um CLOB e seja serializable, um array de bytes para uma imagem
+		 de alta resolução por exemplo.
+		 
+Estes large objects são identificados nas entidades por meio da
+anotação @Lob, o tipo do large object é deduzido pela API
+pelo tipo de dado do atributo.
+
+ex:
+
+@Lob
+@Basic(fetch=FetchType.LAZY)
+protected byte[] picture;
+===========================================================
+A anotação @Basic
+
+Esta anotação serve como uma maneira de configurar
+duas propriedades do large object o seu FetchType
+e a sua opcionalidade ou seja se ele pode ser null
+ou não por meio do atributo booleano optional.
+
+Esta anotação é opcional e se não for declarada os padrões
+FetchType.EAGER e optional true serão assumidos.
+
+obs: A especificação EJB não obriga a implementação da anotação
+     @Basic, em algumas implementações ela pode não funcionar.

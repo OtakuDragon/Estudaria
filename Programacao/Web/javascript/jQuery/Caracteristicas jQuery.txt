@@ -1,0 +1,39 @@
+Caracteristicas jQuery
+
+Seletores:
+
+Os seletores utilizados pela biblioteca jQuery são inspirados
+nos seletores CSS 
+
+ex:
+
+$("#idDoElemento").função();
+
+
+-------------------------------------------------------------
+Atributos e funções:
+
+Os atributos e funções dos elementos foram modificados
+
+--------------------------------------------------------------
+Encadeamento
+
+Executar uma função em um elemento retorna aquele elemento
+tornando possivel varias funções serem chamadas em uma mesma linha
+
+ex:
+
+$("#idDoElemento").função1().função2().função3();
+
+--------------------------------------------------------------
+Iteração implicita
+
+Quando um seletor seleciona um grupo de elementos
+ações podem ser atribuidas a este seletor e estas afetarão todos
+os elementos do grupo
+
+ex:
+
+$("a").função1();
+
+//A função 1 será executada em todos os links da pagina

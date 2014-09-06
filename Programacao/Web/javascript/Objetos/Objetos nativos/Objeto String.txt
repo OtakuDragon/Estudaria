@@ -1,0 +1,51 @@
+Objeto String
+
+O objeto number representa o tipo 
+primitivo String
+
+============================================
+Criação de um objeto String
+
+Um objeto String é construido com
+seu conteudo string primitivo
+
+var a = new String("texto blablabla");
+
+============================================
+Atributos de String
+
+a.length //retorna o tamanho na string
+
+==========================================
+Metodos estaticos de String
+
+String.fromCharCode(); //recebe um numero unicode ou um conjunto deles e retorna a string
+
+ex:
+
+String.fromCharCode(12);
+
+ou
+
+String.fromCharCode(12,78,96);
+
+====================================================
+Metodos de String
+
+a.charAt(number); //retorna um caractere pelo seu indice
+a.charCodeAt(number); // retorna o unicode de um caractere pelo seu indice
+a.concat(string); //concatena uma string passada como parametro
+a.indexOf(string); // retorna o indice do primeiro caractere da primeira apararição de uma string
+a.lastIndexOf(string); // retorna o indice do primeiro caractere da ultima aparencia de uma string
+a.match(RegExp);//recebe como parametro uma expressão regular e retorna true or false se a string corresponde a ela
+a.replace(string,string);//recebe duas strings e troca todas as aparições da primeira string pela segunda
+a.search(RegExp ou string); // recebe uma expressão regular ou uma string e retorna a posição se acha-la na string
+			    // ou -1 se não
+
+a.slice(number,number);//recebe um numero de indice aonde começar e aonde terminar e retorna este pedaço de string
+a.split(string); //recebe um token e retorna um array com as strings separadas por ele
+a.substr(number,number); // extrai uma parte da string recebe aonde começar e quantos caracteres extrair apartir dali
+a.toLowerCase(); // retorna a string toda em letras minusculas
+a.toUpperCase(); // retorna a string toda em letras maiusculas
+a.trim(); //remove todos os espaços no começo e no final da string
+a.valueOf(); //retorna o valor primitivo da string

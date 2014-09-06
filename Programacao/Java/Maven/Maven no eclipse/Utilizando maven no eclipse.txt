@@ -1,0 +1,32 @@
+Utilizando maven no eclipse
+
+Com o plugin m2e instalado no eclipse é possivel
+realizar todas as operações do prompt de comando
+dentro do eclipse
+
+===================================================
+Criando um projeto
+
+No eclipse:
+
+*new
+*others
+*maven project
+
+Todas as opções de definição, archetype,groupId, etc.
+serão pedidas na GUI de criação de projeto
+
+==================================================
+Executando as fases ou outros comandos
+
+Executando as fases
+
+*Clique com o botão direito no pom.xml do projeto
+ Run As..., neste menu estarão as opções da fases basta
+ escolher uma e ela será executada
+
+Outros comandos(ex: comandos de plugin)
+
+*Clique com o botão direito no pom.xml do projeto
+ Run As..., neste menu escolha a opção Maven build...
+ escreva o comando no campo Goals e clique em Run

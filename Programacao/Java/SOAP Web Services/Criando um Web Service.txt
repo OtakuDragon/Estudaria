@@ -1,0 +1,100 @@
+Criando um Web Service
+
+Em uma aplicação web javaEE qualquer classe anotada com
+a anotação @WebService de javax.jws é um web service
+e todos os seus metodos publicos por padrão são @WebMethods
+de javax.jws ou seja são operações(metodos) do web service
+
+Uma boa prática é fazer os @WebMethods chamarem metodos em um
+objeto de serviço que possua toda a logica, para que está logica
+possa tambem ser acessada em outros lugares como uma aplicação web local
+
+por padrão em uma sessão apenas um objeto do webservice é instanciado
+o que significa que toda vez que um @WebMethod
+ é executado ele é executado
+na mesma instancia do webservice 
+
+====================================================================
+Metodologias para a construção de web services
+
+- Contract First ou WSDL first, nesta metodologia o arquivo WSDL é definido e escrito
+				em sua forma definitiva antes que o WS seja implementado
+				isto faz com que os clientes que utilizam o WS não precisem
+				pegar um novo WSDL sempre que alguma coisa muda no WS, uma interface
+				fixa é definida
+
+obs: neste modo o wsdl é gerado apartir de uma classe base e depois alterado para sua forma final
+
+-Service First ou Code First, neste metodologia o webservice é implementado como no exemplo abaixo
+			      e o WSDL é gerado automaticamente atraves dele, pelo servidor de aplicação
+			      qualquer mudança na estrutura do WS significa a geração de um novo WSDL
+
+================================================================
+ex de webservice básico:
+
+import javax.jws.WebMethod;
+
+import javax.jws.WebService;
+
+@WebService
+
+public class ProductCatalog {
+
+
+	//Classe de serviço que possui a logica
+	
+ProductServiceImpl productService = new ProductServiceImpl();
+
+
+
+	@WebMethod
+	
+	public List<String> getProductCategories() {
+
+		return productService.getProductCategories();
+	}
+	
+	
+	@WebMethod
+	
+	public List<String> getProducts(String category) {
+
+		return productService.getProducts(category);
+	
+	}
+	
+	
+	@WebMethod
+
+	public boolean addProduct(String category, String product) {
+
+		return productService.addProduct(category, product);
+
+	}
+
+}
+
+==================================================================
+Atributos de @WebService
+
+name - muda o atributo name do elemento portType no WSDL
+
+portName - Muda o atributo name do elemento port no WSDL
+
+serviceName - muda o atributo name do elemento service no WSDL e a url para acesso
+              do wsdl que possui a sintaxe serviceName?WSDL
+
+targetNameSpace - muda o atributo targetNameSpace de alguns elementos ele serve como uma definição de pacote
+                  no java e é gerado por padrão como uma url, esta url não precisa levar a lugar nenhum apenas identifica
+                  o namespace
+
+================================================================
+Atributos de @WebMethod
+
+action - muda o nome do atributo wsam:Action do elemento input de operation
+         e do elemento soapAction de soap:operation
+
+operationName - muda o valor do atributo name do elemento operation
+
+exclude - recebe um boolean que diz se o metodo deve ou não ser carregado como uma operação
+          do webservice

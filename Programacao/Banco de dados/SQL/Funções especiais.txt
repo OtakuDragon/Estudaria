@@ -1,0 +1,110 @@
+Funções especiais
+
+Funções especiais são complementos ao comando SELECT 
+para realizar varias operações uteis como media e ordenação de dados
+
+=======================================================================
+
+Funções de agregação
+
+Funcões matematicas de max, min media etc.
+
+Função COUNT
+
+A função count retorna quantos registros possui uma coluna especificada
+
+Sintaxe:
+
+SELECT COUNT(nomeDaColunaOuColunas) AS nomeDaColunaDeResultado FROM nomeDaTabela WHERE condição;
+
+ex:
+
+SELECT COUNT(*) AS nomeDaColunaDeResultado FROM funcionarios; 
+
+//retornara um numero inteiro com o numero de registros na tabela funcionarios
+
+----------------------------------------------------------------------------
+
+Função SUM
+
+Retorna uma somatoria de uma coluna numerica ou parte dela se for
+limitada por um WHERE
+
+Sintaxe:
+
+SELECT SUM(nomeDaColuna) AS nomeDaColunaDeResultado FROM nomeDaTabela WHERE condição;
+
+ex:
+
+SELECT SUM(salario) AS nomeDaColunaDeResultado FROM funcionarios;
+
+-------------------------------------------------------------------------------
+
+Função AVG
+
+Retorna uma media de uma coluna numerica ou parte dela se for
+limitada por um WHERE
+
+Sintaxe:
+
+SELECT AVG(nomeDaColuna) AS nomeDaColunaDeResultado FROM nomeDaTabela WHERE condição;
+
+ex:
+
+SELECT AVG(salario) AS nomeDaColunaDeResultado FROM funcionarios;
+
+---------------------------------------------------------------------------------
+Função MAX
+
+Retorna o valor maior valor de uma coluna numerica ou parte dela se for
+limitada por um WHERE
+
+Sintaxe:
+
+SELECT MAX(nomeDaColuna) AS nomeDaColunaDeResultado FROM nomeDaTabela WHERE condição;
+
+ex:
+
+SELECT MAX(salario) AS nomeDaColunaDeResultado FROM funcionarios;
+
+-----------------------------------------------------------------------------------------
+Função MIN
+
+Retorna o valor menor valor de uma coluna numerica ou parte dela se for
+limitada por um WHERE
+
+Sintaxe:
+
+SELECT MIN(nomeDaColuna) AS nomeDaColunaDeResultado FROM nomeDaTabela WHERE condição;
+
+ex:
+
+SELECT MIN(salario) AS nomeDaColunaDeResultado FROM funcionarios;
+
+============================================================================================
+Funções de agrupamento
+
+Agrupam linhas por valores de campos em comum
+
+Função GROUP BY
+
+Agrupa registros por valores comuns em uma coluna
+
+Sintaxe:
+
+SELECT * FROM nomeDaTabela GROUP BY nomeDaColuna;
+
+----------------------------------------------------------------------------
+Função HAVING
+
+Funciona como um WHERE em um select normal para um select
+GROUP BY
+
+Sintaxe:
+
+SELECT * FROM nomeDaTabela GROUP BY nomeDaColuna HAVING condição;
+
+
+
+
+

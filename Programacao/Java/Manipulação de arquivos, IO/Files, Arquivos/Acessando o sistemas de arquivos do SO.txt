@@ -1,0 +1,19 @@
+Para acessar o sistema de arquivos do SO
+é utilizada a classe FileSystem 
+
+FileSystem windowsFS = FileSystems.getDefault();
+
+Este file system é dividido em FileStores que são os discos rigidos
+para acessa-los use
+
+
+FileStore[] discosRigidos =  windowFS.getFileStore;
+
+Agora cada objeto file store pode ser acessado e possui
+varios metodos para mostrar informações sobre aquele disco rigido
+
+uso:
+
+System.out.println(discosRigidos[0].toString);//mostra o nome do primeiro disco rigido
+System.out.println(discosRigidos[0].getTotalSpace);//retorna o numero de bits que o HD tem de espaço no total
+

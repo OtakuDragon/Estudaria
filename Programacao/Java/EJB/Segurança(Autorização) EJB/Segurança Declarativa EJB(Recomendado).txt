@@ -1,0 +1,117 @@
+Segurança Declarativa EJB
+
+A funcionalidade de Segurança Declarativa do framework
+EJB nos permite restringir o acesso a metodos de session
+beans apenas para usuarios autorizados.
+
+Com a utilização de anotações que podem se aplicar a metodos
+ou a beans inteiros, está é a forma padrão e aconselhada de 
+tratar segurança em EJBs
+
+==============================================
+Implementado Segurança declarativa
+
+@SecurityDomain
+
+É necessário ter um security-domain no servidor(ver Autenticação e Autorização com JAAS)
+e aplica-lo pelo nome ao EJB, para se utilizar
+este tipo de segurança isto é feito atraves da anotação:
+
+import org.jboss.ejb3.annotation.SecurityDomain;
+
+//Esta anotação define qual security domain verificará o role dos usuários
+//que tentam acessar metodos
+@SecurityDomain("nomeDoSecurityDomain")
+
+-----------------------------------------------
+@DeclareRoles
+
+Esta anotação pode opcionalmente anotar o bean
+para declarar quais roles existem na aplicação,
+ela não limita nada é apenas uma declaração.
+
+-----------------------------------------------
+@RolesAllowed
+
+Esta é a anotação que limita um metodo ou um bean
+a um ou varios roles, ela recebe como parametro um
+array de strings com os roles que estão autorizados
+a acessar aquele metodo.
+
+Estes roles devem fazer parte do security-domain,
+se o usuário que tentar chamar o metodo não pertencer
+a um dos roles definidos, uma EJBAccessException será jogada
+
+ex:
+
+@Override
+@RolesAllowed({"ADMIN"})
+ public void acaoADM() {
+	System.out.println("Realizei ação ADM!");	
+ }
+
+----------------------------------------------
+@PermitAll 
+
+Define um metodo ou bean acessivel para
+todos os roles
+
+----------------------------------------------
+@DenyAll 
+
+Define um metodo ou bean inacessivel para
+todos os roles, funciona como uma desativação
+de funcionalidade
+
+----------------------------------------------
+@RunAs
+
+Durante a execução do metodo ou durante o bean
+transforma o role do usuário no role passado como
+parametro, funciona como uma mudança temporaria em runtime
+de role.
+
+//Digamos que o metodo adminStuff tem metodos internos que só
+//podem ser executados se o usuário tiver o rule ADMIN, qualquer usuário
+//pode acessa-lo se anotado da maneira abaixo
+@RunAS("ADMIN")
+public void adminStuff(Item item) {...}
+
+===============================================================
+ex:
+
+@DeclareRoles("USER", "ADMIN")
+@SecurityDomain("LoginJSFRealm")
+@Stateless
+@Local
+public class ExemploBean implements Exemplo {
+
+	@Override
+	@RolesAllowed({"ADMIN"})
+	public void acaoADM() {
+		System.out.println("Realizei ação ADM!");
+		
+	}
+
+        @Override
+	@RolesAllowed({"ADMIN","USER})
+	public void acaoPublica() {
+		System.out.println("Realizei ação publica!");
+		
+	}
+
+        @Override
+	@PermitAll 
+	public void acaoPublicaComPermit() {
+		System.out.println("Realizei ação publica! com permitAll");
+		
+	}
+
+        @Override
+	@DenyAll 
+	public void acaoDesativada() {
+		System.out.println("Ninguem te acesso a este metodo!");
+		
+	}
+
+}

@@ -1,0 +1,52 @@
+Propriedades
+
+As propriedades das classes são
+os atributos e são declarados da 
+seguinte forma:
+
+========================================
+
+sintaxe:
+
+visibilidade variavel = inicialização(opcional)
+
+
+- visibilidade
+
+  Um dos tres definidores de visibilidade do php
+  public,protected ou private
+
+-Variavel
+
+ uma variavel comum do php ex: $variavel
+
+- Inicialização 
+
+ Uma propriedade pode ser iniciada ou não mas se for
+ tem que ser com um valor que possa ser compilado
+ antes do programa rodar como dados primitivos (string,int,float,etc..)
+
+================================================
+Propriedade constante
+
+Uma classe pode possuir uma propriedade
+constante que é criada de forma diferente
+
+sintaxe:
+
+const nomeDaConstante = valorDaConstante
+
+- const é a palavra chave utilizada para declarar constantes
+
+- nomeDaConstante não é uma varaivel php somente um nome sem $ ex: constante1
+
+- valorDaConstante é o valor da constante que é obrigatorio
+
+--------------------------------------------------------
+Acessando uma constante
+
+Uma constante é acessada de forma estatica no objeto
+
+$objeto = new classe();
+
+$objeto::constante1;

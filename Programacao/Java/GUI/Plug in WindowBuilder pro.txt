@@ -1,0 +1,7 @@
+http://download.eclipse.org/windowbuilder/WB/release/R201209281200/4.2/
+
+help/install program/ add
+
+Para iniciar este plug-in na hora de criar uma nova classe que sera
+
+GUI va em others/WindowBuilder/ JPane.... etc.

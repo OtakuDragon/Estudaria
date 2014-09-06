@@ -1,0 +1,78 @@
+Efeito cascata 
+
+É a ordem a qual o css da prioridade para a aplicação 
+das propriedades.
+
+Por ordem decrescente de prioridade
+
+- !important do autor
+
+- Folha do autor
+
+	Estilo inline
+	Estilo incorporado(head)
+	Estilo externo(importado)
+
+
+
+- Folha do navegador(folha padrão do browser)
+
+
+para tornar uma propriedade !important basta colocar
+!important antes do ponto e virgula
+
+ex:
+
+p{
+
+	color:#FFFFFF !important;
+
+}
+
+*obs existe tambem uma folha do usuario que possui o !important com maior prioridade do css
+e Folha menos importante do que a do autor
+
+=============================================================================================================
+
+Especificidade
+
+Apos indentificar qual folha tem prioridade é preciso saber quais
+seletores tem maior prioridade dentro desta folha é ai que entra 
+a especificidade
+
+Quanto mais especifico o seletor maior prioridade as propriedades terão
+
+é possivel calcular especificidade pelos criterios
+
+1000 pts - Inline
+100 pts  - IDs
+10  pts - Classes,pseudoclasses,atributos
+1 pt - Elementos e pseudoelementos
+
+
+sendo assim um seletor
+
+p{
+
+
+}
+
+tem pontuação 1
+
+-----------------------------------------
+um seletor
+
+#menu{
+
+}
+
+tem pontuação 100
+--------------------------------------------
+
+e um seletor
+
+p.class1{
+
+}
+
+tem pontuação 11

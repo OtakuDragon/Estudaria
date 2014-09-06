@@ -1,0 +1,23 @@
+Enviando e-mails com o PHP
+
+É possivel enviar e-mails com o
+php desde que o servidor tenha um
+serviço de email(smtp) devidamente
+configurado
+
+O envio é feito atraves da função mail()
+
+==============================================
+Função mail()
+
+sintaxe:
+
+mail("destinatario","assunto","conteudo","cabeçalho");
+
+- "destinatario" //o e-mail para qual enviar
+
+-"assunto" //o assunto do e-mail
+
+-"conteudo" //o corpo do e-mail
+
+-"cabeçalho" //opcional um cabeçalho extra para ser inserido no crpo do e-mail 

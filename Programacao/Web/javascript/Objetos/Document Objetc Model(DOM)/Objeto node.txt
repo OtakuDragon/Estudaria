@@ -1,0 +1,61 @@
+Objeto node
+
+Tudo na API DOM é um nó(node) ou seja
+tudo na API dom possui os metodos e atributos
+deste objeto
+
+===================================================
+Atriubutos de node
+
+//Conteudo do nó
+
+node.attributes //retorna um NamedNodeMap com todos os nós de atributo do nó
+		//podem ser acessados pelo nome ex:var a = node.attributes["id']; a.value="meuID"
+		//se o nó não possuir aquele atributo o valor retornado sera undefined
+node.childNodes //Uma NodeList com todos os nós filhos daquele nó
+
+//Navegação da arvore do documento
+
+node.firstChild //Retorna uma referencia so nó que é o primeiro filho deste nó
+node.lastChild //Retorna uma referencia so nó que é o ultimo filho deste nó
+node.nextSibling //retorna o nó diretamente após este nó(irmão)
+previousSibling //retorna o nó diretamente anterior há este nó(irmão)
+
+//Informações sobre o nó
+
+node.localName //se o nó for um elemento ou um atributo retorna o seu nome(ex: src,body), senão retorna null
+node.Name //retorna o nome deste nó
+node.Type //retorna o tipo do nó (1-Element,2-attribute,3-text) em um inteiro
+node.nodeValue //retorna o valor do nó se ele possuir um
+node.parentNode //retorna o pai deste nó
+node.ownerDocument //retorna a referencia ao documento que possui este nó
+node.hasAttributes //Retorna um boolean dizendo se o nó possui algum atributo ou não
+node.hasChildNodes //Retorna um boolean dizendo se o nó possui algum filho ou não
+
+=======================================================
+Metodos de node
+
+node.appendChild(node) //recebe um nó e o adiciona como filho do nó
+node.removeChild(node) //recebe um nó e o remove de dentro do nó
+node.replaceChild(node) //recebe um nó e o substitui dentro do nó
+node.cloneNode(boolean) //cria uma copia do nó e a retorna recebe como parametro se deve
+			//copiar os filhos do nó tambem ou não
+node.insertBefore(node,child) //recebe um nó(node) e uma referencia um filho do nó(child) e adiciona o nó(node)
+			      //como previousSibling do nó(child)
+
+==================================================================
+NodeList
+
+Alguns metodos ou atributos da DOM API retornam uma lista de elementos
+esta lista é uma NodeList 
+
+--------------------------------------------------------------
+Atributos de NodeList
+
+lista.length //retorna um number que diz quantos itens compõem a lista
+
+----------------------------------------------------------------
+Metodos de NodeList
+
+lista.item() //o metodo item retorna o item da lista e recebe como parametro o
+	     //indice do item na lista

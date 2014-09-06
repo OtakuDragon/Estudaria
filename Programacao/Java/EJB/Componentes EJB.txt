@@ -1,0 +1,28 @@
+Componentes EJB
+
+Um componente ou tambem chamados bean em referencia a coffe-beans
+em EJB é um POJO com alguns poderes especiais(concedidos atraves de anotações)
+e vive em EJB containers(ou no caso de entities o persistence provider) que lê
+estas anotações e concede estes poderes ao componente quando necessario.
+
+Anotações dizem ao EJB container(ou no caso de entities o persistence provider)
+que possui todo o framework EJB em sua composição quando utilizar uma parte do
+codigo deste framework em um determinado componente.
+
+A função de um componente é encapsular comportamentos
+da aplicação, de maneira que o usuario/cliente só
+precise saber o que enviar à ele e o que esperar como
+resposta.
+
+Um mesmo componente pode ser utilizado por varias 
+aplicações no mesmo servidor ou não(caracteristica de reutilização)
+
+
+Em EJB existem 3 tipos de componentes
+classificados pelo seu uso:
+
+*Session Bean - Contem implementação de regras de negocio e são gerenciados pelo EJB container
+
+*Message Driven Bean - Contem implementação de regras de negocio e são gerenciados pelo EJB container
+
+*Entity - Contem implementação de persistência e são gerenciados pelo persistence provider

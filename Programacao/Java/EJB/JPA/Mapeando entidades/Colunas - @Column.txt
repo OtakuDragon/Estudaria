@@ -1,0 +1,56 @@
+A anotação @Column
+
+O segundo passo para mapear uma classe a uma tabela
+é definir a qual coluna cada atributo da classe se refere
+está é a função da anotação @Column
+
+Ela é opcional, por padrão o nome do coluna considerado será
+o nome do atributo.
+
+Anota atributos(Não recomendado) ou getters/setters.
+
+=============================================
+Atributos da anotação
+
+*Todos os atributos são opcionais
+
+String name    - Define o nome da coluna na tabela, ao qual o atributo se
+				 refere, default nome do atributo.
+
+String table   - Define o nome da tabela que possui a coluna, util quando,
+				 uma entidade se refere a várias tabelas, default nome definido em @Table
+
+boolean insertable - Recebe um booleano dizendo se aquele campo, fará parte dos inserts
+					 realizados na tabela ou não, util quando se deseja excluir um campo
+					 gerado automaticamente dos inserts, default true.
+
+boolean updatable - Recebe um booleando dizendo se aquele campo fará parte dos updates
+					realizados na tabela, dafault true.
+					
+obs: os campos abaixo tem funções que só se aplicam a tabelas automaticamente geradas
+     uma prática não recomenada, mas tambem podem ser utilizados apenas uma função declarativa,
+	 ou documental para que seja visivel como os campos estão configurados na tabela
+
+				 
+boolean unique - Define se o campo deve ser unique ou não, default false.
+
+boolean nullable - Define se o campo é null ou not null, default true.
+
+int length - Define o tamanho maximo de um campo textual, default 255
+
+int precision - Define o tamanho maximo de um campo numerico é como o length 
+			    do numero, default 0, ou seja ilimitado.
+				
+int scale - Define quantos numeros aparecem após a virgula em um campo numerico,
+			a "precisão" de um numero ponto flutuante, default 0,ou seja ilimitado
+
+String columnDefinition	- Define o SQL de criação da coluna, somente a parte que vem depois,
+						  do nome da coluna (ex: FirstName|varchar(255) NOT NULL), a parte após |
+						  default "", exemplo de uso: columnDefinition="VARCHAR(30) default 'o/'"
+========================================================
+ex:
+
+@Column(name="USER_ID", insertable=false, updatable=false)
+protected Long getUserId(){
+	return this.userId;
+}

@@ -1,0 +1,17 @@
+Efetuando Logout
+
+O logout de um usuário autenticado por JAAS pode 
+ser feito invalidando a sessão do usuário e isto pode 
+ser feito por uma ação de managed bean da seguinte 
+forma:
+
+//Dentro do ManagedBean
+
+//Este metodo recupera a sessão, executa o metodo invalidate() e redireciona para a pagina de login
+public String efetuarLogout(){ 
+   FacesContext fc = FacesContext.getCurrentInstance(); 
+   HttpSession session = (HttpSession) fc.getExternalContext().getSession(false); 
+   session.invalidate(); 
+
+ return "endereçodologin"; 
+} 

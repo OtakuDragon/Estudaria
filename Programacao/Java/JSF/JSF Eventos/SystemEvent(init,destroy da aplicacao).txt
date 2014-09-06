@@ -1,0 +1,123 @@
+SystemEvent
+
+São eventos de sistema gerados em
+diversos pontos não cobertos pelos eventos de fase.
+
+Alguns eventos de sistema:
+
+• PostConstructApplicationEvent - É gerado imediatamente após o início da aplicação, depois que todas as configurações são
+				  processadas.
+• PreDestroyApplicationEvent    - Esse tipo de evento é gerado imediatamente antes da aplicação ser finalizada.
+• ExceptionQueuedEvent		- Esse evento é gerado assim que uma exceção não esperada é lançada durante o processamento
+				  de uma requisição. Alguns exemplos de exceções esperadas durante o processamento de uma
+				  requisição são aquelas relacionadas à conversão e validação dos dados.
+• PreValidateEvent e PostValidateEvent - Esses eventos são gerados imediatamente antes e logo após umcomponente ser validado, respectivamente.
+
+=================================================================
+Utilizando PostConstruct e PreDestroy
+
+Para registrar metodos que serão executados na inicalização da aplicação
+e no momento da sua destruição é necessario declarar uma classe que implementa
+a interface SystemEventListener
+
+Esta interface define dois metodos:
+
+public boolean isListenerForSource(Object source); //define a quais aplicações o evento irá se aplicar recebe o objeto
+						   //da aplicação sendo iniciada para uma comparação retorne true
+						   //pára se aplicar a todas as aplicações
+
+public void processEvent(SystemEvent event) throws AbortProcessingException; //Contem o codigo a ser executado quando um EventSystem acontecer
+									     //recebe o evento como parametro com este objeto é possivel descobrir
+									     //o tipo de evento (if(event instanceof PostConstructApplicationEvent){})
+
+ex:
+
+package teste;
+
+public class Teste implements SystemEventListener {
+	
+	static SessionFactory sessionFactory = null;
+	
+	
+
+	@Override
+	public boolean isListenerForSource(Object source) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+
+	@Override
+	public void processEvent(SystemEvent event) throws AbortProcessingException {
+		if(event instanceof PostConstructApplicationEvent){
+			 System.out.println("Executou");
+				
+			    try {
+			        Configuration configuration = new Configuration();
+
+			        configuration.configure();
+
+			        ServiceRegistry  serviceRegistry = new ServiceRegistryBuilder().applySettings(
+
+			        configuration.getProperties()).buildServiceRegistry();
+
+			        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+			    } catch (HibernateException hbe) {
+
+			        hbe.printStackTrace();
+
+			    }
+		}
+	 
+		if(event instanceof PreDestroyApplicationEvent){
+			System.out.println("PreDestroyApplicationEvent is Called");
+		}
+		
+	}
+	
+	
+
+}
+
+----------------------------------------------------------------------------
+Registrando o System event listener no faces-config
+
+Após definir a classe e os codigos é preciso dizer ao jsf que este listener
+existe adicionando a seguinte tag ao faces-config
+
+<application>
+ 
+    	<!-- Application is started -->
+    	<system-event-listener>
+		<system-event-listener-class>
+			teste.Teste //nome completo da classe listener
+		</system-event-listener-class>
+		<system-event-class>
+			javax.faces.event.PostConstructApplicationEvent
+		</system-event-class>    					
+    	</system-event-listener> 	 
+ 
+    	<!-- Before Application is shut down -->
+    	<system-event-listener>
+		<system-event-listener-class>
+			teste.Teste  //nome completo da classe listener
+		</system-event-listener-class>
+		<system-event-class>
+			javax.faces.event.PreDestroyApplicationEvent
+		</system-event-class>    					
+    	</system-event-listener> 	 
+ 
+    </application>
+
+
+================================================================
+Adicionando um systemevent a uma pagina
+
+Um systemevent é adicionado a uma pagina por meio da tag f:event
+que possui dois atributos type o tipo do evento que pode ser um dos acima
+com a primeira letra minuscula e o listener o metodo do managed bean que
+implementa o listener por meio de UEL
+
+ex:
+
+<f:event type ="postValidate" listener ="#{extratoBean.validaDatas}" />

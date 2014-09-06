@@ -1,0 +1,13 @@
+Interface Queue
+
+Representa as filas no java, o primeiro a entrar é o primeiro a sair por padrão.
+
+Alguns Metodos
+
+Queue<String> fila = new LinkedList<>();
+
+fila.offer() ou .add(); // Adiciona um elemento a o final da fila
+
+fila.peek();// lê o primeiro da fila e o retorna(não o remove).
+
+fila.poll();// lê o primeiro da fila,remove e o retorna. 

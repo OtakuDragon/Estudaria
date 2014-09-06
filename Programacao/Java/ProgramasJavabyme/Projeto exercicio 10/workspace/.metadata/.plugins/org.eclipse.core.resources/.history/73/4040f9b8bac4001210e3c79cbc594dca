@@ -1,0 +1,120 @@
+package pacote_da_Aula10;
+
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
+
+public class XMLHandler {
+	
+	static void write(Object obj) throws Exception{
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+				
+		//Cria um novo documento XML
+		Document doc = db.newDocument();
+		
+		//Define uma referencia a classe do objeto
+		Class clazz = obj.getClass();
+		
+		
+		//Cria a tag raiz do documento XML
+		Element rootElem = doc.createElement(clazz.getName());
+		doc.appendChild(rootElem);
+		
+		Field[] atribs = clazz.getDeclaredFields();
+		
+		for(int i=0;i<atribs.length;i++){
+			atribs[i].setAccessible(true);
+			String c = atribs[i].getType().getSimpleName();
+			String nome = atribs[i].getName();
+			String valor =  atribs[i].get(obj).toString();
+			
+			Element temp = doc.createElement(nome);
+			temp.setAttribute("tipo", c);
+			Text text = doc.createTextNode(valor);
+			temp.appendChild(text);
+			rootElem.appendChild(temp);
+			
+			
+		}//fim do for
+		
+		TransformerFactory tf = TransformerFactory.newInstance();
+		Transformer trans = tf.newTransformer();
+		trans.setOutputProperty(OutputKeys.INDENT, "yes");//define que o arquivo deve ser indentado e não apenas em uma linha
+				
+		//A propriedade abaixo muda a codificação do XML, fazendo com que os acentos
+		//possam ser gerados adequadamente
+		trans.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+				
+		//Define a origem e destino da transformação
+		FileWriter fw = new FileWriter(clazz.getName()+".xml");
+		StreamResult sr = new StreamResult(fw);
+		DOMSource source = new DOMSource(doc);
+				
+		//Gera o XML de saída
+		trans.transform(source, sr);
+		fw.close();
+
+		
+		
+		
+		
+	}
+	
+	static Object read(Class<?> clazz) throws Exception{
+		
+		List<Class<?>> l;
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		
+		Document doc = db.parse(clazz.getName() +".xml");//cria a arvore do arquivo na memoria
+
+		Element elem = doc.getDocumentElement();//retorna uma referencia a tag raiz do arquivo xml
+		
+		Field[] atribs = clazz.getDeclaredFields();
+		
+		for(int i=0;i<atribs.length;i++){
+			NodeList nodeList = elem.getElementsByTagName(atribs[i].getName());
+			Element temp = (Element) nodeList.item(0);
+			
+			String tipo = temp.getAttribute("tipo");
+			String value = temp.getTextContent();
+			 = new ArrayList();
+			if(tipo.equals("int")){
+				System.out.println(i +"º atrib é inteiro");
+			}else if(tipo.equals("String")){
+				System.out.println(i +"º atrib é string");
+			}else if(tipo.equals("double")){
+				System.out.println(i +"º atrib é double");
+			}else{ 	System.out.println(i +"º atrib é boolean");}
+			
+			
+			
+		}
+		
+		clazz.getc
+		
+		return null;
+		
+		
+		
+	}
+
+}

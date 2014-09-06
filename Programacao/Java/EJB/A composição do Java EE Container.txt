@@ -1,0 +1,33 @@
+A composição do Java EE Container
+
+como mostado na figura um container java EE completo
+possui três containers:
+
+*web server container
+
+O servidor de aplicação que executa aplicações WEB
+----------------------------------------------------
+*EJB container
+
+Um EJB container é uma parte de um servidor de aplicação
+que tem como função gerenciar Session e Message Driven beans
+grantingo a eles serviços do framework EJB quando necessario.
+
+Um Session ou Message Driven beans só podem ser utilizados
+se forem "deployed" em um EJB container
+--------------------------------------------------
+*Persistence provider
+
+O persistence provider por mais que 'contenha' as entidades
+ele não é considerado um container ele funciona mais como uma API
+'garantindo'(providing) a o quem quer que utilize serviços de CRUD
+sobre as entidades apartir de um entity manager
+
+--------------------------------------------------------------
+
+obs:
+
+*alguns application servers não oferecem todos os 3 containers limitando o uso
+*as implementações entre eles podem variar entre si ja que todos eles seguem
+as especificações java EE ex: um servidor de aplicação glassfish(sun) pode utilizar
+o persistence provider hibernate(jboss).

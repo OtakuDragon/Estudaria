@@ -1,0 +1,68 @@
+Enviando um pedido(request) para o servidor
+
+Um request trata-se de localizar um arquivo
+no servidor por meio de um URL este arquivo pode
+ser de qualquer tipo(.txt,.xml,.php.asp) 
+
+================================================
+Montando um request
+
+Um request é composto de dois metodos um 
+que monta o request e outro que o envia
+
+----------------------------------------------------
+Metodo open()
+
+Sintaxe
+
+ajax.open(method,url,async); //está é a sintaxe simples do metodo open
+
+Parametros:
+
+*method - Representa o metodo de envio como em um formulario seus valores
+	  possiveis são "get" ou "post" , get para enviar por meio de uma URL
+	  e post para enviar diretamente ao servidor
+
+*url - Localização do arquivo sendo requisitado no servidor,por meio de uma string,se for um arquivo
+       server-side(php,asp,jsp) o request fara o arquivo ser executado e trara como response
+       o output deste codigo
+
+	obs: o javascript somente pode localizar arquivos no dominio do servidor no qual o 
+	     script esta rodando
+
+*async - Um boolean que diz se a execução deve ser assincrona(true) ou caso false
+	 o script deve esperar até que a resposta do servidor chegue para continuar sua execução
+
+---------------------------------------------------------------
+Metodo send()
+
+O metodo send() envia o pedido ao servidor
+
+Sintaxe
+
+ajax.send(string) // o parametro de send é opcional ele recebe uma string com os parametros
+		  //há se enviar ao servidor caso o metodo seja POST e não seja possivel passar
+		  //pela URL
+
+exemplo de passagem de parametros
+
+ajax.send("fname=Henry&lname=Ford");
+
+=============================================================
+Cabeçalho(header)
+
+Em um request tambem é possivel definir o tipo do
+conteudo que esta sendo enviado pro meio de um
+cabeça-lho http criado da seguinte forma
+
+ajax.setRequestHeader("Content-type","text/html");
+
+=========================================================
+Exemplo de completo request
+
+var ajax = new XMLHttpRequest();
+ajax.open("POST","ajax_test.asp",true);
+ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+ajax.send("fname=Henry&lname=Ford");
+
+=============================================================

@@ -1,0 +1,36 @@
+Eventos de ciclo de vida
+
+O EJB container procura por metodos de evento
+de ciclo de vida para executar quando eventos acontecem
+estes metodos são geralmente utilizados para a inicialização
+ou fechamento de recursos.
+
+Estes metodos podem ser adicionados diretamente no bean(não precisam
+estar na interface de negocio) ou adicionados por interceptores(AOP)
+eles não podem ser static, devem retornar void e serem publicos, não podem lançar checked
+exceptions(exceções que não herdem de runtimeException) e são identificados por anotações.
+
+Os eventos são:
+
+@PostConstructed - Chamado após o bean ser instanciado e ter seus recursos injetados
+
+@PreDestroy - Chamado antes de o bean ser destruido
+
+//Eventos exclusivos de stateful session beans
+
+@PrePassivate - Metodo chamado antes do bean ser desativado temporariamente
+
+@PostActivate - Metodo chamado apos o bean ser reativado do estado passivo
+
+ex:
+
+@PreDestroy
+public void cleanup() {
+	try {
+		connection.close();
+	} catch (SQLException sqle) {
+		sqle.printStackTrace();
+	}
+} 
+
+===============================================================

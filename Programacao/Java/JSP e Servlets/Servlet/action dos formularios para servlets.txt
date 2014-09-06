@@ -1,0 +1,9 @@
+action dos formularios
+
+O atributo action nos formularios define
+qual o servlet tratará dos dados
+
+O atributo action dos formularios de
+uma aplicação java web deve receber como
+valor o/um dos url-mapping do servlet que receberá
+os dados

@@ -1,0 +1,89 @@
+Funções
+
+Funções em javascript são um modo de agrupar codigo
+e dividir tarefas complexas em pequenas partes ou até
+mesmo de executar a mesma tarefa varias vezes em diferentes partes
+do codigo
+
+======================================================================
+Declarando uma função
+
+Em javascript é possivel se declarar uma função de três
+maneiras
+
+----------------------------------------------------------------------
+Função declarativa
+
+primeira maneira implementada no javascript
+
+Sintaxe:
+
+function nomeDaFunçao(parametros){
+
+//codigo
+
+}
+
+----------------------------------------------------------------------
+Função anonima
+
+Cria uma função pelo seu construtor
+
+var a = new Function("param1","param2...","Codigo");
+
+-----------------------------------------------------------------------
+Função literal (DOM 0)
+
+Tipo de função sem nome que é atribuida diretamente
+a uma variavel, utilizada principalmente para remover
+completamente o codigo javascript do documento html.
+
+Sintaxe:
+
+var a = function (parametros){
+	 //codigo
+	
+	}
+
+uso:
+
+window.onload = function(){
+
+	document.getElementById("botao1").onclick = function(){
+	
+		//codigo
+		
+		alert("teste");
+		
+	}
+
+}
+
+==========================================================================================================
+DOM 2
+
+É o modo mais atual de se atribuir funções a eventos
+permite uma mais facil desativação da propagação de eventos
+e a atribuição de varias funções para um mesmo elemento
+
+--------------------------------------------------------------------------
+
+Adicionando uma função tratadora de evento:
+
+Sintaxe:
+
+elemento.addEventListener("nomeQueIdentificaOEvento",nomeDafunçãoDeclarativaQTraraEle,boolean); //o elemento pode ser qualquer elemento html
+												//retornado com os metodos getElement()
+												// e o boolean indica se a propagação de eventos esta ligada ou desligada
+
+------------------------------------------------------------------------------
+Removendo uma função tratadore de evento:
+
+elemento.removeEventListener("nomeQueIdentificaOEvento",nomeDafunçãoDeclarativaQTraraEle,boolean);
+
+=============================================================================
+
+
+*Obs: os parametros são declarados sem tipo de dado apenas com um nome
+*Obs: Funções podem retornar resultados com a palavra chave return ou não
+      sem ser preciso declarar o tipo de retorno

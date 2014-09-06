@@ -1,0 +1,38 @@
+A anotação @Table
+
+O primeiro passo para se mapear uma classe à uma tabela
+é definir a qual tabela do banco aquela classe se refere
+esta é a função da anotação @Table.
+
+Ela é opcional, por padrão o nome da tabela considerado será
+o nome simples da classe da entidade.
+
+Anota apenas classes, e aparece abaixo da anotação @Entity.
+==================================================
+Atributos da anotação
+
+*Todos os atributos são opcionais
+
+String name - Atributo mais importante da anotação, recebe o nome da tabela
+			  do banco de dados ao qual a entidade se refere, default nome simples da classe
+			  
+String schema - Schemas são conjuntos de tabela muito utilizados em SGBDs para agrupar tabelas com funções especificas
+				este atributo recebe o nome do schema do banco de dados ao qual a tabela pertence, default ""
+	
+String catalog - Catalogs são conjunto de schemas, utilizados por alguns SGBDs, este
+				 atributo é raramento usado ja que este tipo de agrupamento não é comumente
+				 visto, recebe o nome do catalog ao qual o schema da tabela pertence, default ""
+				 
+UniqueConstraint[] - Um array de @UniqueConstraint, que define contraints unique para a tabela, caso ela seja gerada automaticamente
+					 o que NÃO É RECOMENDANDO, estes constraints devem ser criados diretamente na tabela, não é responsabilidade do
+					 ORM este tipo de constraint.
+===================================================
+Ex:
+
+@Entity
+@Table(name="USERS", schema=”ACTIONBAZAAR”))
+public class User implements Serializable {
+
+...
+
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="backup" default="zipFiles">
+	
+	<property name="srcDir" value="src" />
+	<property name="backupDir" value="backups" />
+    
+    <target name="copyFiles">
+        
+    	<!-- cria o diretório de backup -->
+    	<mkdir dir="${backupDir}" />
+    	
+    	<!-- copia o conteúdo para o backup -->
+    	<copy todir="${backupDir}">
+    		<fileset dir="${srcDir}" />
+    	</copy>
+    	
+    </target>
+
+    <target name="zipFiles" depends="copyFiles">
+    
+    	<!-- compacta a pasta backup -->
+    	<zip destfile="${backupDir}/src.zip" basedir="${backupDir}" />
+    </target>
+
+</project>

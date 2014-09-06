@@ -1,0 +1,112 @@
+<html>
+	<head>
+		<title> Login muito foda </title>
+		<meta name="author" content="Gilson Carlos Lopes" >
+
+				<script type="text/javascript">
+				
+				var registro
+
+					function validation (form) {
+						var login = form.nomeDeUsuario.value;
+						var senha = form.senha.value;
+
+						if (login == "gilson2008" && senha == "123"){
+
+							alert("Log on Realizado com sucesso");
+							open("http://www.google.com.br/");
+
+						} else {
+
+							alert("Nome de usuario e/ou senha incorretos tente novamente!");
+						}
+					}
+						
+						function openRegister(){
+							
+							registro = window.open("registro.html");
+							
+							
+							
+							}
+							
+						
+							
+							
+							
+						
+
+												
+
+
+		         </script>
+	</head>
+
+	<body>
+
+        Login: <br><br>
+		<form name="formulario">
+			Nome de usuario <input type="text" name="nomeDeUsuario" ><br>
+			<pre>Senha         <input type="password" name="senha"></pre><br>
+			<input type="button"  name="envio" value="Logar" onclick = "validation(envio.form)">
+            <input type="button"  name="registro" value="Registre-se" onclick = "openRegister()">
+           
+            
+			
+          
+
+
+
+
+		</form>
+
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

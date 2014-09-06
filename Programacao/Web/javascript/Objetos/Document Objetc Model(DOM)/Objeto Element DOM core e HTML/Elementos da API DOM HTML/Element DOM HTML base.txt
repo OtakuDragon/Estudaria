@@ -1,0 +1,13 @@
+Element base
+
+O elemento base representa
+a tag html <base> que define um endereço padrão para todos
+os links da pagina e possui como atributos
+todos os atributos e metodos de node 
+alem dos seus proprios atributos HTML
+
+=============================================
+Atributos de base
+
+base.href	//Sets or returns the value of the href attribute in a base element	
+base.target	//Sets or returns the value of the target attribute in a base element	

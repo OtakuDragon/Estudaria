@@ -1,0 +1,7 @@
+Instalação
+
+*Ir para http://www.springsource.org/download/community
+
+*Baixar latest GA release
+
+*Criar uma user library no projeto com todos os jars da pasta libs

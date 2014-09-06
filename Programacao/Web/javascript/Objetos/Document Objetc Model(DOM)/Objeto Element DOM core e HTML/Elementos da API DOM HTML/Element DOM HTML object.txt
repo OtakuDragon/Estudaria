@@ -1,0 +1,27 @@
+Element object
+
+O elemento object representa
+a tag html <object> e possui como atributos
+todos os atributos e metodos de node 
+alem dos seus proprios atributos HTML
+
+=============================================
+Atributos de object
+
+object.align	//Sets or returns the alignment of the object according to the surrounding text	
+object.archive	//Sets or returns a string that can be used to implement your own archive functionality for the object	
+object.border	//Sets or returns the border around the object	
+object.code	//Sets or returns the URL of the file that contains the compiled Java class	
+object.codeBase	//Sets or returns the URL of the component	
+object.codeType	 	
+object.data	 	
+object.declare	 	
+object.form	//Returns a reference to the object's parent form	
+object.height	//Sets or returns the height of the object	
+object.hspace	//Sets or returns the horizontal margin of the object	
+object.name	//Sets or returns the name of the object	
+object.standby	//Sets or returns a message when loading the object	
+object.type	//Sets or returns the content type for data downloaded via the data attribute	
+object.useMap	 	
+object.vspace	//Sets or returns the vertical margin of the object	
+object.width	//Sets or returns the width of the object			

@@ -1,0 +1,32 @@
+Element form
+
+O elemento form representa a tag html <form> 
+e possui como atributos todos os atributos
+e metodos de node alem dos seus proprios atributos HTML
+
+alem de eventos e metodos especificos da DOM HTML
+
+
+=============================================
+Atributos de form
+
+form.elements[]		//Returns an array of all elements in a form	
+form.acceptCharset	//Sets or returns the value of the accept-charset attribute in a form	
+form.action		//Sets or returns the value of the action attribute in a form	
+form.enctype		//Sets or returns the value of the enctype attribute in a form	
+form.length		//Returns the number of elements in a form	
+form.method		//Sets or returns the value of the method attribute in a form	
+form.name		//Sets or returns the value of the name attribute in a form	
+form.target		//Sets or returns the value of the target attribute in a form	
+
+========================================
+Metodos de form
+
+form.reset()	//Resets a form	
+form.submit()	//Submits a form
+
+=======================================
+Eventos de form
+
+form.onreset	//The reset button is clicked	
+form.onsubmit	//The submit button is clicked		

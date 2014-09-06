@@ -1,0 +1,123 @@
+Reflection
+
+É o ato de cria um objeto do tipo Class
+e recuperar informações ou utilizar metodos e atributos de uma classe
+por meio deste objeto
+
+um objeto do tipo Class pode tambem conter referencias para interfaces e enums
+
+Criação de um objeto
+
+Class classe = Class.forName("pacote.classe1");// este metodo recebe como parametro uma string com o
+					       // nome completo de uma classe
+					       // para saber o nome completo de uma classe clique nela
+						// com o botão direito no eclipse
+						// este metodo retorna ClassNotFoundException
+
+ou
+
+Class classe = String.class //retorna um objeto classe toda classe possui este atributo, String é só um exemplo
+
+============================================================================================
+Instanciando por reflexão
+
+Object o = classe.newInstance();// cria um novo objeto da classe com o construtor sem parametros e o retorna como Object
+				// com um cast é possivel passar este objeto para o tipo de objeto de classe 
+				
+
+
+==========================================================================================
+Utilizando os atributos da classe
+
+Atributos são campos e são representados em reflexão pela classe Field
+para retornar um array com todos os atributos de uma classe pro reflexão se
+utiliza a seguinte sintaxe:
+
+Field[] f = classe.getFields();//retorna um array de campos com todos os atributos public da classe
+
+Field f2 = f[0];
+
+Alguns atributos de Field
+
+f2.getName(); // retorna uma string com o nome do atributo
+
+f2.getType(); //retorna uma string com o nome do tipo de dado do atributo
+
+
+========================================================================================
+Utilizando os metodos da classe por reflexão
+
+É possivel acessar os metodos da classe retornando um array de todos 
+os metodos (a classe que representa os metodos é a classe Methdod) e escolhendo um por index:
+
+Method[] m = classe.getDeclaredMethods();//retorna um array de metodos com todos os metodos da classe
+
+ou
+
+Escolher um metodo especifico por nome e tipos de dados dos parametros(com um .class ao final):
+
+Method md = classe.getMethod("NomeDoMetodo",parametros(formato tipoDeDado.class));// retorna um metodo da classe, se o metodo não tiver parametros coloque null
+										//no lugar dos parametros
+
+-----------------------------------------------------------------------------------
+Invocando o metodo
+
+Objetos do tipo Method possuem um metodo chamado invoke que recebe
+o objeto no qual o metodo será realizado e os parametros 
+
+md.invoke(Object o, parametros(formato valorDoParametro));//executa um metodo da classe no objeto da classe passado como parametro se o metodo não tiver parametros coloque null
+										//no lugar dos parametros
+
+
+------------------------------------------------------------------------------------
+
+//parametros(formato valorDoParametro), no caso de um inteiro seria: 20
+
+//parametros(formato tipoDeDado.class), no caso de um inteiro seria: int.class
+
+=======================================================================================
+Construtores e Alguns metodos
+
+
+classe.getSimpleName();//retorna o nome simples da classe ou seja sem incluir o nome dos pacotes
+			// a qual a classe partence
+
+Constructor[] c = classe.getConstructors();//retorna um array de construtores com todos os construtores da classe 
+
+
+Constructor co = classe.getConstructor(parametros(formato tipoDeDado.class));//retorna um construtor da classe e este construtor possui o metodo
+								             //newInstance();
+
+co.newInstance(parametros(formato valorDoParametro));cria um novo objeto da classe com o construtor de parametros definidos e o retorna como Object 
+
+
+//parametros(formato valorDoParametro), no caso de um inteiro seria: 20
+
+//parametros(formato tipoDeDado.class), no caso de um inteiro seria: int.class
+
+======================================================================================
+Annotations + Reflection
+
+É possivel recuperar as annotations de classes,metodos e atributos
+por meio de reflexão e utilizar, criteiros como "se a classe possui tal anotação
+a execute" ou "passe como parametro este valor da anotação para o metodo"
+um exemplo pratico disso esta nos codigos de referencia
+
+O metodo getAnnotation
+
+Varios elementos de reflexão como field e method
+possuem o metodo getAnnotation que recebe o objeto .class
+da anotação e retorna um objeto daquela anotação
+
+supondo que eu tenha uma anotação Autor
+
+Method m = arrayOfMethods[0];
+
+Autor a = m.getAnnotation(Autor.class); //se aquele metodo possuir esta anotação
+					//retornara um objeto annotation se não retornara null
+					
+Neste objeto Annotation você pode acessar todos os seus campos
+
+sintaxe:
+
+System.out.println(a.nome());//supondo que esta anotação possuia o campo String nome() ele seria recuperado assim

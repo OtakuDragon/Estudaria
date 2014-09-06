@@ -1,0 +1,63 @@
+Tag <meta>
+
+Metadados são informações sobre os seus dados, a tag <meta>
+fornece informações sobre seu documento html, informações para
+serviço de busca,browsers e outros serviçõs, como outros programadores
+mas não para o usuario.
+
+a tag <meta> é usada dentro do cabeçalho ou seja <head>
+
+atributos da tag <meta>
+
+name - fornece um nome para a informação no atributo content
+
+
+========================--===================================
+
+valores de name
+
+author - define o autor do documento
+
+description - define a descrição do documento(o que aparece na pesquisa google em letras cinza)
+
+keywords - define as palavras-chave pelas quais serviços de pesquisa acharão seu site
+
+generator - define o programa utilizado para gerar o documento
+
+robots - define regras para robôs (programas utilizados em sistemas de busca)
+
+copyright - define informações de direitos autorais do documento
+
+========================--========================================
+
+
+http-equiv - fornece um valor de documento http para o conteudo no atributo content
+
+
+=====================--========================================
+
+valores de http-equiv
+
+content-type - define o tipo mime do documento (como text/html)
+
+expires - define quando o documento sera considerado obsoleto
+
+refresh - define o intervalo de tempo para que o documento recarregue
+
+set-cookie - define o valor de um cookie
+
+*pesquisar na internet para exemplos de uso
+
+====================--============================================
+
+content - é o q define o conteudo de um name ou um http-equiv
+
+ex:
+
+<meta name="author" content="Gilson Carlos Lopes">
+
+*esta meta me define como o autor da pagina
+
+<meta http-equiv="refresh" content="5" url="novo_url">
+
+*esta meta define que a pagina ira se atualizar de 5 em 5 segundos

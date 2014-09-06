@@ -1,0 +1,30 @@
+A anotaçaõ @Enumerated
+
+Está anotação serve para configurar como campos do tipo enum
+serão persistidos no banco de dados, ela é opcional.
+==================================================
+Definição da anotação
+
+EnumType value - Recebe um dos dois tipos de EnumType que configuram
+							 a maneira como uma enumeração deve ser persistida.
+
+====================================================
+Valores de value
+
+@Enumerated define duas maneiras de se armazenar enumerações no banco
+de dados, no seu unico atributo value:
+
+EnumType.ORDINAL -  Guarda no banco de dados o valor de ordinal() da enumeração
+									ou seja a posição dela no array de valores da enumeração começando com 0,
+									este é o default ou seja se o atributo enum não for anotado com nada ou for anotado
+									com @Enumerated sem parametro, ele será guardado desta forma.
+				   
+EnumType.STRING  - Guarda no banco de dados o valor de name() da enumeração, ou seja o nome dela
+									ex: Usuarios.ADM, a string guardada será ADM.
+===============================================================
+ex:
+
+@Enumerated(EnumType.STRING) 
+@Column(name="USER_TYPE", nullable=false)
+protected UserType userType;
+			

@@ -1,0 +1,66 @@
+Controle de acesso
+
+Os bancos de dados são estruturas seguras e
+com um sistema de usuarios que possuem diferentes
+tipos de acesso ao banco de dados.
+
+============================================================
+Criando um usuário
+
+Sintaxe no mySQL:
+
+CREATE USER 'nome'@'IP' INDENTIFIED BY 'senha';// 'IP' representa que aquele usuario
+					       // somente podera acessar o banco de dados
+					       //do computador que possua aquele ip definido
+					       //para nao definir um ip use o simbolo '%'
+
+------------------------------------------------------------
+Excluir um usuário
+
+Sintaxe no mySQL:
+
+DROP USER 'usuario'@'IP';
+
+===========================================================
+Permitir ou negar ações a usuários
+
+Um usuário criado não pode fazer absolutamente 
+nada antes de lhe ser dada as permissões para realizar suas
+funções
+
+---------------------------------------------------------
+Dar permissão
+
+Sintaxe no mySQL:
+
+GRANT ação ON estrutura TO 'usuario'@'IP'; //O nome da estrutura deve ser completo ou seja se for uma tabela
+					 // deve ter a sintaxe nomeDoBanco.nomeDaTabela, para garantir acesso a todas
+					// as estruturas a sintaxe é nomeDoBanco.*
+
+---------------------------------------------------------
+Retirar permissão
+
+Sintaxe no mySQL:
+
+REVOKE ação ON estrutura FROM 'usuario'@'IP';
+
+--------------------------------------------------------
+Ações:
+
+- ALL //todas as operações abaixo
+
+- SELECT //permissão para ler dados
+
+- INSERT //permissão para inserir dados
+
+- UPDATE //permissão para modificar dados
+
+- DELETE //permissão para excluir dados
+
+Estruturas:
+
+- TABLE
+
+- VIEW
+
+- SEQUENCE

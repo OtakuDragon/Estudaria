@@ -1,0 +1,5 @@
+Padrão para classes da camada Regras de negocio
+
+As classes da camada regras de negocio devem ter RN em seu
+nome e em seu construtor deve receber os objetos DAO necessarios
+para o seu funcionamento.

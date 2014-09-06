@@ -1,0 +1,107 @@
+Eventos em Spring
+
+Eventos em spring são divididos em tres partes:
+
+*Application listener - uma classe que trata todos os eventos da aplicação
+
+*Application Event - Os eventos em si podem ser padrões do spring ou custmozados
+
+*Application Event publisher - Uma classe que lança o evento
+
+======================================================
+Implementando uma classe ApplicationListener
+
+Uma classe para ser uma ApplicationListener deve implementar
+a interface ApplicationListener e ser um bean declarado
+por anotação ou por xml
+
+A interface ApplicationListener define um metodo:
+
+public void onApplicationEvent(ApplicationEvent event);
+
+Este metodo é chamado sempre que um evento spring acontece,
+ela recebe do spring o objeto do evento.
+
+ex:
+
+@Component
+public class MyEventListener implements ApplicationListener{
+
+public void onApplicationEvent(ApplicationEvent event){System.out.println("um evento aconteceu");}
+
+}
+
+============================================================
+Criando um evento
+
+Um evento é uma classe que herda da classe ApplicationEvent
+e a duas obrigações são definidas:
+
+1º é que seja implementado o construtor 
+
+2º este construtor deve receber como parametro Object que será
+   a referencia a classe que gerou o evento e que executar o construtor
+   de ApplicationEvent
+   
+
+ex:
+
+public class DrawEvent extends ApplicationEvent{
+
+	public DrawEvent(Object source){
+		super(source);
+	}
+
+	//resto do codigo do evento
+
+}
+
+obs: note que a classe de evento não precisa ter codigos,os codigos deve ficar
+     na classe ApplicationListener e deve ser executados caso este evento aconteça
+
+============================================================
+Lançando um evento
+
+Apos criar um evento e definir um codigo para ser executado quando
+ele ocorrer no listener é preciso definir o codigo que irá lança-lo
+
+Para isso é necessario um objeto que implemente a interface
+ApplicationEventPublisher e este objeto pode ser atribuido ao
+seu bean no momento da configuraçao pelo spring
+se este bean implementar a interface ApplicationEventPublisherAware
+
+com este objeto em mãos basta apenas instanciar um objeto do evento e passado
+para o metodo publishEvent() do publisher
+
+
+ex:
+
+
+@Component
+public class Circle implements ApplcationEventPublisherAware{
+
+private ApplicationEventPublisher publisher;
+
+public void setApplicationEventPublisher(ApplicationEventPublisher publisher){
+
+this.publisher = publisher;
+
+}
+
+
+public void lancaEvento(){
+
+//DrawEvent é a classe de exemplo de evento acima e o construtor recebe uma referencia a classe
+//que lançou o evento como dito anteriormente
+
+//E o evento é lançado pelo metodo publishEvent de publisher que recebe o evento ao qual lançar
+
+DrawEvent drawEvent = new DrawEvent(this);
+publisher.publishEvent(drawEvent);
+
+}
+
+
+
+
+}

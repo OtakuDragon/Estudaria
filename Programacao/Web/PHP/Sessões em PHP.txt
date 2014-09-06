@@ -1,0 +1,113 @@
+Sessões em PHP
+
+Sessões são uma maneira de armazenar
+dados do cliente no servidor até que ele
+feche o browser ou a sessão seja destruida
+
+Cada sessão é unica por cliente e são
+identificadas por meio de um Id
+
+Os dados de uma sessão são acessiveis em todas
+as paginas do dominio
+
+*sessões assim como cookies deve ser iniciadas
+ antes da tag html ser carregada
+
+*sessões não podem ser desativadas como os cookies
+
+
+
+==============================================
+Iniciando uma sessão
+
+Metodo session_start()
+
+session_start("nomeDaSessão");
+
+-"nomeDaSessão" //opcional nome da sessão
+
+===============================================
+Guardando dados em uma sessão
+
+*o metodo session_start() deve ser chamado
+ antes de qualquer operação com sessions
+
+Dados são guardados e recuperados atraves do
+array pre-definido $_SESSION
+
+Sintaxe:
+
+$SESSION['variavel'] = valor;
+
+-----------------------------------------------
+Recuperando dados de uma sessão
+
+Sintaxe:
+
+$valor = $SESSION['variavel'];
+
+-------------------------------------------
+Descobrindo se uma variavel esta definida na sessão
+
+session_is_registered('variavel');
+
+//retorna um booleano dizendo true se sim e false se não
+
+===============================================
+Destruindo uma sessão
+
+Tres metodos podem ser usados para
+destruir uma sessão
+
+session_destroy();
+
+ou
+
+session_unset();
+
+ou
+
+$_SESSION = array();
+
+---------------------------------------------
+Removendo um dado da sessão
+
+session_unregister('variavel');
+
+==============================================
+Funções de manipulação do id da sessão
+
+session_id() //retorna ou define o id de uma sessão recebe o id em string
+             //e para definir um id deve ser usado antes de session_start 
+
+session_regenerate_id() //troca o id  de uma sessão por um novo gerado
+                        //e recebe como parametro opcional um boolean
+                        //dizendo se é deve deletar a sessão anterior ou não
+                       //o padrão é FALSE
+
+===============================================
+Definido as configurações de cookie da sessão(tempo de duração)
+
+Função session_set_cookie_params()
+
+obs: O efeito desta função é apenas pela duração do script. Então,
+então você precisa chamar session_set_cookie_params() para 
+cada requisição e antes que session_start() seja chamada.
+
+session_set_cookie_params(tempoDeDuração)
+
+tempoDeDuração - //por quanto tempo em segundos a sessão existira
+
+*session_set_cookie_params() possui todos os outros parametros de um cookie exceto nome e valor
+ como parametros opcionais
+
+------------------------------------------------------------
+Codigo para limite de tempo em sessões
+
+<?php
+  $lifetime=600;
+  session_start();
+  setcookie(session_name(),session_id(),time()+$lifetime);
+?>
+
+

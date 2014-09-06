@@ -1,0 +1,108 @@
+Funções
+
+São mecanismos de agrupamento de codigo
+que executam quando são chamados podem
+receber parametros e retornar dados.
+
+
+Sintaxe:
+
+ function NomeDaFunção($parametro1,...){
+   
+    //Codigo
+    return $retorno; //O operador return faz a função retornar um valor
+   }
+
+ex:
+ 
+ function soma ($a, $b)
+  {
+   $c = $a + $b;
+   return $c; 
+  }
+
+*Uma função com parametros definidos não executara se os
+ parametros não forem passados
+*mas uma função pode receber mais parametros do que os declarados
+*parametros passados para funções são copias dos dados(diferente do java) 
+
+==============================================================================
+Passagem de referencias como parametro 
+
+assim como no C variaveis passadas como parametros em funções php não tem
+são copias das variaveis originais, para passar a variavel em si para
+que ela seja modificada dentro da função é necessario utilizar o caractere &
+
+
+$cont = 10;
+function contador(&$a)
+{
+  $a++;
+}
+
+contador($cont);
+echo $cont;
+
+============================================================================
+Funções anonimas
+
+Funções anonimas são funções sem nome
+que são acessadas atraves de variaveis
+
+Sintaxe:
+
+$funct = function(){//codigo};//declaração
+$funct();//chamada
+
+ou
+
+$funct = create_function('parametro1,paramentro2...','codigo');//declaração
+$funct();//chamada
+
+-------------------------------------------------------------------
+Detalhe "meio inutil"
+
+É possivel chamar funções atraves de variaveis string que
+possuam o mesmo nome de uma função
+
+ex:
+
+function ex1(){
+
+//codigo
+
+}
+
+$var = "ex1";
+
+$var(); //chama a função ex1()
+
+================================================================================
+Funções de Funções '-'
+
+Funções possuem algumas funções internas para
+a obter informações sobre os parametros que foram
+passados pela chamada da função
+
+*Tenha em mente que uma função pode receber mais parametros
+ do que sua assinatura pede
+
+ ex: function teste(){
+
+	echo "teste";
+	}
+
+     teste("nome","endereco",12,27); //essa chamada é valida e estes parametros podem ser recuperados 
+				     //com os metodos abaixo
+
+--------------------------------------------------------------
+Funções
+
+*Todas as funções abaixo tem que ser usadas dentro
+ de funções
+
+func_num_args(); //retorna o numero de parametros que a função recebeu em sua chamada
+func_get_args(); //retorna um array com todos os parametros passados
+func_get_arg(indice); //retorna um parametro recebendo o indice dele
+
+

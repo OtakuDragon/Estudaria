@@ -1,0 +1,134 @@
+SQL
+
+Structured query language.
+
+a linguagem SQL é uma linguagem descritiva utilizada como a lingaugem padrão para todos os bancos de dados 
+ela é formada por 5 linguagens cada uma com uma função diferente.
+
+*DDL(Data definiton language)
+
+cuida das estruturas como por exemplo as tabelas
+e é composta por tres comandos
+
+- CREATE: cria uma estrutura
+- ALTER: Altera uma estrutura
+- DROP: Exclui uma estrutura
+
+*DML(Data manipulation language)
+
+cuida dos dados e é composta por tres comandos
+
+-INSERT: Insere dados
+-UPDATE: Altera dados
+-DELETE: Exclui dados
+
+*DQL(Data query langauge)
+
+cuida da consulta aos dado e é composta pelo comando
+
+-SELECT: retorna dados
+
+*DCL(Data control language)
+
+cuida do acesso aos dados quem pode fazer o que
+no banco é composta por dois comandos
+
+-GRANT: Concede uma permissão de acesso
+
+-REVOKE: revoga uma permissão de acesso
+
+-DTL(Data transtaction language)
+
+cuida das transações e possui tres comandos
+
+-START TRASACTION: inicia uma transação
+-COMMIT: concretiza uma transação
+-ROLLBACK: Anula a transação
+
+=============================================================================
+Principios:
+
+Os conceitos abaixo se referem a linguagem SQL padrão
+ANSI valida para qualquer servidor de banco de dados no mercado
+
+No momento da instalação do banco é pedido
+uma senha para o usuario system que é o primeiro usuario padrão
+do sistema de banco de dados, após logar neste usuario é possivel
+criar outros usuarios no cmd sql com o comando
+
+Criando novo usuario
+
+create user NomeDoUsuario indentified by senhaDoUsuario;
+
+==================================================================
+
+Após a criação do usuario é preciso conceder permissões a ele
+com a sintaxe
+
+Dando cargos e permissões a usuarios
+
+grant cargoOuPermissão to NomeDeUsuario
+
+
+*Tambem é possivel proibir permissões com a palavra deny
+
+Cargos:
+
+dba
+
+Permissões:
+
+connect
+
+resource
+
+
+=======================================================================
+
+Inserindo dados em uma tabela
+
+O ato de inserir dados significa preencher uma linha da tabela com todas as suas colunas
+
+Sintaxe para inserção de dados:
+
+INSERT INTO nomeDaTabela VALUES(dado1,dado2....);
+
+uso:
+
+INSERT INTO login VALUES(0,'gilson2008','456123');//preenche uma linha da tabela de exemplo acima
+						  // se os dados forem strings ou chars coloque entre aspas simples
+
+===============================================================================================
+Vendo uma tabela
+
+Mostra todos os campos ta tabela na prompt de comandos
+
+Sintaxe:
+
+SELECT * FROM NomeDaTabela;
+
+Uso:
+
+SELECT * FROM login;//* significa todos os campos é possivel ver apenas uma coluna colocando o nome da coluna no lugar de *
+
+
+=================================================================================================
+
+Excluindo de uma tabela
+
+Exclui dados da tabela de acordo com o atributo de where
+
+Sintaxe:
+
+DELETE FROM nomeDaTabela WHERE condição; // a condição pode ser o nome de um campo ou linha ou pro exemplo aonde o id > 5 no caso de cada registro ter um numero sequencial
+
+
+=================================================================================================
+
+Editando dados de uma tabela
+
+Edita dados da tabela de acordo com o atributo de where
+
+Sintaxe:
+
+UPDATE nomeDaTabela SET campo1 = ?, campo2 = ?... WHERE condição;//? serve para ser definido em um prepared statement fora isso ? representa o valor q substituira o valor atual do campo 

@@ -1,0 +1,108 @@
+PHP Math
+
+Existem varias funções e constantes para
+calculos matematicos em PHP assim como
+em qualquer outra linguagem
+
+====================================================================
+Constantes matematicas no PHP
+
+M_E		Returns e (approx. 2.718)	
+M_EULER		Returns Euler's constant (approx. 0.577)	
+M_LNPI		Returns the natural logarithm of PI (approx. 1.144)	
+M_LN2		Returns the natural logarithm of 2 (approx. 0.693)	
+M_LN10		Returns the natural logarithm of 10 (approx. 2.302)	
+M_LOG2E		Returns the base-2 logarithm of E (approx. 1.442)	
+M_LOG10E	Returns the base-10 logarithm of E (approx. 0.434)	
+M_PI		Returns PI (approx. 3.14159)	
+M_PI_2		Returns PI/2 (approx. 1.570)	
+M_PI_4		Returns PI/4 (approx. 0.785)	
+M_1_PI		Returns 1/PI (approx. 0.318)	
+M_2_PI		Returns 2/PI (approx. 0.636)	
+M_SQRTPI	Returns the square root of PI (approx. 1.772)	
+M_2_SQRTPI	Returns 2/square root of PI (approx. 1.128)	
+M_SQRT1_2	Returns the square root of 1/2 (approx. 0.707)	
+M_SQRT2		Returns the square root of 2 (approx. 1.414)	
+M_SQRT3		Returns the square root of 3 (approx. 1.732)
+
+=======================================================================
+Metodos Matematicos do PHP
+
+//Arredondamento e formatação
+
+abs()	Returns the absolute value of a number	
+ceil()	Returns the value of a number rounded upwards to the nearest integer	
+floor()	Returns the value of a number rounded downwards to the nearest integer	
+round()	Rounds a number to the nearest integer	
+
+//Potencia, raiz quadrada, log
+
+pow()	Returns the value of x to the power of y
+sqrt()	Returns the square root of a number
+log()	Returns the natural logarithm (base E) of a number
+log10()	Returns the base-10 logarithm of a number	
+log1p()	Returns log(1+number)	
+
+
+//Maior e menor numero
+
+max()	Returns the number with the highest value of two specified numbers	
+min()	Returns the number with the lowest value of two specified numbers	
+
+//Random
+
+lcg_value()	Returns a pseudo random number in the range of (0,1)
+
+rand()	Returns a random integer
+getrandmax() Returns the maximum random number that can be returned by a call to the rand() function	
+srand()	Seeds the random number generator
+	
+mt_rand()	Returns a random integer using Mersenne Twister algorithm
+mt_getrandmax()	Returns the largest possible value that can be returned by mt_rand()	
+mt_srand()	Seeds the Mersenne Twister random number generator
+
+//Conversões
+
+base_convert()	Converts a number from one base to another	
+bindec()	Converts a binary number to a decimal number	
+decbin()	Converts a decimal number to a binary number	
+dechex()	Converts a decimal number to a hexadecimal number	
+decoct()	Converts a decimal number to an octal number	
+deg2rad()	Converts a degree to a radian number
+hexdec()	Converts a hexadecimal number to a decimal number
+octdec()	Converts an octal number to a decimal number
+rad2deg()	Converts a radian number to a degree	
+	
+//Meta-info
+
+is_finite()	Returns true if a value is a finite number	
+is_infinite()	Returns true if a value is an infinite number	
+is_nan()	Returns true if a value is not a number	
+
+//Trigonometria
+
+acos()	Returns the arccosine of a number	
+acosh()	Returns the inverse hyperbolic cosine of a number	
+asin()	Returns the arcsine of a number	
+asinh()	Returns the inverse hyperbolic sine of a number	
+atan()	Returns the arctangent of a number as a numeric value between -PI/2 and PI/2 radians	
+atan2()	Returns the angle theta of an (x,y) point as a numeric value between -PI and PI radians	
+atanh()	Returns the inverse hyperbolic tangent of a number
+cos()	Returns the cosine of a number	
+cosh()	Returns the hyperbolic cosine of a number
+sin()	Returns the sine of a number	
+sinh()	Returns the hyperbolic sine of a number		
+tan()	Returns the tangent of an angle	
+tanh()	Returns the hyperbolic tangent of an angle
+hypot()	Returns the length of the hypotenuse of a right-angle triangle		
+
+//Constantes	
+
+exp()	Returns the value of Ex	3
+expm1()	Returns the value of Ex - 1	
+pi()	Returns the value of PI	
+	
+//Mod
+	
+fmod()	Returns the remainder (modulo) of the division of the arguments	
+

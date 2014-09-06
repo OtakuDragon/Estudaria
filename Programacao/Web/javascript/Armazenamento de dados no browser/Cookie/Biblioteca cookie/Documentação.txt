@@ -1,0 +1,29 @@
+Função createCookie()
+
+Recebe como parametros respectivamente:
+
+*O nome do cookie(string)
+*Valor do cookie(string)
+*O numero de dias que o cookie deve durar(number)
+
+============================================================
+Função readCookie()
+
+Recebe como parametro o nome do cookie(string)
+e retorna o valor como string.
+
+Antes de usar este metodo cheque se o cookie existe:
+
+var x = readCookie('nomeDoCookie');
+
+if (x) {
+	//faz alguma coisa com x se ele existir
+}
+
+=============================================================
+Função eraseCookie()
+
+Recebe o nome de um cookie como string
+e cria ele novamente com uma data de expiração de
+ontem ou seja o exclui
+

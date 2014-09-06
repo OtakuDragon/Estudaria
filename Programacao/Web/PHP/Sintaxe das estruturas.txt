@@ -1,0 +1,149 @@
+======================================================
+
+Comentarios
+
+// e /*
+
+como eu java ou c ou qualquer outra linguagem
+
+===================================================
+If em php
+
+$a = 1;
+$b = 2;
+if ($a > $b)
+{
+....
+...
+}
+elseif($a < $b)
+{
+.....
+....
+}
+else
+{
+.....
+....
+}
+
+==========================================================
+
+Switch em php
+
+$a = 2;
+switch ($a)
+{
+case 0:
+echo “ a é igual a 0 “;
+break;
+case 1:
+echo “ a é igual a 1 “;
+break;
+case 2:
+echo “ a é igual a 2 “;
+break;
+default:
+echo "nenhum numero valido"
+break;
+}
+
+==========================================================
+
+For em php
+
+<body>
+<?php
+for ($i = 1; $i < 10; $i++)
+{
+echo("Linha $i <br>");
+}
+?>
+</body>
+
+==========================================================
+For each em php
+
+foreach($array as $dado){
+	echo $dado;
+	
+}
+
+ou
+
+foreach($array as $indice => $dado){
+	echo $indice;
+	echo $dado;
+	
+}
+
+*Neste segundo modo a diferença é que alem
+do conteudo você tambem tem acesso ao indice do vetor
+    
+
+
+======================================================
+
+while em php
+
+$a = 1;
+while ($a <= 10)
+{
+echo “Número“.$a++.“<br>“;
+}
+
+=======================================================
+
+Do-while em php
+
+<?php
+$i = 1;
+do
+{
+echo ("Linha $i <br>");
+$i++;
+}
+while ($i < 10)
+?>
+
+=========================================================
+Break e continue
+
+
+• Break : Interrompe a repetição atual e sai da estrutura de repetição
+
+$a = 20;
+while ($a < 0)
+{
+if ($a == 5)
+{
+echo “Número inválido!”;
+break;
+}
+echo “Número “.$a.”<br>”;
+$a--;
+}
+
+• Continue : Interrompe a repetição atual e volta ao inicio da
+ estrutura de repetição
+
+for ($a=0;$a<10;$a++)
+{
+if ($a == 5)
+{
+continue;
+}
+else
+{
+echo “Número “.$a.”<br>”;
+}
+}
+
+
+
+*Break e continue podem receber um numero há sua frente definindo
+ quantos laços de repetição aninhados eles devem afetar
+
+ex: break 2; //afeta o laço e mais um laço que o envolve
+
+=========================================================

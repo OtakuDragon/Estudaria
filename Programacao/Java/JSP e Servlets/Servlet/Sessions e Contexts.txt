@@ -1,0 +1,88 @@
+Sessões
+
+Toda vez que uma pagina é atualizada
+um novo objeto request é gerado e isso
+apaga todos os parametros existentes nos
+objetos request anteriores
+
+Para salvar dados entre requests são
+utilizadas sessões
+
+Uma sessão salva os dados para um usuario(browser) acessiveis
+para todos os servlets da aplicação web
+
+caso no mesmo computador a url for acessada com outro
+browser a sessão não vai existir
+
+e caso a url seja acessada em outro computador tambem não
+
+=====================================================
+HttpSession 
+
+O objeto HttpSession é retornado atraves do objet
+request
+
+Instanciação
+
+HttpSession session = request.getSession();
+
+------------------------------------------------------
+Adicionando um dado a sessão
+
+Os dados são guardados em uma sessão como atributos
+chave-valor no qual chave é uma string e valor é um
+object
+
+session.setAttribute("nome","Gilson"); //o segundo parametro é do tipo object ou seja
+                                       //pode recebe qualquer objeto o primeiro é obrigatoriamente string
+
+----------------------------------------------------------
+Recuperando dados de uma sessão
+
+Dados são recuperados por meio da sua chave
+e são retornados no tipo object
+
+String nome = (String) session.getAttribute("nome");
+
+======================================================
+Contexts
+
+
+
+Sessões são referentes ao browser quando um sessão
+é criada ele é valida somente para aquele browser
+naquele computador
+
+Context é unico para uma aplicação web ele armazena
+dados da mesma forma que sessões mas eles são acessiveis
+por todos os browsers e computadores que acessarem a aplicação
+
+*Aplicação web = web dynamic project
+
+----------------------------------------------------------
+ServletContext
+
+O objeto ServletContext é retornado atraves do objet
+request
+
+Instanciação
+
+ServletContext context = request.getServletContext();
+
+------------------------------------------------------
+Adicionando um dado ao context
+
+Os dados são guardados em um context como atributos
+chave-valor no qual chave é uma string e valor é um
+object
+
+context.setAttribute("nome","Gilson"); //o segundo parametro é do tipo object ou seja
+                                       //pode recebe qualquer objeto o primeiro é obrigatoriamente string
+
+----------------------------------------------------------
+Recuperando dados de um context 
+
+Dados são recuperados por meio da sua chave
+e são retornados no tipo object
+
+String nome = (String) context.getAttribute("nome");

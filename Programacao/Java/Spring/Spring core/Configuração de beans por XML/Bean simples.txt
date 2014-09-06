@@ -1,0 +1,13 @@
+Declaração simples de um bean
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans> 
+
+  <!-- recebe o ID um nome unico que identifica o bean e será utilizado para recupera-lo -->
+  <!-- e o full qualified name da classe do objeto -->
+
+  <bean id="triangle" class="shapesPack.Triangle" />
+   
+
+</beans>

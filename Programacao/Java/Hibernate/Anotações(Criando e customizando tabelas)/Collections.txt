@@ -1,0 +1,82 @@
+Collections
+
+
+@ElementCollection
+
+Esta anotação marca um coleção em uma entidade para ser
+armazenada, a maneira a qual esta coleção é armazenada
+é a seguinte
+
+é criada uma outra tabela para a coleção aonde a 1º coluna
+se trata de uma chave estrangeira que refere a chave primaria da tabela da entidade
+
+ou seja cada registro na tabela entidade pode ter varios registros na tabela 
+que representa a coleção dependendo do numero de itens da coleção
+
+obs: a tag só pode ser usada se a coleção for declarada pela interface,ver exemplo
+obs2: se a coleção conter objetos eles devem ser de uma classe @Embeddable
+
+Propriedades:
+
+fetch - (não obrigatorio)Define a maneira a qual a coleção será recuperada do banco
+
+valores possiveis:
+
+FetchType.LAZY - Padrão define que quando o objeto é recuperado do banco
+                 a coleção não será preenchida ela só será preenchida se
+                 o seu getter for chamado com a sessão ainda aberta
+
+obs: isso é possivel porque o getter da coleção retornado ao objeto
+     é um proxy ou seja uma outra implementação da classe que herda
+     da classe original mas sobreescreve o getter da coleção adicionando   
+     uma query de busca da coleção no banco no começo do getter
+
+FetchType.EAGER - define que quando o objeto é recuperado do banco a coleção
+                  virá completamente preenchida, este metodo utiliza muitos 
+                  recursos do computador por isso não recomendado
+
+ex:
+
+//Dentro da entidade
+
+@ElementCollection(fetch=FetchType.EAGER)
+private Set<Adress> listOfAddresses = new HashSet<Address>();
+
+//a declaração a seguir não seria aceitada pela anotação
+//private HashSet<Adress> listOfAddresses = new HashSet<Address>();
+
+--------------------------------------------------------------------------
+@JoinTable
+
+Quando uma tabela de coleção é criada ela define um nome
+padrão para a tabela e para a 1º coluna de chave estrangeira
+
+é possivel definir estes nomes com a anotação @JoinTable
+
+
+ex:
+
+@ElementCollection
+@JoinTable(name="NomeDaTabelaDaColeção",
+           joinColumns=@JoinColumn(name="NomeDaColunaFK"))
+
+-------------------------------------------------------------------------
+@CollectionId
+
+A tabela criada para a coleção por padrão não possui um
+campo de chave primaria é possivel definir um com a anotação
+@CollectionId
+
+coleções Set não devem possuir chave primaria 
+
+Sintaxe:
+
+@GenericGenerator(name="nomeDoGerador", strategy="hilo") //não foi explicado só use assim ou pesquise sobre esta anotação
+@CollectionId(columns={@Column("NomeDaColunaPK")},generator="nomeDoGerador",type=@Type(type="long"))
+private Collection<Adress> listOfAddresses = new ArrayList<Address>();
+
+Propriedades:
+
+columns - recebe a coluna ou colunas que serão a chave primaria da tabela
+generator - recebe o nome de uma anotação @GenericGenerator definido anteriormente
+type - define o tipo de dado do qual será composta a coluna de chave primaria

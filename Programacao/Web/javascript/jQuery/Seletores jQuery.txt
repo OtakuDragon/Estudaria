@@ -1,0 +1,239 @@
+Seletores jQuery
+
+Todos os seletores CSS funcionam exatamente da mesma
+forma para o jQuery
+
+$("seletorCss")
+
+
+obs: alguns seletores de sintaxe :seletor funcionam sem um outro seletor a sua esquerda
+     neste caso ele se aplicará a todo o documento
+
+ex:
+
+$(":seletor")
+
+======================================================
+Selecionando objetos javascript
+
+$(document)
+
+$(window)
+
+=====================================================
+Seletores de Lista
+
+Quando um seletor retorna uma lista de elementos
+existem alguns seletores para tratar desta lista
+e selecionar somente os elementos desejados
+
+Sintaxe:
+
+//O seletor de tag a retorna uma lista dos links da pagina
+//e separado por dois pontos é possivel adicionar um seletor para esta lista
+$("a:seletor")
+
+
+----------------------------------------------------
+Seletores
+
+:eq()
+
+Recebe o indice e retorna o elemento da lista naquela posição
+
+ex:
+
+//retorna o 4º link da pagina
+
+$("a:eq(3)")
+
+:even
+
+Retorna uma outra lista com somente os elementos de indice par da lista anterior
+
+:odd
+
+Retorna uma outra lista com somente os elementos de indice impar da lista anterior
+
+:first
+
+Retorna o primeiro elemento da lista(indice 0)
+
+:last
+
+Retorna o ultimo elemento da lista
+
+:gt()
+
+Retorna uma outra lista com os elementos de indice maior do que o numero passado como parametro
+
+:lt()
+
+Retorna uma outra lista com os elementos de indice menor do que o numero passado como parametro
+
+:header
+
+Retorna uma outra lista com somente elemetos headers da lista anterior
+
+:not()
+
+Recebe um seletor como parametro e retorna uma outra lista com os elementos que não atendem o seletor passado como parametro
+
+-----------------------------------------------------------------
+Loop em lista
+
+Função each()
+
+Recebe uma função e aplica esta função a todos os elementos da
+lista, recebendo do jQuery um parametro o indice do elemento incrementado na iteração.
+
+ex:
+
+$("p").each(function(indice){
+
+	if(indice==3){alert("paragrafo numero 3 da pagina");}
+
+});
+
+==============================================================
+Seletores de conteudo
+
+Seletores de conteudo buscam elementos de acordo com o que
+eles tem ou não tem me seu conteudo
+
+
+:contains()
+
+Seleciona todos os elementos com contenham o texto passado como parametro
+como conteudo
+
+:empty
+
+Seleciona todos os elementos vazios(não tem nada como conteudo nem tags nem texto)
+
+:has()
+
+Seleciona todos os elementos que contenham pelo menos um elemento que combine com o seletor
+passado como parametro
+
+:parent
+
+Seleciona todos os elementos não vazios oposto de empty
+
+==================================================================
+Seletores de formulario
+
+Seletores de formulario procuram espeficicamente por elementos
+de formularios
+
+:input
+
+Seleciona todos os campos input
+
+:button
+
+Seleciona todos os botões(type="button")
+
+:checkbox
+
+Seleciona todos as checkboxes(type="checkbox")
+
+:file
+
+Seleciona todos os input file(type="file")
+
+:password
+
+Seleciona todos os input(type="password")
+
+:radio
+
+Seleciona todos os input(type="radio")
+
+:reset
+
+Seleciona todos os input(type="reset")
+
+:submit
+
+Seleciona todos os input(type="submit")
+
+:text
+
+Seleciona todos os input(type="text")
+
+:checked
+
+Seleciona todas as checkboxes marcadas
+
+:disabled 
+
+Seleciona todos os campos disabled
+
+:enabled
+
+Seleciona todos os campos enabled
+
+:selected
+
+Seleciona todos os elementos de uma lista <select>
+selecionados
+
+:focus
+
+Seleciona o elemento que está focado
+
+:image
+
+Seleciona todos os elementos imagem
+
+
+ex:
+
+$("#MyForm:text")
+
+$(":input")
+
+==========================================================
+:nth-child()
+
+Seleciona todos os filhos do elemento pode receber um
+parametro que define quais filhos do elemento selecionar
+este parametro pode ser um numero ou uma equação
+
+O numero começa do 1 ou seja
+
+$("#MyForm:nth-child(1)"); seleciona o primeiro elemento do formulario
+
+A equação provoca uma iteração que segue o valor de uma variavel n que é incrementada de 1 em 1
+
+$("#MyForm:nth-child(2n+1)"); //seleciona apenas os elementos de indice impar pq 2*0(n) + 1=1,  2*1(n) + 1 = 3  etc.
+
+===========================================================
+Seleção por hierarquia
+
+Selecionar um elemento ou uma lista de elementos
+baseado na sua posição hierarquica no documento(pai,irmao,filho)
+
+parents()
+
+Seleciona os pais do elemento pode receber um seletor
+para especificar qual pai selecionar
+
+siblings()
+
+Seleciona os irmãos do elemento pode receber um seletor
+para especificar qual irmão selecionar
+
+children()
+
+Seleciona os filhos do elemento pode receber um seletor
+para especificar qual filhos selecionar
+
+ex:
+
+$("#MyForm").children("#inputLogin");
+
+
+
+

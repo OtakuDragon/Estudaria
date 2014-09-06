@@ -1,0 +1,157 @@
+Template 1 Id
+
+Quando a entidade possui apenas 1 id é possivel recuperar
+um registro utilizando o metodo get de session este modelo
+abaixo mostra isso com a classe entidade Doc_emissor
+
+para adapta-la basa trocar todos os nomes Doc_emissor pela
+entidade em questão e caso haja relacionamento realizar no metoodo salvar
+
+Isto causará um cascade on persist manual
+
+this.sessao.saveOrUpdate(objeto.getAtributoDoRelacionamento());
+this.sessao.save(objeto);
+
+
+===========================================================================================
+
+
+package dao;
+
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import dto.publicSchema.Doc_emissor;
+
+public class Doc_emissorDAO {
+	//A classe exige em seu construtor uma referencia de sessionfactory
+	//pois é aconselhavel por motivos de perfomance ter somente um sessionfactory por aplicação
+
+
+		private Session	sessao;
+		private Transaction transacao;
+		private SessionFactory fabrica;
+
+		public Doc_emissorDAO(SessionFactory fabrica){
+
+			this.fabrica=fabrica;
+		
+		}
+
+		public void salvar(Doc_emissor objeto) {
+			try {
+				this.sessao = fabrica.openSession();
+				this.transacao = this.sessao.beginTransaction();
+				this.sessao.save(objeto);
+				this.transacao.commit();
+			} catch (Exception e) {
+				this.transacao.rollback();
+				System.out.println("Não foi possível inserir o objeto. Erro: " + e.getMessage());
+			} finally {
+				try {
+					if (this.sessao.isOpen()) {
+						this.sessao.close();
+					}
+				} catch (Throwable e) {
+					System.out.println("Erro ao fechar operação de inserção. Mensagem: " + e.getMessage());
+				}
+			}
+		}
+
+		public void atualizar(Doc_emissor objeto) {
+			try {
+				this.sessao = fabrica.openSession();
+				this.transacao = this.sessao.beginTransaction();
+				this.sessao.update(objeto);
+				this.transacao.commit();
+			} catch (Exception e) {
+				this.transacao.rollback();
+				System.out.println("Não foi possível alterar o objeto. Erro: " + e.getMessage());
+			} finally {
+				try {
+					if (this.sessao.isOpen()) {
+						this.sessao.close();
+					}
+				} catch (Throwable e) {
+					System.out.println("Erro ao fechar operação de atualização. Mensagem: " + e.getMessage());
+				}
+			}
+		}
+
+		public void excluir(Doc_emissor objeto) {
+			try {
+				this.sessao = fabrica.openSession();
+				this.transacao = this.sessao.beginTransaction();
+				this.sessao.delete(objeto);
+				this.transacao.commit();
+			} catch (Exception e) {
+				this.transacao.rollback();
+				System.out.println("Não foi possível excluir o objeto. Erro: " + e.getMessage());
+			} finally {
+				try {
+					if (this.sessao.isOpen()) {
+						this.sessao.close();
+					}
+				} catch (Throwable e) {
+
+					System.out.println("Erro ao fechar operação de exclusão. Mensagem: " + e.getMessage());
+				}
+			}
+		}
+
+		public Doc_emissor buscaEntidade(int codigo) {
+			Doc_emissor objeto = null;
+
+			try {
+				this.sessao = fabrica.openSession();
+				this.transacao = this.sessao.beginTransaction();
+				objeto = (Doc_emissor) sessao.get(Doc_emissor.class,codigo);
+				this.transacao.commit();
+			} catch (Throwable e) {
+				
+				this.transacao.rollback();
+				
+			} finally {
+				try {
+					if (this.sessao.isOpen()) {
+						this.sessao.close();
+					}
+				} catch (Throwable e) {
+					System.out.println("Erro ao fechar operação de busca. Mensagem: " + e.getMessage());
+				}
+			}
+			return objeto;
+		}
+
+		@SuppressWarnings("unchecked")
+		public List<Doc_emissor> listar() {
+			List<Doc_emissor> objetos = null;
+			
+			try {
+				this.sessao = fabrica.openSession();
+				this.transacao = this.sessao.beginTransaction();
+				Criteria filtro = this.sessao.createCriteria(Doc_emissor.class);
+				objetos = filtro.list();
+				this.transacao.commit();
+			} catch (Throwable e) {
+				
+					this.transacao.rollback();
+				
+			} finally {
+				try {
+					if (this.sessao.isOpen()) {
+						this.sessao.close();
+					}
+				} catch (Throwable e) {
+					System.out.println("Erro ao fechar operação de listagem. Mensagem: " + e.getMessage());
+				}
+			}
+			return objetos;
+		}
+	
+
+}

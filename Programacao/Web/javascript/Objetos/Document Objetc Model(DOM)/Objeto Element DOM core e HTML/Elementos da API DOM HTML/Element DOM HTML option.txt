@@ -1,0 +1,17 @@
+Element option
+
+O elemento option representa
+a tag html <option> e possui como atributos
+todos os atributos e metodos de node 
+alem dos seus proprios atributos HTML
+
+=============================================
+Atributos de option.
+
+option.defaultSelected	//Returns the default value of the selected attribute	
+option.disabled		//Sets or returns whether an option is disabled, or not	
+option.form		//Returns a reference to the form that contains the option	
+option.index		//Sets or returns the index position of an option in a dropdown list	
+option.selected		//Sets or returns the value of the selected attribute	
+option.text		//Sets or returns the text of an option element	
+option.value		//Sets or returns the value to be sent to the server		

@@ -1,0 +1,44 @@
+@Embeddable
+
+Classes marcadas com a anotação @Embeddable são 
+classes de persistência que não possuem a sua propria
+tabela, elas são persistidas dentro da tabela de uma entidade.
+
+Elas funcionam como partições de uma entidade, para dados
+que são objetos mas não precisam ter uma tabela propria, por
+que o seus relacionamento com a instancia da entidade será 
+sempre de 1 para 1.
+
+elas não podem possuir uma chave primaria, e seus objetos
+devem estar contidos dentro de entidades marcados pela anotação
+@Embedded
+
+==========================================================
+ex:
+
+Um otimo exemplo de um atributo @Embeddable é 
+o endereço de um usuário.
+
+@Embeddable
+public class Address {
+	protected String streetLine1;
+	protected String streetLine2;
+	protected String city;
+	protected String state;
+	protected String zipCode;
+	protected String country;
+	...
+}
+@Entity
+public class User {
+	@Id
+	protected Long id; 
+	protected String username;
+	protected String firstName;
+	protected String lastName;
+	@Embedded
+	protected Address address; 
+	protected String email;
+	protected String phone;
+	...
+}

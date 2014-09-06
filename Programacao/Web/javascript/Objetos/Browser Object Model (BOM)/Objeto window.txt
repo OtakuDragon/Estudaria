@@ -1,0 +1,111 @@
+Objeto window
+
+O Objeto window é a raiz do BOM ele representa
+a janela do browser e possui informações sobre o browser,
+sobre a pagina e metodos para modificar caracteristicas do browser
+
+O BOM foi escrito pelas empresas dos browsers ou seja não há um padrão
+criado pela empresa que é dona do javascript, mas todos os maiores
+browsers o suportam.
+
+para chamar metodos e atributos de window não é necessario utilizar
+o nome completo como window.atributo a palava window pode ser omitida
+
+======================================================================
+Atributos de window
+
+//Objetos
+
+window.document		//Retorna a referencia ao objeto document que possui todas as informações
+			  sobre o html da pagina
+window.location		//Retorna o objeto location que possui informações sobre a url da pagina atual
+window.navigator	//Retorna a referencia ao objeto navigator que possui informações sobre o browser
+window.history		//Retorna a referencia ao objeto history que guarda as paginas que foram acessadas
+window.screen		//Retorna a referencia ao objeto screen que possui informações sobre a tela do computador do usuario
+
+//Atributos que retornam windows
+
+window.self		//Retorna a referencia ao objeto window 
+window.parent		//Retorna a janela-pai da janela
+window.opener		//Retorna a referencia da janela que criou esta janela (metodo open())
+
+//Informações sobre a janela
+
+window.closed		//Retorna um boleano indicando se a janela foi fechada ou não			
+window.innerHeight	//Define ou retorna a altura da parte de conteudo da janela
+window.innerWidth	//Define ou retorna a largura da parte de conteudo da janela
+window.name		//Define ou retorna o nome da janela
+window.outerHeight	//Define ou retorna a altura da janela do browser como um todo incluindo toolbars e scroolbars
+window.outerWidth	//Define ou retorna a largura da janela do browser como um todo incluindo toolbars e scroolbars
+window.pageXOffset	//Retorna o numero de pixels que a janela foi rolada horizontalmente da esquerda para direita
+window.pageYOffset	//Retorna o numero de pixels que a janela foi rolada verticalmente de cima para baixo
+window.screenX		//Retorna a coordenada x da posição da janela na tela do computador
+window.screenY		//Retorna a coordenada x da posição da janela na tela do computador
+
+//para Iframes
+
+window.frames	Returns an array of all the frames (including iframes) in the current window
+window.top	Returns the topmost browser window
+window.length	Returns the number of frames (including iframes) in a window
+
+==========================================================================================
+Metodos de window
+
+window.alert(string)	//Cria uma janela de pop-up de alerta com uma mensagem e um botão ok
+window.confirm(string)	//mostra uma mensagem de confirmação com um ok e cancel e retorna true se ok for clicado
+window.prompt(string,string)	//abre uma caixa de input mostrando uma mensagem e opcionalmente um valor padrão de input
+				// o metodo retorna a string que o usuario digitou
+window.blur()		//Remove o foco da janela
+window.close()		//fecha a janela
+window.focus()		//Define o foco para a janela
+window.moveBy(number,number)	//Move a janela de acordo com as coordenadas atuais da janela
+window.moveTo(number,number)	//Move a janela de acorodo com as coordenadas da tela	
+window.print()	//Abre a tela de impressão do browser para imprimir a pagina atual
+window.resizeTo(number,number)	//redefine o tamanho da janela para o numero de pixels definido(width,height)
+window.scrollBy(number,number)	//rola a pagina para uma determinada posição em pixels
+window.scrollTo(number,number)	//rola a pagina para uma determinada coordenada x,y
+window.setInterval(função,milisegundos)	//Executa uma função repetidamente em um intervalo definido em milisegundos
+window.setTimeout(função,milisegundos)	//Executa uma função depois de um determinado tempo definido em milisegundos
+window.clearInterval(variavelDeInterval) //os metodos de timeout e interval retornam uma referencia a função
+window.clearTimeout(variavelDeTimeout)	 // esta variavel pode ser usada nestes metodos para cancelar os metodos
+
+//Abrir uma nova janela
+
+window.open(URL,name,specs,replace) //Abre uma nova janela de acorodo com os parametros definidos
+
+*URL	Optional. Specifies the URL of the page to open. If no URL is specified, a new window with about:blank is opened
+*name	Optional. Specifies the target attribute or the name of the window.
+
+The following values are supported:
+
+_blank - URL is loaded into a new window. This is default
+_parent - URL is loaded into the parent frame
+_self - URL replaces the current page
+_top - URL replaces any framesets that may be loaded
+name - The name of the window
+
+*specs	Optional. A comma-separated list of items.
+
+The following values are supported:
+
+channelmode=yes|no|1|0	Whether or not to display the window in theater mode. Default is no. IE only
+directories=yes|no|1|0	Whether or not to add directory buttons. Default is yes. IE only
+fullscreen=yes|no|1|0	Whether or not to display the browser in full-screen mode. Default is no. A window in full-screen mode must also be in theater mode. IE only
+height=pixels	The height of the window. Min. value is 100
+left=pixels	The left position of the window
+location=yes|no|1|0	Whether or not to display the address field. Default is yes
+menubar=yes|no|1|0	Whether or not to display the menu bar. Default is yes
+resizable=yes|no|1|0	Whether or not the window is resizable. Default is yes
+scrollbars=yes|no|1|0	Whether or not to display scroll bars. Default is yes
+status=yes|no|1|0	Whether or not to add a status bar. Default is yes
+titlebar=yes|no|1|0	Whether or not to display the title bar. Ignored unless the calling application is an HTML Application or a trusted dialog box. Default is yes
+toolbar=yes|no|1|0	Whether or not to display the browser toolbar. Default is yes
+top=pixels	The top position of the window. IE only
+width=pixels	The width of the window. Min. value is 100
+
+*replace	Optional.Specifies whether the URL creates a new entry or replaces the current entry in the history list.
+
+The following values are supported:
+
+true - URL replaces the current document in the history list
+false - URL creates a new entry in the history list

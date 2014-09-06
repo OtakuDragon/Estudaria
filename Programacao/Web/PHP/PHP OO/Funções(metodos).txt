@@ -1,0 +1,38 @@
+Funções
+
+Funções em classes php funcionam 
+da mesma maneira que funções normais
+no php com a diferença de que é possivel
+adicionar modificadores(public,final,etc..)
+antes da palavra function
+
+==================================================
+Sintaxe:
+
+modificadores function NomeDaFunção(parametros){
+
+
+
+
+}
+
+=======================================================
+Indução de tipo
+
+Em uma função é possivel induzir o tipo de
+dado de um parametro caso ele seja um objeto
+colocando o nome da classe a frente do parametro
+
+Ex:
+
+public function teste(OutraClasse $outraclasse) {
+
+}
+
+ou
+
+public function testa_array(array $array_de_entrada) {
+
+}
+
+*estas funções só aceitaram parametros que forem destes tipos

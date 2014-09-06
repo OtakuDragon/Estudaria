@@ -1,0 +1,160 @@
+Variaveis
+
+São indentificadas por um $, para a criação e uso
+
+Ex:
+
+<body>
+<?php
+$a = 10;
+$b = 15;
+$c = $a + $b;
+echo "$a mais $b é igual a $c";
+?>
+</body>
+
+*PHP é case-sensitive para nomes de variaveis mas não de funções
+* Variaveis que não fora iniciadas recebem o valor NULL por padrão
+
+------------------------------------------------------------
+Variaveis variaveis
+
+O nome de uma variavel recebe o nome em string de outra variavel
+
+ex:
+
+$var1 = 'variavel'
+
+$$var1 equivale a $variavel
+
+---------------------------------------------------------------
+
+Declarando uma variaveis globais e estaticas
+
+global $NomeDaVariavel;
+static $NomeDaVariavel;
+
+--------------------------------------------------------------------
+
+Referencias
+
+operador &
+
+refere-se a posição de memoria da variavel
+
+Ex:
+
+$a = &$b
+
+// se $b for alterado $a tambem sera
+// é possivel desfazer o vinculo de posição de memoria de uma variavel
+// com a função unset($variavel);
+
+-------------------------------------------------------------------
+
+Funções de variaveis
+
+São funções que recebem variaveis como parametros e as testam ou modificam seus tipos
+
+Função settype()
+
+Define um tipo para uma variavel
+
+Sintaxe:
+
+settype($variavel,'tipoDaVariavel');// tipo de variavel pode ser boolean,integer,double,string,array,object,resource ou NULL
+
+ex:
+
+$var=15;
+
+settype($var,'string');
+----------------------------------------------------------------------------------------------------------------
+
+Função gettype()
+
+Busca o tipo de uma variavel e retorna como string
+
+Sintaxe:
+
+gettype($variavel);
+
+ex:
+
+$var = 'a';
+
+$var1 = gettype($var); //o valor de var1 será 'string', caso a variavel seja de um tipo não padrão o valor retornado sera 'unknown type'
+
+-------------------------------------------------------------------------------------------------
+
+As funções a seguir verificam se a variavel é de determinado tipo e retornam true ou false
+
+is_array()
+
+is_double()
+
+is_int()
+
+is_string()
+
+is_object()
+
+is_resource()
+
+is_null()
+
+is_scalar() - verifica se a variavel é de um tipo primitivo ou seja integer,boolean,string ou float
+
+is_numeric() - verifica se a variavel é um numero ou uma string numerica
+
+is_callable() - verifica se a variavel é o nome de uma função valida
+
+isset() - verifica se a variavel existe
+
+unset() - elimina a variavel
+
+empty() - verifica se a variavel foi atribuida de valor, ou seja esta ou não esta vazia
+
+intval() - recebe uma variavel e retorna seu valor inteiro, tambem pode receber a base de conversão
+
+doubleval() - recebe uma variavel e retorna seu valor double
+
+stringval() - recebe uma variavel e retorna seu valor string
+=================================================================
+
+Tipos de dados 
+
+O PHP suporta vários tipos de dados:
+
+· Inteiro – Números inteiros (isto é, números sem ponto decimal)
+· Números de dupla precisão – Números reais (isto é, números que
+contêm um ponto decimal)
+· String – Texto entre aspas simples (´ ´) ou duplas (“ “)
+· Booleanos – armazenam valores verdadeiros ou falsos, usados em
+testes de condições
+· Array – Grupo de elementos do mesmo tipo
+· Objeto – Grupo de atributos e métodos
+· Recurso – Uma origem de dados externa
+· Nulo – Nenhum valor
+
+====================================================
+
+Constantes
+
+São criadas com a função define()
+
+Sintaxe
+
+define ("NomeDaConstante","ValorDaCOnstante");
+
+Ex:
+
+define ("X",5);
+
+echo X;
+
+*Como você pode perceber constantes não possuem o $ como as variaveis
+
+
+
+

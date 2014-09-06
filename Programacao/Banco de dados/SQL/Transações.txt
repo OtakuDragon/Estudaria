@@ -1,0 +1,35 @@
+Transações
+
+Transações no SQL são um conjunto de operações que são
+realizadas atomicamente e são isoladas até sua confirmação
+ou sua desfeita.
+
+somente uma transação pode afetar o mesmo dado por vez
+
+=============================================================
+Começando uma transação
+
+Para se iniciar uma transação é utilizada o comando
+
+START TRANSACTION;
+
+COMANDO1;
+
+COMANDO2;
+
+....
+
+===========================================================
+Finalizando uma transação
+
+Para uma transação são possiveis dois finais COMMIT que realiza
+todas as mudanças permanentemente no banco de dados ou ROLLBACK
+que cancela tudo e restaura os dados para o momento antes de a transação
+começar.
+
+Sintaxes:
+
+COMMIT;
+
+ROLLBACK;
+

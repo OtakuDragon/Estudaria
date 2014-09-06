@@ -1,0 +1,13 @@
+Classe System
+
+A Classe System possui alguns metodos estaticos
+que se referem a informações do sistema operacional
+ou ao proprio console
+
+alguns metodos
+
+Properties p = System.getProperties();//retorna um map com todas as propriedades do sistema
+
+System.out.println(p.getProperty("java.version"));//exemplo de acesso a uma propriedade diz qual a versão do java instalada no sistema
+
+Console c = System.console();// retorna um objeto do tipo console que acessa funções do prompt de comando 

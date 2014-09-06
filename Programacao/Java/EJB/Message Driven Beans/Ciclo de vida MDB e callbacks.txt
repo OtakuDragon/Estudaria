@@ -1,0 +1,31 @@
+Ciclo de vida MDB
+
+O ciclo de vida dos message driven beans
+é bem similar ao dos SLSB ele segue o seguinte
+fluxo:
+
+*O container cria algumas(qtd. configurada no servidor) instancias do MDB
+
+*injeta os recursos definidos nelas(@PostConstruct)
+
+*As coloca em uma pool de beans
+
+*Quando uma mensagem chega pega um bean do pool
+ e o faz executar o metodo OnMessage
+
+*Quando o metodo OnMessage termina de ser executado
+ retorna o bean para o pool
+
+*Quando necessario ou alguma runtimeException ocorre
+ remove o bean do pool e destroi ele.(@PreDestroy)
+
+==================================================
+Callbacks
+
+Os metodos de ciclo de vida dos MDBs são 
+os mesmos do SLSB
+
+
+@PostConstruct e @PreDestroy
+
+

@@ -1,0 +1,54 @@
+Collection
+
+São coleções de itens no java com varias classes diferentes
+para determinados tipos de coleções
+
+Collections não recebem tipos de dados primitivos
+
+É possivel definir um tipo de dado entre <> para a coleção
+
+se nenhum tipo de dado for definido o tipo de dado padrão Object é 
+utilizado tornando a coleção uma coleção de objects
+
+
+Collection<String> c = new ArrayList<String>();//ArrayList é usado apenas como um exemplo poderia ser qualquer Collection
+
+todas as coleções possuem em comum os seguintes metodos:
+
+c.add();//adiciona um elemento
+c.remove();//remove um elemento
+c.isEmpty();//retorna true se a coleção estiver vazia e false se não
+c.contains("Um Objeto");//retorna true se o objeto do parametro existir na coleção
+c.toString();//Transforma a coleção em String
+c.addAll(Collection d);//recebe uma coleção como parametro e a adiciona a coleção atual
+c.removeAll(Collection d);//recebe uma coleção como parametro e a remove da coleção atual
+c.containsAll(Collection d);//recebe uma coleção como parametro e retorna true se ela estiver dentro da coleção atual 
+c.clear();//limpa a collection ou seja remove todos os elementos
+
+---------------------------------------------------------------------------------------------------------------
+
+Coversões array-collection collection-array
+
+Array-Collection
+
+Collection<String> c = Arrays.asList(String[] s);//Converte o array s para uma coleção
+
+Collection-Array
+
+String[] s = c.toArray(new String[c.size()]);//Tipo de array e tamanho
+
+--------------------------------------------------------------------------------------------------------
+
+Percorrendo uma Collection
+
+Com foreach
+
+Collection<String> c = new ArrayList<String>();
+
+for(String s : c){
+
+//codigo
+
+
+}
+

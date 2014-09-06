@@ -1,0 +1,43 @@
+Criando classes no PHP
+
+Classes são criadas no PHP com o
+uso da palavra chave class
+
+sintaxe:
+
+class nomeDaClasse{
+
+//propriedades
+
+//funções
+
+
+}
+
+*dentro de uma classe a palavra chave self representa uma referencia
+ a propria classe e a palavra chave parent representa uma referencia
+ a classe pai desta classe 
+
+*dentro de um metodo existe a variavel $this
+ que é uma referencia ao objeto que invocou um metodo
+
+
+=====================================================
+Instanciando objetos
+
+Instanciação de objetos é feita com a palavra
+chave new
+
+sintaxe:
+
+$objeto  = new nomeDaClasse();
+
+---------------------------------------------------
+Acessando propriedades e funções do objeto
+
+Acessar propriedades ou funções no objeto
+é feito atraves do operador ->
+
+sintaxe:
+
+$objeto->funcao1();

@@ -1,0 +1,22 @@
+Hibernate
+
+Hibernate é um framework que trata
+de object relational mapping
+
+A linguagem java é orientada a objetos
+a necessidade de utilização banco de dados
+esta presente em quase todas as aplicações
+
+Banco de dados utilizam o modelo relacional
+que é muito diferente da orientação a objetos
+isso causa diversos problemas
+
+para inserir dados é preciso converte-los
+para um formato relacional em uma query SQl
+e para recuperar dados é preciso recuperar
+os dados das tabelas e montar um objeto com eles
+alem de outros problemas
+
+para resolver estes problemas entre o modelo relacional
+dos bancos de dados e a orientação a objetos do java
+surgiu o hibernate

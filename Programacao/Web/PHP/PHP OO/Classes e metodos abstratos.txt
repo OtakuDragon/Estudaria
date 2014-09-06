@@ -1,0 +1,39 @@
+Classes e metodos abstratos
+
+Não é permitido criar uma instância de uma classe que foi definida
+como abstrata e qualquer classe que contenha pelo menos um método
+abstrato deve também ser abstrata. Métodos definidos como abstratos
+simplesmente declaram a assinatura do método, eles não podem definir a implementação.
+
+Quando uma classe herda uma classe abstrata, todos os métodos marcados
+como abstratos na declaração da classe pai devem ser definidos na classe filha;
+além disso, esses métodos devem ser definidos com a mesma (ou menos restrita)
+visibilidade. 
+
+==============================================================================
+Classes abstratas
+
+São classes que não podem ser
+instanciadas e somente dentro
+delas é possivel se ter metodos 
+abstratos
+
+Sintaxe:
+
+abstract class NomeDaClasse{
+
+
+
+}
+
+================================================================================
+Metodos abstratos
+
+São metodos com apenas sua assinatura definida
+em classes abstratas e que devem ser obrigatoriamente
+implementados caso uma classe herde estes metodos abstratos
+
+Sintaxe:
+
+abstract public function NomeDoMetodo();
+

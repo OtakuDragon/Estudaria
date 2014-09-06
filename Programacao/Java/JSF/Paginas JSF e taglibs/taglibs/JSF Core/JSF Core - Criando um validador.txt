@@ -1,0 +1,80 @@
+Criando um validador
+
+O JSF possui uma variedade de validadores mas as vezes
+uma validação diferente é necessaria para isso é possivel
+criar o seu proprio validaro
+
+=================================================
+Definindo um validador
+
+A implementalçao de um validador é feita por meio de
+uma classe que implementa a interface javax.faces.validator.Validator
+e esteja anotada com a anotação @FacesValidator("IdDoValidador")
+
+O id do validador é o nome pelo qual ele é incluido a um campo de input
+por meio da tag <f: validator validatorId ="IdDoValidador"
+
+A interface validator especifica o metodo:
+
+public void validate (FacesContext context,UIComponent component,Object value);
+
+ex:
+
+@FacesValidator ("ValidadorDeNumerosPrimos ")
+public class ValidadorDeNumerosPrimos implements Validator {
+
+ @Override
+ public void validate (FacesContext context,UIComponent component,Object value) {
+
+ long numero = (Long) value ;
+ boolean isPrimo = false ;
+
+ if (numero>1) {
+ double raizQuadrada = Math.sqrt((double) numero);
+ isPrimo = true;
+
+ for (long i = 2; i <= raizQuadrada ; i ++) {
+ if ( numero % i == 0) {
+ isPrimo = false ;
+ break ;
+ }
+ }
+ }
+
+ if (! isPrimo ) {
+ FacesMessage mensagem = new FacesMessage ("O número " + numero + " não é primo ");
+ mensagem . setSeverity ( FacesMessage . SEVERITY_ERROR );
+ throw new ValidatorException ( mensagem );
+ }
+ }
+}
+
+Adicionando o validador a um campo de input
+
+<h:inputText value ="#{testeBean.numeroPrimo}"id="numero-primo">
+<f:validator validatorId ="ValidadorDeNumerosPrimos"/>
+</h:inputText>
+
+================================================================================
+Passando parametros para o validador
+
+tambem é possivel passar parametros pelo campo de input para o validador
+com a tag f:attribute
+
+ex:
+
+Definindo atributos
+
+<h:inputText value ="#{ testeBean.data}" id="campo-data">
+<f:attribute name ="inicio" value="01/05/2014"/>
+<f:attribute name ="fim" value ="30/08/2014"/>
+</h:inputText>
+
+
+Recuperando estes atributos no validador
+
+public void validate(FacesContext context,UIComponent component,Object value){
+
+String inicio = (String) component.getAttributes().get("inicio");
+
+}

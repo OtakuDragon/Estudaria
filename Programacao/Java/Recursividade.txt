@@ -1,0 +1,4 @@
+Recursividade
+
+É quando um metodo chama a si mesmo dentro do seu corpo
+para a resolução de um problema

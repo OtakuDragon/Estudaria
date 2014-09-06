@@ -1,0 +1,58 @@
+Configurando JMS
+
+Para se implementar Producers e Consumers
+JMS nas aplicações é necessario se definir
+duas coisas no servidor de aplicação:
+
+- Uma fabrica conexões com o MOM disponivel naquele servidor
+  de aplicação
+
+- Uma ou mais destinations, queue ou topic dependendo do
+  tipo de envio.
+
+No caso de EJBs sendo consumers ou producers 
+estes a fabrica de conexões e a destination podem ser injetadas
+com a anotação @Resource
+
+========================================================
+Exemplo de configuração JMS no JBoss 7.1.1
+
+1º Arquivo de configuração do servidor - standalone-full.xml
+
+Todas as configurações JMS do servidor JBoss 7.1 standalone
+ficam no arquivo standalone-full.xml na tag <subsystem xmlns="urn:jboss:domain:messaging:1.1">
+
+O que faz com que o primeiro passo da configuração fazer
+com que o arquivo de configuração do servidor seja standalone-full.xml
+isto pode ser feito na tela de overview do servidor no eclipse no link
+Runtime Environment.
+
+2º Escolhendo uma fabrica de conexões
+
+
+O JBoss possui um conjunto de fabrica de conexões padrões
+na subtag <jms-connection-factories>
+
+a fabrica utilizada para point-to-point local é a "InVmConnectionFactory"
+que pode ser recuperada por JNDI atraves do nome java:/ConnectionFactory
+o nome JNDI da fabrica de conexões é o atributo name da tag entry na fabrica
+
+
+3º Definindo um destination
+
+
+O proximo passo é definir um destination na sub-tag <jms-destinations>
+e pode ser uma queue ou um topic dependendo do estilo de envio com as subtags
+<jms-queue> e um <jms-topic>, o jboss possui dois destinations de teste um
+testQueue e um testTopic e são recuperados por JNDI da mesma maneira que
+a fabrica de conexões pelo atributo name da tag entry.
+
+para criar uma destination basta criar uma nova tag <jms-queue> ou <jms-topic>
+com um nome e uma subtag entry com o atrbibuto name que define o nome JNDI
+como no exemplo abaixo:
+
+<jms-queue name="MyQueue">
+
+	<entry name="queue/MyQueue"/>
+
+</jms-queue>

@@ -1,0 +1,65 @@
+Tags
+
+Tags de limitação de conteudo por permissão
+
+As tags a seguir são agruparores de conteudo nas quais o seu
+conteudo só é mostrado caso o usuário possua a permissão necessaria
+
+=======================================================================
+A tag <sec:ifAnyGranted>
+
+Está tag recebe em seu atributo roles um ou mais permissões as
+quais mostrar seu conteudo,se o usuário possuir pelo menos uma
+das permissões o conteudo será mostrado
+
+ex:
+
+<sec:ifAnyGranted roles="ROLE_ADMINISTRADOR,ROLE_PRESIDENTE">
+
+	<h1>TEXTO SUPER SECRETO QUE SÓ PODE SER VISTO PRO PRESIDENTES OU ADMINISTRADORES</h1>
+
+</sec:ifAnyGranted >
+
+--------------------------------------------------------------------------
+A tag <sec:ifAnyGranted>
+
+Está tag recebe em seu atributo roles um ou mais permissões as
+quais mostrar seu conteudo,se o usuário possuir todas as permissões
+o conteudo será mostrado
+
+ex:
+
+<sec:ifAllGranted roles="ROLE_GERENTE,ROLE_ADMINISTRADOR">
+
+	<h1>TEXTO SUPER SECRETO QUE SÓ PODE SER VISTO PRO GERENTES QUE TAMBEM SÃO ADMINISTRADORES</h1>
+
+</sec:ifAnyGranted >
+
+-------------------------------------------------------------------------------
+A tag <sec:ifNotGranted>
+
+Está tag recebe em seu atributo roles um ou mais permissões as
+quais mostrar seu conteudo,se o usuário não possuir nenhuma das permissões
+o conteudo será mostrado
+
+ex:
+
+<sec:ifNotGranted roles="ROLE_GERENTE,ROLE_ADMINISTRADOR">
+
+	<h1>TEXTOZINHO MIXURUCA MOSTRADO PARA QUEM NÃO É PRESIDENTE NEM ADMINISTRADOR</h1>
+
+</sec:ifAnyGranted>
+-----------------------------------------------------------------------------------
+limitação de conteudo por permissão no backing bean
+
+Dentro do backing bean é possivel ter está limitação tambem da seguinte forma
+
+FacesContext context = FacesContext.getCurrentInstance();
+ExternalContext external = context.getExternalContext();
+HttpServletRequest request = (HttpServletRequest) external.getRequest();
+
+if(request.isUserRole("ROLE_ADMINISTRADOR")){
+
+//CODIGO SUPER EXCLUSIVO PARA O ADMINISTRADOR
+
+}

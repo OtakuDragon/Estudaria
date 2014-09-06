@@ -1,0 +1,113 @@
+java.util.ArrayList;
+
+ArrayList
+
+Cria um array com alocação de maneira dinamica
+no qual vocÊ pode inserir, pesquisar e remover elementos
+facilmente, com alguns metodos
+
+---------------------------------------------------------
+
+Criando um objeto ArrayList
+
+ArrayList<tipoDeDado> nomeDoObjeto = new ArrayList<tipoDeDado>();
+
+ex:
+
+
+ArrayList<int> telefones = new ArrayList<int>();
+
+
+----------------------------------------------------------------
+
+Adicionando um elemento
+
+Metodo add()
+
+parametros
+
+add(indice,valor);
+
+*se o indice não for definido sera colocado no final do array
+
+ex:
+
+telefones.add(0,33312);
+
+---------------------------------------------------------------
+
+Removendo um elemento
+
+Metodo remove()
+
+parametro
+
+remove(valorDoElemento);
+
+ex:
+
+telefones.remove(33312);
+
+---------------------------------------------------------------------------
+
+Pegando um elemento
+
+Metodo get()
+
+parametro
+
+get(indice);
+
+
+ex:
+
+telefones.get(0);
+
+
+--------------------------------------------------------------------------------
+
+Pesquisa
+
+Metodo indexOf()
+
+parametro
+
+indexOf(valorDoElemento);
+
+*retorna o indice do elemento no array se ele existir
+ caso não exista retorna um numero menor que 0
+
+ex:
+
+telefones.indexOf(33312);
+
+
+Metodo contains
+
+parametro
+
+contains(valorDoElemento);
+
+*retorna true se o elemento existir e false se não existir
+
+
+ex:
+
+telefones.contains(33312);
+
+-------------------------------------------------------------------------------------
+
+Tamanho do array
+
+metodo size()
+
+parametro
+
+size();
+
+ex:
+
+telefones.size();
+
+*retorna um valor inteiro de quantos elementos existem no arraylist
+

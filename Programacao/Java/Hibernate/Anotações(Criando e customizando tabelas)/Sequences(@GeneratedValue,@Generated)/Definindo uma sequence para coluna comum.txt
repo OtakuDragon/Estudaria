@@ -1,0 +1,5 @@
+
+//Generation time pode ser tambem ALL ou NEVER
+@Generated(value = GenerationTime.INSERT)
+	@Column(nullable=false,columnDefinition="serial NOT NULL ")
+	private int seq_logradouro;

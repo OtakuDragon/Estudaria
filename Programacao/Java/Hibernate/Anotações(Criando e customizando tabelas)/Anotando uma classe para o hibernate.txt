@@ -1,0 +1,13 @@
+Anotando uma classe para o hibernate
+
+Após definir as configurações e as classes
+que o hibernate ira armazenar os objetos em
+tabelas é necessario anota-las com duas anotações
+obrigatorias
+
+*Se as anootações poderem ser importadas de
+ javax.persistence importe-as desse pacote
+ por questão de portabilidade
+
+
+========================================================================

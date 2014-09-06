@@ -1,0 +1,11 @@
+Instalando o plugin
+
+É necessario ter um plugin maven instalado no eclipse
+
+nome do plugin:
+
+Maven Integration for eclipse(juno and newer) 
+
+ou
+
+m2e

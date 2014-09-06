@@ -1,0 +1,32 @@
+Manipulação de transform
+
+transform é o component mais básico
+de qualquer game object ele define as
+suas coordenadas em x,y e z sua rotação 
+em x,y e z e sua escala ou seja seu tamanho
+em x,y e z
+
+ou seja ele define o tamanho a posição e a direção
+do gameObject
+
+======================================
+recuperando o objeto transform
+
+O objeto transform esta disponivel em 
+qualquer script por meio da palavra transform
+
+=======================================
+Algumas propriedades de transform
+
+transform.position - retorna um vetor tridimensional com as posições do game object em x,y e z
+                     tambem pode ser definido a posição do objeto por meio da atribuição de um vetor a este atributo
+
+=====================================
+Alguns metodos de transform
+
+transform.Rotate(x,y,z);//Recebe um vetor tridimensional e rotaciona o game object para aquela direção
+
+transform.Translate(x,y,z);//Recebe um vetor tridimensional e move o game object para aquela posição
+
+transform.lookAt(Transform);//Recebe como referencia o objeto transform de outro gameObject por meio de um variavel
+                            // do tipo Transform e faz com que o objeto sempre aponte para o objeto referido

@@ -1,0 +1,106 @@
+Joins
+
+Join é uma maneira de pesquisar informações em varias tabelas
+que possuem um campo em comum
+
+Com os joins é possivel relacionar duas ou mais tabelas apartir
+do uso de chaves estrangeiras
+
+elas são representadas pelo parametro JOIN e suas variações
+
+===========================================================
+Tipos de Join
+
+Inner Join
+
+É o join padrão traz somente linhas que satisfaçam as condições
+
+*Depois da comparação de ON é possivel adicionar um where para filtrar o resultado
+
+Sintaxe:
+
+SELECT campos FROM tabela1 INNER JOIN tabela2 ON tabela1.campo1 = tabela2.campo1;
+
+ex:
+
+SELECT * FROM pessoas INNER JOIN veiculos ON pessoas.CPF = veiculos.CPF;
+
+//os nomes dos campos não precisam ser iguais
+//trara no resultado todos os registros de pessoas e veiculos que possuirem cpfs iguais
+//e escrevera o campo cpf duas vezes pois ele é declarado uma vez em pessoas e uam vez em veiculos
+
+obs:aparentemente a notação nomeDaTabela.nomeDoCampo é uma maneira de identificar
+colunas entre tabelas com colunas de nomes iguais 
+
+
+-------------------------------------------------------------------
+Equi Join
+
+É o mesmo que o Inner Join com uma sintaxe mais simples e o fato
+de que o campo utilizado como chave estrageira não é repetido duas
+vezes no resultado
+
+*Depois de USING é possivel adicionar um where para filtrar o resultado
+
+Sintaxe:
+
+SELECT campos FROM tabela1 INNER JOIN tabela2 USING(nomeDoCampoEmComum);
+
+ex:
+
+SELECT * FROM pessoas INNER JOIN veiculos USING(cpf);
+
+//neste caso as duas tabelas tem que possuir uma coluna com o nome utilizado no using no caso cpf
+//não necessario no innerjoin
+
+----------------------------------------------------------------------
+Non equi Join
+
+é um inner join com uma condição outra que '=' depois do ON
+ou seja nao há uma comparação de igualdade entre um campo e outro e sim outra condição
+como um between por exemplo
+
+-------------------------------------------------------------------------
+Left Join
+
+Todas as linhas ta tabela a esquerda do operador LEFT JOIN irão aparecer
+no resultado mesmo que não haja correspondentes a ela na tabela de direita
+
+Sintaxe:
+
+SELECT campos FROM tabela1 LEFT JOIN tabela2 ON tabela1.campo1 = tabela2.campo1;
+
+//mesmo q na tabela a direita não exista um cpf correspondente para um valor
+//todos os registros da tabela a esquerda virão no resultado e os da tabela 
+// a direta aonde não existir correspondecia serão atribuidos null
+
+--------------------------------------------------------------------------
+Right join
+
+Mesmo que o left join mas todos os campos da tabela a direita aparecerão
+
+Sintaxe:
+
+SELECT campos FROM tabela1 RIGHT JOIN tabela2 ON tabela1.campo1 = tabela2.campo1;
+
+------------------------------------------------------------------------------
+Full join
+
+União de right join com left join ou seja todos os campos de todas
+as tabelas aparecerão no resultado nao importando a condição
+
+Sintaxe:
+
+SELECT campos FROM tabela1 FULL JOIN tabela2 ON tabela1.campo1 = tabela2.campo1;
+
+*O MySQL nao implementa FULL JOIN este resultado pode ser conseguido com a união(union)
+de um select right join com um select left join
+
+-------------------------------------------------------------------------------------
+
+Self join
+
+Self Join é quando há uma união da tabela com ela mesma
+para isso são utilizados dois apelidos diferentes para a tabela
+e esses apelidos são usados no JOIN
+

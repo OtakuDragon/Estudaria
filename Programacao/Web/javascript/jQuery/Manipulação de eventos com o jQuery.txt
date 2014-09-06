@@ -1,0 +1,202 @@
+Manipulação de eventos com o jQuery
+
+Eventos no jquery são funções nos elementos
+que recebem como parametro uma função com o codigo
+há ser executado quando o evento correr.
+
+eventos podem receber funções diretamente ou por meio
+de variaveis
+
+estas funções são chamadas de handlers
+
+ex:
+
+var handler = function(event){//codigo executado no evento};
+
+$("#meuBotao").click(handler);
+
+
+Obs: se nenhuma função(handler) for passada para o evento
+     ele será disparado
+
+//disparando o evento de click
+
+$("#meuBotao").click();
+
+=================================================
+O objeto event
+
+O objeto event possui informações
+sobre o evento em questão
+
+ele é passado pelo javascript para a função(handler)
+executada no evento caso ela receba um parametro
+
+ex:
+
+//Exemplo de evento que recebe um objeto event(evento) como parametro
+
+$("#meuBotao").click(function(evento){//codigo})
+
+-------------------------------------------------------------
+Atributos do objeto event
+
+O atributo event pode conter os atributos abaixo
+sendo que alguns deles somente serão preenchidos em eventos
+espcificos
+
+altKey, bubbles, button, cancelable, charCode, clientX, clientY,
+ctrlKey, currentTarget, data, detail, eventPhase, metaKey, offsetX,
+offsetY, originalTarget, pageX, pageY, prevValue, relatedTarget,
+screenX, screenY, shiftKey, target, view, which.
+
+===========================================================
+Eventos de Mouse
+
+click() - Este evento é disparado quando o elemento é clicado
+
+dblclick() - Este evento é disparado quando o elemento recebe um clique duplo
+
+mouseover() - Este evento é disparado quando o elemento possui o cursor sobre si
+
+mousedown() - Este evento é disparado quando o botão do mouse está pressionado sobre o elemento
+
+mouseup() - Este evento é disparado quando o botão do mouse não está pressionado sobre o elemento
+
+mouseenter() - Este evento é disparado quando o cursor do mouse entra na area do elemento
+
+mouseleave() - Este evento é disparado quando o cursor do mouse sai da area do elemento
+
+mousemove() - Este evento é disparado sempre que o mouse se move sobre o elemento
+
+toggle(funcao1,funcao2) - Recebe duas funções e alterna a execução entre uma e outra quando o elemento é clicado
+
+ex:
+
+$( "#target" ).toggle(function() {
+  alert( "First handler for .toggle() called." );
+}, function() {
+  alert( "Second handler for .toggle() called." );
+});
+
+hover(funcao1,funcao2) - Recebe duas funções uma para ser executada no evento mouseOver() e outra
+                         no evento mouseLeave() ou seja quando o cursor entra no elemento e quando sai do elemento
+
+===============================================================
+Eventos de teclado
+
+keydown() - Este evento é disparado enquanto uma tecla está sendo pressionada
+
+keyup() - Este evento é disparado enquanto uma tecla está é solta
+
+keypress() - Este evento é disparado enquanto uma tecla é pressionada
+
+=================================================================
+Eventos de formulario
+
+focus() - Este evento é disparado quando o elemento recebe foco
+
+blur() - Este evento é disparado quando o elemento perde foco
+
+change() - Este evento é disparado quando o valor do elemento muda(elementos: textfield,textarea e select)
+
+select() - Este evento é disparado quando o uma parte do texto é selecionada com o mouse(elementos: textfield,textarea)
+
+submit() - Este evento é disparado quando o botão submit do formulario é clicado, ele é muito utilizado para a validação
+           caso o seu handler retorne true o formulario é enviado caso retorne false o formulario não é enviado(elementos: form)
+
+
+===================================================================
+Funções abstratas para manipulação de eventos
+
+As funções acima estão ligadas á um evento especifico
+com estas funções é possivel adicionar qualquer evento
+a qualquer elemento,executar eventos e remover eventos
+
+--------------------------------------------------------------
+Adicionando eventos
+
+função on()
+
+Assinatura:
+
+on(events,seletor,data,handler(eventObject));
+
+Parametros:
+
+events - Recebe uma string com o nome dos eventos aos quais adicionar(ex:"click focus blur")
+         um evento customizado pode ser passado aqui não somente eventos javascript         
+
+seletor - este parametro recebe uma String com um seletor no caso do evento ser delegado
+          ou seja valer apenas para os filhos do elemento este seletor diz a quais filhos se aplicar
+          e é opcional caso não passado ou passado null o evento será adicionado ao elemento em si
+
+data - Este parametro pode receber qualquer tipo de dado e este dado pode ser recuperado atraves da propriedade
+       event.data do objeto event no event handler
+
+
+handler(eventObject) - recebe a função que será executado quando o evento(s) for(em) disparado(s)
+
+
+ex:
+
+$("#MeuBotao").on("click",null,"O botão foi clicado",function(e){alert(e.data)})
+
+---------------------------------------------------------------------
+Removendo eventos
+
+função off()
+
+Assinatura:
+
+off(events,seletor,handler(eventObject));
+
+
+Parametros:
+
+events - Recebe uma string com o nome dos eventos aos quais remover(ex:"click focus blur")
+
+seletor - Recebe o mesmo seletor passado(se passado) no metodo on() para o evento que deve ser removido
+
+handler(eventObject) - o handler do evento ou eventos que devem ser removidos
+
+---------------------------------------------------------------------------
+Disparando eventos
+
+função trigger()
+
+Esta função dispara eventos javascript ou eventos custom
+e pode receber parametros que serão repassados para o handler
+
+
+Assinatura:
+
+trigger(eventType,extraParameters);
+
+Parametros:
+
+eventType - recebe o nome do evento custom ou javascript o qual disparar caso um evento custom seja adicionado a um elemento
+            com o metodo on() ele somente será disparado por essa função.
+
+extraParameters - um array de parametros que serão repassados na mesma ordem para o handler do evento
+
+ex:
+
+$("#MeuBotao").on("meuEvento",null,null,function(e,param1,param2){alert("Meu evento disparou")});
+
+$("#MeuBotao").trigger("meuEvento",["valor passado para param1","valor passado para param2"]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

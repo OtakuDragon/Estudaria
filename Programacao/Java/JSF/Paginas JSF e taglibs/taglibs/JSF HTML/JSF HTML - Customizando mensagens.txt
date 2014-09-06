@@ -1,0 +1,60 @@
+Custmizando mensagens
+
+O jsf possui mensagens de erro padrão é possivel 
+definir mensagens de erro customizadas da seguinte maneira:
+
+============================================================
+em um campo de input required
+
+com o atributo requiredMessage que recebe o valor em string da
+mensagem exibida quando o campo é deixado em branco
+
+ex:
+
+<h:inputText required="true" requiredMessage="o campo foi deixado em branco">
+
+==============================================================
+em um campo que será convertido por um conversor padrão
+
+em um campo de input no qual o seu managed bean possui um tipo
+especifico como int ou float é possivel definir uma mensagem que será
+mostrada caso o dado inserido não possa ser convertido
+
+como no caso de um campo no managed bean ser int e o usuario entrar com uma letra
+
+neste caso a mensagem é definida no atributo converterMessage
+
+ex: 
+
+<h:inputText value ="#{testeBean.numero}" id="campo-numero" converterMessage ="Por favor,digite um número "/>
+
+==============================================================
+Customizando qualquer mensagem
+
+Tambem é possivel customizar qualquer uma das mensagens padrão
+criando um arquivo com a extensão .properties em um pacote do projeto
+
+este arquivo é composto de chaves e valores sendo chave a localização da
+mensagem padrão e valor o valor da mensagem que pode receber parametros do JSF ({0},{1},etc.)
+estes parametros são definidos pelo JSF {0} representa o nome da variavel por exemplo
+
+as localizações das mensagens podem ser achadas na especificação JSF para cada mensagem
+
+ex:
+
+//localização					//mensagem com parametros
+
+javax.faces.converter.BooleanConverter.BOOLEAN={1}:’’{0}’’ must be ’true ’ or ’false ’.
+
+
+-----------------------------------------------------------------
+Adicionando ao web.xml
+
+Apos criar o arquivo .properties com as localizações  mensagens é necessario
+dizer ao jsf que existe um arquivo com mensagens customizadas e isso é feito
+assim:
+<!--Neste caso o arquivo se chama Messages.properties e esta em um pacote do projeto chamado resources-->
+<!--ou seja o valor desta tag é o fully quilified name do arquivo de mensagens-->
+<application>
+ <message-bundle >resources.Messages </message-bundle>
+</application>

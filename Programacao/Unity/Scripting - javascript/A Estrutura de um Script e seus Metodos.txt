@@ -1,0 +1,86 @@
+Estrutura de um Script
+
+Um script é um conjunto de codigo
+que dá ação a um ou varios Game Objects
+por meio do script é possivel controlar
+todos os components de um Game object
+
+Um script de unity é baseado em metodos
+chamados pelo unity em certos momentos
+
+
+==========================================
+Alguns Metodos
+
+function Start(){} //Este metodo é chamado apenas uma vez no momento em que o jogo é iniciado
+          	   //util para a incializaçaõ de valores
+
+function Update(){}//Metodo mais importante ele é executado uma vez a cada frame do jogo é nele
+          	   //que a maioria da logica do jogo é inserida
+
+function OnParticleCollision(particleEmitter : GameObject){}//Se a propriedade do particle emitter collision>send collision message
+							    //estiver marcada sempre que uma particula colidir com um gameObject ou collider
+							    //este metodo será chamado ele recebe como parametro uma referencia ao particleEmitter que lançou a particula
+			
+---------------------------------------------------------------
+Collision
+				    
+
+function OnCollisionEnter(collision : Collision){}////Este metodo é chamado sempre que o game object/collider entrar em contato com outro game object/collider
+
+function OnCollisionStay(collision : Collision){} //Este metodo é chamado sempre que o game object/collider estiver em contato com outro game object/collider
+			   
+function OnCollisionExit(collision : Collision){}//Este metodo é chamado quando um objeto que estava em contato com outro passa a não estar mais em contato
+
+----------------------------------------------------------------
+Trigger
+
+function OnTriggerStay(collider : Collider){}//Chamado enquanto um objeto esta em contato com um trigger
+
+function OnTriggerExit(collider : Collider){}//Chamado quando um objeto temrmina contato com um trigger
+
+function OnTriggerEnter(collider : Collider){}//Este metodo é chamado quando um objeto entra a area do gameObject
+                                              //definido como trigger ao qual o script está aplicado
+					      //Um objeto Collider é passado como parametro pelo unity por meio dele
+                                              //é possivel identificar qual gameObject causou a execuçaõ do metodo
+ex:
+
+function OnTriggerEnter(collider : Collider){
+
+if(collider.CompareTag("Player")){
+
+Debug.Log("Um gameObject com a tag Player entrou na area do trigger");
+
+//Tambem funciona com a comparação do nome do gameObject atraves da comparação da propriedade
+//collider.name
+
+}
+
+}
+
+
+
+
+=============================================
+Variaveis
+
+As variaveis em um script unity possuem
+algumas diferenças de variaveis comuns javascript
+
+1º - é possivel definir uma visibilidade para elas
+
+- public - Variavel acessivel à o unity(ler 3º)
+
+- static - Variavel acessivel à outros scripts por meio da chamada nomeDoScript.variavelEstatica
+
+- private - Variavel apenas acessivel dentro do script
+
+2º - é possivel definir um tipo de dado para elas
+
+sintaxe:
+
+visibilidade var nomeDaVariavel : tipoDeDado = Valor;//Visibilidade e Tipo de dado são opcionais
+
+3º - Se uma variavel for publica e estiver dentro do escopo principal do script(fora de todos os metodos)
+     ela será acessivel por meio do component script no game Object e será possivel mudar o seu valor atraves
+    de um slider sem a necessidade de mudança no codigo

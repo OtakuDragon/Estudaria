@@ -1,0 +1,44 @@
+Operadores JAVA
+Aritmeticos
+
+· + soma
+· - subtração
+· * multiplicação
+· / divisão
+· ^ exponenciação
+· % módulo, resto da divisão
+· ++ Incremento
+· -- Decremento
+· += soma um valor a uma variável e lhe atribui o resultado
+
+----------------------------------------------------------------------------------
+
+Comparação
+
+· == é igual a (retorna verdadeiro se os dados forem iguais ex: 0 == '0' resultado true)
+· != não é igual a
+· >  é maior que
+· <  é menor que
+· >= é maior ou igual a
+· <= é menor ou igual a
+
+*Uma comparação gera dois valores possiveis true ou false
+
+
+
+--------------------------------------------------------------------
+
+Logicos
+
+· && - e
+
+· || - ou
+
+· ! - negação
+
+-----------------------------------------------------------------------
+
+String
+
+· + - Concatenação 
+

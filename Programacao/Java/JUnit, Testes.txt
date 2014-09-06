@@ -1,0 +1,223 @@
+Testes
+
+Testes são importantes para verificar se o código funciona como deveria
+e torna-lo confiavel
+
+tipos de testes:
+
+*Teste unitário // testa metodos sem se preocupar com condições externas
+
+*Teste de integração // testa como a aplicação interage com as outras aplicações do sistema
+
+*Teste funcional// teste caixa preta , teste na visão do usuario para saber se a aplicação faz o que deveria
+
+
+=============================================================================================================
+
+JUnit
+
+JUnit é um framework que facilita o desenvolvimento de testes unitários em java
+ele é open source e ja vem integrado em algumas IDEs como o Eclipse e o NetBeans
+
+
+==================================================================================================
+Criando um arquivo JUnit 
+
+O eclipse tem uma ferramenta para a criação de arquivos Junit arquivos Junit, podem ser classes normais
+que utilizam as anotações junit tambem
+
+importe a bliblioteca JUnit4 //projeto/propriedades/java build / add library /JUnit4(se necessario)
+
+botão direito no package
+
+new...
+
+JUnit Test Case
+
+Defina o nome da classe de teste que por convenção é nomeDaClasseSendoTestadaTest
+
+selecione os metodos necessarios para o teste
+
+selecione a classe que será testada
+
+selecione quais metodos daquela classe serão testados
+
+
+
+===========================================================================================
+Anotações Junit
+
+Anotações JUnit indicam como o metodo sera executado pelo Junit
+
+@Test
+
+Diz que um metodo é um metodo de teste, um metodo de teste por convenção tem
+o nome do metodo que ele esta testando + test, dentro desse metodo o teste é 
+feito por meio do uso de metodos estaticos da classe Assert
+
+a anotaçao @test pode ter dois parametros:
+
+expected - que recebe o nome de uma exceção que o metodo devera lançar
+	   se o metodo nao lançar a exceção o teste falha
+timeout - Indica quanto tempo o metodo pode levar no maximo para executar
+	  se o tempo for ultrapassado o teste falha
+
+Metodos de @test devem ser public void e sem parametros
+
+ex:
+@test(expected = "IOException",timeout=1000)
+public void testeTest(){
+
+//teste
+
+}
+
+--------------------------------------------------------------------------------------
+
+@Ignore 
+
+A anotação ignore vem depois da anotação @test em um metodo que você
+quer que nao seja testado naquela vez ou na classe para que nenhum metodo
+@test seja testado
+
+----------------------------------------------------------------------------------------
+
+@BeforeClass
+
+Define um metodo que sera executado uma vez antes dos metodos @test começarem
+este metodo deve ser public static void e sem parametros
+é geralmente utilizado para iniciar variaveis
+ex:
+
+@BeforeClass
+public static void inicializador(){
+//inicializações
+} 
+
+-------------------------------------------------------------------------------------
+
+@AfterClass
+
+Mesmo que @beforeclass só que executado uma vez apos o termino dos testes
+
+ex:
+
+@AfterClass
+public static void finalizador(){
+//finalizações
+} 
+
+-----------------------------------------------------------------------------------
+@Before 
+
+Define um metodo que sera executado antes de cada teste
+
+deve ser public void e sem parametros
+
+ex:
+
+@Before
+public void antes(){
+//inicializações
+
+}
+---------------------------------------------------------------------------------
+@After
+
+Define um metodo que sera executado depois de cada teste
+
+deve ser public void e sem parametros
+
+ex:
+
+@After
+public void depois(){
+//finalizações
+
+}
+
+==========================================================================================
+Assert
+
+Dentro de metodos de teste para realizar testes é necessario comparar
+resultados e isso é feito com o uso de metodos estaticos da classe Assert
+
+ex:
+
+Supondo o seguinte codigo em um metodo de teste
+
+boolean b;
+
+b = StringUtil.isEmpty("abc");//é esperado que apos a execução b seja false
+
+Assert.assertFalse(b);//checa se b é false apos a execução do metodo
+		      //e se for considera o teste bem sucedido
+
+Outros metodos de Assert
+
+Assert.assertTrue(boolean); // verifica se a variavel tem o valor true apos o teste
+Assert.assertNull(variavel); // verifica se a variavel tem o valor null apos o teste
+Assert.assertEquals(variavel,valorEsperado); // verifica se a variavel tem o valor esperado apos o teste
+					    //pode ser usado para string,char,double,int, etc.
+
+
+===========================================================================================
+Exemplo de Junit
+
+
+exemplo:
+
+public class classeTest{
+
+classeTest objeto;
+
+@Before
+public void setUp() throws Exception{
+
+objeto = new ClasseTest(1,2,3);
+
+
+
+}
+
+@Test
+public void testMetodo1(){//todos os metodos selecionados para teste terão um metodo test como esse
+			 
+Assert.assertEquals(5,objeto.metodo1());//o metodo assertEquals recebe como primeiro parametro o valor esperado
+					// como resultado e como segundo parametro o metodo que gerara esse resultado
+					//se for gerada uma runtimeException sera considerado error, se o resultado
+					//for diferente do esperado sera gerada uma failure
+
+}
+
+============================================================================================
+Rodando uma classe Junit
+
+para rodar uma JUnit test case clique na seta ao lado de run
+
+Run As...
+
+JUnit Test
+
+
+isso ira testar todos os metodos e dizer quantos error e failures aconteceram e em quanto tempo.
+
+
+=======================================================================================
+
+JUnit Test Suite
+
+é um tipo de arquivo java mesmo criado
+por meio de
+
+new...
+
+others
+
+diretorio java
+
+JUnit Test Suite
+
+na sua criação você seleciona um grupo de JUnit Test cases
+e cria um arquivo suite com um nome esse arquivo pode ser run as JUnit Test
+que todos os testes de todas as test cases serão realizados ao mesmo tempo 

@@ -1,0 +1,88 @@
+Inicialização e destruição
+
+Para todos os beans no spring é possivel definir metodos
+executados no momento da criação de um bean e no momento
+da destruição do bean
+
+existem varias maneiras para a definição destes metodos
+
+obs: beans do scope prototype não executam metodos de destruição
+
+=============================================================
+Interfaces InitializingBean e DisposableBean
+
+Estas são interfaces definidas pelo spring que beans
+podem implementar para que metodos de inicialização e
+destruição sejam adicionados a classe
+
+Um bean pode implementar as duas juntas apenas uma ou nenhuma
+
+-------------------------------------------------------------
+Interface InitializingBean
+
+Define um metodo de inicialização:
+
+public void afterPropertiesSet() throws Exception{
+	
+	//Codigo de inicialização	
+
+}
+
+
+obs: este metodo é executado apos a instanciação e a configuração de propriedades
+     definidas no spring.xml.
+
+--------------------------------------------------------------------
+Interface DisposableBean
+
+Define um metodo de finalização:
+
+public void destroy() throws Exception{
+
+	//Codigo de finalização
+
+}
+
+obs: Este metodo é executado antes de o bean ser destruido no container
+
+==========================================================================
+Por XML
+
+Tambem é possivel definir metodos de inicialização e destruição no spring.xml
+a vantagem deste metodo é que livra a classe bean de qualquer contato direto com
+o spring
+
+Esta definição é feita criando metodos public void na classe e dando o nome destes
+metodos para as propriedades da tag bean
+
+-------------------------------------------------------------------------
+ex:
+
+<bean id="triangle" class="shapes.Triangle" init-method="myInit" destroy-method="myDestroy"/>
+
+
+no bean
+
+public void myInit(){}
+public void myDestroy(){}
+
+-----------------------------------------------------------------------------
+Inits e destroys globais
+
+Quandos todos os beans possuem metodos de inicialização e destruição
+com o mesmo nome não é necessario definir os atributos em cada um deles
+é possivel definir metodos de inicialização e destruição padrão na tag beans
+
+ex:
+
+<beans default-init-method="myInit" default-destroy-method="myDestroy">
+	<bean id="triangle" class="shapes.Triangle"/>
+</beans>
+
+==================================================================================
+Usando tudo
+
+é possivel utilizar os dois metodos interfaces e xml ao mesmo tempo 
+caso isso aconteça os metodos definidos pela interface serão executados
+primeiro e seguidos dos definidos em xml
+

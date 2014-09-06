@@ -1,0 +1,39 @@
+Fases de construção do projeto com maven
+
+Após a criação do projeto em um determinado archetype
+e a codificação da aplicação
+
+o maven consegue:
+
+*compilar
+*testar(junit)
+*gerar os executaveis 
+
+para o projeto estas funções são divididas em fases
+para que uma fase aconteça todas as sua precessoras devem
+ser executadas mesmo se não chamadas
+
+====================================================
+Fases
+
+Todas estas fases podem ser executadas em
+um projeto maven por linha de comando (mvn NomeDaFase)
+
+validate  - Verifica se a estrutura do projeto está correta e o pom.xml não
+	    possui erros
+
+compile   - Compila as classes do projeto e as adiciona a um diretorio target na raiz do projeto
+
+test      - Executa todos os test cases junit definidos no projeto e se erros forem encontrados
+            não passa para a proxima fase
+
+package   - Gera os executaveis do software dependendo do tipo de software
+
+install   - Adiciona o projeto a o repositorio maven local do computador para futuras dependencias no pom.xml
+
+deploy    - adiciona o projeto a um repositorio maven remoto
+
+==================================================
+Outros comandos
+
+mvn clean - Excluir o diretorio target com todas as classes compiladas durante a fase compile

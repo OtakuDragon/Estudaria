@@ -1,0 +1,21 @@
+Element body
+
+O elemento body representa a tag html <body> 
+e possui como atributos todos os atributos
+e metodos de node alem dos seus proprios atributos HTML
+e um evento
+
+=============================================
+Atributos de body
+
+body.aLink	//Sets or returns the value of the alink attribute of the body element	
+body.background	//Sets or returns the value of the background attribute of the body element	
+body.bgColor	//Sets or returns the value of the bgcolor attribute of the body element	
+body.link	//Sets or returns the value of the link attribute of the body element	
+body.text	//Sets or returns the value of the text attribute of the body element	
+body.vLink	//Sets or returns the value of the vlink attribute of the body element	
+
+================================================
+Eventos de body
+
+body.onload	//Script to be run immediately after a page is loaded

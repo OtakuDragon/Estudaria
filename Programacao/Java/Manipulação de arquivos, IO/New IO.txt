@@ -1,0 +1,103 @@
+New I/O
+
+A API new I/O do java surgiu para complementar a antiga API I/O
+ela trata dados de uma maneira diferente, ao inves de utilizar
+streams ela utiliza blocos de dados.
+
+=================================================================
+Channels
+
+São aonde os dados trafegam pela nio são semelhantes aos streams
+mas não pode ser manipulados diretamente somente por meio de buffers
+e são bidirecionais, ou seja só é necessario um channel para input e output
+
+--------------------------------------------------------------------------------------------------------------
+Ciração de objeto
+
+Objetos channel para arquivos(FileChannel) são conseguidos atraves de objetos FileInputStream FileOutputStream ou
+RandomAccessFile
+
+ex:
+
+FileInputStream fis = new FileInputStream("arquivo.txt");
+FileChannel channel = fis.getChannel();
+
+-------------------------------------------------------------------------------------------------------------------
+Manipulação
+
+Um channel pode escrever ou ler de/em um buffer com os metodos
+
+channel.read(buffer);//recebe o buffer como parametro
+
+channel.write(buffer);//recebe o buffer como parametro
+
+-----------------------------------------------------------------------------------------------------------
+Dados de um channel para outro
+
+Dados podem ser passados diretamente de um channel para outro com o metodo 
+
+channel.trasferTo(0,channel.size(),outChannel);//parametros: aonde começar = 0 , aonde terminar = channel.size(), outro channel = outChannel
+
+existe o metodo trasferFrom com os mesmos parametros que faz o mesmo.
+
+-----------------------------------------------------------------------------------------------------------
+Memory-mapped Files
+
+Um fileChannel possui um metodo que retorna um buffer do arquivo na memoria
+
+MappedByteBuffer buffer = channel.map(MapMode.READ_WRITE,0,file.lenght);
+
+=======================================================================
+Buffers
+
+São a maneira de inserir ou retirar dados em channels, representam um
+array na memoria com um tamanho fixo definido na hora da sua criação
+tambem são bidirecionais.
+
+--------------------------------------------------------------------------------
+
+Criação de um buffer
+
+Um buffer pode ser de varios tipos mas o mais comum é o ByteBuffer
+um byte buffer pode ser criado de duas formas:
+
+*diretamente:
+
+ByteBuffer buffer = ByteBuffer.allocate(1024);
+
+*com um array de bytes
+
+byte[] array = new byte[1024];
+ByteBuffer buffer = ByteBuffer.wrap(array);
+
+----------------------------------------------------------------------------------------------
+Manipulação
+
+Dados são inseridos em buffers pelo metodo
+
+buffer.put(dados);
+
+e retirados pelo metodo
+
+buffer.get();
+
+-------------------------------------------------------------------------------------------
+os buffers possuem três atributos basicos:
+
+position //representa a posição aonde escrever ou ler o proximo dado
+
+limit //na escrita o limit é o tamanho maximo do buffer na leitura é o tamanho ocupado do vetor
+
+capacity //indica o tamanho maximo do vetor
+
+metodos:
+
+buffer.flip();//muda o buffer do modo de escrita para o modo de leitura
+
+buffer.clear();//reseta o buffer
+
+---------------------------------------------------------------------------------------------------
+
+
+
+========================================================================

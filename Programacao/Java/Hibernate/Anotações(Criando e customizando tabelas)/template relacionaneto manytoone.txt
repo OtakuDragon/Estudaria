@@ -1,0 +1,3 @@
+@ManyToOne(cascade=CascadeType.ALL)
+@JoinColumn(nullable=false,columnDefinition="integer NOT NULL",referencedColumnName="seq_pais",name="seq_pais")
+private Pais seq_pais;

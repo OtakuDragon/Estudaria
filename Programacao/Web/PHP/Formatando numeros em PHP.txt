@@ -1,0 +1,29 @@
+Função number_format()
+
+A função number_format() formata numeros
+definindo numero de casas decimais e 
+separadores de decimais e milhares
+
+======================================================
+sintaxe:
+
+number_format = ($numero, $numeroDeCasasDecimais,"separadorDeDecimais","separadorDeMilhares");
+
+*O unico parametro obrigatorio é o numero
+ os outros 3 são opcionais
+
+- $numero //o valor numerico a ser formatado
+- $numeroDeCasasDecimais //um numero inteiro que indica quantas casas decimais mostrar
+- "separadorDeDecimais" //um simbolo em string que define o que separara a casa decimal do resto do numero
+                        //geralmente ponto ou virgula
+- "separadorDeMilhares" //um simbolo em string que define o que separara os milhares do numero
+                        //geralmente ponto ou virgula
+
+
+
+EX:
+
+$var = 1.5554
+echo number_format($var,2);
+
+resultado: 1.55

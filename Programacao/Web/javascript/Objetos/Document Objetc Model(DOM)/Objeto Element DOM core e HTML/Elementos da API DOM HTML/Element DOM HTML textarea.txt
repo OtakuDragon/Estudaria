@@ -1,0 +1,25 @@
+Element textarea
+
+O elemento textarea representa
+a tag html <textarea> e possui como atributos
+todos os atributos e metodos de node 
+alem dos seus proprios atributos HTML
+
+=============================================
+Atributos de textarea
+	
+textarea.cols		Sets or returns the width of a text area	
+textarea.defaultValue	Sets or returns the default value of a text area	
+textarea.disabled	Sets or returns whether the text area is disabled, or not	
+textarea.form		Returns a reference to the form that contains the text area	
+textarea.name		Sets or returns the name of a text area	
+textarea.readOnly	Sets or returns whether the contents of a text area is read-only	
+textarea.rows		Sets or returns the height (in rows) of a text area	
+textarea.type		Returns the type of the form element the text area is	
+textarea.value		Sets or returns the contents of a text area	
+
+===============================================
+Metodos de textarea
+
+textarea.select() //Seleciona a senha escrita no campo como clicar com o botão esquerdo do
+		  //mouse e arrastar

@@ -1,0 +1,79 @@
+
+<div> e <span>
+
+
+
+<div> e <span> são tags genericas com a função de separar o site em blocos
+especificos com um nome no atributo id, para serem tradados pelo CSS
+
+========================================================================================
+
+<div> 
+
+Divide seu site em conteineres genericos que podem ser formatados de inumeras maneiras diferentes
+com o css
+
+Atributos de <div>
+
+id - Serve para identificar um certo div para o css
+
+class - tipo de seletor pro classe ver arquivo Seletores
+
+Exemplo:
+
+<style type="text/css">
+<!--
+#menu_principal {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; width:100px; height:400px; border:2px solid #0000CC; margin-top:10px; float:left }
+
+
+-->
+</style>
+
+
+<body>
+
+<div id="menu_principal">
+
+texto ou codigo daquela area
+
+</div>
+
+
+
+</body>
+
+
+=============================================================================================
+
+<span>
+
+Trata da formatação de uma parte expecifica de um texto
+
+Atributos de <span>
+
+id - Serve para identificar um certo div para o css
+
+class - tipo de seletor pro classe ver arquivo Seletores
+
+Exemplo:
+
+<style type="text/css">
+<!--
+#titulo {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; float:top }
+
+
+-->
+</style>
+
+
+<body>
+
+lalalal<span id="titulo"> titulo </span> lalalaala
+
+
+
+</body>
+
+*somente a palavra entre as tags recebera o tratamento css
+
+============================================================================================

@@ -1,0 +1,20 @@
+SkyBoxes
+
+Skybox é um background para todo o espaço
+vazio no jogo geralmente representa o céu
+e as nuvens.
+
+o skybox é adicionado a camerá que irá exibi-lo
+
+alguns skyboxes já vem prontos no unity no pacote
+de skyboxes
+
+obs: o skybox não será exibido na visão scene apenas no que é mostrado pela camera
+
+==============================================
+Adicionando um skybox a uma camera
+
+-Botão direito no projeto import package...> skyboxes ou importe outro skybox de outro lugar
+
+-Seleciona a camera desejada > Add component > rendering > skybox ou pesquise skybox na caixa
+ e arraste o arquivo de skybox desejado para cima do component no campo Custom Skybox

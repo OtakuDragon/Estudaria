@@ -1,0 +1,11 @@
+Identificação de um projeto  no maven
+
+Um projeto em um repositorio maven é identificado
+por:
+
+groupId - Um projeto deve estar em um grupo de projetos
+	  esta propriedade recebe o nome deste grupo
+	  
+artifactId -  Nome do projeto em si
+
+version - A versão do projeto

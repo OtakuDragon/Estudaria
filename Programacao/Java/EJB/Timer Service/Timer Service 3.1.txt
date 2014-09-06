@@ -1,0 +1,137 @@
+﻿Novas assinaturas de CreateTimer
+
+Os metodos create timer não foram deprecados mas
+foram criados metodos equivalentes a eles no ejb 3.1
+
+As principais diferenças são os nomes ao inves de
+um createTimer com varios tipos diferentes de parametros
+agora nos temos um singleAction e um intervalTimer para
+diferenciar os timers que se repetem e que não se repetem
+
+e eles tambem recebem um objeto TimerConfig que funciona como
+um encapsulamento da info Serializavel e da propriedade isPersistent()
+que define se o timer deve ser mantido após o servidor ser desligado
+ou não, padrão true.
+
+As novas assinaturas são:
+
+timerService.createIntervalTimer(Date primeiraExecucao, long intervalo, TimerConfig timerConfig);
+timerService.createIntervalTimer(long primeiraExecucao, long intervalo, TimerConfig timerConfig);
+
+e
+
+timerService.createSingleActionTimer(Date execucao, TimerConfig timerConfig);
+timerService.createSingleActionTimer(long execucao, TimerConfig timerConfig);
+
+=======================================================================
+Calendar Timer Service
+
+Apartir do EJB 3.1 timers podem ser configurados
+atraves de uma sintaxe identica a configuração de
+objetos Calendar.
+
+-------------------------------------------------------
+Utilizando o metodo createCalendarTimer()
+
+Um calendar timer executa o metodo anotado com
+@Timeout na data definida, ou sempre que o momento
+definido ocorrer(caso não seja uma data completa)
+
+o seu construtor pode tambem receber como segundo
+parametro um objeto TimerConfig que encapsula duas coisas
+a Serializable info e o atributo do timer que diz se ele
+deve ou não ser mantido quando o servidor é desligado isPersistent()
+, padrão true
+
+  // toda segunda e quarta as 8:30
+  ScheduleExpression expression = new ScheduleExpression();
+  expression.dayOfWeek("Mon,Wed");    
+  expression.hour("8");
+  expression.minute("30");
+  timerService.createCalendarTimer(expression);
+  System.out.println("Agendado: " + expression);
+ 
+=========================================================
+@Schedule 
+
+A criação de timers foi simplificada no ejb 3.1 agora metodos
+podem receber diretamente um momento no tempo no qual serão executados
+atraves da anotação @Schedule, isso remove a necessidade de metodo @Timeout
+e permite que um bean tenha varios metodos com uma data definida para a execução
+
+----------------------------------------------------------------------
+Definindo @Schedule
+
+A anotação @Schedule adiciona um timer ao metodo anotado, 
+e define o momento de execução em um formato Calendar
+possui os atributos:
+
+dayOfMonth,dayOfWeek,year,month,minute,hour,second  - para a definição da data de execução
+         	
+info  - Opcional Descrição string do timer.
+  
+persistent - Opcional Boolean que define se o timer permanece com o servidor desligado ou não, default true.
+          	
+timezone  - Opcional define a qual timezone a data define se aplica.
+
+ex:
+ // toda segunda e quarta as 8:30
+@Schedule(dayOfWeek="Mon,Wed", hour="8", minute="30")
+void agendado() {
+  System.out.println("agendado pela anotacao @Schedule");
+}
+
+ATENÇÃO:@Schedule aparentemente não pode ser cancelado
+
+------------------------------------------------------------------------------
+@Schedules
+
+Quando um metodo precisa ser executado em varios datas diferentes
+nós anotamos ele com @Schedules que nada mais é so que um array 
+de @Schedule definindo varios momentos para o metodo ser executado
+
+ex:
+
+@Schedules ({
+    @Schedule(dayOfMonth="Last"),
+    @Schedule(dayOfWeek="Fri", hour="23")
+})
+public void doPeriodicCleanup() { ... }
+
+===================================================================================
+Expressões de data
+
+Para se definir um objeto ScheduleExpression ou uma tag @Schedule existe
+uma sintaxe especial para a definição de intervalos, wildcards e repetições
+
+Wildcard
+
+//todos os minutos
+minute="*"
+
+-----------------------------------------------------------------
+Intervalo
+//Significa executar as 4h,9h,10h,11h,12h,13h,14h,15h,16h,17h,22h
+hour="4,9-17,22"
+
+//Do dia 25 de um mes até o dia 5 do proximo mes
+dayOfMonth="25-5"
+
+--------------------------------------------------------------------
+Repetições
+
+Sintaxe:
+
+começa/quanto em quanto tempo repete
+
+//Executar a cada 10 minutos
+minute="*/10"
+
+//A cada 2h horas começando 12h
+hour="12/2"
+
+
+
+
+
+

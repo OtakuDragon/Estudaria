@@ -1,0 +1,31 @@
+O ciclo de vida dos SFSB
+
+O ciclo de vida dos stateful session beans é bem
+diferente do dos SLSB pois não possui um pool, e
+trabalha com os conceitos de passivation e activation
+para poupar memoria.
+
+=============================================================
+Ciclo de vida dos SFSB:
+
+*Quando uma nova sessão do cliente começa cria uma nova instancia
+ de bean, para aquele cliente
+
+*Injeta os recursos definidos no bean(@PostConstruct)
+
+*Guarda a instancia na memoria
+
+*Executa metodos requisitados pelo cliente atraves da interface de negocio.
+
+*Espera até que o cliente chame outro metodo
+
+* Se o cliente demorar demais para executar algum metodo, o bean executa o processo
+  de passivation(@PrePassivate), ou seja remove o bean da memoria e o guarda serializado
+  em um arquivo de armazenamento temporario em disco.
+
+* Quando o cliente chamar um metodo, o bean passivated executa o processo de activation(@PostActivate)
+  e é restaurado de volta para a memoria como estava antes.
+
+* Se o cliente não chamar nenhum metodo até que a sua sessão acabe(timeout) o bean é destruido(@PreDestroy)
+
+* Se o cliente chamar um metodo do bean que foi anotado com @Remove o bean é destruido(@PreDestroy)

@@ -1,0 +1,101 @@
+Estruturas
+
+Os bancos de dados possuem diversar estruturas
+elas são bancos,tabelas,indices e sequencias
+a criação alteração e exclusão delas é explicada a baixo
+
+*nomes de estruturas nao devem conter caracteres especiais
+nem espaços em branco
+===========================================================
+Criando banco de dados
+
+Em um servidor de banco de dados novo a primeira estrutura
+que precisa ser criada é um banco de dados.
+
+com o comando:
+
+CREATE DATABASE nome;
+
+------------------------------------------------------
+
+Alterando banco de dados:
+
+ALTER DATABASE nome Propriedade;//propriedades dependem de fabricante
+
+------------------------------------------------
+
+Excluindo um banco de dados:
+
+DROP DATABASE nome;
+
+=============================================================
+Criando tabelas
+
+Após a criação de um banco de dados é necessaria a criação de
+tabelas pois são nelas que vão os dados
+
+CREATE TABLE nome(campos);
+
+*Sintaxe de descrição de campo:
+
+nomeDoCampo TipoDeDado Atributos, outro campo...
+
+Atributos:
+
+NOT NULL - Significa que o campo não pode ser deixado em branco
+NULL - Significa que o campo pode ser deixado em branco
+UNSIGNED - Significa que o campo não aceita numeros negativos todo campo é SIGNED por padrão
+AUTO INCREMENT - Define auto incremento para um campo inteiro
+Zerofill - Define um campo numerico para ser preenchido com zeros a esquerda
+CHAVe - define o campo como uma chave
+
+
+ex:
+
+CREATE TABLE clientes(
+codigo int(4) AUTO_INCREMENT,
+nome varchar(30) NOT NULL,
+email varchar(50),
+data_nascimento date,
+PRIMARY KEY (codigo)
+)
+
+--------------------------------------------------------------
+
+Alterando tabelas:
+
+ALTER TABLE nome Propriedade;//propriedades dependem de fabricante
+
+---------------------------------------------------------------
+
+Excluindo uma tabela:
+
+DROP TABLE nome;
+
+==================================================================
+Criando indices
+
+Indices são estruturas independentes que ordenam colunas de uma tabela
+e as armazenam de forma ordenada em si para uma consulta.
+
+CREATE INDEX nome ON tebelaEColuna;
+
+Alterando um indice:
+
+ALTER INDEX nome propriedade;
+
+Excluindo um indice:
+
+DROP INDEX nome;
+
+=================================================================
+Criando sequencias
+
+Sequencias são estruturas que tem numeros inteiros que podem
+ser incrementados.
+
+CREATE SEQUENCE nome;
+
+ALTER SEQUENCE nome propriedade;
+
+DROP SEQUENCE nome;

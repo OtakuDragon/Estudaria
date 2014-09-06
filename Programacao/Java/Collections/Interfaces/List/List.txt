@@ -1,0 +1,3 @@
+List (Sequência)
+
+É uma interface de Collections que Guarda dados ordenados e aceita dados repetidos.

@@ -1,0 +1,119 @@
+Metodo Open Session in View
+
+Os templates de classes DAO acima recebem diretamente um
+SessionFactory e criam uma nova session a cada execução de
+um de seus metodos
+
+Isto causa um problema de performance pois muitas sessões
+são abertas, o metodo open session in view utiliza um
+Filter para abrir uma sessão que dura enquanto uma pagina(jsp,jsf)
+estiver aberta.
+
+==========================================================================
+Implementação do filtro
+
+package financeiro.web.filter;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+import org.hibernate.SessionFactory;
+
+import financeiro.util.HibernateUtil;
+
+public class ConexaoHibernateFilter implements Filter {
+
+	private SessionFactory	sf;
+
+	public void init(FilterConfig config) throws ServletException {
+		this.sf = HibernateUtil.getSessionFactory();
+	}
+
+	public void destroy() {
+	}
+
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws ServletException {
+
+		try {
+			//abre a sessão
+			this.sf.getCurrentSession().beginTransaction();
+			//Realiza todas as operações DAO necessarias na pagina nesta mesma sessão
+			chain.doFilter(servletRequest, servletResponse);
+			//Realiza a transação e fecha a sessão
+			this.sf.getCurrentSession().getTransaction().commit();
+			this.sf.getCurrentSession().close();
+
+		} catch (Throwable ex) {
+			try {
+				if (this.sf.getCurrentSession().getTransaction().isActive()) {
+					this.sf.getCurrentSession().getTransaction().rollback();
+				}
+			} catch (Throwable t) {
+				t.printStackTrace();
+			}
+			throw new ServletException(ex);
+		}
+	}
+
+}
+
+===================================================================================
+Configuração do filtro no web.xml
+
+O filtro afetará todas as paginas JSF
+
+
+	<filter>
+		<filter-name>conexaoFiter</filter-name>
+		<filter-class>financeiro.web.filter.ConexaoHibernateFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>conexaoFiter</filter-name>
+		<url-pattern>*.jsf</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>conexaoFiter</filter-name>
+		<url-pattern>/webservice/*</url-pattern>
+	</filter-mapping>
+
+============================================================================
+Configuração no hibernte.cfg.xml
+
+Uma nova propriedade é necessaria para que o metodo open session in view funcione
+ele define que uma sessão deve ser diferente para cada thread criada
+
+<property name="current_session_context_class">thread</property>
+
+
+========================================================================================
+Mudanças necessarias nas classes DAO e classe DAOfactory
+
+Neste caso é necessario mudar os templates das classes DAO
+pois elas recebem em seus construtores um SessionFactory
+isto é removido
+
+Agora elas não precisarão de construtor nem de referencia a
+sessionfactory apenas um atributo session na classe com getters
+e setters
+
+Esta sessão será definida no objeto em uma classe DAOfactory
+a classe dao factory é a classe que instancia todos os objetos
+da aplicaçaõ ela somente cria o objeto atribui a sessão atual e retorna
+o objeto para a camada regra de negocios
+
+ex:
+
+public static objetoDAO criarObjetoDAO(){
+
+ObjetoDAO objeto = new ObjetoDAO();
+objeto.setSession(Hibernate.getSessionFactory.getCurrentSession());
+return objeto;
+
+}
+E esta sessão será usada em todos os metodos
+
+===================================================================================================

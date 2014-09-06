@@ -1,0 +1,106 @@
+Tag <h:dataTable>
+
+A tag <h:dataTable> é a responsavel por tabelas em paginas JSF
+ela substitui a tag <table> , com ela é possivel facilmente preencher
+uma tabela apartir de uma lista retornada do banco de dados
+
+=========================================================================
+Uma tabela simples
+
+<h:dataTable value="#{UsuarioBean.lista}" var="usuario">
+	<h:column>
+		<f:facet name="header">Código</facet>
+		<h:outputText value="#{usuario.codigo}"/>
+		<f:facet name="footer">Código</facet>
+	</h:column>
+</h:dataTable>
+
+------------------------------------------------------------
+Atributos de dataTable
+
+Estes são os atributos minimos para a criação de uma 
+tabela
+
+value - Recebe por UEL a referencia a uma List de objetos do backing bean,
+	esta lista é recuperada pelo metodo get da lista ou seja o data table
+	executara o getter da lista sempre que precisar preencher sua tabela.
+	pode tambem ser um Resultset ou Result tambem mas estes não
+	são recomendados,os dados desta lista serão preenchidos na tabela
+
+var - Nome da variavel que o dataTable criara e funciona como a variavel de um foreach
+      todos os itens da lista serão atribuidos está variavel e imprimidos ela é usada
+      para definir o que imprimir em cada coluna.
+
+-------------------------------------------------------------
+Tag <h:column>
+
+É uma tag interna de <h:dataTable> e representa uma coluna da tabela
+cada dataTable pode possuir diversas colunas
+
+------------------------------------------------------------
+Tag <f:facet>
+
+A tag facet pode ser usada em qualquer parte de um documento jsf
+ela define a posição de um texto dependendo do valor do seu atributo name
+dentro de uma <h:column> ela é importante porque com ela é possivel definir
+um valor para a primeira celula da coluna,que é geralmente aonde é colocado
+o que a coluna representa
+
+<f:facet name="header">Código</facet>
+
+no codigo acima define a primeira linha da coluna definida para ter o valor código
+é como dar um nome de exibição para a coluna
+
+<f:facet name="footer">Código</facet>
+
+é utilizada como um exemplo mas ela define a ultima linha da coluna para código não é
+muito util neste caso
+
+------------------------------------------------------------------
+Tag <h:outputText> 
+
+Está tag é utilizada em um documento jsf para exibir texto, dentro 
+da coluna de uma tabela ela pode receber por UEL um campo da variavel
+criada pela dataTable para exibir naquela coluna,todos os registros
+da lista serão preenchidos na tabela
+
+<h:outputText value="#{usuario.codigo}"/>
+
+===================================================================
+Uma tabela com links, image links ou botões
+
+Caso a tabela possua uma ou mais colunas de tags ActionButton
+ou commandLink é necessario enviar o objeto da linha escolhida
+como referencia para o backing bean, para que o aplicativo saiba
+qual linha foi selecionada
+
+ex:
+
+<h:dataTable value="#{UsuarioBean.lista}" var="usuario">
+	<h:column>
+		<h:commandLink action="#{usuarioBean.ativar}">
+			<h:graphicImage library="imagens" name="usuario_ativo_#{usuario.ativo}.png" style="border:0"/>
+			<f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}"/>
+		</h:commandLink>
+		
+	</h:column>
+</h:dataTable>
+
+
+O codigo acima define uma tabela com uma coluna de image links
+o detalhe ao se obeservar é:
+--------------------------------------------------------------
+A tag <f:setPropertyActionListener>
+
+Está tag realiza a atribuição de um valor a um alvo definido quando uma
+ação acontece(botão ou link é clicado), no caso de uma tabela a ação mais
+comum é atribuir a variavel definida pelo dataTable para uma coluna a uma variavel
+no backing bean e o metodo do link ou botão manipulará este objeto atribuido
+
+Atributos
+
+target - A qual variavel atribuir o valor quando a ação acontecer, pode receber uma expressão UEL para apontar
+	 a uma variavel do backing bean como no exemplo acima
+
+value - Qual valor atribuir quando a ação acontecer no exemplo acima será a variavel usuário
+	recuperada da lista pela datatable para aquela coluna especifica

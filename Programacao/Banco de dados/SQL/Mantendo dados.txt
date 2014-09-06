@@ -1,0 +1,100 @@
+Inserir dados em uma tabela
+
+Sintaxe:
+
+INSERT INTO nomeDaTabela VALUES(valor1,valor2....);
+
+ou
+
+
+INSERT INTO nomeDaTabela(campo1,campo2..) VALUES(valor1,valor2....); // este modo define a ordem na qual os dados serão
+								     // passados nos values, se nenhuma ordem for escolhida
+								     // a ordem padrão da criação da tabela sera usada.
+
+========================================================================
+Recuperar dados de uma tabela
+
+Sintaxe:
+
+SELECT campo1,campo2... FROM nomeDaTabela; //o operador * representa todos os campos
+
+-------------------------------------------------------------------------
+Algumas variações de SELECT
+
+Apelido de tabela
+
+SELECT campos FROM Tabela Apelido;
+
+ex:
+
+SELECT tabela_um.nome FROM pessoas tabema_um;
+
+---------------------------------------------------------------------
+Apelido de campos
+
+SELECT campo AS apelido FROM nomeDaTabela;
+
+ex:
+
+SELECT nome AS primeiro_nome FROM pessoas
+
+--------------------------------------------------------------------------
+Unindo seleções(UNION[ALL])
+
+Junta dois ou mais resultados de selects em um unico resultado
+
+SELECT * FROM pessoas UNION SELECT * FROM cargos;
+
+//UNION não retorna campos repetidos nos resultados
+//UNION[ALL] retorna todos os campos repetidos ou não
+
+========================================================================
+Atualizar dados em uma tabela
+
+Sintaxe:
+
+UPDATE nomeDaTabela SET Campo1 = 'valor',campo2 = 'valor';
+
+===========================================================================
+Excluir dados de uma tabela
+
+DELETE FROM nomeDaTabela;
+
+==========================================================================
+Filtro de seleção
+
+Todos os comandos acima afetam a tabela inteira ou colunas inteiras
+para executar ações em registros especificos é utilizado o operador WHERE
+seguido de uma condição que especifica aonde as operações devem acontecer
+
+ex:
+
+SELECT * FROM tabela1 WHERE nome = 'Gilson'; //retorna todos os campos apenas do registro que possui o campo nome 
+					     //igual a gilson
+
+--------------------------------------------------------------------------
+Operadores
+
+Existem diversos operadores que podem ser utilizados
+para descrever uma condição para o WHERE ele são:
+
+=  - Igual
+!= - Diferente
+>  - Maior que
+>= - maior ou igual á
+<  - menor que
+<= - menor ou igual á
+IS NULL - Seleciona todos os valores que são igual a null
+IS NOT NULL - Seleciona todos os valores que são diferentes de null
+BETWEEN - Seleciona todos os registros entre um e outro
+LIKE - Seleciona todos os registros que tem um valor que contenha este valor
+
+Operadores Logicos
+
+AND - e
+
+OR - ou
+
+NOT - negação
+
+=================================================================================

@@ -1,0 +1,3 @@
+Output em console (Logging)
+
+Debug.Log("Texto");

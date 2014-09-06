@@ -1,0 +1,12 @@
+Aspect Oriented Programming
+
+A programação orientada a aspectos visa retirar
+do codigo de uma classe objetos que realizam funções
+auxiliares como logging ou segurança
+
+E adicionar estes codigos em aspectos que são
+classes anotadas como aspectos
+
+Os metodos de um aspecto podem ser configurados
+para serem executados antes ou depois da execução
+de metodos de classes no bean container

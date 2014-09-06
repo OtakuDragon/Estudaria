@@ -1,0 +1,33 @@
+Herança 
+
+É o ato de extender uma classe
+faze-la possuir todos os metodos e atributos
+de sua superclasse,sempre que você extender uma classe
+Java chame o construtor dela dentro do seu construtor
+antes de qualquer coisa com a palavra chave super():
+
+Polimorfismo
+
+o polimorfismo permite que referências de tipos de classes mais abstratas
+representem o comportamento das classes concretas que referenciam. Assim,
+é possível tratar vários tipos de maneira homogênea (através da interface
+do tipo mais abstrato).
+
+O polimorfismo é caracterizado quando duas ou mais classes distintas tem métodos de mesmo nome,
+ de forma que uma função possa utilizar um objeto de qualquer uma das classes polimórficas,
+ sem necessidade de tratar de forma diferenciada conforme a classe do objeto.1
+
+
+
+Detalhe importante:
+
+SuperClasse objeto1 = Subclasse1();
+SuperClasse objeto2 = Subclasse2();
+SuperClasse objeto3 = Subclasse3();
+SuperClasse objeto4 = Subclasse4();
+
+Isto é valido e neste caso por exemplo o objeto1
+recebera os metodos "polimorfados" de Subclasse1()
+e não os metodos padrões de SuperClasse, ou seja
+apesar de ter sido declarado do tipo da SuperClasse
+ele na verdade é do tipo SubClasse1() por que foi construido assim

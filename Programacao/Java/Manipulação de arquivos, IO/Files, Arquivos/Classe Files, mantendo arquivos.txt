@@ -1,0 +1,92 @@
+Deletando arquivos
+
+Metodos
+
+Files.delete(path);//deleta ou retorna exceções se não existir
+
+Files.deleteIfExists(path);// deleta se existir
+
+*só é possivel excluir pastas se elas estiverem vazias
+
+-------------------------------------------------------------------------------
+
+Criando arquivos
+
+Files.createFile(path);
+Files.createDirectory(path);
+
+-------------------------------------------------------------------------------
+
+Copiando arquivos
+
+Files.copy(Path arquivo,Path destino,StandardCopyOptions...);//StandardCopyOption são constantes que definem como copiar e são opcionais
+
+------------------------------------------------------------------------------
+
+Movendo arquivos(recortar e colar)
+
+Files.move(Path arquivo,Path destino,StandardCopyOptions...);//StandardCopyOption são constantes que definem como mover e são opcionais
+
+---------------------------------------------------------------------------------
+
+Editando arquivos
+
+Todo metodo que abre um arquivo pode receber um StandardOpenOption para definir como abrir o arquivo
+se ele não receber nenhuma ira apenas apagar tudo o que esta escrito no arquivo
+e escrever os novos dados
+
+APPEND
+
+If the file is opened for WRITE access then bytes will be written to the end of the file rather than the beginning.
+
+CREATE
+
+Create a new file if it does not exist.
+
+CREATE_NEW
+
+Create a new file, failing if the file already exists.
+
+DELETE_ON_CLOSE
+
+Delete on close.
+
+DSYNC
+
+Requires that every update to the file's content be written synchronously to the underlying storage device.
+
+READ
+
+Open for read access.
+
+SPARSE
+
+Sparse file.
+
+SYNC
+
+Requires that every update to the file's content or metadata be written synchronously to the underlying storage device.
+
+TRUNCATE_EXISTING
+
+If the file already exists and it is opened for WRITE access, then its length is truncated to 0.
+
+WRITE
+
+Open for write access.
+
+uso:
+
+Path caminho = Paths.get("D:/Users/Gilson/Desktop/Texto.txt");
+Charset utf8 = StandardCharsets.UTF_8;
+
+	try(BufferedWriter w = Files.newBufferedWriter(caminho, utf8,StandardOpenOption.APPEND)){// Abre o arquivo, definindo que quaisquer novos dados deve ser
+												 // somados aos dados ja existentes 
+
+		w.write("Escreva isso");// o flush() é realizado no momento do close() que é realizado automaticamente
+		
+		
+		
+	}catch(IOException e){
+		e.getMessage();
+	}

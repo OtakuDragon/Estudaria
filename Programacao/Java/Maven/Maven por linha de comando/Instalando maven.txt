@@ -1,0 +1,8 @@
+Instalando maven
+
+Para instalar o maven é necessario
+possuir a varaivel de sistema JAVA_HOME
+do java
+
+e adicionar o caminho da pasta bin do
+maven a variavel PATH do sistema

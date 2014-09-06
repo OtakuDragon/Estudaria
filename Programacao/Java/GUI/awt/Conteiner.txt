@@ -1,0 +1,19 @@
+Classe Conteiner
+
+Lugar aonde Components são colocados de acordo com
+um layout
+
+Alguns Metodos
+
+setLayout(Layout);//Define um layout para o conteiner cada layout é uma classe e esse metodo recebe um objeto
+		  // de uma destas classes
+
+add(Posição,Component ou Conteiner);//o metodo add adiciona um componente ou conteiner na posição indicada o valor de posição depende do layout definido
+
+Conteiners podem ser criados com a classe JPane
+
+uso:
+
+JPane c = new JPane();
+
+c.add(...);

@@ -1,0 +1,11 @@
+JSF Eventos
+
+Aplicações JSF são fortemente baseadas em eventos.
+Esses eventos podem ser gerados pelos
+usuários da aplicação ou pelo próprio JSF.
+
+No JSF, os eventos são divididos em três categorias:
+FacesEvent, PhaseEvent e SystemEvent.
+
+=======================================================================================
+

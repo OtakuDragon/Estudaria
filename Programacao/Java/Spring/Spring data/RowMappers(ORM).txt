@@ -1,0 +1,88 @@
+RowMappers
+
+Quando o tipo de objeto esperado pela query executada
+atraves do jdbcTemplate não é um tipo básico java (String.class,Integer.class,etc.)
+
+é necessario implementar uma classe que monta este objeto atraves
+do resultset gerado pela query e o retorna
+
+esta classe é o rowmapper
+
+==========================================================================
+Implementado um rowmapper
+
+um objeto rowMapper é passado como 3º parametro dos metodos jdbctemplate
+ele substitui o tipo de objeto.
+
+um rowmapper é uma classe que implementa a interface RowMapper<TipoDoDado>
+
+esta interface define apenas um metodo:
+
+public TipoDoDado mapRow(ResultSet resultSet,int rowNum);
+
+que recebe o resultset preenchido com o resultado da query e o contador
+de linhas do resultset(no caso do result set retornar uma lista, o metodo será executado
+varias vezes e cada vez o valor de rowNum será incrementado em 1)
+
+e retorna o tipo de objeto definido no generics da interface
+
+---------------------------------------------------------------------------------
+ex:
+
+//caso de uso, eu quero recuperar um objeto Usuario do banco de dados
+//este usuario possui nome e idade
+
+//obs: uma boa pratica é criar a classe RowMapper como innerclasse da DAO que irá utiliza-la
+
+private static final class UsuarioMapper implements RowMapper<Usuario>{
+
+
+	public Usuario mapRow(ResultSet resultSet,int rowNum){
+
+		
+		Usuario usuario = new Usuario();
+		usuario.setNome(resultSet.getString("nome"));
+		usuario.setIdade(resultSet.getInt("idade"));
+
+		return usuario;
+				
+
+	
+
+	}
+
+}
+
+==============================================================================
+Utilizando rowmappers
+
+Retornando uma lista de usuarios
+
+public List<Usuario> getAllUsuarios(){
+
+String sql = "SELECT * FROM usuarios";
+
+
+//Como a query não possui argumentos o segundo parametro é omitido
+//e o rowmapper de usuário passado para dizer ao jdbcTemplate como construir um objeto Usuario
+
+return jdbcTemplate.query(sql,new UsuarioMapper());
+
+
+}
+
+--------------------------------------------------------------------------
+Retornando apenas um usuario
+
+public List<Usuario> getUsuario(int id){
+
+String sql = "SELECT * FROM usuarios WHERE id=?";
+
+
+return jdbcTemplate.query(sql,new Object[] {id},new UsuarioMapper());
+
+
+}
+
+
+

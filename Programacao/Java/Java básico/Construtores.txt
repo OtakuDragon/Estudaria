@@ -1,0 +1,40 @@
+Construtores
+
+Construtores são como um metodo sem retorno
+que possuem o mesmo numero da classe e servem
+principalmente para iniciar variaveis na hora da
+instanciação de um objeto
+
+ex:
+
+class Humano{
+
+public string sexo;
+
+Humano(String s){
+
+this.sexo = s;
+
+
+}
+
+}
+
+
+class teste{
+
+public static void main(String args[]){
+
+
+Humano jose = new Humano("Masculino");
+
+
+}
+
+
+
+
+
+}
+
+Definiria o sexo de jose como masculino na hora da instanciação por meio de um construtor

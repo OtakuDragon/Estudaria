@@ -1,0 +1,58 @@
+Strings
+
+Strings são objetos que possuem valor imutavel, para um melhor
+uso de strings que precisam ser modificadas constantemente
+use a classe StringBuffer ou StringBuilder
+
+Metodos Interessantes
+
+split()
+
+O metodo split recebe um delimitador
+e retorna um array de string com as
+strings separadas pelo delimitador
+
+ex:
+
+
+
+String nomes = "jose,joao,maria";
+
+String[] array = nomes.split(",");
+
+// este array tera 3 strings separadas
+// jose joao e maria
+
+
+------------------------------------------------------
+
+equals()
+
+Compara o valor de uma string com o valor de outra string
+e retorna boolean
+
+nao é o mesmo que String == String, isto compararia a referencia dos objetos
+e não o valor
+
+String um = "noob";
+String dois = "noob";
+
+
+boolean igual = um.equals("dois");
+
+//igual será true
+
+--------------------------------------------------------------
+
+compareTo()
+
+compareTo() compara uma string a outra e retorna um numero menor do que 0 se o comparado for
+menor no alfabeto e um inteiro maior do que 0 se o comparado for maior no alfabeto
+
+String a = "aaaaa"
+
+String b = "bbbbb"
+
+int resultado = a.compareTo(b);
+
+//resultado = -1

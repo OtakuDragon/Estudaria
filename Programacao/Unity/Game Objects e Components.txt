@@ -1,0 +1,23 @@
+Game Objects
+
+Game objects são objetos que formam o jogo tudo 
+o que existe no jogo e tem suas proprias caracteristicas
+é um game object
+
+ex:
+
+personagens,terreno,monstros,casas,cadeiras,etc.
+
+====================================================
+Components
+
+Components são as caracteristicas de 
+um game object
+
+são eles que são cor,física, tamanho, posição,
+animação,movimento,etc.. aos game objects
+
+ex:
+
+script,som,animação,textura
+

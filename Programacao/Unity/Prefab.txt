@@ -1,0 +1,17 @@
+Prefab
+
+Um gameObject pode ser transformado em um prefab
+arrastando-o da aba de hierarquia e o adicionando ao
+projeto
+
+um prefab pode ser duplicado com ctrl + d, todas as
+copias de um prefab estão conectados por referencia
+por isso qualquer mudança feita em um prefab pode ser
+aplicada em todos os outros prefabs da cena por meio do botão
+aplicar no menu prefabs
+
+que fica embaixo de tag em um prefab
+
+obs: um prefab é identificado pelo seu nome azul na aba hierarchy
+
+====================================================

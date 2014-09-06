@@ -1,0 +1,19 @@
+Recebendo respostas do servidor
+
+Após enviar um request o servidor
+o recebe,processa e envia uma resposta
+com o conteudo do arquivo ou o output
+de um script server-side esse retorno é
+acessado por meio de dois atributos do
+objeto XMLHttpRequest
+
+=============================================
+Atributos de response
+
+ajax.responseText //retorna a resposta do servidor como
+		  //uma string é a propriedade mais usada
+		  
+ajax.responseXML //Caso a resposta do servidor seja um XML
+		 //esta propriedade retorna um objeto XML que possui
+		 //todos os metodos da DOM API para o acesso de deus dados
+

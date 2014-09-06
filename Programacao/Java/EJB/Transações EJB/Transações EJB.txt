@@ -1,0 +1,29 @@
+﻿Transações EJB
+
+O EJB possui um sistema robusto de suporte
+a transações que funciona como uma abstração
+da Java Transaction API.
+
+e se divide em dois tipos de gerenciamento
+de transações:
+
+*Container Managed Transactions(CMT)
+*Bean Managed Transactions(BMT)
+
+Transações funcionam para Session Beans, Singletons e
+MDBs
+======================================================
+Definindo o tipo de gerenciamento de transações
+
+O tipo de gerenciamento de transações é definido
+anotando a classe do EJB com a anotação @TransactionManagement
+esta anotação pode receber dois valores:
+
+@TransactionManagement(TransactionManagementType.CONTAINER) - Para definir como CMT
+@TransactionManagement(TransactionManagementType.BEAN) - Para definir como BMT
+
+Por padrão todo EJB tem suas transações gerenciadas pelo container
+ou seja anotar uma classe como @TransactionManagement(TransactionManagementType.CONTAINER),
+e não anotar funciona da mesma maneira.
+
+										 

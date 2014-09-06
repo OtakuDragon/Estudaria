@@ -1,0 +1,17 @@
+a classe Font define fontes de letras para componentes
+
+Classe Font
+
+import java.awt.Font
+
+Um objeto da classe fonte define uma fonte para um componente java.
+
+criação de objeto:
+
+Font nomeDoObjeto = Font("Nome da fonte",Font.(estilo da fonte pode ser PLAIN, BOLD ou ITALIC), tamanho da fonte em pixels);
+
+exemplo de uso:
+
+Font f = Font("TimesRoman",Font.BOLD,36);
+
+//cria uma fonte timesroman negrito tamanho 36 para ser usado em qualquer componente escreva texto

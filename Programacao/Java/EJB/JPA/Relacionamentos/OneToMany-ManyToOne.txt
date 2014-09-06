@@ -1,0 +1,99 @@
+@OneToMany/@ManyToOne
+
+O relacionamento um para muitos é o tipo
+de relacionamento mais comum entre entidades
+ele acontece quando:
+
+* Uma entidade A possui um grupo(coleção ou set)
+  de referencias a entidade B
+  
+* E a entidade B possui apenas uma referencia a 
+  entidade A
+  
+ obs: em uma situação bidirecional
+==========================================================
+Quem é @OneToMany  e @ManyToOne?
+
+@OneToMany
+
+Utilizando o exemplo acima  a entidade A(coleção<B> como atributo)
+possui um relacionamento @OneToMany que significa :
+
+"Todos os itens B nesta coleção estão relacionados com apenas uma entidade A, esta instancia"  ou
+"Este conjunto de diferentes instancias de B estão relacionados a esta instancia de A"
+-----------------------------------------------------------------------------------------------------
+@ManyToOne
+
+E a entidade B possui um relacionamento @ManyToOne
+que significa:
+
+"Esta instancia da entidade B possui uma referencia para uma única instancia da entidade A, e uma mesma instancia de A
+pode pertencer a varias instancias diferentes de B"
+
+=============================================================
+Lado forte do relacionamento(@OneToMany)
+
+Em um relacionamento 1..* a FK sempre fica do lado muitos
+está é uma regra de banco de dados que se aplica em ORM
+
+Em um relacionamento @OneToMany/@ManyToOne o lado forte sempre ficará
+na parte @ManyToOne ou seja a tag @OneToMany que anota o getter da coleção
+de objetos possuirá o atributo mapped by, se ele for utilizado.
+
+Tanto é que a tag @ManyToOne não possui o atributo mapped by na sua definição 
+
+============================================================
+Atributos das anotações @OneToMany/@ManyToOne
+
+*Todos opcionais
+
+Class targetIdentity       - Recebe um .class indificando a qual entidade o atributo ou coleção
+                                       anotado pertence, se definido na anotação @OneToMany, substitui a utilização de
+									   generics, definindo o tipo da coleção/referencias como uma Class
+
+CascadeType cascade - Uma constante de CascadeType dizendo qual comportamento
+                                       em cascata este relacionamento terá a alterações nos dados, default: não fazer nada
+
+FetchType  fetch           - Uma constante FetchType dizendo se o tipo de busca é lazy(só quando preciso)
+							           ou eager(no momento da instanciação), default: EAGER
+
+boolean optional            - Atributo que diz se o relacionamento é not null ou null, se for setado para false, a entidade que  
+                                       possui a referencia não poderá ser persistida se a referencia for nula, default: true.			
+
+String mappedBy							- Atributo string que no caso de um relacionamento 1..* bidirecional especifica que o lado forte será o lado 1
+(Somente para @OneToMany)   	  ou seja o lado * conterá a chave estrangeira
+
+=======================================================
+Exemplo:
+
+Relacionamento que descreve a relação entre lances(bid) e itens
+em um leilão um item pode conter varios lances e cada lance
+deve estar relacionado apenas a um item.
+
+@Entity
+public class Item {
+	@Id
+	protected Long itemId;
+	protected String title;
+	protected String description;
+	protected Date postdate;
+	...
+	@OneToMany(mappedBy="item") 
+	protected Set<Bid> bids;
+	...
+}
+
+@Entity
+public class Bid {
+	@Id
+	protected Long bidId;
+	protected Double amount;
+	protected Date timestamp;
+	...
+	@ManyToOne 
+	protected Item item;
+	...
+}
+    	
+															   
+															  

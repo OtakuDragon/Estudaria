@@ -1,0 +1,23 @@
+A anotação @Temporal
+
+Esta anotação serve para definir como
+atributos que representam data, ou seja,
+Date e Calendar possuem os seus dados 
+persistidos.
+
+Existem três maneiras possiveis:
+
+*TemporalType.DATE - Guarda dia, mes a ano.
+
+*TemporalType.TIME - Guarda hora, minuto e segundo
+
+*TemporalType.TIMESTAMP - Default,Guarda hora, minuto, segundo,dia ,mes e ano.
+
+A anotação é opcional e se não for definida será considerado
+TemporalType.TIMESTAMP.
+=======================================================
+ex:
+
+@Temporal(TemporalType.DATE)
+protected Date creationDate;
+

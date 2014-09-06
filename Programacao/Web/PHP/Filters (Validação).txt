@@ -1,0 +1,150 @@
+Filters em PHP
+
+Filters no php são uma serie de funções
+que validam ou formatam dados para os formatos
+seguros desejados
+
+é uma maneira de facilitar a tecnica de validação
+com regex porem é possivel definir seus proprio
+filters com regex
+
+====================================================
+Funções para validação
+
+*O tipo de retorno das funções vai depender do tipo
+ do filtro
+
+função filter_var()
+
+filter_var($variavel,filtro,opçoes);
+
+-$variavel //a variavel com o conteudo a ser avaliado
+
+-filtro //um dos filtros disponiveis listados abaixo
+
+-opçoes //(opcional)alguns filtros recebem alguns parametros para modificar seu comportamento
+
+---------------------------------------------------------------------------
+função filter_var_array()
+
+filter_var_array($array,filtro_opçoes);
+
+-$array //um array com chaves de string com os dados
+
+-filtro_opçoes //este parametro pode simplesmente ser um filtro que se aplicará a todo
+	       //o array ou veja o exemplo
+
+-------------------------------------------------------------------------
+função filter_input()
+
+filter_input(input_type,variavel,filtro,options);
+
+Esta função ao inves de receber uma variavel ela
+utiliza uma de um dos arrays de input do php
+
+-input_type //de qual dos arrays pre-definidos vem o dado
+
+valores:
+
+INPUT_GET
+INPUT_POST
+INPUT_COOKIE
+INPUT_ENV
+INPUT_SERVER
+
+-variavel //nome da chave do dado no array
+
+-filtro //um dos filtros disponiveis listados abaixo
+
+-opçoes //(opcional)alguns filtros recebem alguns parametros(flags) para modificar seu comportamento
+
+----------------------------------------------------------------------------
+função filter_input_array()
+
+filter_input_array(input_type,filtro_opçoes)
+
+-input_type //de qual dos arrays pre-definidos vem o dado
+
+valores:
+
+INPUT_GET
+INPUT_POST
+INPUT_COOKIE
+INPUT_ENV
+INPUT_SERVER
+
+-filtro_opçoes //este parametro pode simplesmente ser um filtro que se aplicará a todo
+	       //o array ou veja o exemplo
+
+-----------------------------------------------------------------------
+exemplo de filtro_opçoes
+
+<?php
+$filters = array
+  (
+  "name" => array
+    (
+    "filter"=>FILTER_CALLBACK,
+    "flags"=>FILTER_FORCE_ARRAY,
+    "options"=>"ucwords"
+    ),
+  "age" => array
+    (
+    "filter"=>FILTER_VALIDATE_INT,
+    "options"=>array
+      (
+      "min_range"=>1,
+      "max_range"=>120
+      )
+    ),
+  "email"=> FILTER_VALIDATE_EMAIL,
+  );
+?>
+
+=================================================================
+Tipos de filters
+
+*Todos os filtros podem receber no parametro options das funções
+ outras constantes chamadas flags que modificam o comportamento
+ dos filtros, estas flags não estão anotadas aqui procurar na w3schools
+
+Existem dois tipos de filtros
+
+*Filtros validadores //verifica se a string esta no formato correto e à retorna 
+		     //se estiver ou retorna false se não estiver
+
+FILTER_VALIDATE_INT	Validate value as integer, optionally from the specified range
+FILTER_VALIDATE_BOOLEAN	Return TRUE for "1", "true", "on" and "yes", FALSE for "0", "false", "off", "no", and "", NULL otherwise
+FILTER_VALIDATE_FLOAT	Validate value as float
+FILTER_VALIDATE_REGEXP	Validate value against regexp, a Perl-compatible regular expression
+FILTER_VALIDATE_URL	Validate value as URL, optionally with required components
+FILTER_VALIDATE_EMAIL	Validate value as e-mail
+FILTER_VALIDATE_IP	Validate value as IP address, optionally only IPv4 or IPv6 or not from private or reserved ranges
+
+
+*Filtros formatadores //Formatam uma string no formato especificado e retorna o resultado
+
+FILTER_SANITIZE_STRING		Strip tags, optionally strip or encode special characters
+FILTER_SANITIZE_STRIPPED	Alias of "string" filter
+FILTER_SANITIZE_ENCODED		URL-encode string, optionally strip or encode special characters
+FILTER_SANITIZE_SPECIAL_CHARS	HTML-escape '"<>& and characters with ASCII value less than 32
+FILTER_SANITIZE_EMAIL		Remove all characters, except letters, digits and !#$%&'*+-/=?^_`{|}~@.[]
+FILTER_SANITIZE_URL		Remove all characters, except letters, digits and $-_.+!*'(),{}|\\^~[]`<>#%";/?:@&=
+FILTER_SANITIZE_NUMBER_INT	Remove all characters, except digits and +-
+FILTER_SANITIZE_NUMBER_FLOAT	Remove all characters, except digits, +- and optionally .,eE
+FILTER_SANITIZE_MAGIC_QUOTES	Apply addslashes()
+
+*Filtro customizado
+
+FILTER_CALLBACK	Call a user-defined function to filter data
+
+===============================================================
+Exemplos
+
+Validando com regexp e filters
+
+filter_var($string, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^M(.*)/")));
+
+Validando com função criada pelo programador
+
+filter_var($string, FILTER_CALLBACK,array("options"=>"nomeDaFunção"));

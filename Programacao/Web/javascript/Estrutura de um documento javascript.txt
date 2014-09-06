@@ -1,0 +1,24 @@
+Estrutura de um documento javascript
+
+A importação de um documento javascript geralmente
+acontece na tag head ou seja antes do resto do documento
+HTML ser lido.
+
+Por isso todas as referencias a tags em um documento
+javascript em branco não existirão quando o script for rodado
+
+para resolver isso e somente executar o script após o documento
+html ser completamente lido e possuir todos os elementos carregados
+é necessario utilizar a sintaxe abaixo
+
+Sintaxe:
+
+window.onload = function(){
+
+//codigo javascript
+
+
+
+}
+
+//O evento onload acontece logo apos a pagina html ser completamente carregada

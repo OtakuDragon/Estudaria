@@ -1,0 +1,23 @@
+Objeto location
+
+O Objeto location é recuperado atraves
+do objeto window e possui informações sobre
+a URL da pagina.
+=====================================================
+Atributos de location
+
+location.hash		//Retorna a parte da url que indica um link interno(#) se houver
+location.host		//retorna o nome do host e a porta do servidor da pagina
+location.hostname	//retorna o nome do host da pagina
+location.href		//retorna a url completa
+location.pathname	//retorna somente a parte dos caminhos de uma url(hostname + pathname = href)
+location.port		//retorna a porta do servidor para aquela url
+location.protocol	//retorna o protocolo da url
+location.search		//retorna a parte de query de uma url(?)
+
+=======================================================
+Metodos de location
+
+location.assign(URL)	//Carrega um novo documento html no browser
+location.reload(boolean) //da um refresh na pagina boolean=true forçar buscar no servidor, boolean=false(padrão) recarregar do cache(F5)
+location.replace(URL)	//Substituiu o documento HTML por um outro passado como parametro(aparentemente identica a location.assign())

@@ -1,0 +1,45 @@
+Diagrama de Pacotes
+
+O diagrama de pacotes tem como objetivo
+mostrar a organização das classes dentro
+dos pacotes e as associações entre eles
+
+Um pacote é representado por um retangulo
+no formato de folder com um nome e pode possuir
+em seu interior outros pacotes(subpacotes),classes
+ou até mesmo diagramas de classes
+
+====================================================
+Associação 
+
+A associação no relacinamento entre pacotes
+possui o mesmo significado da associação em um
+diagrama de classes 
+
+significa que se alguma(s) classe(s) forem modificadas
+no pacote destino o pacote origem pode ter que ser modificado
+
+e tambem possui a mesma simbologia
+
+==================================================
+Namespace
+
+A indentificação de uma classe dentro
+de varios pacotes é feita por meio de
+namespace no uml a sintaxe de namespace é:
+
+pacote1::pacote2:: ... ::Classe
+
+ex:
+
+java::util::Date
+
+==============================================
+Interface(generalização)
+
+Quando há uma interface implementada
+por varios classes em pacotes diferentes
+este fato é exibido no diagrama de pacotes
+como uma generalização com a diferença de que
+a seta é pontilhada
+

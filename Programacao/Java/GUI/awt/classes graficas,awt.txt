@@ -1,0 +1,208 @@
+
+Classe Graphics
+
+Possui metodos para Escrita e desenhos na tela
+
+criação do objeto
+
+Graphics g = new Graphics();
+
+Metodos
+
+g.setFont(Font arg); //Define a fonte do objeto Graphic
+g.setColor(Color arg); //Define a  cor atual do objeto Graphic
+g.setBackground(Color arg);//Define a cor de fundo do objeto Graphic
+g.setForeground(Color arg);//Define a cor de um componente da interface
+g.drawString(String arg,int x, int y); //Escreve uma string na tela nas coordenadas x e y
+g.drawLine (int x1,int y1,int x2,int y2); // Desenha uma linha reta de uma coordenada a outra
+g.drawRect (int x, int y , int width, int height); // Desenha um Retangulo na tela nas coordenadas x y, com a altura width e altura height
+g.fillRect (int x, int y , int width, int height);// Desenha um Retangulo na tela nas coordenadas x y, com a altura width e altura height preenchido com a cor definida
+g.drawRoundRect(int x, int y , int witdth, int height,int o, int p);// Desenha um Retangulo na tela nas coordenadas x y, com a altura width e altura height preenchido com a cor definida com bordas arredondadas definidas pelos dois ultimos argumentos
+g.fillRoundRect(int x, int y , int witdth, int height,int o, int p);// mesmo q o anterior mas preenchido com a cor atual
+g.drawOval(int x, int y,int width, int height ); //Desenha um circulo ou uma elipse com as coordenadas x e y e a largura e a altura definidas
+g.fillOval(int x, int y,int width, int height );// mesmo q o anterior mas preenchido com a cor atual
+g.drawArc(int x, int y,int width, int height, int anguloinicial, int angulovaiate ); // Desenha um arco (angulos de elipse vão de 0 a 359)
+g.fillArc(int x, int y,int width, int height, int anguloinicial, int angulovaiate );// Desenha um arco preenchido
+g.drawPolygon (Polygon arg); //Desenha o poligono
+g.fillPolygon (Polygon arg); //Desenha o poligono preenchido
+
+Classe Polygon
+
+criação do objeto
+
+Polygon p = new Polygon (int[] coordsx, int[] coordsy, int pontos);
+
+Polygon recebe duas listas de coordenadas x e y e desenha linhas ligando estes pontos para fazer um poligono
+q é desenhado na classe Graphics
+
+exemplo de uso
+
+int[] x = {1,2,3};
+int[] y = {4,5,6};
+int pontos = 3;
+
+Polygon poly = new Polygon (x,y,pontos);
+
+
+Classe FontMetrics
+
+import java.awt.FontMetrics;
+
+possui metodos que metem a largura e a altura de um objeto fonte
+
+FonteMetrics fm = getFontMetrics(Font arg);
+
+metodos
+
+fm.stringWidth(String arg); // Recebe uma string e retorna a largura total desse string em pixels
+charWidth(char arg); // Recebe um char e retorna a largura total desse char em pixels
+getHeight() //Retorna a altura total da fonte em pixels
+
+Classe Color
+
+import java.awt.Color
+
+Cria um objeto que guarda uma cor e pode ser atribuido a fontes e desenhos
+
+criação de objeto
+
+Color cor = new Color ((0 a 255),(0 a 255),(0 a 255)); 
+//aonde o primeiro argumento representa a quantidade de vermelho, o segundo a quantidade de verde e o terceiro a de azul
+
+exemplo de uso
+
+Color corbranca = new Color (255,255,255);//a variavel corbranca possui a cor branco =)
+
+Cores padrão
+
+podem ser usadas como objetos color
+
+Color.black
+Color.blue
+Color.cyan
+Color.darkGray
+Color.gray
+Color.green
+Color.lightgray
+Color.magenta
+Color.orange
+Color.pink
+Color.red
+Color.white
+Color.yellow
+
+Classe Graphics2D
+
+Define operações de desenho e textura mais avançadas do que a Graphics
+
+Criação de objeto em applet
+
+public void paint(Graphics screen){
+
+Graphics2D screen2D = (Graphics2D) screen
+}
+
+metodos
+
+screen2D.setColor(Color arg);//Define a cor atual
+screen2D.setPaint(Paint arg);//Define a cor padrão de preenchimento
+screen2D.setStroke(BasicStroke arg);//Define um traço de desenho
+screen2D.draw(retangulo,arco...);//Desenha um objeto geometrico criado
+screen2D.fill(retangulo,arco...);//Desenha um objeto geometrico criado preenchido com a cor atual
+Um objeto Color pode ser usado com Paint.
+
+criando uma cor de preenchimento gradiente
+
+GradientPaint paint = new GradientePaint(int x1,int y1,Color arg1, int x2, int y2, Color arg2);
+//Define um preenchimento gradiente saindo das coordenadas x1,y1 na cor arg1 e chegando nas coordenadas 2 com a cor 2
+
+Definindo traço de desenho
+
+BasicStroke traco = BasicStroke(float larguraDaLinha, int fimdalinha, int junçãodalinha);
+
+finais de linha
+
+CAP_BUTT
+CAP_ROUND
+CAP_SQUARE
+
+junções de linha
+
+JOIN_MITTER
+JOIN_ROUND
+JOIN_BEVEL
+
+exemplo de uso
+
+BasicStroke traco = BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND);
+
+screen2D.setStroke(traco);
+
+objetos para desenhar
+
+Linha
+
+Line2D.Float ln = new Line2D.Float(float x1,float y1, float x2,float y2);
+//Desenha uma linha usando dois pontos definidos por coordenadas float
+
+exemplo de uso
+
+Line2D.Float ln = new Line2D.Float(60f,5f, 13f,28f);
+
+o f define o numero como float
+
+Retangulo
+
+Rectagle2D.Float rc = new Rectangle2D.Float(float x, float y, float largura, float altura);
+
+exemplo de uso
+
+Rectagle2D.Float rc = new Rectangle2D.Float(10f, 13f, 40f, 20f);
+
+Elipse
+
+Ellipse2D.Float e = new Ellipse.Float(float x, float y, float largura, float altura);
+
+Arco
+
+Arc2D.Float = new Arc2D.float(float x, float y, float largura, float altura,float anguloinicio, float angulotermina, float fechamento);
+
+tipos de fechamento de arco
+
+Arc2D.OPEN
+Arc2D.CHORD
+Arc2D.PIE
+
+Poligono
+
+criando um novo poligono
+
+GeneralPath polly = new GeneralPath();
+
+iniciando um poligono
+
+polly.moveTo(float x,float y);//inicia um poligono nas coordenadas x e y
+
+desenhando o poligono
+
+polly.lineTo(float x,float y);// cria um novo ponto do poligono
+
+fechando o poligono
+
+polly.closePath();
+
+
+classe Image
+
+criação de objeto
+
+Image img = getImage("URL da imagem","nomedaImagem.gif");
+
+url da imagem pode ser getCodeBase();// retorna a url da pagina principal do applet
+
+e usado em drawImage(Image arg,....) de Graphics
+
+
+
+
+ 

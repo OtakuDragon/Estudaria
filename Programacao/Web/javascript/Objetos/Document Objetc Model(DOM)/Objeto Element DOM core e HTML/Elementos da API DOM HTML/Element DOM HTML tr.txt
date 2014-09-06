@@ -1,0 +1,22 @@
+Element tr
+
+O elemento tr representa
+a tag html <tr> e possui como atributos
+todos os atributos e metodos de node 
+alem dos seus proprios atributos HTML
+
+=============================================
+Atributos de tr
+	
+tr.cells		//Returns a collection of all <td> or <th> elements in a table row	
+tr.ch			//Sets or returns an alignment character for cells in a table row	
+tr.chOff		//Sets or returns the horizontal offset of the ch property	
+tr.rowIndex		//Returns the position of a row in the rows collection of a table	
+tr.sectionRowIndex	//Returns the position of a row in the rows collection of a tbody, thead, or tfoot	
+tr.vAlign		//Sets or returns the vertical alignment of the content within a table row	
+===============================================
+Metodos de tr
+
+tr.deleteCell()	//Deletes a cell from the current table row	
+tr.insertCell()	//insere uma celula vazia na tabela recebe como parametro um number dizendo o indice
+		//indicando a posição da celula na linha	

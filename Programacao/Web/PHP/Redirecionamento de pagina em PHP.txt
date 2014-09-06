@@ -1,0 +1,19 @@
+Redirecionamento
+
+É possivel ir para outra pagina
+com uma função php a função é header()
+
+======================================
+Função header()
+
+header("Location: url");
+exit; //finaliza a execução do script
+
+//esta url pode ser relativa a posição do script
+
+==========================================
+Obs: IMPORTANTE 
+
+Este metodo é muito improvisado e pode dar uma serie de
+erros por ser um cabeçalho http, o aconselhavel é redirecionar
+atraves de javascript

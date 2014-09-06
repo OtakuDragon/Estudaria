@@ -1,0 +1,17 @@
+Variaveis globais
+
+Uma variavel dentro de uma função não é visivel
+fora da função e uma variavel fora de um função não é visivel
+dentro de uma função,para criar uma variavel visivel no codigo como
+um todo utilize a palavra global
+
+Sintaxe:
+
+global $variavel;
+
+*Quando uma variavel global é criada ela é adicionada ao array $GLOBALS
+ junsto com todas as outras e é acessada pelo seu nome sem "$"
+
+ex:
+
+$GLOBALS["variavel"];

@@ -1,0 +1,83 @@
+Construindo um projeto com maven
+
+Para se constuir um projeto com maven por linha de comando
+basta criar um diretorio vazio ir a este diretorio e executar
+alguns comandos
+
+=====================================================
+Construção da estrutura do projeto
+
+Comando:
+
+mvn archetype:generate
+
+
+após a execução deste comando o maven irá perguntar
+por algumas caracteriticas do projeto
+
+--------------------------------------------------------
+qual o archetype:
+
+uma lista de archetypes será mostrada e um numero do archetype
+deverá ser escolhido
+
+o archetype vai depender de quais frameworks serão utilizados no projeto
+
+ex de archetype:
+
+287 remote -> spring-mvc-jpa-archetype
+
+padrão 106 - um projeto javaSE simples com junit
+
+-------------------------------------------------------
+Qual versão do maven utilizar
+
+padrão é a utilma release
+
+----------------------------------------------------------
+Qual é o groupId
+
+O nome do grupo de artifacts(softwares) a qual o artfact pertence
+
+-------------------------------------------------------------
+artifactId
+
+Nome do artifact(software), gerado pelo projeto
+
+----------------------------------------------------------
+Version
+
+O nome da versão inicial do projeto
+
+padrão 1.0-SNAPSHOT
+----------------------------------------------------------
+package
+
+Nome do pacote principal do projeto
+-------------------------------------------------
+Confirmar valors com Y
+
+---------------------------------------------------
+Obs: A configuração pedida pode ser diferente dependendo do archetype escolhido no exemplo
+     o escolhido foi o padrão
+=============================================================
+Compilando o projeto
+
+No mesmo diretorio do projeto construido
+
+Comando:
+
+mvn compile
+
+==============================================================
+Criando jars
+
+No mesmo diretorio do projeto compilado
+
+mvn package
+
+
+
+
+
+

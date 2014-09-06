@@ -1,0 +1,89 @@
+Bean validation
+
+Bean validation é um metodo de validação incluido no JSF 2
+que remove a validação do arquivo xhtml e valida os campos
+diretamente no managed bean por meio de anotações nos atributos
+
+===============================================================
+Anotações
+
+• @AssertFalse - Verifica se uma propriedade booleana possui valor false.
+• @AssertTrue  - Verifica se uma propriedade booleana possui valor true.
+• @DecimalMax  - Define o valor realmáximo que uma propriedade pode armazenar.
+• @DecimalMin  - Define o valor realmínimo que uma propriedade pode assumir.
+• @Digits      - Define a quantidade máxima de dígitos da parte inteira (através do atributo integer) ou da
+		 parte fracionária (através do atributo fraction) de um número.
+• @Future      - Verifica se uma data é posterior ao instante atual.
+• @Max         - Define o valor inteiro máximo que uma propriedade pode assumir.
+• @Min         - Define o valor inteiro mínimo que uma propriedade pode armazenar.
+• @NotNull     - Verifica se o valor de uma propriedade não é null.
+• @Null        - Verifica se o valor de uma propriedade é null.
+• @Past        - Verifica se uma data é anterior ao instante atual.
+• @Pattern     - Verifica se o valor de uma propriedade respeita uma expressão regular.
+• @Size        - Define os tamanhosmínimo (através do atributo min) e máximo (através do atributo max) para
+		 uma Collection, array ou String.
+
+-------------------------------------------------------------------------
+Personalizando mensagens de erro
+
+As anotações de validação acima possuem o atributo message pelo qual é possivel
+definir uma mensagem customizada para o erro
+
+ex:
+
+@ManagedBean
+public class Funcionario {
+@Future(message ="Você nasceu no futuro?")
+private Date dataDeNascimento;
+}
+
+
+//obs: string vazia != null
+
+-------------------------------------------------------------------
+Personalizando mensagens de erro em arquivo
+
+Tambem é possivel criar um arquivo chamado ValidationMessages.properties
+no classpath do projeto(????) e definir a mensagem de uma forma especifica ou geral
+
+especifica:
+
+.properties
+
+*deste modo a mensagem só se aplicará ao atributo daquele bean
+
+br.com.k19.Funcionario.dataDeNascimento=Você nasceu no futuro?
+
+managed bean
+
+public class Funcionario {
+
+@Future({br.com.k19.Funcionario.dataDeNascimento})
+private Date dataDeNascimento;
+}
+
+geral:
+
+.properties
+
+*deste modo a mensagem será modificada para todos os casos de exceção Future
+
+javax.validation.constraints.Future.message=Você nasceu no futuro?
+--------------------------------------------------------------------
+Localizações
+
+Localizações das mensagens das anotações de validação
+para o arquivo properties
+
+• @AssertFalse: "{javax.validation.constraints.AssertFalse.message}"
+• @AssertTrue: "{javax.validation.constraints.AssertTrue.message}"
+• @DecimalMax: "{javax.validation.constraints.DecimalMax.message}"
+• @DecimalMin: "{javax.validation.constraints.DecimalMin.message}"
+• @Digits: "{javax.validation.constraints.Digits.message}"
+• @Future: "{javax.validation.constraints.Future.message}"
+• @Max: "{javax.validation.constraints.Max.message}"
+• @Min: "{javax.validation.constraints.Min.message}"
+• @Null: "{javax.validation.constraints.Null.message}"
+• @Past: "{javax.validation.constraints.Past.message}"
+• @Pattern: "{javax.validation.constraints.Pattern.message}"
+• @Size: "{javax.validation.constraints.Size.message}"

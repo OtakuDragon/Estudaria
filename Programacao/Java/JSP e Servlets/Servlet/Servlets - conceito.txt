@@ -1,0 +1,19 @@
+Servlets
+
+Servlets são classes java que são
+executadas no servidor web quando
+chamadas por url
+
+elas não possuem metodo main e sim
+metodos especiais http
+
+uma classe servlet é uma classe que herda
+de javax.servlet.http.HttpServlet e no
+projeto web eles ficam na pasta java resources
+
+*System.out.println() em um servlet imprimira no console do servidor
+
+=======================================================
+
+
+

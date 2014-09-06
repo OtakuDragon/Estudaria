@@ -1,0 +1,42 @@
+Adicionando JSF ao projeto web
+
+Para implementação Mojarra
+
+Hard Mode
+========================================================
+*Baixar o jar no site:
+
+	http://javaserverfaces.java.net/
+
+*Colar o java na pasta WEB-INF/lib do wev dinamic project
+
+------------------------------------------------------------
+
+*Baixe os jars do JSTL no site:
+
+	http://jstl.java.net/download.html
+
+	nome dos jars:javax.servlet.jsp.jstl-api-1.2.1 e javax.servlet.jsp.jstl-1.2.1
+
+*e cole-os em web-inf/lib no projeto
+
+--------------------------------------------------------------
+*Baixe os jars do apache commons no site:
+
+	http://commons.apache.org/
+	
+
+*e cole-os em web-inf/lib no projeto
+
+-----------------------------------------------------------------
+*baixe os jars
+	el-impl-2.2.jar e el-api-2.2.jar
+*e cole-os em web-inf/lib no projeto
+
+========================================================
+Easy mode
+
+Copie todos os jars da pasta stuff/libs/jsf
+para web-inf/lib no projeto
+
+========================================================

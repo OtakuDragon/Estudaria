@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<pacote_da_Aula10.Aplicacao>
+<teste tipo="int">5</teste>
+<nome tipo="String">gilson</nome>
+<salario tipo="double">1.5</salario>
+</pacote_da_Aula10.Aplicacao>

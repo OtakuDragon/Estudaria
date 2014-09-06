@@ -1,0 +1,107 @@
+Estruturas em C++
+
+If else
+
+if(condição){
+//codigo
+
+}else{
+//codigo
+
+}
+
+====================================
+switch
+
+switch(variavel){
+
+case 1:
+
+//codigo
+
+break;
+
+case 2:
+
+//codigo
+
+break;
+
+default:
+
+//codigo
+
+}
+
+============================
+operador ternario
+
+(expressao1) ? (expressao2) : (expressao3);
+
+============================
+operador goto
+
+O operador goto redireciona o codigo
+para um label
+
+se trata de uma maneira primitiva de realizar
+loops de repetição além de poder ir para qualquer
+lugar do codigo o que torna o fluxo de execução confuso
+
+não é aconselhavel o seu uso
+
+sintaxe:
+
+nomeDaLabel: //declaração de label
+
+goto nomeDaLabel; //indo para a linha de codigo da label
+
+-------------------------------------------------
+ex:
+
+main(){
+
+minhaLabel:
+
+//codigo
+
+goto minhaLabel;
+
+
+}
+
+=========================================================
+Loops 
+
+Palavras chave break e continue
+
+break - interrompe a execução de um loop e segue com o codigo
+
+continue - interrome a execução atual de um loop e pula para a proxima execução do loop
+--------------------------------------------------------
+loop while
+
+while(condição){
+
+//codigo
+
+}
+------------------------------------------------------------
+loop do while
+
+do{
+
+//codigo
+
+}while(condição);
+
+-----------------------------------------------------------
+loop for
+
+for(int i=0;i<=10;i++){
+//codigo
+
+}
+
+
+=======================================

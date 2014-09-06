@@ -1,0 +1,124 @@
+JDBCtemplate
+
+É uma classe fornecida pela spring que simplifica
+o codigo necessario para execução de queries por jdbc
+utilizando está classe não é necessario:
+
+*Abrir/fechar conexão
+*Abrir/fechar statements
+*Tratar erros
+*Ler Resultsets
+
+apenas:
+
+*passar o objeto DataSource para o jdbctemplate
+
+*executar queries
+
+*Receber o resultado no formato desejado,este retorno
+ é definido pelo metodo de jdbctemplate utilizado para executar
+ a query
+
+============================================================
+Exemplo simples e Executando queries de SELECT
+
+
+//dentro da classe que necessita realizar operações no banco
+
+private DataSource ds;
+private JdbcTemplate jdbcTemplate;
+
+
+@Autowired
+public void setDs(DataSource ds){
+
+//É uma boa pratica instanciar o objeto jdbctemplate no setter do dataSource
+//o construtor do jdbctemplate recebe como parametro um dataSource sobre o qual realizar operações
+
+jdbcTemplate = new JdbcTemplate(ds);
+
+this.ds=ds;
+}
+
+
+
+public int count(){
+
+//A query abaixo executa a contagem dos itens da tabela1
+//como o retorno desta query é apenas um numero inteiro
+
+//o metodo queryforObject de jdbctemplate é chamado, a sql
+//e o tipo de objeto a ser retornado são passados, 
+//o seu retorno será a resposta do banco de dados como um numero inteiro
+
+//nenhum outro trecho de codigo é necessario para executar esta ação
+
+
+String sql = "SELECT COUNT(*) FROM TABELA1";
+
+return  this.jdbcTemplate.queryForObject(sql,Integer.class);
+
+}
+
+
+//getters and setters de jdbcTemplate
+
+---------------------------------------------------------------------------------
+Passando parametros na query
+
+Quando é necessario montar uma query com parametros
+estes parametros são inseridos em um array de Object
+e passadoscomo segundo parametro do metodo de jdbcTemplate
+
+ex:
+
+public String getUsername(int id){
+
+String sql = "SELECT name FROM user WHERE id=?"
+
+//O parametro do metodo é passado como primeiro parametro para a query
+//no array 
+return jdbcTemplate.queryForObject(sql,new Object[]{id},String.class)
+
+}
+
+
+==============================================================
+Executando queries de INSERT,UPDATE e DELETE
+
+Queries de select são executadas atraves do metodo queryForX()
+ou query()
+
+Queries de  INSERT,UPDATE, DELETE e Stored procedures são executados
+atraves do metodo update()
+
+
+ex:
+
+//O exemplo abaixo é de INSERT mas queries de UPDATE DELETE ou stored procedures funcionam da mesma forma
+
+public void insertUsuario(Usuario usuario){
+
+String sql = "INSERT INTO usuario(nome,idade) VALUES(?,?)";
+
+jdbcTemplate.update(sql,newObject[]{usuario.getName(),usuario.getIdade()});
+
+
+
+}
+
+===================================================================
+Executando queries de CREATE ou outras de estrutura do banco de dados
+
+public void CriandoTabela(){
+
+String sql = "CREATE TABLE gerente (ID INTEGER,NOME VARCHAR(50))";
+
+jdbcTemplate.execute(sql);
+
+}
+
+
+
+
+

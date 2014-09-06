@@ -1,0 +1,117 @@
+Fontes
+
+font-family
+
+É a propriedade css para definir a fonte para um seletor da seguinte forma
+
+font-family:"nome da fonte",fonteReserva1...,FonteGenerica;
+
+*se o nome da fonte for composto de mais de uma palavra
+escreva-o entre aspas duplas
+
+*O browser sempre tentara utilizar a primeira fonte se ele não reconhecer tentara a proxima
+e assim por diante
+
+----------------------------------------------------------------------------------------
+Fontes seguras
+
+existem alguma fontes seguras que sempre podem ser utilizadas com a segurança de que serão reconhecidas
+
+são elas:
+
+*Arial
+
+*Arial Black
+
+*Comic Sans MS
+
+*Courier New
+
+*Impact
+
+*Times New Roman
+
+*Trebuchet MS
+
+*Verdana
+
+----------------------------------------------------------------------------------------------------------
+Fonte Genericas
+
+São estilos de fonte que o browser utilizara como ultimo recurso
+caso nenhuma das fontes anteriores sejam encontradas, eles não 
+representam uma fonte especifica e sim um estilo para que o browser
+utilize uma fonte que ele conhece com aquele estilo.
+
+As fontes genericas são
+
+Serif //tipo de fonte com acabamentos
+
+Sans-serif //sans significa "sem", representa um tipo de fonte simples sem acabamentos
+
+Monospace // tipo de fonte no qual todas as letras ocupam o mesmo espaço
+
+=============================================================================================================
+
+font-style
+
+A propriedade font-style é principalmente utilizada para definir um texto em italico
+
+Ela possui 3 possiveis valores:
+
+font-style:normal; //normal sem inclinação
+
+font-style:italic; // fonte em estilo italico
+
+font-style:oblique;// muito parecido com italico mas menos suportado, na minha opinião é redudante.
+
+==========================================================================================================================
+
+font-size
+
+É a propriedade que define o tamanho da fonte e recebe como valor
+um numero seguido de uma unidade de medida
+
+se você não definir um tamanho de fonte o tamanho de fonte padrão dos browsers
+é de 16 px, ou seja por padrão 1em = 16px
+
+a unidade de medida recomendada pela w3c são os em
+
+ex:
+
+font-size:0.4em //define o tamanho da fonte para 16px/4 = 4px
+
+===========================================================================================================
+font-variant
+
+Serve para definir se o texto será em small-caps ou não
+um texto em small-caps é um texto no qual todas as letras são
+maiusculas e as letras que deveriam ser minusculas são um pouco menores
+do que as maisuculas originais
+
+Ela possui 3 valores possuveis
+
+font-variant:normal; //sem small-caps padrão
+
+font-variant:small-caps //com small-caps
+
+font-variant:inherit; //especifica que ela deve herdar o valor de font-variant de sua tag-pai
+
+========================================================================================================================
+font-weight
+
+Define a grossura da fonte como em negrito
+
+Ela possui os valores:
+
+font-weight:normal; // grossura da fonte padrão mesma coisa que font-weight:400;
+
+font-weight:bold; // deixa a fonte em negrito mesma coisa que font-weight:700;
+
+font-weight:bolder; // deixa a fonte um pouco mais grossa que negrito
+
+font-weight:lighter; // deixa a fonte um pouco mais fina do que o normal
+
+font-weight:100-900;// 100,200,300....900 definir a grossura com um numero
+
+font-weight:inherit; //especifica que ela deve herdar o valor de font-weight de sua tag-pai

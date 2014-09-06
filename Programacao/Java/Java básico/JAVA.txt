@@ -1,0 +1,339 @@
+**JAVA É CASE SENSITIVE**
+
+
+
+======================================================
+
+
+Criando uma classe
+
+class NomeDaClasse{
+
+// codigo
+
+
+
+}
+
+*Nome de classes deve sempre começar por letras maiusculas e devem representar coisas
+*Não utilizar underlines ou espaços em nomes de classes java
+=====================================================
+
+Criando metodos
+
+class ClasseExemplo{
+
+//sintaxe
+
+ modificadores tipoDeRetorno NomeDoMetodo (parametros){
+ 
+	//codigo
+
+  }
+
+//exemplo
+
+	private int soma(){
+
+	res;
+	res = 1+1;
+	return res;
+
+	}
+
+}
+
+*nomes de metodos nunca devem começar com letras maiusculas
+ para diferencia-los de classes e devem representar ações
+=====================================================
+Variaveis
+
+sintaxe:
+
+modificadores tipo nomeDaVariavel;
+
+ex:
+
+public static final int numero = 1;
+
+*Nomes de variaveis devem sempre começar com letras minusculas
+
+
+--------------------------------------------------------
+
+Tipos primitivos
+
+-int
+
+-byte
+
+-short
+
+-long
+
+-float
+
+-double
+
+-boolean
+
+-char
+
+-void
+
+*int, byte, short e long guardam numeros inteiros mas tem capacidades para valores diferentes
+ dados em uma imagem na pasta
+
+* o mesmo para float e double guardam numeros reais mas com capacidades diferentes
+
+* Numeros podem ser separados com underline para uma melhor legibilidade
+
+* Numeros podem ser escritos na forma binaria se for colocado o indentificador 0b na sua frente
+
+--------------------------------------------------------------------------------
+
+Classes wraper
+
+São classes que pegam valores primitivos e os dão caracteristicas de objeto
+todos os tipos primitivos tem sua classe wraper, e o seu principal uso é para
+a conversão.
+
+Classes
+
+Integer
+
+Byte
+
+Short
+
+Long
+
+Float
+
+Double
+
+Character
+
+Void
+
+Boolean
+
+*Para mais informações sobre os metodos de cada uma checar a documentação
+
+ex:
+
+int numero = 2;
+
+e
+
+Integer numero = new Integer(2);
+
+byte b = numero.byteValue();// converte o valor de numero para byte
+
+representam a mesma coisa mas com o objeto
+é possivel aplicar uma serie de metodos
+em sua maioria de conversão
+
+------------------------------------------------------------------------
+Auto-Boxing
+
+Com a versão 5 do java declarar,modificar e utilizar
+valores empacotados em classes wrapper ficou mais facil
+
+ex:
+
+Integer dia = 4; // equivale a Integer dia = new Integer(4);
+
+System.out.println(dia); // equivalente a System.out.println(dia.intValue());
+
+dia++ // equivalente a desempacotar, incrementar e reempacotar
+
+*isso vale para todas as classes wrapper
+
+
+-------------------------------------------------------------------------------
+
+Conversão de tipo
+
+Para conversão de um tipo com capacidade menor para um de maior
+
+basta atribuir
+
+int i 
+byte c
+
+
+i = c 
+
+para conversão de um tipo de capacidade maior para um de menor
+
+é necessario o cast explicito
+
+int i 
+byte c
+
+ c = (byte) i
+
+*cast = nome do tipo entre parenteses enfrente a variavel
+
+
+=====================================================
+
+Comentarios
+
+// e /* */
+
+O simbolo @author pode ser usado em um comentario
+para definir o autor
+
+====================================================
+
+Print em Prompt
+
+System.out.print("texto");
+
+System.out.println("texto");
+
+=====================================================
+
+Caracteres de Escape
+
+\n nova linha;
+\r retorno de carro (semelhante a \n)
+\t tabulação horizontal
+\\ a própria barra (\)
+\’ aspas simples
+\” aspas duplas
+
+
+
+=====================================================
+
+If Em java
+
+if (a > b)
+{
+....
+...
+}
+else
+{
+.....
+....
+}
+
+
+-------------------------------------------------------
+
+Switch em java
+
+Switch em php
+
+a = 1;
+switch (a)
+{
+case 0:
+System.out,println (“ a é igual a 0 “);
+break;
+
+case 1:
+System.out,println(“ a é igual a 1 “);
+break;
+
+default:
+System.out,println("nenhum numero valido");
+
+}
+
+----------------------------------------------------------
+
+For em java
+
+for(i=0;i<=10;i++){
+
+//codigo
+
+}
+
+Foreach
+
+É um for com o inuito de facilitar
+o ato de percorrer um array.
+
+Sintaxe:
+
+for(variavel : nomeDoArray){
+
+//esta variavel ira receber todos os elementos 
+//do array um por vez até o array acabar;
+
+
+
+
+} 
+
+ex:
+
+int[] numeros = {1,2,3,4};
+
+int var;
+
+for (var : numeros){
+
+System.out,println(var);
+
+//escrevera o array numeros
+
+}
+
+----------------------------------------------------------
+
+while em java
+
+while (a <= 10)
+{
+// codigo
+}
+
+-------------------------------------------------------------
+
+do while em java
+
+do
+{
+ 
+// codigo
+
+} while (i < 10);
+
+-------------------------------------------------------------
+
+Break,Continue e rotulos
+
+break
+
+em um loop tem a função de parar o loop
+e seguir para a proxima linha de codigo 
+após o loop
+
+continue
+
+em um loop tem a função de para somente 
+a repetição em curso e voltar ao inicio
+do loop
+
+rotulos
+
+break e continue podem receber rotulos para saber
+qual loop parar ou aonde continuar
+
+ex:
+
+Loop1:  //rotulo é declarado cima do loop e tem a sintaxe de nomeDoRotulo:
+
+ for(){
+
+    //codigo
+      break Loop1;
+    } 
+

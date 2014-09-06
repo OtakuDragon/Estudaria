@@ -1,0 +1,18 @@
+Inserindo
+
+para inserir hibernate no projeto basta
+utlizar a user library que eu criei com todos
+os jar necessarios e acresenta-la ao class path
+do projeto
+
+e claro inserir o driver jdbc do banco de dados na
+pasta do projeto
+
+======================================================
+Caso seja necessario refazer a library
+
+link de referencia:
+
+https://www.youtube.com/watch?v=bzPkebUXxn0&list=PL4AFF701184976B25
+
+//nos 4:40 mostra todos os jars necessarios de um arquivo hibernate

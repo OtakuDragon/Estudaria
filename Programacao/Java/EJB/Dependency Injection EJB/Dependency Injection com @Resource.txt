@@ -1,0 +1,150 @@
+A anotação @Resource
+
+A maneira mais flexivel de realizar DI no contexto EJB
+é a anotação @Resource com ela é possivel inserir DataSources
+Recursos JMS, qualquer outro recurso(objeto) capaz de ser recuperado
+por meio de JNDI(Managed resources), alem de alguns objetos que o container
+conhece.
+=========================================================================
+O que é possivel injetar com @Resource
+--------------------------------------------------------------------------
+Managed Resources
+
+Para recuperar managed resources ela funciona como uma abstração do lookup JNDI
+internamente utilizando o  valor passado em seu parametro name(default) para
+realizar um look up JNDI local(somente o "galho da aplicação") para aquele nome
+ou seja:
+
+java:comp/env/[value of the name parameter]
+
+Para força-la a realizar um look up JNDI global(arvore inteira) ao inves de definir
+o atributo name defina o mappedName
+
+Se nenhum parametro for passado ela irá montar um lookupJNDI local
+com o nome qualificado da classe / o nome do atributo anotado
+
+ex:
+
+@Resource
+DataSource dataSource
+
+java:comp/env/meuPacote.MinhaClasse/dataSource
+
+obs:
+
+É possivel injetar qualquer managed resource dentro de um EJB
+por meio da anotção resource, classes POJO não podem ser injetadas
+pois não são gerenciadas pelo container, há menos que elas façam
+parte da arvore JNDI.
+
+-----------------------------------------------------------------------
+Objetos especiais do container
+
+Para alguns tipos de objetos como EJBContext a anotação @Resource não
+realiza um lookup até mesmo por que alguns recursos não fazem da arvore JNDI
+o container entende pelo tipo do atributo qual objeto injetar, o mesmo
+acontece com o TimerService
+
+----------------------------------------------------------------------
+Injeção de Environment entries
+
+Outra função da anotação @Resource é injetar Environment entries
+que são propriedades no formato nome/tipo/valor configuradas no web.xml
+com o intuito de manter dados que não são constantes o suficiente para
+merecerem ser armazenados no banco de dados.
+
+Environment entries suportam os seguintes tipos:
+String, Character, Byte, Short, Integer, Long, Boolean, Double e Float
+
+ex:
+
+web.xml
+
+<env-entry>
+	<!--Nome da propriedade que sera passado na anotação @Resource -->
+	<!--para recuperar o valor dela-->
+	<env-entry-name>country</env-entry-name>
+	<!--Full qualified name do tipo da propriedade que será o tipo do atributo-->
+	<!--que a anotação anotara e deve ser um dos tipos suportados-->
+	<env-entry-type>java.lang.String</env-entry-type>
+	<!--Valor que será injetado ao atributo anotado-->
+	<env-entry-value>China</env-entry-value>
+</env-entry>
+<env-entry>
+	<env-entry-name>censorship</env-entry-name>
+	<env-entry-type>java.lang.Boolean</env-entry-type>
+	<env-entry-value>true</env-entry-value>
+</env-entry>
+
+EJB
+//A anotação resource recebe o nome da env-entry e injeta o
+//seu valor no atributo.
+@Resource(name=”censorship”)
+private boolean censorship;
+
+@Resource(name=”country”)
+private String pais;
+ 
+=======================================================================
+Aonde utilizar @Resource
+
+@Resource pode ser utilizada em atributos como no exemplo acima
+mas não se limita a isso pode tambem ser utilizada em setters e
+em classes
+--------------------------------------------------------------------------
+Setter DI
+
+Anotar o setter de um atributo ao inves do atributo diretamente funciona
+da mesma maneira mas, força o container a utilizar o setter para setar o
+atributo  abrindo a possibilidade de adicionar codigo de inicialização no setter
+ja que ele será executado na construção do bean, e tambem torna a DI testavel por
+meio de JUnit
+
+*Resource tambem pode anotar classes mas isso eu não entendi o motivo
+ tem alguma coisa a ver com injetar recursos de classes não gerenciadas
+ pelo container.
+=======================================================================
+JNDI Remoto
+
+Por padrão utilizar a anotação @Resource irá procurar
+por recursos locais da arvore jndi do servidor de aplicação
+para recuperar recursos de outros servidores aconselha-se criar
+um initial context configurado com os dados do servidor e lookup
+JNDI puro
+=======================================================================
+Herança de @Resource
+
+Se um Session bean herdar de outro session bean que possui
+um recurso injetado com @Resource este recurso estará disponivel
+ao session bean filho.
+========================================================================
+Atributos da anotação @Resource
+
+*todos os atributos são opcionais
+
+Atributo          Função
+
+String name       (default) define o nome JNDI local do recurso
+                  a ser recuperado
+
+String mappedName define o nome JNDI global do recurso
+                  a ser recuperado
+				  
+String type      Recebe o full qualified name da classe do tipo de recurso
+                 a ser recuperado, se nenhum tipo for atribuido o tipo será
+				 o do atributo anotado.
+
+String description Define uma descrição para o recurso com o objetivo 
+                   de documentação
+				 
+boolean shareable Define se o recurso é compartilhado ou não
+
+
+AuthenticationType authenticationType  Tipo de autenticação do JNDI pode ser AuthenticationType.CONTAINER
+                                       que utiliza o autenticador padrão do ejb container e é defautl ou
+									   AuthenticationType.APPLICATION que define uma aplicação de autenticação
+									   para realizar esta tarefa.
+									   
+===============================================================================
+
+ 

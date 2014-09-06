@@ -1,0 +1,21 @@
+Camadas EJB
+
+O Framework EJB funciona oferecendo server-side suporte
+para implementação de regra de negocios e persistencia.
+
+Praticamente todas as arquiteturas de enterprise applications
+terão a ncessidade de uma camada de regra de negocios e persistencia
+um exemplo de uma bem comum é:
+
+a arquitetura tradicional de 4 camadas:
+
+Camada de apresentação(JSF,JSP, Swing)
+
+Camada de regra de negocios(Session Beans, Message Driven Beans)
+
+Camada de persistencia(Entity, JPA)
+
+Camada do banco de dados(Banco de dados relacional)
+
+*Nada impede que se adapte está arquitetura para qualquer
+ tipo de arquitetura que se deseje usar.

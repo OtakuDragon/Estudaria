@@ -1,0 +1,110 @@
+Filtros
+
+Filtros são classes que implementam a
+interface javax.servlet.Filter e 
+sua principal caracteristica é ser chamado
+antes do Servlet ser executado
+
+ou seja ele recebe a request do browser e
+o objeto response antes que eles cheguem
+ao servlet podendo "filtrar" estes dados
+
+filtros não devem gerar dados para o browser
+e sim filtrar dados que chegam ou que saem dos
+servlets
+
+sua configuração no projeto web
+é feita no web.xml
+
+======================================
+Metodos da interface
+
+init()
+
+Como o metodo init() de servlets este metodo
+é chamado apenas uma vez antes do filtro ser
+executado pela primeira vez
+
+atraves do objeto config é possivel obter
+o objeto ServletContext da aplicação atraves do metodo
+getServletContext()
+
+assinatura:
+
+void init(FilterConfig config) throws ServletException{
+
+
+}
+
+--------------------------------------------------
+doFilter()
+
+Este é o metodo do filtro aonde todo o codigo 
+será inserido ele será executado quando o filtro
+for chamado por url e é dividido em duas partes
+
+antes do metodo chain.doFilter() será executada antes dos
+objetos de request e reponse chegarem ao servlet
+
+o metodo chain.doFilter(request,response) passa o request
+http para o proximo receptor na lista no caso de uma url
+que possui apenas um filter será o servlet
+
+Se o metodo chain.doFilter() não for executado dentro do
+doFilter a request não chegará ao servlet
+
+tudo depois do metodo chain.doFilter() será executado
+após o objeto reponse ser gerado pelo servlet ou seja
+assim como é possivel filtrar o que entra no servlet
+é possivel modificar o objeto response antes de ele ser
+enviado ao browser
+
+
+assinatura:
+
+public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {  
+
+//essa parte é executada antes do request chegar ao Servlet  
+
+chain.doFilter(request,response);
+
+//essa parte é executada depois que o response já foi gerado pelo Servlet  
+
+}
+
+-----------------------------------------------------------------
+destroy()
+
+Este metodo é chamado pelo servidor assim quando a execução
+do filtro acaba e é utilizado para finalizar recursos
+
+assinatura:
+
+void destroy(){
+
+
+}
+
+
+================================================================
+Configurando filtros no web.xml
+
+a configuração de um filter é bem parecida com a 
+de um servlet
+
+
+<filter>  
+     <!-- Nome que indentifica o filtro pode ser qualquer um -->
+    <filter-name>Nome do filter</filter-name> 
+    <!-- Endereço da classe que herda de javax.servlet.Filter com o nome dos pacotes e sem .java ex: org.otkdrg.NomeDaClasse --> 
+    <filter-class>EndereçoDaCompletoDaClasse</filter-class>  
+</filter> 
+
+<!-- Define qual url o filtro irá filtrar -->
+<filter-mapping>  
+    <!-- Nome que indentifica um filtro existente -->
+    <filter-name>Nome do filter</filter-name>  
+   <!-- Nome que executara da url sintaxe: /nome -->
+    <url-pattern>/my_servlet</url-pattern>  
+</filter-mapping>  
+

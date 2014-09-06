@@ -1,0 +1,5 @@
+TO-DO
+
+Implementar a camada de apresentação no ActionBaazar web
+para a funcionalidade place order e ver o stateful bean em
+funcionamento

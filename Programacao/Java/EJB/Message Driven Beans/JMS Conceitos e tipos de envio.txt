@@ -1,0 +1,65 @@
+Java Messaging API
+
+Java messaging API é a API java que nos permite
+enviar e receber mensagens em aplicações java.
+
+=====================================================
+Elementos da JMS
+
+A estrutura de envio e recebimento assincrono de
+mensagens da JMS consiste de 4 elementos:
+
+Elemento       Função
+
+Producer       Produz a mensagem e define para qual destination
+               ele deve ser enviada.
+
+MOM            Message Oriented Middleware, software responsavel por levar
+               mensagens de um producer para a destination e tambem levar 
+               mensagens de um destination para um Consumer que deseja le-las.
+
+Destination    Um espaço na memoria utilizado pelo MOM para armazenar mensagens
+               recebidas de Producers e leva-las aos Consumers assim que eles estiverem
+               prontos para ler mensagems.
+
+Consumer       O leitor da mensagem recebe a mensagem do MOM a lê e processa o seu
+               conteudo.
+
+=========================================================
+Tipos de envio
+
+O JMS implementa duas maneiras diferentes de se
+enviar mensagens:
+
+-Point-to-Point
+-Publisher-Subscriber
+
+--------------------------------------------------------
+Point-to-Point
+
+Neste modo de envio o destination se chama QUEUE
+mas não por ordenação e sim simbolicamente.
+
+Uma mensagem enviada de maneira point-to-point por
+um producer é levada para a queue e assim que um
+consumer estiver disponivel ele receberá esta mensagem.
+
+cabe-se notar que uma mensagem enviada por um producer
+só será consumida por um producer
+---------------------------------------------------------
+Publisher-Subscriber
+
+Neste modo o destination é chamado de TOPIC,
+producers são chamados PUBLISHERS e consumers
+são chamados SUBSCRIBERS.
+
+A mensagem enviada pelo publisher será levada para
+o topic e então será distribuida para todos os subscribers
+assim que eles estiverem disponiveis(duravel) ou somente será
+entregue para os subscribers que estiverem conectados no mommento(não-duravel e default)
+isto é uma configuração do MDB.
+
+A grande diferença aqui é q a mensagem enviada pelo producer
+chega a todos os consumers daquela destination.
+
+            

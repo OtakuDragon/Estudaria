@@ -1,0 +1,16 @@
+Injeção de dependencia em java SE
+
+Somente é possivel injetar ejbs com a anotação
+@EJB em uma aplicação java SE se ela for executada
+em um applcation client containe(ACC) que é como
+uma JVM especial que consegue interpretar codigo Java EE
+
+a aplicação deve estar em um jar, conter um deployment descriptor
+application-client.xml e um arquivo jndi.properties descrevendo
+o servidor que contem o EJB
+
+Alguns java EE containers contem ACC em si como o glassfish
+
+A opção mais facil para utilizar EJBs em aplicações SE é
+configurar um Context de acordo com o servidor de aplicação
+e efetuar um JNDI lookup para conseguir uma instancia.

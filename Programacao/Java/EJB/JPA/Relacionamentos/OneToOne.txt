@@ -1,0 +1,69 @@
+@OneToOne
+
+Relacionamentos um para um acontecem quando
+uma entidade possui UMA referencia a outra entidade
+e opcionalmente vice e versa(bidimensional).
+
+Relacionamentos 1 para 1 sejam eles:
+ * unidirecionais(Somente uma entidade com referencia a outra)
+ ou
+ * bidirencionais(Ambas as entidades possuem referencias entre si)
+ 
+são criados com esta anotação.
+-------------------------------------------------------------------
+Atributos da anotação
+
+*Todos opcionais
+
+Class targetIdentity       - Recebe um .class indificando a qual entidade o atributo
+                                       anotado pertence, em 1..1 é redundante ja que o tipo de retorno
+								       do getter anotado ja diz isso ao JPA
+
+CascadeType cascade - Uma constante de CascadeType dizendo qual comportamento
+                                       em cascata este relacionamento terá a alterações nos dados, default: não fazer nada
+
+FetchType  fetch           - Uma constante FetchType dizendo se o tipo de busca é lazy(só quando preciso)
+							           ou eager(no momento da instanciação), default: EAGER
+
+boolean optional            - Atributo que diz se o relacionamento é not null ou null, se for setado para false, a entidade que  
+                                       possui a referencia não poderá ser persistida se a referencia for nula, default: true.			
+
+String mappedBy       	 - Atributo string que no caso de um relacionamento bidirecional, define qual variavel será o lado fraco do relacionamento
+                                       ou seja aonde ficará a FK relacional, para que não sejam criadas uma em cada tabela, o valor deste atributo deve ser objeto
+									   nome do objeto do outro lado do relacionamento(lado forte ou sem FK), Default: " ", ou seja, Criar duas FKs.
+									   
+									   Como no exemplo abaixo, a tabela BillingInfo terá uma chave estrangeira referenciando User.
+----------------------------------------------------------------------------
+ex:
+
+Abaixo um exemplo de um relacionamento bidirecional entre duas
+entidades com quase tudo default a não ser as definições de que
+o lado forte do relacionamento é a variavel User.billingInfo e um
+registro da entidade BillingInfo nunca será registrado se a sua referencia
+a User for nula.  
+
+@Entity
+public class User {
+	@Id
+	protected String userId;
+	protected String email;
+	@OneToOne 
+	protected BillingInfo billingInfo;
+}
+@Entity
+public class BillingInfo {
+	@Id
+	protected Long billingId;
+	protected String creditCardType;
+	protected String creditCardNumber;
+	protected String nameOnCreditCard;
+	protected Date creditCardExpiration;
+	protected String bankAccountNumber;
+	protected String bankName;
+	protected String routingNumber;
+	@OneToOne(mappedBy=”billingInfo”, optional=”false”); 
+	protected User user;
+}
+		
+obs: o exemplo está usando as anotações diretamente nos atributos
+       por simplicidade o correto é anotar os GETTERS		

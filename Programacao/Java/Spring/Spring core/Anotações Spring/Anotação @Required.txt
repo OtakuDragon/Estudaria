@@ -1,0 +1,35 @@
+@Required
+
+A anotação @Required é uma anotação que diz à
+um bean post processor(RequiredAnnoatationBeanPostProcessor)
+que esta propriedade do bean não pode ficar nula
+ela obrigatoriamente deve ter um objeto atribuido a ela
+no momento da configuração do bean
+
+Esta anotação deve ser incluida acima do metodo setter
+da propriedade desejada
+
+======================================================
+ex:
+
+public class Customer 
+{
+	private Person person;
+
+	@Required
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+}
+
+//se a propriedade person não receber um objeto person
+//no momento da configuração do bean haverá uma exceção
+//antes que qualquer codigo seja executado
+
+========================================================
+Adicionando o bean post processor
+
+Como todo bean post processor o  RequiredAnnoatationBeanPostProcessor
+precisa ser declarado no spring.xml da seguinte forma
+
+<bean  class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/> 

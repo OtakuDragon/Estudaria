@@ -1,0 +1,56 @@
+Três estados de objetos para o hibernate
+
+O hibernate classifica objetos em 3 estados
+são eles:
+
+*transient
+*persistent
+*detatched
+
+===============================================
+Estado Transient
+
+Objetos estão no estado transient
+apartir do momento que são criados(new())
+
+objetos transient são objetos que nunca
+foram adicionados ao banco de dados(session.save())
+
+==================================================
+Estado Persistent
+
+Objetos estão no estado persistent quando ja 
+foram adicionados ao banco de dados e estão
+dentro de uma sessão aberta
+
+Objetos entram no estado persistent em duas
+situações quando são inseridos no banco(session.save())
+ou são recuperados do banco(session.get())
+
+objetos no estado persistent são monitorados pelo hibernate
+todas as mudanças feitas ao seus valores serão atualizadas
+automaticamente,sendo realmente salvo no banco somente quando
+a sessão é fechada e com os ultimos valores definidos
+
+um objeto persistent pode se tornar transient por meio 
+de uma operação session.delete()
+
+=========================================================
+Estado Detatched
+
+O estado detatched é o estado o qual
+os objetos persistent se tornam quando
+a sessão é fechada(session.close())
+
+objetos detatched não tem mais seus valores
+monitorados e atualizados pelo hibernate
+
+um objeto detatched pode se tornar persistent
+por meio de uma operação session.get()
+
+um objeto detatched que foi recuperado do banco
+de dados com session.get() e teve sua sessão fechada(session.close())
+pode se tornar persistent denovo por meio de uma operação session.update()
+
+
+

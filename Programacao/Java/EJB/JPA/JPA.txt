@@ -1,0 +1,6 @@
+JPA
+
+JPA é a especificação java de ORM e 
+é pode ser utilizada por qualquer tipo
+de aplicação java para persistir objetos
+em bancos de dados relacionais

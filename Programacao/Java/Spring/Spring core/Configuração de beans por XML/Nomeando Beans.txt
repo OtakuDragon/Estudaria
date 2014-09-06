@@ -1,0 +1,44 @@
+Nomeando beans
+
+é possivel identificar beans pelo seu id que é o mais
+recomendando por ser unico por aplicação mas tambem é possivel
+definir um nome para um bean com o atributo name da tag bean
+
+e tambem definir aliases que são outros nomes para o mesmo bean
+com a tag alias
+
+o metodo getBean() consegue chamar um bean pelo id,nome ou qualquer alias
+que ele tenha mas o uso de id é o recomendado por ser o padrão xml
+
+====================================================================
+ex:
+
+<beans> 
+
+  
+  <!--define um id e um nome dois identificadores para o bean -->
+  <bean id="triangle" class="shapesPack.Triangle" name="beanTriangleName" />
+
+  <!-- define outro nome para o bean um bean pode ter varios aliases -->
+  <!-- name recebe o id do bean o qual dar o alias e alias o novo nome do bean -->
+  <alias name="triangle" alias="triangleBeanAlias" />
+   
+
+</beans>
+
+------------------------------------------------------------------------
+Forçando ids como identificador na tag property
+
+Quando fazemos uma object injection é possivel obrigar que a
+referencia passada para a tag property seja o id do bean
+da seguinte forma
+
+ex:
+
+<bean id="triangle" class="shapesPack.Triangle">
+	<property name="PointA">
+		<!-- a tag idref substitui o atributo ref e obriga o seu valor-->
+		<!-- ser o id do bean não funcionara com name nem aliases -->
+		<idref bean="beanPointA" />
+	</property>
+</bean>

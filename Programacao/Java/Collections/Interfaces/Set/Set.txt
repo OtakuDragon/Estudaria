@@ -1,0 +1,4 @@
+Set (sem repetição)
+
+Set é uma interface de Collection que possui como principal caracteristica
+não aceitar elementos repetidos.

@@ -1,0 +1,90 @@
+Funções em C++
+
+Funções em C++ possuem a seguinte sintaxe
+
+sintaxe:
+
+tipoDeRetorno NomeDaFunção(parametros){}
+
+//Obs: se um tipo de retorno não for definido o c++ interpretará como tipo de retorno int
+
+//Obs: um parametro passado para uma função se trata de uma copia do valor passado mudanças
+//     realizadas nele não afetarão o valor inicial a menos que seja passado um ponteiro como parametro
+============================================
+ex:
+
+int soma(int num1,int num2){
+
+	return num1+num2;
+
+}
+
+===========================================
+Prototipo de funções
+
+O prototipo de uma função se trata da declaração
+da assinatura de uma função
+
+ele serve para dizer ao compilador que aquela função
+está implementada em algum lugar do arquivo para que quando
+ela seja chamada o compilador não reclame que a função não
+existe e sim procure por ela
+
+ex:
+
+int soma(int num1,int num2);
+
+ou
+
+string seuNome(string);
+
+--------------------------------------------
+Parametro default
+
+Nos prototipos de funções é possivel
+definir um valor padrão para os parametros
+no caso de eles não serem passados na chamada da função
+
+ex:
+
+prototipo:
+
+int soma(int num=5,int num2=10);
+
+//se a função for chamada sem parametros
+
+int resultado = soma();//o resultado será sempre 15
+
+=============================================
+Sobrecarga de funções
+
+Uma função de mesmo nome pode ter varias implementações
+desde que os parametros recebidos sejam diferentes
+
+no momento da chamada da função a implementação que
+possui os parametros passados será executada
+
+
+ex:
+
+void funcao(){cout<<"sem parametros";}
+
+void funcao(int i){cout<<"com parametro inteiro"+i;}
+
+void funcao(int i,string nome){cout<<"com parametro inteiro"+i+" e string"+nome;}
+
+===============================================
+Modificador inline
+
+Se o modificador inline for adicionado a declaração
+da função ou do prototipo a execução do codigo não
+pulará para o codigo da função o codígo da função será
+inserido no local do chamado da função
+
+apenas aconselhavel para funções muito pequenas
+
+ex:
+
+inline int soma(int num=5,int num2=10);
+
+

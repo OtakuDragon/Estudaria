@@ -1,0 +1,90 @@
+JSF Core
+
+As tags Core são como utilitarios para as demais tags
+JSF e bibliotecas componentes, elas permitem configurações
+de conversores,listeners,eventos e validadores.
+
+====================================================
+xml name space:
+
+xmlns:f="http://java.sun.com/jsf/core"
+
+prefixo
+
+<f:nomeDaTag>
+
+=======================================================
+Tags			Descrição
+
+<f:actionListener>	Permite registrar uma ação a ser realizada por um componente
+
+<f:ajax>		Permite registrar um evento ajax ou uma ação ajax a ser realizada
+			pelo acionamento de um botão por exemplo
+
+<f:attribute>		Configura um atributo para a tag pai que a contiver podendo ser utilizada em 
+			substituição a um atributo da propria tag pai
+
+<f:convertDateTime>	Configura um conversor de data e hora. se aplica tanto as tags de saida quanto
+			as de entrada de dados
+
+<f:converter>		Permite registrar um conversor personalizado ao componente
+
+<f:converNumber>	Configura um conversor numérico se aplica toda as tags de saida quanto as de entrada
+			de dados
+
+<f:event>		Permite registrar uma classe para ser adicionada a eventos de um componente esses eventos
+			dizem respeito à pré-construção do componente em tela,pré-validação e pós-validação
+
+<f:facet>		Usada principalmente em tags de layout permite definir um conteudo que será mostrado na 
+			header ou no footer do componente
+
+<f:loadBundle>		Realiza a carga de arquivos de mensagens(resource bundle) para a localização do atual
+			aplicativo(obtida de FacesContext.getViewRoot().getLocale())
+
+<f:viewParam>		Permite atribuir um parametro GET da URL requisitada a uma propriedade de um Bean
+
+<f:metadata>		Agrupador para as tags <f:viewParam>	
+
+<f:param>		Permite definir um parametro de substituição de texto para a tag <h:outputFormat>
+
+<f:phaseListener>	Permite registrar um PhaseListener para a pagina atual(<h:body>) um PhaseListener permite
+			interceptar as faces do ciclo de vida do processamento JSF
+
+<f:selectItem>		Adiciona um item de valor a um compoente de seleção de valores utilizado por padrão nos
+			componentes <h:select*> da JSF HTML taglib
+
+<f:selectItems>		Adiciona uma coleção de itens de valor a um compoente de seleção de valores utilizado por padrão nos
+			componentes <h:select*> da JSF HTML taglib
+
+<f:setPropertyActionListener>	Permite atribuir um valor a um determinado alvo(atributo de bean) quando uma ação acontece
+				(como um link ou botão sendo clicados)
+
+<f:subview>		A tag <f:subview> funciona como um agrupador de conteudo (<div> no html) e pode conter qualquer conteudo
+			html/xhtml/jsf/jstl e é possivel controlar sua exibição total ou parcial por meio do atributo rendered	
+
+<f:validateBean>	Realiza a validação dos cmapos do formulario com base em annotations nas propriedades referenciadas no bean
+
+<f:validateDoubleRange> Registra um validador de faixa de valor double para o componente pai
+
+<f:validateLength> 	Registra um validador de tamanho de conteudo para o componente pai
+
+<f:validateLongRange> 	Registra um validador de faixa de valor long para o componente pai
+
+<f:validateRegex>	Registra um validador de expressões regulares
+
+<f:validateRequired>	Registra um validador de campo obrigatorio
+
+<f:validator>		Registra um validador para o componente pai esse validador deve ser uma implementação da interface
+			javax.faces.validator.Validator
+
+<f:valueChangeListener> Permite registrar uma ação a ser executada quando o valor do componente for alterado no envio do
+			formulario
+
+================================================================================================================
+tags depreciadas
+
+<f:view>  Servia como como conteiner para codigo jsf em paginas agora existe a tag <h:body>
+
+<f:verbatim>	Servia como conteiner de codigo jsp em paginas jsf mas <f:subview> tem esta função
+
+

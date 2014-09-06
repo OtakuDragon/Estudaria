@@ -1,0 +1,97 @@
+Bean post processor
+
+é possivel definir uma classe que executa metodos
+de inicialização para todos os beans da aplicação
+esta classe implementa a interface BeanPostProcessor
+
+Os metodos definidos nesta interface são:
+
+public Object postProcessAfterInitialization(Objetct bean,String beanName);
+
+e
+
+public Object postProcessBeforeInitialization(Objetct bean,String beanName);
+
+
+Estes metodos são executados uma vez para cada bean antes e depois de sua
+inicialização e recebem como parametro pelo spring o objeto do bean e o
+seu nome definido no psring.xml
+------------------------------------------------------------------------------
+ex:
+
+public class PostProcessor implements BeanPostProcessor {
+
+	public Object postProcessAfterInitialization(Objetct bean,String beanName){}
+
+
+	public Object postProcessBeforeInitialization(Objetct bean,String beanName){}
+
+
+}
+
+é necessario tambem declarar a classe como um bean no spring.xml
+
+<bean class="pacotes.PostProcessor"/>
+
+========================================================================
+Bean factory post processor
+
+Tambem é possivel configurar um post processor para o bean factory
+da aplicação está classe possuira um metodo que será executado logo
+após a instanciação do bean factory e antes da sua configuração(spring.xml)
+
+----------------------------------------------------------------------------
+ex:
+
+public void MyBeanFactoryPP implements BeanFactoryPostProcessor{
+
+	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)throws BeansException{}
+
+}
+
+
+é necessario tambem declarar a classe como um bean no spring.xml
+
+<bean class="pacotes.MyBeanFactoryPP"/>
+
+--------------------------------------------------------------------------------
+Bean factory post processor: PropertyPlaceholderConfigurer
+
+O Spring define algumns pre processors para bean factory um deles é
+o PropertyPlaceHolderConfigurer, que permite utilizar variaveis como valor
+de propriedades de beans o valor destas variaveis são buscadas em um arquivo
+.properties
+
+Na sua execução este post processor identifica todas as propriedades com valores
+variaveis procura seus valores no arquivo .properties e só então configura o bean
+factory
+
+ex:
+
+spring.xml
+
+<bean id="triangle" class="shapes.Triangle">
+
+	<property name="type" value="${propriedade1}">
+</bean>
+
+<!--Declaração do bean factory post processor-->
+
+<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<!--O valor desta propriedade é o nome do arquivo .properties que deve estar no mesmo nivel do spring.xml-->
+	<property name="locations" value="propertyconfig.properties"/>
+</bean>
+
+Arquivo propertyconfig.properties
+
+propriedade1=isoceles
+
+
+
+
+*obs: localização do .properties caso não no mesmo nivel do spring.xml
+      classpath= pasta do projeto
+
+<property name="locations">
+      <value>classpath:com/foo/strategy.properties</value>
+</property>

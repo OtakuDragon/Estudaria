@@ -1,0 +1,38 @@
+Inserindo javascript em uma pagina HTML diretamente (não recomendado)
+
+Os codigos javascript são inseridos dentro de documentos HTML
+de prefêrencia dentro da tag <head>
+
+Para se inserir codigo javascript em um documento HTML é usada a tag <SCRIPT>
+
+Exemplo de uso
+
+<script type = "text/javascript">
+
+<!--
+
+codigo javascript
+
+
+
+
+-->
+
+</script>
+
+
+* o codigo javascript acima esta entre as tags de comentario, para ser ignorado pelo navegador
+ caso ele não suporte javascript e não aconteçam erros, caso o navegador suporte javascript
+ o codigo sera executado normalmente
+
+
+=============================================================================================
+Inserindo javascript em um pagina por meio de um arquivo javascript (recomendado)
+
+Neste caso um arquivo javascript (.js) é referenciado no codigo e
+o codigo javascript fica separado neste arquivo.
+
+<script type = "text/javascript" src="arquivo.js"> </script>
+
+//o atributo src nesse caso funciona como na tag img e recebe a url
+// de um arquivo javascript

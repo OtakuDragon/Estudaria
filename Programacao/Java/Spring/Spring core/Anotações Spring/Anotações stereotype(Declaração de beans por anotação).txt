@@ -1,0 +1,71 @@
+Anotações stereotype
+
+As anotações spring do pacote stereotype servem
+para a declaração de beans por anotações retirando
+a necessidade de sua declaração em xml
+
+mas limitando a classe a apenas uma configuração(sem xml)
+de bean ja que as anotações ficam na classe
+
+============================================
+tipos de stereotype
+
+Existem 4 tipos de estereotipos para beans que
+o spring define pois eles estão presentes em todas
+as aplicações enterprise de padrão MVC
+
+cada um deles representa uma anotação e possuem
+basicamente o mesmo funcionamento declarar um bean
+
+os 4 estereotipos são:
+
+@Component - uma anotação generica para a declaração de um bean
+
+@Repository - uma anotação que marca um bean de transferencia de dados(DTO)
+
+@Service - uma anotação que marca um bean de regra de negocio
+
+@Controller - uma anotação que marca um bean Controller(no caso do jsf backing beans)
+
+
+obs: como dito anteriormente as 4 anotações possuem basicamente a mesma função mas são uma maneira
+     de declarar a função de uma classe na aplicação para o spring e até mesmo para uma documentação
+
+==================================================
+Utilizando stereotypes
+
+as anotações acima anotam uma classe ou seja devem aparecer acima da
+declaração da classe
+
+as injections nas propriedades devem ser feitas com as outras anotações
+estudadas até agora(ex: @Autowired para um bean definido no spring.xml),
+assim como os metodos init e destroy.
+
+ex:
+
+@Service
+public class Circle implements Shape{
+
+//codigo
+
+}
+
+para que elas funcionem é necessario pedir ao spring para procurar por estas
+anotações de declaração de bean no codigo isto é feito no spring.xml
+da seguinte forma:
+
+<context:component-scan base-package="nomeDoPacote"/>
+
+obs: um pacote deve ser definido para que o spring procure pelas anotações em todas
+     as classes pertencentes a ele
+
+
+---------------------------------------------------
+O que a declaração acima representa
+
+A declaração da classe Circle com uma anotação stereotype fará
+o spring criar o seguinte bean
+
+<bean id="circle" class="pacotes.Circle"/>
+
+obs:note que o nome do bean é o nome da classe com a primeira letra minuscula

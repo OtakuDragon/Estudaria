@@ -1,0 +1,5 @@
+Crtl + 1		: Correção de erros
+Ctrl + Espaço		: Completa codigos
+Ctrl + Shift + F	: Formata o codigo
+Ctrl + O		: Navegação Rapida
+Ctrl + Shift + O	: Importação automática 

@@ -1,0 +1,59 @@
+Layouts
+
+Layouts são classificados em dois principais criterios
+numero de colunas no qual o layout é dividido e se seu conteudo
+é fixo ou se ajusta à dimensão definida ao browser
+
+fixo:
+
+width do conteiner principal definido em uma medida absoluta
+
+ou postion:absolute,fixed;
+
+ajuta-se a dimensão:
+
+position:static;
+float:left,right;
+width:80%;
+
+=================================================================
+O Começo de tudo
+
+Antes de começar a construção de um layout é necessario dividi-lo em
+blocos(<div>), para ficar mais facil o design abaixo está um exemplo 
+de um esqueleto de divs generico de um site com uma coluna, estas regiões
+estão presentes na maioria dos sites
+
+<div id="container">
+<div id="header"></div>
+<div id="left"></div>
+<div id="content">
+
+
+
+</div>
+<div id="right"></div>
+<div id="footer"></div>
+</div>
+
+/*
+
+- container // engloba a pagina como um todo
+- header // cabeçalho parte superior do site onde o logotipo e um menu são geralmente colocados
+- left // representa uma coluna à esquerda no seu site
+- content ou center // coluna central e principal com todo o conteudo do site
+- right // representa uma coluna à direita no seu site
+- footer // rodapé aonde copyright e contatos são geralmente colocados
+
+===================================================================
+
+Centralizando um elemento em bloco como um layout
+
+É possivel centralizar um elemento em bloco
+definindo para que suas margens esquerda e direita
+sejam divididas por dois  e distribuidas igualmente
+isso se da com a seguinte sintaxe
+
+margin:0 auto;
+
+//a palavra chave auto pega o espaço livre e o divide por dois para dar valor a margem

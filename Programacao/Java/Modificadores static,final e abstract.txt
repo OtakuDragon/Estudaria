@@ -1,0 +1,65 @@
+Modificador static
+
+É usado em metodos e variaveis para associa-los a classe 
+e não a suas instancias
+
+Por convenção são chamadas utilizando NomeDaClasse.metodoDeClasse()
+					ou
+				      NomeDaClasse.variavelDeClasse()
+
+
+=================================================================================
+
+Modificador final
+
+O modificador final tem a função de tornar classes,metodos ou variaveis
+constantes
+
+Caracteristicas:
+
+Uma classe final não pode ser herdada
+
+Um metodo final não pode ser anulado(reescrito) por nenhuma subclasse
+
+Uma variavel final não pode mudar de valor
+
+ex:
+
+public static final int TOUCHDOWN = 7;
+
+* variaveis constantes devem possuir nomes com todas as letras maiusculas por convenção e
+  palavras compostas são separadas por underline
+========================================================================================
+
+Modificador abstract
+
+classes abstratas
+
+Uma classe abstrata trata-se de uma classe que nunca precisara
+ser instanciada diretamente, ou seja nunca serão criados objetos 
+desta classe, elas servem somente como um local para manter metodos e atributos
+em comum para varias sub-classes
+
+
+ex:
+
+public abstract class ClasseAbstrata{
+
+
+//....
+
+
+
+
+}
+
+Metodos abstratos
+
+Um metodo abstrato pode somente ser criado em uma classe abstrata
+um metodo abstrato trata-se de uma assinatura de metodo sem implementação
+como os de interface para serem, obrigatoriamente implementados nas sub-classes, se a subclasse
+de uma superclasse abstrata tambem for abstrata, ela nao precisara implementar os metodos abstratos
+
+O oposto de uma classe abstrata é uma classe concreta, e uma classe concreta sempre é obrigada
+a implementar metodos abstratos de sua superclasse
+

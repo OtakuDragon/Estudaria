@@ -1,0 +1,67 @@
+Singleton beans
+
+O EJB 3.1 implementa um novo tipo de bean
+o singleton que é um bean instanciado
+apenas uma vez na aplicação e esta instancia
+pode ser acessada por todos os componentes da
+aplicação.
+
+Eles são uteis para se guardar objetos compartilhados
+como uma fabrica de conexões jms, e tambem transportar
+dados atraves da aplicação.
+
+==================================================
+Definindo um Singleton
+
+Um bean singleton é basicamente um POJO
+anotado com a anotação @Singleton, e tem acesso
+a todas as funcionalidades do framework EJB
+
+ex:
+
+@Singleton
+public class MeuSingleton {
+...
+}
+
+==================================================
+Configurando o gerenciamento multi-thread
+
+Não é necessario mas é possivel definir,
+modo de sincronização multithread para metodos
+ou para a classe do bean com a anotação @ConcurrencyAttribute
+
+definir restrições a o gerenciamento multi-tread
+pode melhorar a performance.
+
+Valores
+
+@ConcurrencyAttribute(NO_LOCK) - Sem sincronização.
+@ConcurrencyAttribute(READ_LOCK) - Sincronização de container apenas para leitura 
+@ConcurrencyAttribute(READ_WRITE_LOCK)  - Sincronização de container para leitura e escrita
+@ConcurrencyAttribute(BEAN) - A sincronização é definida no bean com a utilização dos recursos de concorrencia do java(synchronized,concurrency API)
+
+====================================================
+Lifecycle callbacks
+
+Singletons possuem os mesmos metodos de
+ciclo de vida dos SLSB
+
+@PostConstruct
+@PreDestroy
+
+===================================================
+@Startup
+
+Anotar um singleton como startup faz com que
+o container instancie o bean quando a aplicação
+é iniciada(eager), ao inves de somente quando
+ele for utilizado(lazy)
+
+ex:
+
+@Singleton
+@Startup
+public class MeuSingleton {
+...
+}

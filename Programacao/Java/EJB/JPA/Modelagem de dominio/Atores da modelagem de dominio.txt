@@ -1,0 +1,16 @@
+Os atores da modelagem de dominio
+
+Um modelo de dominio possui 2 atores, ou seja
+é composto por 2 elementos:
+
+Objetos/Entidades - As classes que serão persistidas
+
+Relacionamentos - Definem quais entidades possuem referencias a outras entidades
+
+	Direção dos relacionamentos - define em que classes ficarão as referencias
+                              	      nos relacionamentos ex: Item ---> Bid significa que
+                              	      dentro da classe Item terá um objeto Bid
+
+	Cardinalidade - Dizem a quantidade destas referencias(1..1,1..*,*..*)
+
+	Opcionalidade - Dizem se a referencia é obrigatoria ou pode ser nula

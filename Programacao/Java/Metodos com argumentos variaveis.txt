@@ -1,0 +1,19 @@
+Metodos com argumentos variaveis
+
+são usados quando o numero de argumentos em um metodo
+não é fixo
+
+sintaxe:
+
+public int soma(int ... numeros){
+
+int[] vetor = numeros;
+
+
+}
+
+Este metodo pode receber quantos argumentos int quanto necessario
+e os armazenara em um array nesse caso chamado numeros.
+
+*regra: um parametro variavel deve ser o ultimo declarado no metodo e
+	um mesmo metodo só pode ter um parametro variavel.

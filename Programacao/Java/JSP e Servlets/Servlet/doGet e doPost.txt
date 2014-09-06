@@ -1,0 +1,84 @@
+Metodos Abstratos de HttpServlet
+
+O servlet se comunica com o browser atraves de alguns
+metodos disponiveis em HttpServlet
+
+==============================================================
+Metodo doGet()
+
+*é o metodo padrão
+
+Metodo chamado sempre que o servlet é chamado por URL no browser
+e possui todos os parametros passados por URL ou por formularios
+com method get.
+
+ele possui dois objetos um de pedido e um de reposta para a comunicação
+com o browser
+
+---------------------------------------------------------------------
+Assinatura:
+
+protected void doGet(HttpServletRequest request,HttpServletResponse response);
+
+*O objeto request possui parametros e todas as informações sobre o pedido do browser
+*O objeto response possui um objeto printwriter que imprime output do servidor no browser
+
+-------------------------------------------------------------------------------
+ex:
+
+protected void doGet(HttpServletRequest request,HttpServletResponse response)
+{
+response.setContentType("text/html");//é aconselha-vel definir o tipo de uma resposta antes de envia-la
+
+//Recupera parametros de inputs de unica escolha
+
+String parametro = request.getParameter("nomeDoParametro");//funciona como $parametro = $_GET["nomeDoParametro"] em php
+
+//Recupera parametros de inputs de multipla escolha
+
+String[] parametros = request.getParameterValues("nomeDoParametro");
+
+PrintWriter writer = response.getWriter()
+writer.println("<h1>Hello world<h2>"); //quando o servlet for chamado imprimira este trecho html no browser
+				       //este output é como um echo no php
+
+}
+
+
+=========================================================================
+Metodo doPost()
+
+Metodo chamado sempre que algum dado for enviado
+por formulario utilizando o metodo post e tem basicamente
+os mesmos recursos que o metodo doGet() com a diferença
+de os dados não serem passados por url e sim no corpo
+do http request 
+
+---------------------------------------------------------------------
+Assinatura:
+
+protected void doPost(HttpServletRequest request,HttpServletResponse response);
+
+*O objeto request possui parametros e todas as informações sobre o pedido do browser
+*O objeto response possui um objeto printwriter que imprime output do servidor no browser
+
+-------------------------------------------------------------------------------
+ex:
+
+protected void doPost(HttpServletRequest request,HttpServletResponse response)
+{
+response.setContentType("text/html");//é aconselha-vel definir o tipo de uma resposta antes de envia-la
+
+//Recupera parametros de inputs de unica escolha
+
+String parametro = request.getParameter("nomeDoParametro");//funciona como $parametro = $_POST["nomeDoParametro"] em php
+
+//Recupera parametros de inputs de multipla escolha
+
+String[] parametros = request.getParameterValues("nomeDoParametro");
+
+PrintWriter writer = response.getWriter()
+writer.println("<h1>Hello world<h2>"); //quando o servlet for chamado imprimira este trecho html no browser
+				       //este output é como um echo no php
+
+}

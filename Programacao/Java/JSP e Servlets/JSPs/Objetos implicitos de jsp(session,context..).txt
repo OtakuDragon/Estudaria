@@ -1,0 +1,98 @@
+Objetos
+
+Nos servlets é possivel ter acesso
+há diversos objetos que guardam valores
+em diversos niveis(escopos)como request,session e context
+
+nos jsps eles tambem estão acessiveis
+por meio de objetos pre-definidos
+
+=========================================
+Request
+
+O objeto request que é passado para 
+os metodos doGet ou doPost esta disponivel
+nas jsps por meio do objeto request
+
+alem de possuir todas as informações sobre
+a request http
+
+----------------------------------------
+Dentro da jsp
+
+<%
+request.getParemeter("nome");
+
+
+ %>
+
+
+
+======================================
+Sessões 
+
+é possivel manipular dados na sessão
+por jsp simplesmente utilizando o objeto
+predefinido session
+
+-------------------------------------
+Dentro da jsp
+
+<%
+session.setAttribute("nome","Gilson");
+
+
+ %>
+
+========================================
+Aplication(Context)
+
+O objeto context tambem está disponivel
+por um nome diferente application
+-----------------------------------------
+Dentro da jsp
+
+<%
+application.setAttribute("nome","Gilson");
+
+
+ %>
+
+======================================
+PageContext
+
+O objeto page context não está em servlets
+ele é espcial do jsp e por meio dele é possivel
+definir ou recuperar atributos em request,session ou
+aplication, e procurar um atributo em todos eles
+
+-----------------------------------------
+Definindo um atributo em um dos escopos
+
+pageContext.setAttribute("nome","Gilson",PageContext.SESSION_SCOPE);
+
+//adicionara o atributo a session do servlet
+//mudando o 3 atributo para outras constantes é possivel mudar o escopo
+
+-------------------------------------------
+Recuperando um atributo pelo page context
+
+A vantagem de se recuperar um atributo pelo objeto pageContext
+é que naõ é preciso definir em qual objeto de escopo ele esta salvo
+o objeto page context procurara em todos
+
+Sintaxe:
+
+pageContext.findAttribute("nomeDoAtributo"); 
+
+=======================================
+out
+
+O objeto out é um objeto printwriter utilizado
+para realizar output do script na pagina
+
+<%
+out.println("lallalalal")
+
+
+ %>

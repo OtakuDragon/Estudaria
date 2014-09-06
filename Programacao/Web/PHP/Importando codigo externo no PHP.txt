@@ -1,0 +1,27 @@
+Importando codigos
+
+Para importar arquivos externos no codigo existem
+dois metodos
+
+- require //Se o arquivo não for encontrado gera um erro fatal e para a execução do script
+          //indicado para o uso se o arquivo for obrigatoriamente necessario no codigo
+
+e
+
+- include //Gera um warning se o arquivo não for encontrado
+          //recomendado para arquivos que não são essenciais para
+          //a execução do script
+
+=============================================
+
+<body>
+<?php
+
+require("Arquivo.php");
+include("Arquivo.php");
+
+
+?>
+</body>
+
+*arquivos .txt tambem podem ser incluidos

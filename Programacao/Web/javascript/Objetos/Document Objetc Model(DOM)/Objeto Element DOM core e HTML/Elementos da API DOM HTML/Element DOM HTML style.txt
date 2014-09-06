@@ -1,0 +1,152 @@
+Element style
+
+O elemento style representa o atributo HTML
+style e possui como atributos os atributos
+CSS
+
+todos os elementos da API DOm HTML possuem
+o elemento style dentro deles que é acessado
+da seguinte forma:
+
+element.style
+
+
+=============================================
+Atributo style para o codigo css da tag
+
+style.cssText	//Define ou retorna todo o codigo html na tag ou seja valor do atributo style
+-------------------------------------------------------
+Atributos de style para background.
+
+style.background		//Sets or returns all the background properties in one declaration	
+style.backgroundAttachment	//Sets or returns whether a background-image is fixed or scrolls with the page	
+style.backgroundColor		//Sets or returns the background-color of an element	
+style.backgroundImage		//Sets or returns the background-image for an element	
+style.backgroundPosition	//Sets or returns the starting position of a background-image	
+style.backgroundRepeat		//Sets or returns how to repeat (tile) a background-image	Yes
+
+	
+
+---------------------------------------------
+Atributos de style para bordas.
+
+style.border		//Sets or returns border-width, border-style, and border-color in one declaration	
+style.borderBottom	//Sets or returns all the borderBottom* properties in one declaration	
+style.borderBottomColor	//Sets or returns the color of the bottom border	
+style.borderBottomStyle	//Sets or returns the style of the bottom border	
+style.borderBottomWidth	//Sets or returns the width of the bottom border	
+style.borderColor	//Sets or returns the color of an element's border (can have up to four values)	
+style.borderLeft	//Sets or returns all the borderLeft* properties in one declaration	
+style.borderLeftColor	//Sets or returns the color of the left border	
+style.borderLeftStyle	//Sets or returns the style of the left border	
+style.borderLeftWidth	//Sets or returns the width of the left border	
+style.borderRight	//Sets or returns all the borderRight* properties in one declaration	
+style.borderRightColor	//Sets or returns the color of the right border	
+style.borderRightStyle	//Sets or returns the style of the right border	
+style.borderRightWidth	//Sets or returns the width of the right border	
+style.borderStyle	//Sets or returns the style of an element's border (can have up to four values)	
+style.borderTop		//Sets or returns all the borderTop* properties in one declaration	
+style.borderTopColor	//Sets or returns the color of the top border	
+style.borderTopStyle	//Sets or returns the style of the top border	
+style.borderTopWidth	//Sets or returns the width of the top border	
+style.borderWidth	//Sets or returns the width of an element's border (can have up to four values)	
+style.outline		//Sets or returns all the outline properties in one declaration	
+style.outlineColor	//Sets or returns the color of the outline around a element	
+style.outlineStyle	//Sets or returns the style of the outline around an element	
+style.outlineWidth	//Sets or returns the width of the outline around an element
+------------------------------------------------------------------
+Atributos de style para margin/padding.
+
+style.margin		//Sets or returns the margins of an element (can have up to four values)	
+style.marginBottom	//Sets or returns the bottom margin of an element	
+style.marginLeft	//Sets or returns the left margin of an element	
+style.marginRight	//Sets or returns the right margin of an element	
+style.marginTop		//Sets or returns the top margin of an element	
+style.padding		//Sets or returns the padding of an element (can have up to four values)	
+style.paddingBottom	//Sets or returns the bottom padding of an element	
+style.paddingLeft	//Sets or returns the left padding of an element	
+style.paddingRight	//Sets or returns the right padding of an element	
+style.paddingTop	//Sets or returns the top padding of an element	
+-----------------------------------------------------------------
+Atributos de style para listas.
+
+style.listStyle		//Sets or returns list-style-image, list-style-position, and list-style-type in one declaration	
+style.listStyleImage	//Sets or returns an image as the list-item marker	
+style.listStylePosition	//Sets or returns the position of the list-item marker	
+style.listStyleType	//Sets or returns the list-item marker type
+
+-----------------------------------------------------------------
+Atributos de style para posicionamento e layout.
+
+style.bottom		//Sets or returns the bottom position of a positioned element	
+style.clear		//Sets or returns the position of the element relative to floating objects	
+style.clip		//Sets or returns which part of a positioned element is visible	
+style.cssFloat		//Sets or returns the horizontal alignment of an object	
+style.cursor		//Sets or returns the type of cursor to display for the mouse pointer	
+style.display		//Sets or returns an element's display type	
+style.height		//Sets or returns the height of an element	
+style.left		//Sets or returns the left position of a positioned element	
+style.maxHeight		//Sets or returns the maximum height of an element	
+style.maxWidth		//Sets or returns the maximum width of an element	
+style.minHeight		//Sets or returns the minimum height of an element	
+style.minWidth		//Sets or returns the minimum width of an element	
+style.overflow		//Sets or returns what to do with content that renders outside the element box	
+style.position		//Sets or returns the type of positioning method used for an element (static, relative, absolute or fixed)	
+style.right		//Sets or returns the right position of a positioned element	
+style.top		//Sets or returns the top position of a positioned element	
+style.verticalAlign	//Sets or returns the vertical alignment of the content in an element	
+style.visibility	//Sets or returns whether an element should be visible	
+style.width		//Sets or returns the width of an element	
+style.zIndex		//Sets or returns the stack order of a positioned element
+
+-----------------------------------------------------------------
+Atributos de style para tabelas.
+
+style.borderCollapse	//Sets or returns whether the table border should be collapsed into a single border, or not	
+style.borderSpacing	//Sets or returns the space between cells in a table	
+style.captionSide	//Sets or returns the position of the table caption	
+style.emptyCells	//Sets or returns whether to show the border and background of empty cells, or not	
+style.tableLayout	//Sets or returns the way to lay out table cells, rows, and columns
+
+-----------------------------------------------------------------
+Atributos de style para texto.
+
+style.color		//Sets or returns the color of the text	
+style.direction		//Sets or returns the text direction	
+style.font		//Sets or returns font-style, font-variant, font-weight, font-size, line-height, and font-family in one declaration	
+style.fontFamily	//Sets or returns the font face for text	
+style.fontSize		//Sets or returns the font size of the text	
+style.fontSizeAdjust	//Sets or returns the font aspect value	
+style.fontStyle		//Sets or returns whether the style of the font is normal, italic or oblique	
+style.fontVariant	//Sets or returns whether the font should be displayed in small capital letters	
+style.fontWeight	//Sets or returns the boldness of the font	
+style.letterSpacing	//Sets or returns the space between characters in a text	
+style.lineHeight	//Sets or returns the distance between lines in a text	
+style.quotes		//Sets or returns the type of quotation marks for embedded quotations	
+style.textAlign		//Sets or returns the horizontal alignment of text	
+style.textDecoration	//Sets or returns the decoration of a text	
+style.textIndent	//Sets or returns the indentation of the first line of text	
+style.textShadow	//Sets or returns the shadow effect of a text	
+style.textTransform	//Sets or returns the case of a text	
+style.unicodeBidi	//Sets or returns whether the text should be overridden to support multiple languages in the same document	
+style.whiteSpace	//Sets or returns how to handle tabs, line breaks and whitespace in a text	
+style.wordSpacing	//Sets or returns the spacing between words in a text		
+	
+
+-----------------------------------------------------------------------
+Atributos de style para generated content.
+
+style.content		//Sets or returns the generated content before or after the element	
+style.counterIncrement	//Sets or returns the list of counters and increment values	
+style.counterReset	//Sets or returns the list of counters and their initial values	
+
+--------------------------------------------------------------------------
+Atributos de style para generated impressão.
+
+style.orphans		//Sets or returns the minimum number of lines for an element that must be visible at the bottom of a page	
+style.pageBreakAfter	//Sets or returns the page-break behavior after an element	
+style.pageBreakBefore	//Sets or returns the page-break behavior before an element	
+style.pageBreakInside	//Sets or returns the page-break behavior inside an element	
+style.widows		//Sets or returns the minimum number of lines for an element that must be visible at the top of a page
+
+==============================================

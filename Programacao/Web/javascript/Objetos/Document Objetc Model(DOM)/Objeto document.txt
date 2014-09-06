@@ -1,0 +1,91 @@
+Objeto document
+
+No javascript o objeto principal do DOM é o document
+ele possui funções para a manipulação do documento HTML
+seja por meio da DOM core ou da DOM HTML
+
+*O objeto document tambe é um Node da API DOM core mas
+não são recomendados os usos de metodos de alguns metodos
+da DOM core nele por não fazer nenhum sentido
+
+-----------------------------------------------------------
+Atributos de document
+
+//Referencias de elementos(tags)
+
+document.body //retorna a referencia ao elemento(tag) body da pagina
+document.cookie //retorna referencia ao objeto cookie da pagina ver anotações sobre cookie
+document.anchors //retorna uma lista com todos as ancoras da pagina
+document.forms //retorna uma lista com todos os formularios da pagina
+document.images // retorna uma lista com todas as imagens da pagina
+document.link //retorna a lista com todos os links da pagina
+document.documentElement //retorna uma referencia ao elemento(tag) HTML da pagina
+document.title //define ou retorna o valor da tag <title> do documento
+
+Obs: ancora é diferente de link porque link é toda tag que possui o atributo href
+e po mais que a principal função de uma ancora seja ser um link ela pode ser
+criada sem o atributo href, a tag <area> de <map> pode tambem ser um link 
+
+
+//Informações sobre o documento
+
+
+document.doctype // retorna o doctype(versão do html definida na tag html) da pagina
+document.inputEnconding //retorna o encoding(charset) utilizado no documento por exemplo utf-8
+document.lastModified //retorna a data e a hora da ultima modificação do documento html
+document.readyState //retorna uma string falando qual é o estado de carregamento da pagina
+
+os possiveis valores são:
+
+uninitialized - Has not started loading yet
+loading - Is loading
+interactive - Has loaded enough and the user can interact with it
+complete - Fully loaded
+
+
+//Informações de localização(URL/URI/domain)
+
+document.baseURI //retorna a URI absoluta base do documento
+document.documentURI // define ou retorna a URI da pagina
+document.domain //retorna nome do dominio do servidor que carregou a pagina
+document.referrer //retorna a URL do documento que carregou este documento (links)
+document.URL //retorna a URL completa do documento
+
+---------------------------------------------------------------------------------
+Metodos de document
+
+//Localização de elementos
+
+document.getElementById()       //Recebe um id e retorna uma referencia ao elemento html que possui aquele id
+document.getElementsByName()	//Retorna uma lista de elementos html que possuem aquele nome
+document.getElementsByTagName() //Retorna uma lista de elementos html daquela tag ex:document.getElementsByTagName("div");
+
+//Criação de nós 
+
+document.createAttribute()	//Recebe o nome do atributo e cria um atributo o valor deste atributo pode ser definido no atributo
+				// value do atributo ex: var a = document.createAttribute("id"); a.value="meuID";
+				
+document.createComment()	 //Recebe o texto do comentario como string e cria um nó de comentario				
+document.createDocumentFragment()//Cria um nó de fragmento de documento que é um nó abstrato que possui todos os atributos e metodos
+				 //de node e serve para montar um codigo html e depois adiciona-lo ao documento principal
+
+document.createElement()	//Cria um novo elemento(tag) recebe o nome da tag como string ex:document.createElement("div");
+document.createTextNode()	//Cria um nó de texto
+
+*A criação de nós é utilizada junto aos metodos de Node para adicionar
+ estes novos nós ao documento
+
+//escrevendo no documento
+
+document.write(); //escreve uma ou mais strings passadas como parametro no documento
+		  //se estiverem entre tags serão consideradas codigo HTML e interpretadas
+		  //pelo navegador
+
+document.writeln(); //faz o mesmo que write mas pula uma linha apos cada chamada
+
+
+//Outros
+
+document.importNode(node,deep) //recebe como parametro um nó de outro documento para importar e um boolean dizendo se deve importar somente o nó ou seus filhos tbm
+document.normalize() //remove todos os nós de textos vazios e une nós de textos adjacentes no documento
+

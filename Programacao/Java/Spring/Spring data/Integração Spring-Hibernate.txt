@@ -1,0 +1,73 @@
+Integração Spring-Hibernate
+
+A integração entre spring e hibernate acontece
+atraves de uma implementação spring de session factory
+que pode ser completamente configurada como um bean spring
+
+o que significa que a integração do spring com o hibernate
+exclui a necessidade de um hibernate.cfg.xml e da instanciação
+de um session factory.
+
+=========================================================================
+Declarando um bean sessionFactory
+
+É neste bean que toda a configuração do hibernate acontece
+
+ex:
+
+<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+
+
+	//O data source como configurado anteriormente deve ser passado ao hibernate pois ele possui
+	//todas as informações do banco de dados
+	<property name="dataSource" ref="dataSource"/>
+	
+	//Esta propriedade é a propriedade de mapeamento ela
+	//recebe o nome do pacote aonde estarão as classes dto, anotadas com anotações hibernate
+	<property name="packagesToScan" value="pacote"/>
+
+	//Esta propriedade abaixo funciona como o hibernate.cfg.xml
+	//Todas propriedades extras podem ser configuradas aqui,
+	//A unica propriedade obrigatoria é a dialect ja que as informações do banco são 
+	//passadas no dataSource
+	<property name="hibernateProperties">
+		<props>
+			//As propriedades funcionam como key = nome da propriedade
+			//e conteudo da tag valor da propriedade
+			<prop key="dialect">org.hibernate.dialect.NomeDoDialeto</prop>
+			<prop key="hibernate.hbm2ddl.auto">update<</prop>
+		</props>
+	</property>
+
+</bean>
+
+================================================================================
+Utilizando hibernate atraves do spring
+
+Após o bean session factory declarado basta declarar um atributo SessionFactory
+nas classes DAO e anota-lo com @Autowired
+
+ex:
+
+@Repository
+public class MinhaDAO{
+
+@Autowired
+SessionFactory sf;
+
+
+
+public void usandoHib(){
+
+	Session sessao = getSf().openSession();
+	
+	//Realiza operações
+
+	sessao.close();	
+
+
+}
+
+//getters e setters
+
+}

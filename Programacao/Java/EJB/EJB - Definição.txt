@@ -1,0 +1,24 @@
+﻿EJB - Enterprise Java Beans
+
+É uma plataforma(framework + component model) para a construção de sistemas de negocio(Enterprise aplications)
+que são portaveis, reusaveis e evolutivos
+
+EJB é uma tecnologia java com especificação aberta definida pela JCP(java cominnity process) e portanto possui
+varias implementações todas elas oferecendo portabilidade entre si
+
+Utilizar EJB como framework significa não ter que reimplementar funcionalidades essenciais para este tipo
+de aplicação funcionalidades que são nativas do EJB container e se tornam disponiveis para o EJB component
+quando ele é inserido no EJB container alguns exemplos de são:
+
+* Transações
+* Framework de segurança
+* Remotabilidade(ser acessada como web service)
+* Gerenciamento de multithreading
+* Persistencia por ORM facilitada
+* Gerenciamento de ciclo de vida de objetos
+* Integração com JSF
+
+Um dos objetivos principais é que o desenvolvedor mantenha o foco em desenvolver logica de negocio e não
+código de infraestrutura.
+
+=================================================================

@@ -1,0 +1,122 @@
+Serialização
+
+Serializar significa transformar em bytes
+
+Objetos são serializados para que possam ser:
+
+*Trasnferidos pela rede
+
+*Armazenados em arquivos
+
+A interface serializable indica que os objetos daquela
+classe podem ser tranformados em bytes e portanto
+serem transportados pela rede ou para arquivos
+
+só podem ser serializados objetos 
+que implementam a interface serializable
+para tornar uma variavel não serializavel use o operador transient
+
+Output = Escrever 
+
+Input = ler 
+
+--------------------------------------------------------------------------
+Classe de exemplo
+
+public class Classe1 implements Serializable{
+
+public transient int numeroTemporario = 8;//este valor nao sera serializado por causa do modificador transient
+
+private String nome;
+
+private Cliente cliente1; //Cliente tem que implementar serializable para a serialização funcionar
+
+
+
+
+
+}
+-----------------------------------------------------------------------------
+
+Escrevendo um objeto em um arquivo
+
+Para se escrever um objeto em um arquivo é utilizada a classe
+ObjectOutputStream que recebe como parametro no seu construtor
+outro OutputStream que indica para aonde os dados serão enviados
+
+*Quando um objeto serializavel possui referência para outros objetos estes
+*objetos tem que ser serilizaveis tambem para que a serialização aconteça
+
+Ex:
+
+	Classe1 obj = new Classe1();
+
+
+	ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Arquivo.ser"));//abre um stream de escrita de objetos para o arquivo indicado
+											   	  //a extensão do arquivo pode ser criada qualquer uma criada pelo programador
+	oos.writeObject(obj);//Escrevera o objeto no arquivo
+	oos.close();//fecha o stream de objetos
+
+
+------------------------------------------------------------------------------
+
+Lendo objetos de um arquivo
+
+Para se ler um objeto em um arquivo é utilizada a classe
+ObjectInputStream que recebe como parametro no seu construtor
+outro InputStream que indica de aonde os dados serão recebidos
+
+
+ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Arquivo.ser"));// cria um stream de leitura do arquivo passado como parametro
+
+Classe1 objRecuperado = (Classe1) ois.readObject();//o metodo readObject() retorna um objeto do tipo Object que deve ser
+						 // convertido ao seu tipo original antes de ser atribuido a uma variavel
+ois.close();//fecha o stream de objetos
+
+
+obs:
+
+Se mais de um objeto  for gravado a primeira chamada de readObject() 
+retornara o primeiro objeto gravado, a segunda chamada o segundo e assim
+por diante
+
+=================================================================================
+Controle de versão
+
+Sempre que um objeto é serializado a JVM cria um codigo numerico para a classe
+baseado nos atributos e nos metodos da classe naquele momento
+
+Este numero identifica a classe de modo que se algo mudar na classe 
+este numero tambem muda, quando você serializa um objeto modifica os atributos
+ou metodos da classe e tenta recuperar este objeto
+
+A jvm percebe que os numeros de serialização são diferentes e joga uma InvalidClassException
+
+Para impedir esta verificação é possivel definir este numero manualmente com a seguinte sintaxe:
+
+private static final long serialVersionUID = 1.0L;//L pra identificar que é um long
+
+//é perigoso utilizar esta definição porque você acaba com a verificação
+//da jvm de se as classes são iguais e consegue atribuir uma classe antiga
+//a uma outra completamente diferente, só use no caso de mudanças minimas
+
+=================================================================================
+
+Codigo pronto
+
+try (FileInputStream fis = new FileInputStream("D:/Users/Gilson/workspace/Anderson.Lanchonete.Clientes/src/RegistroDeClientes/Banco/BancoDeDados.ser")){
+			try(ObjectInputStream ois = new ObjectInputStream(fis)){
+				bancoDeDados = (HashMap<String,Cliente>) ois.readObject();
+			}catch(Exception e){e.printStackTrace();}
+		
+		}catch(Exception e){e.printStackTrace();}
+		
+try (FileOutputStream fos = new FileOutputStream("D:/Users/Gilson/workspace/Anderson.Lanchonete.Clientes/src/RegistroDeClientes/Banco/BancoDeDados.ser")){
+			try(ObjectOutputStream oos = new ObjectOutputStream(fos)){
+				oos.writeObject(new HashMap<String,Cliente>());
+			}catch(Exception e){e.printStackTrace();}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}

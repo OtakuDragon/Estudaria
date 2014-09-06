@@ -1,0 +1,82 @@
+Tabelas
+
+São uma maneira de organizar dados em linhas e 
+colunas.
+
+
+==========================================================================================
+A tag <table>
+
+Define uma tabela
+
+--------------------------------------------------------------------------------------------
+
+atributos de <table>:
+
+cellspacing - Define o espaço entre a borda da tabela e a celula em pixels
+
+cellpadding - Define o espaço entre os dados e a borda de uma celula em pixels
+
+border - Define a espessura da borda da table
+
+width - Largura da tabela 
+
+height - Altura da tabela 
+
+align - define o alinhamento horizontal do conteúdo da tabela, de uma linha ou de uma célula. Por exemplo, left,  ou right (à esquerda, no centro ou à direita).
+
+os atributos width, height e border podem ser especificados em diferentes unidades de medida, pixels(px), polegadas(in) e porcentagem(%)
+
+porcentagem é o mais adequado por se adaptar a mudanças no tamanho da janela do browser
+
+exemplo de uso:
+
+<table border="1%"> 
+<tr>
+<td align="right" valign="top" colspan=2 rowspan=3>Célula 1</td>
+
+</tr>
+
+</table>
+
+=====================================================================================
+A tag <tr>
+
+table row - Define uma linha na tabela
+
+----------------------------------------------------------------------------------
+atributos de <tr>
+
+bgcolor - define a cor de background em hexadecimal
+
+exemplo de uso:
+
+<tr bgcolor=#4da0d2>
+
+linha
+
+</tr>
+
+
+=====================================================================================
+A tag <td>
+
+table data - dados da tabela -  Define uma coluna na tabela tambem chamada de celula
+
+---------------------------------------------------------------------------------
+
+atributos de <td>
+
+colspan -  Collumn span Define quantas colunas da tabela essa celula vai ocupar
+
+rowspan -  Row span Define quantas Linhas essa celula da tabela vai ocupar
+
+align - define o alinhamento horizontal do conteúdo da tabela, de uma linha ou de uma célula. Por exemplo, left, center ou right (à esquerda, no centro ou à direita).
+
+valign - define o alinhamento vertical do conteúdo de uma célula. Por exemplo, top, middle ou bottom (em cima, no meio ou em baixo).
+
+bgcolor - define a cor de background em hexadecimal
+
+exemplo de uso:
+
+<td bgcolor=#4da0d2> celula 1

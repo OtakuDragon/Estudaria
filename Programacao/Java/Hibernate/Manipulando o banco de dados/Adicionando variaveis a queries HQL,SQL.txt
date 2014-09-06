@@ -1,0 +1,28 @@
+Adicionando variaveis a query
+
+Muitas vezes é necessario adicionar valores variaveis
+na query mas adiciona-los diretamente na query concatenando
+a variavel a string da query pode ser perigoso pois abre espaço
+para que usuarios modifiquem a query com seus inputs isto é chamado
+de sql injection
+
+para resolver este problema é possivel adicionar valores variaveis
+na query atraves da sintaxe :variavel e depois definir um valor para
+ela
+
+ex:
+
+//dentro de session.beginTransaction()
+
+String HQLQuery = "from User where userId = :Id";   //:Id é o valor variavel uma query pode ter varios deles
+                                                    //sintaxe - :nome                             
+
+Query query = session.createQuery(HQLQuery);
+
+query.setInteger("Id", 5); //o nome do valor variavel é usado em um metodo setter de query existe um para cada tipo de
+                           //dado possivel e como segundo parametro recebe o valor desta variavel
+                           //no caso Id é uma variavel inteira e recebe o valor 5
+
+List<User> users = (List<User>) query.list();
+
+//finalização da transação e sessão 

@@ -1,0 +1,79 @@
+Auto wiring
+
+é um atalho para realizar object injection
+ 
+===========================================================================
+byName
+
+se o atributo na tag bean autowire for definido
+por byName os beans serão atribuidos aos seus atributos
+se eles possuirem o nome igual a o dos atributos
+
+ex:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans> 
+	<!--Supondo que a classe Triangle tenha tres atributos, com nomes-->
+	<!--beanPointA,B e C, os beans com estes nomes declarados abaixo serão automaticamente atribuidos a eles-->
+	<bean id="triangle" class="shapesPack.Triangle" autowire="byName"/>
+
+
+
+	<!-- Abaixo os objetos que o bean (id)triangle possui referencias são declarados como beans e configurados -->
+
+	<bean id="beanPointA" class="shapesPack.Point">
+		<property name="x" value="0"/>
+		<property name="y" value="0"/>
+		
+	</bean>
+
+	<bean id="beanPointB" class="shapesPack.Point">
+		<property name="x" value="-20"/>
+		<property name="y" value="0"/>
+		
+	</bean>
+
+	<bean id="beanPointC" class="shapesPack.Point">
+		<property name="x" value="20"/>
+		<property name="y" value="0"/>
+		
+	</bean>
+
+</beans>
+
+
+=======================================================================================================
+ByType
+
+se o atributo na tag bean autowire for definido
+por byType os beans serão atribuidos aos seus atributos
+se eles possuirem o nome tipo(classe) a o dos atributos
+
+se mais de um bean definido tiver o mesmo tipo uma exceção será jogada
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans> 
+	
+	<bean id="triangle" class="shapesPack.Triangle" autowire="byType"/>
+
+
+	<bean id="beanPointA" class="shapesPack.Point">
+		<property name="x" value="0"/>
+		<property name="y" value="0"/>
+		
+	</bean>
+
+	<!--Se este bean for descomentado acontecerá uma exceção-->
+	<!--<bean id="beanPointB" class="shapesPack.Point">
+		<property name="x" value="-20"/>
+		<property name="y" value="0"/>
+		
+	</bean>-->
+
+	
+		
+	</bean>
+
+</beans>

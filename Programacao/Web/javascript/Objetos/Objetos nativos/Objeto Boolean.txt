@@ -1,0 +1,33 @@
+Objeto Boolean
+
+O objeto Boolean representa  o tipo primitivo
+boolean
+
+==============================================
+Criação de um objeto Boolean
+
+No javascript os valores 0,null,NaN 
+e string vazia("") todos possuem o valor false
+todo o resto possui o valor true.
+
+ex:
+
+var a = new Boolean(); //cria um objeto com o valor padrão false
+var a = new Boolean(false); //cria um objeto com o valor false
+var a = new Boolean(0);// cria um objeto com o valor false
+var a = new Boolean("");// cria um objeto com o valor false
+
+var a = new Boolean("gilson");// cria um objeto com o valor true
+var a = new Boolean(9999);// cria um objeto com o valor true
+var a = new Boolean(true); //cria um objeto com o valor true
+
+===============================================
+Metodos de Boolean
+
+Boolean possui apenas os dois metodos
+que herda de Object
+
+a.valueOf(); // retorna o valor do objeto como dado primitivo
+
+a.toString(); // retorna o valor do objeto como uma string
+

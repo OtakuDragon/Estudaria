@@ -1,0 +1,29 @@
+Objeto cout(iostream)
+
+O objeto cout serve como output 
+de um programa c++ para o console
+
+Ela recebe o conteudo há ser exibido 
+por meio do operador de inclusão(<<)
+que tambem funciona como um operador de 
+concatenação.
+
+ex:
+
+cout<<"Hello World";
+
+cout<< 1-1 << " "<< 2*4<< " " << " Gilson \n";
+
+====================================================
+Objeto cin(iostream)
+
+O objeto cin serve como input 
+de um programa c++ para o console
+
+ele lê os dados para uma variavel
+adicionada com o operador de envio
+de dados(>>)
+
+int x;
+cout << "\nDigite um num. + Enter";
+cin >> x;

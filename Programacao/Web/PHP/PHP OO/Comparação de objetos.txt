@@ -1,0 +1,19 @@
+Comparação de objetos
+
+Quando usar o operador de comparação (==),
+variáveis objeto são comparadas de maneira simples,
+nominalmente: Duas instâncias de objetos são iguais
+se tem os mesmos atributos e valores, e são instâncias
+da mesma classe.
+
+Por outro lado, quando usando o operador de identidade (===),
+variáveis objetos são identicas se e somente se elas se referem
+a mesma instância da mesma classe.
+
+=======================================================
+ex:
+
+$obj1 == $obj2 //retorna true se os dois objetos tiveram origem em uma mesma classe e
+	       //os valores dos seus atributos são iguais
+
+$obj1 === $obj2 //retorna true se $obj1 e $obj2 forem referencias a um mesmo objeto

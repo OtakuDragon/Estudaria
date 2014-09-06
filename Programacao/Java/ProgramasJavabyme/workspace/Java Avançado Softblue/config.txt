@@ -1,0 +1,6 @@
+#
+#Tue May 21 15:48:28 BRT 2013
+nome=Gilson carlos lopes
+sexo=Masculino
+idade=19
+praticaEsportes=nao

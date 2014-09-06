@@ -1,0 +1,95 @@
+Caches no hibernate
+
+Por padrão existe um cache no hibernate que guarda os objetos
+enquanto eles estão no estado persistent e dura somente durante
+a sessão
+
+é possivel implementar outros caches que permanecem entre sessões
+são os chamados second level caches
+
+IMPORTANTE: cache é um recurso que somente deve ser usado
+            se houverem muitas consultas ao banco de dados que
+            buscam o mesmo dado,se usado indevidamente pode prejudicar
+            a performance da aplicação
+==============================================================
+Configurando second level cache no cfg.xml
+
+é necessario adicionar estas 3 propriedades
+para configurar o cache EhCache
+
+*os jars cache EhCache devem ser importados da pasta
+ optional do hibernate
+
+ <!-- Configura o second level cache para EhCache -->
+ <property name="cache.use_second_level_cache">true</property>
+ <property name="cache.use_query_cache">true</property>
+ <property name="cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+ <property name="cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</property>
+
+===================================================================
+Configurando as entidades para o cache
+
+após definir o second level cache no cfg.xml é necessario 
+anotar as entidades que devem ser consideradas pelo cache
+para isso são utilizadas duas anotações
+
+*por padrão as entidades não são cacheable
+
+-----------------------------------------------------------------
+@Cacheable e @Cache
+
+a anotação @Cacheable define que a entidade pode
+ser armazenada em cache de segundo level  e a 
+anotação @Cache define qual a estrategia de armazenamento
+
+ex:
+
+@Entity
+@Cacheable
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+public class User {
+
+//codigo
+
+}
+
+a propriedade usage de @Cache define como o arquivo sera armazenado
+só para leitura,só para escrita, leitura e escrita, etc..
+
+após estas configurações quando um objeto entrar no cache ou seja
+se tornar persistent ele estará acessivel em todas as sessões da aplicação
+
+=========================================================================
+Armazenando queries em cache
+
+O Hibernate consegue armazenar dados de queries em cache
+tambem mas requer que a query após sua declaração chame o
+metodo setCacheable(true) na query que gera os dados e para
+qualquer query que queira recuperar os dados do cache
+
+*para que o cache de queries esteja ativado a seguinte property
+ deve estar declarada em cgf.xml <property name="cache.use_query_cache">true</property>
+
+ex:
+
+//dentro da classe de manipulação de dados
+
+session.beginTransaction();
+
+Query query = session.createQuery("from UserDetails where userId = 1");
+query.setCacheable(true);//declaração da query como cacheable na gravação
+List users = query.list();
+
+session.getTransaction().commit();
+session.close();
+
+
+
+session2.beginTransaction();
+
+Query query2 = session2.createQuery("from UserDetails where userId = 1");
+query2.setCacheable(true);//declaração da query como cacheable na recuperação
+List users = query2.list();
+
+session2.getTransaction().commit();
+session2.close();

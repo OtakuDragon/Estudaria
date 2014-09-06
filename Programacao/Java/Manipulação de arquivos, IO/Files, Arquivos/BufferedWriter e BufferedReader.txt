@@ -1,0 +1,77 @@
+Buffers
+
+São espaços criados na memoria que criam conexão com um arquivo e
+vão armazenando dados para serem lidos ou escritos até que o comando flush()
+seja dado ai os dados são escritos ou lidos e tambem é necessaria a finalização 
+da conexão com o metodo close()
+
+BufferedWriter
+
+É a maneira de se escrever em formato legivel pelo ser humano(ou seja numeros e letras e não apenas bytes)
+com o uso de um buffer
+
+uso:
+
+Path caminho = Paths.get("D:/Users/Gilson/Desktop/Texto.txt");// é necessario definir um caminho e um charset
+Charset utf8 = StandardCharsets.UTF_8;
+
+BufferedWriter w = Files.newBufferedWriter(caminho, utf8);// cria um objeto do tipo BufferedWriter e o atribui a uma variavel
+								
+try{
+	w.write("Escreva isso");//abre a conexao ou cria o arquivo se ele não existir e escreve "escreva isto" no texto
+	w.flush();//"Envia este texto ao arquivo e limpa o buffer"
+		
+		
+		
+}catch(IOException e){//estes metodos podem retornar IOException
+
+	e.getMessage();//caso retorne imprima a mensagem
+
+}finally{w.close();}// caso aconteça uma Exception ou não ao final do bloco try finalize a conexao com o arquivo
+
+----------------------------------------------------------------------------------------------------------------------
+
+Apartir do java 7 classes que sempre precisam ser fechadas ao final do bloco try
+podem possuir a seguinte sintaxe com a mesma função que o codigo acima
+
+Path caminho = Paths.get("D:/Users/Gilson/Desktop/Texto.txt");
+Charset utf8 = StandardCharsets.UTF_8;
+
+	try(BufferedWriter w = Files.newBufferedWriter(caminho, utf8)){
+		w.write("Escreva isso");// o flush() é realizado no momento do close() que é realizado automaticamente
+		
+		
+		
+	}catch(IOException e){
+		e.getMessage();
+	}
+
+=========================================================================================================================
+
+BufferedReader
+
+Possui metodos buffer para leitura de arquivos
+
+uso:
+
+//percorre um arquivo lendo-o linha por linha
+
+Path caminho = Paths.get("D:/Users/Gilson/Desktop/Texto.txt");
+Charset utf8 = StandardCharsets.UTF_8;
+
+try(BufferedReader leitor = Files.newBufferedReader(caminho,utf8)){
+
+String linha = null;
+
+while((linha = leitor.readLine())!= null){
+
+System.out.println(linha);
+}
+
+
+
+}catch(IOException e){
+	
+	e.getMessage();
+
+}

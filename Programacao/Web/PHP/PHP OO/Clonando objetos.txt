@@ -1,0 +1,19 @@
+Clonando objetos 
+
+O php possui um metodo padrão
+para a clonagem de objetos que
+
+faz uma cópia superficial de todas
+as propriedades do objeto. Qualquer
+propriedade que seja referência a
+outra variável, permanecerá referência.
+
+por meio da palavra chave clone
+caso este comportamento padrão
+queira ser modificado basta sobreescrever
+o metodo magico _clone() na sua classe
+
+===========================================
+ex:
+
+$objClone = clone $objOriginal;

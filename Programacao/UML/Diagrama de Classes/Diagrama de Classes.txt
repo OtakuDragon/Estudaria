@@ -1,0 +1,189 @@
+Diagrama de Classes
+
+O diagrama de classes é o diagrama mais amplamente usado 
+da uml, ele tem como objetivo descrever os tipos de objetos
+presentes no sistema e os varios tipos de relacionamentos estáticos
+existentes entre eles.
+
+_____________________________________________________________
+
+Simbologia
+
+Classes
+
+Classes são representadas por um retangulo
+dividido em 3 linhas:
+
+* A primeira contem o nome 
+ da classe
+----------------------------------------------------
+* A segunda contem os atributos da classe
+
+  - Sintaxe para a declaração de atributos
+
+    visibilidade nome: tipo multiplicidade = valorDefault{Lista de propriedades} 
+
+    *Sendo nome o unico obrigatorio todos os outros podem ser emitidos caso não
+     necessarios
+    *Nem sempre um atributo declarado no diagrama de classe significa um atributo da
+     classe na programação, o atributo pode não existir declarado mas pode ser recuperado
+     atraves de um metodo que o calcula/constroi e retorna o valor desejado
+
+    Visibilidade:	
+
+     Simbolos de visibilidade
+
+     + public
+     - private
+     # protected
+     ~ package
+
+	
+     nome: Nome do atributo
+    
+     tipo: Tipo do dado do atributo(String,int,etc.)
+
+     multiplicidade: Define quantos objetos podem preencher a propriedade
+
+     [1] - Significa que um objeto e apenas um deve obrigatoriamente preencher o atributo
+     [0..1] - Significa que a propriedade pode possuir um objeto ou nenhum
+     [0..*] - Significa que a propriedade é uma coleção pode possuir nenhum objeto ou varios
+     [*] - significa o mesmo que o acima
+     [1..*] - Significa que a propriedade é uma coleção e deve possuir pelo menos um objeto ou varios
+     [2..4] -- Significa que a propriedade é uma coleção e deve possuir pelo menos dois objetos e no maximo 4
+
+     e assim por diante..
+     *se nenhuma multiplicidade for definida o padrão é [1]
+   
+     valorDefault: valor a ser dado ao atributo caso nenhum outro valor seja atribuido
+                   a ele na construção
+
+     {Lista de propriedades}: serie de palavras chave uml que identificam caracteristcas para o atributo
+                              como {readOnly}	
+
+	algumas propriedades:
+   
+        -{readOnly} Define que o atributo poderá apenas ser recuperado nunca definido
+
+        //Para coleções(atributos de multiplicidade > 1)
+	-{ordered} Define que a ordem de inserção dos objetos na coleção é importante e deve ser mantida
+	-{unordered} Define que a ordem de inserção dos objetos na coleção não é importante
+	-{unique} Define que a coleção não pode possuir valores repetidos(Set em java)
+	-{nonunique} Define que a coleção pode possuir valores repetidos
+
+     ex:
+
+	- nome:String[1] = "Sem Nome Definido" {readOnly}
+
+---------------------------------------------------------
+* A terceira contem as operações(metodos) da classe
+
+  - Sintaxe para a declaração de metodos
+
+    visibilidade nome(parametros):tipo-de-retorno[multiplicidade do retorno]{Lista de Propriedades}
+
+    parametros
+
+     Sintaxe para a declaração de parametros:
+
+	direção nome:tipo = valorDefault
+
+		-direção: indica se o parametro é de entrada(in),saida(out) ou ambos(inout)
+			  o padrão é in caso não declarado
+                *O unico componente obrigatorio na declaração de um parametro é o seu tipo
+                
+     
+    *getters e setters e outros metodos de consulta a classe, ou seja metodos que apenas retornam
+     valores sem mudar o estado do sistema não devem ser considerados operações
+ 
+     operações devem ser apenas metodos que mudam efetivamente alguma coisa no sistema.
+
+     se for necessario adicionar um metodo de consulta como operação ele deve ser identificado
+     pela propriedade {query}
+	
+     ex:
+
+	+ persistName(in nome:String="Gilson"):boolean
+
+
+     obs: operação = metodo chamado por um objeto
+          metodo = codigo inserido dentro de um metodo
+
+	uma operação pode significar a execução de diferentes metodos caso seja
+        usado polimorfismo
+
+====================================================================================
+Associações
+
+A associação representa o relacionamento
+entre as classes ela é representada por uma seta
+que tem direção origem-destino ou é bidirecional
+
+em uma associação a multiplicidade é declarada
+nas duas pontas e ela funciona da mesma maneira
+que em um atributo com a exceção de que ela não é
+declarada entre []
+
+na ponta de destino da associação são definidas as caracteristicas
+do objeto que a classe origem terá como atributo a sintaxe é a mesma
+de um atributo de classe com a exceção da multiplicidade
+que é declarada a parte
+
+*se nenhuma definição for feita o padrão é dar o nome do objeto o proprio nome da classe destino
+
+sintaxe:
+
+ visibilidade nome: tipo = valorDefault{Lista de propriedades} 
+
+*Não necessariamente uma associação deve ser feita entre duas classes criadas
+ na aplicação as vezes classes padrões do java precisam ser declaradas como uma associação
+ nesse caso como no exemplo(exemplo associação.png) não são declarados atributos ou metodos somente o nome da classe
+ a multiplicidade e a definição do atributo para a origem.
+
+============================================================================
+Generalização
+
+A generalização representada por uma seta "não preenchida" apontando
+para a superclasse e o seu corpo se subdividindo para conecta-la as subclasses
+representa a herança em um sistema orientado a objetos
+
+e significa que todas as associações,atributos e operações(metodos) da superclasse tambem
+pertencem as suas subclasses
+
+
+========================================================================
+Dependência
+
+Uma dependência significa que qualquer alteração
+na definição da classe-destino pode causar alterações
+na classe-origem e que alterações na classe-origem não
+ocasionam alterações na classe-destino(ver exemplo de dependecia)
+
+*uma classe-origem pode ter varias classes-destino
+
+ela é representada por uma seta "não preenchida e uma linha tracejada
+e pode possuir alguma palavra chave entre <<>> para identificar qual é o
+tipo de dependecia
+
+*alguns tipos de dependencia estão no exemplo de dependecia
+
+===============================================================================
+Notas
+
+Notas são comentarios que podem estar presentes em qualquer diagrama
+sua simbologia é feita por meio de um retangulo no formato de um papel
+com a ponta dobrada e o texto no seu interior é normal diferente das restrições
+que possuem o texto dentro de {}
+
+Comentarios podem estar conectados ao elemento ao qual se refere por uma
+linha tracejada(----------)
+
+============================================================================
+Restrições
+
+Restrições são regras que devem ser cumpridas pelo elemento
+ao qual ela está associada, possuem basicamente a mesma notação
+das notas com a diferença de que o seu texto está entre {}
+
+
+

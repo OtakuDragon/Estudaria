@@ -1,0 +1,82 @@
+Embedding objects
+
+Embedding significa ter uma classe com objetos
+que não precisam ter uma tabela unica e se juntam
+a tabela de uma entidade
+
+
+===============================================================
+@Embeddable
+
+A anotação @Embeddable anota uma classe dizendo ao
+hibernate que quando for encontrado um objeto desta
+classe não é necessario criar um nova tabela para ele
+mas sim adiciona-lo a mesma tabela da entidade
+
+em classes @Embeddable é possivel utilizar anotações
+como @Column para modificar os nomes padrões
+assim como em entidades
+
+ex:
+
+@Embeddable
+public class User {
+}
+
+-----------------------------------------------------------------
+@Embedded
+
+anotação utilizada em atributos de entidade que
+sejam objetos para identificar que eles serão
+adicionados na mesma tabela, não é obrigatoria
+mas o cara do curso usou '-'
+
+ex:
+
+@Embedded
+private User usuario;
+
+-----------------------------------------------------------
+@AttributeOverride e @AttributeOverrides
+
+Quando uma entidade precisa ter mais de um objeto
+embedded, as colunas de todos os objetos precisam
+ter nomes diferentes para que não haja conflito
+estas colunas são alteradas na classe entidade
+por meio das anotações @AttributeOverride e @AttributeOverrides
+
+@AttributeOverride
+
+Propriedades:
+
+name - Define o do atributo da classe(coluna) embedded a ser alterado
+
+column - Define o valor da nova coluna e recebe como valor uma anotação @Column
+
+@AttributeOverrides
+
+Quando é necessario modificar varias colunas esta anotação
+recebe um array de @AttributeOverride
+
+
+ex:
+
+obs: dentro de uma classe entidade..
+
+//configura as colunas do objeto com nomes diferentes do padrão
+
+@Embedded
+@AttributeOverrides({
+@AttributeOveride(name="street", column=@Column(name="HOME_STREET_NAME")),
+@AttributeOveride(name="city", column=@Column(name="HOME_CITY_NAME")),
+@AttributeOveride(name="state", column=@Column(name="HOME_STATE_NAME"))
+})
+private Adress home;
+
+//Cria um objeto com os valores padrões da classe @Embedded
+
+@Embedded
+private Adress office;
+
+
+//não há conflito entre os dois objetos na tabela da entidade

@@ -1,0 +1,27 @@
+Structs em C++
+
+Uma struct em C++ significa um conjunto de dados
+de tipos diferentes ou iguais todos acessiveis apartir
+de uma unica variavel
+
+funciona como um objeto java que pode somente conter atributos
+
+ex:
+
+struct funcionario
+{
+char nome[32];
+int numMeses;
+float salarioHora;
+};
+
+main(){
+
+struct funcionario jose;//cria o funcionario
+
+//preenche seus dados
+strcpy(jose.nome, "Jose da Silva"); 
+jose.numMeses = 36;
+jose.salarioHora = 25.59;
+
+}

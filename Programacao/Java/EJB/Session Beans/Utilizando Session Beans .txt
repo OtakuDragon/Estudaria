@@ -1,0 +1,61 @@
+Utilizando Session Beans
+
+Session beans podem ser utilizados em outros EJBs,
+jsps, servlets, POJOs, Managed Beans, etc. em quase
+todos os componentes java, alem de poderem ser acessados
+por aplicações em outras linguagens por meio de web services
+
+O acesso de um cliente a um session bean segue
+esses passos:
+
+* O cliente obtem uma referencia ao Bean diretamente(Dependency Injection) ou indiretamente(JNDI)
+* Todas as chamadas de metodos do bean devem ser feitas atraves da interface de negocio
+* O cliente pode chamar quandos metodos precisar quantas vezes precisar
+* Se o bean for um SFSB a ultima chamada de metodo deve ser de um metodo anotado com @Remove
+===============================================================
+Utilizando um session bean por dependecy injection
+
+A forma mas simples de se utilizar session beans é atraves
+da injeção de dependecia do container no cliente atraves
+da anotação @EJB em um atributo de interface de negocio.
+
+Um session bean só pode ser injetado em um client se eles estiverem
+em um mesmo container, EJB container para outros EJB componentes, web
+container para managed beans,servlets,jsps e Applcation client container
+para componentes java SE.
+
+ex:
+
+@EJB
+private MinhaInterfaceDeNegocio objeto;
+
+--------------------------------------------------------------
+Os atributos da anotação @EJB
+
+* String name - utilizado para definir o nome JNDI do Session bean a ser injetado
+* Class beanInterface- especifica a interface de negocio que será utilizada para acessar o SB
+* String beanName - nos permite escolher um session bean pelo nome se existirem varios SB implementando
+                    a mesma interface de negocio
+
+
+
+obs:Todos os atributos de @EJB são opcionais
+
+-------------------------------------------------------------
+Regras de injeção de dependecia
+
+* Um SLSB não pode conter em si SFSBs sobre o risco de ja que SLSBs são armazenados no pool
+  sempre que method ready e compartilhados entre clientes os dados deste SFSB podem ir para qualquer
+  cliente que chame o SLSB.
+
+* Um SFSB pode conter SLSBs
+
+* Um SFSB pode conter SFSBs, sendo que a remoção do SFSB pai tambem causa a remoção do filho
+
+* Um SFSB não deve ser inejetado em uma classe utilizada por varios clientes como um servlet por exemplo
+  nestes casos deve ser usar JNDI para se conseguir a referencia para o objeto
+
+
+
+
+

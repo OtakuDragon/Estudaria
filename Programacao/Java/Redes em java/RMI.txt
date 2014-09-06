@@ -1,0 +1,98 @@
+Remote Method Invocation
+
+Invoca metodos de objetos que estão em um computador
+servidor, no computador cliente
+
+==================================================
+
+Criando uma classe que pode ser invocada remotamente
+
+Primeiramente uma classe que pode ser invocada remotamente
+deve obrigatoriamente implementar uma interface que extenda de remote
+
+----------------------------------------------------------------------
+
+A interface obrigatoria
+
+Esta interface possuira a assinatura dos metodos que serão visiveis
+remotamente, somente estes metodos poderão ser acessados pela rede
+
+ex:
+
+public interface Exemplo extends Remote{
+
+	public void metodoRemoto1(String s) throws RemoteException;//a interface remota não obriga a implementação de nenhum metodo		
+								    //mas obriga que todos os metodos joguem RemoteExceptions
+	
+
+	
+
+
+
+}
+
+--------------------------------------------------------------------------
+A classe remota
+
+A classe precisa implementar a interface remota neste caso Exemplo
+e opcionalmente pode extender UnicastRemoteObject a classe UnicastRemoteObject te
+obriga a criar o construtor da classe jogando uma remoteException
+
+public class ClasseExemplo extends UnicastRemoteObject implements Exemplo{
+
+	ClasseExemplo() throws RemoteException{
+
+	}	
+
+	public void metodoRemoto1(String s){
+	
+	//implementação
+	
+	}
+
+
+
+}
+
+--------------------------------------------------------------------------------
+Guardando este objeto no servidor
+
+O objeto é guardado no servidor em um RMI Registry
+que guarda referências(stubs) de uma classe identificadas pro um nome
+para a recuperação
+
+Exemplo ex = new ClasseExemplo();
+
+//passe uma variavel do tipo da interface para o registry
+//porque somente o que pertence a interface será transportado pela rede
+
+
+Registry registro = LocateRegistry.createRegistry(1099);// cria um novo repositorio de objetos na porta 1099
+							//este metodo faz com que o programa não termine e fique 
+							// esperando requisições.
+
+//Se a classe não extender de UnicastremoteObject é necessario exportar o stub para a variavel
+//do registry com a seguinte linha de codigo
+
+// ex = (Exemplo) UnicastRemoteObject.exportObject(ex,0); // o segundo parametro é um zero
+
+registro.rebind("nomeObjeto", ex);//adiciona um objeto ao repositorio e o relaciona(bind) aquele nome
+
+--------------------------------------------------------------------------------------
+Recuperando este objeto no cliente
+
+O cliente recupera este objeto por meio de uma url
+o cliente precisa importar a interface
+
+é possivel se passar como parametro em metodos remotos
+objetos de classes desde que elas implementem serializable
+
+String url = "rmi://localhost:1099/nomeObjeto";//a url é composta do protocolo ou seja rmi, o nome ou ip do server, a porta e o nome do objeto
+
+Exemplo obj = (Exemplo) Naming.lookup(url);// o metodo estatico lookup de Naming retorna um object com a referência
+					  // do objeto no servidor faça o casting para o tipo da interface remota e
+					  // será possivel invocar os metodos remotamente.
+
+obj.metodoRemoto1("Pronto");
+
+

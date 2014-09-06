@@ -1,0 +1,28 @@
+Paginas JSF
+
+Paginas JSF2.0 devem ser arquivos xhtml(jsps era usadas na versão 1.2) e 
+são intepretadas pelo servidor como paginas
+JSF quando chamadas na url com a extensão .jsf
+
+tags html funcionam normalmente em paginas JSF
+
+===================================================
+Taglibs
+
+a caracteristica principal de uma pagina jsf
+são suas tags especiais
+
+para uma pagina ser considerada jsf ela deve
+importar pelo menos duas bibliotecas de tags:
+
+*xmlns:h="http://java.sun.com/jsf/html"
+
+e
+
+*xmlns:f="http://java.sun.com/jsf/core"
+
+obs: xmlns significa xml namespace
+
+obs: a letra que vem depois de "xmlns:" é o prefixo
+     que representa a taglib ou seja toda tag core jsf
+     começara com f:nomeDaTag

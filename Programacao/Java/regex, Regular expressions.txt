@@ -1,0 +1,172 @@
+Regular expressions
+
+São a maneira de criar expressões padrão para validação de dados
+
+regex, Regular expressions são construidas da mesma forma que Strings
+mas possuem uma serie de caracteres especiais para a criação de padrões
+
+------------------------------------------------------------------------------
+Modificadores
+
+(?i) - Ignora maiusculas e minusculas
+(?x) - Comentarios
+(?m) - Multilinhas
+(?s) - Dottal
+
+uso:
+
+String re = "(?i)la";
+String re = "(?sx)la";
+
+------------------------------------------------------------------------------
+
+Metacaracteres
+
+representa um tipo de caractere
+
+ . - qualquer caractere
+ 
+ \\d - Digitos[0-9]
+
+ \\D - não é digito[^0-9]
+
+ \\s - espaços e tabulações [ \t\n\x0B\f\r]
+
+ \\S - não é espaço [^ \\s]
+
+ \\w - letras [a-zA-z_0-9]
+ 
+ \\W não é letra [^\\w]
+
+uso:
+
+String re = "\\d\\d-\\d\\d"
+
+cria um regex que aceita o formato 56-78
+com qualquer numero
+
+---------------------------------------------------------------------------------
+
+Quantificadores
+
+cada metacaractere se refere a um elemento do regex
+para se referir a varios elementos ao mesmo tempo
+use quantificadores
+
+X - metacaractere
+
+	X{n} - X, exatamente n vezes
+	X{n,} - X pelo menos n vezes
+	X{n,m} - X pelo menos n vezes mas não mais do que m vezes
+	X? - X, 0 ou 1 vez
+	X* - X, 0 ou + vezes
+	X+ - X, 1 ou + vezes
+
+uso:
+
+String re = \\d{2}-\\d{2}
+
+tem a mesma função do exemplo de metacaracteres
+só que mais resumido
+
+-------------------------------------------------------------------------------------
+
+Metacaractere de fronteira
+
+Metacaracteres que indicam se a expressão deve estar no começo no final ou
+possui mais de uma possibilidade na regex
+
+^ inicia
+$ finaliza
+| ou
+
+uso:
+
+String re = ("^a"); //indica que a expressão tera que começar com "a"
+String re = ("a$"); //indica que a expressão tera que terminar com "a"
+String re = ("^a | a$"); //indica que a expressão tera que começar com "a" ou terminar com "a"
+
+--------------------------------------------------------------------------------------------
+Agrupadores
+
+Cria conjuntos de letras ou numeros
+os conjuntos incluem a primeira e a ultima letra.
+
+[a-z] - Alcance, refere-se a todas as letras de a à z
+
+[a-d][i-u] - União, refere-se a todas as letras entre "a" e "d" e entre "i" e "u" 
+
+[a-d&&[c-e]] - Interseção refere-se a todas as letras comuns aos dois conjuntos
+
+[^abc] - Exceção,diz que estas letras não podem existir
+
+[a-z&&[^m-p]] - Subtração, todas as letras de "a" a "z" que nao estejam entre "m" e "p"
+
+\x Fuga literal
+
+uso:
+
+String re = "[a-z]" //indica que a expressão somente tera letras entre "a" e "z"
+
+String re = "[Gg]ilson" // indica que a expressão aceitara Gilson ou gilson
+
+-------------------------------------------------------------------------------------------------
+
+Metodos
+
+Objetos string possuem o metodo matches()
+
+Metodo matches()
+
+recebe uma string regex como argumento e retorna true
+se o valor daquela string esta de acordo com o padrão e false
+se não
+
+uso:
+
+String nome = "Gilson";
+
+String regex = "\\w{3,}"
+
+boolean valido = nome.matches(regex);
+
+//o valor de valido sera true porque 
+//a string é formada por mais de 3 letras
+
+-----------------------------------------------------------------------------------------------------
+
+Classes Pattern e Matcher
+
+A classe Pattern possui o metodo compile usado para 
+compilar uma regex
+
+e retorna um objeto de tipo pattern
+que possui o metodo matcher() que recebe a string
+e retorna um objeto do tipo Matcher
+
+Matcher valido = Pattern.compile("\\w{3,}").matcher(nome);
+
+Este objeto Matcher tem varios metodos uteis para validação
+
+-----------------------------------------------------------------------------------------------------
+
+Variaveis de regex
+
+em uma String regex é possivel separar partes do texto com ()
+estas partes serão variaveis que podem ser acessadas por $1,$2....
+dependendo da su posição no texto
+
+String re = "(www).(google).(com)";
+
+String r = (re,"$3.$2.$1");
+
+// o valor de r sera "com.google.www";
+// por que nesse caso a variavel $1 representa "www", a variavel $2 "google" e a variavel $3 "com";
+
+
+
+
+
+
+
+

@@ -1,0 +1,96 @@
+HTML
+
+<!DOCTYPE>
+
+Todo arquivo html profissional deve conter um doctype indicando qual versão 
+do html aquele arquivo esta seguindo.
+
+algumas ides geram o doctype automaticamente
+
+para validar seu codigo e saber se todas as regras estão sendo seguidas:
+
+validator.w3c.org
+
+-------------------------------------------------------------------------------------------------------
+
+
+*TODAS AS MODIFICAÇÕES VISUAIS DEVEM SER FEITAS NO CSS
+
+*É PROIBIDO UTILIZAR <table> PARA CONSTRUIR LAYOUT POIS COMPLICA A LEITURA E MANUTENÇÃO DO CODIGO
+
+*No xHTML todas as tags abertas devem ser fechadas
+
+Tags: 
+
+<html> - Inicia um arquivo html
+
+<head> - cabeçalho, fornece informações sobre o documento possui as tags internas <meta> e <tittle> informações abaixo
+
+<title> - Define o titulo da pagina que aparece na aba do navegador (deve ser colocado dentro de <head>)
+
+<body> - possui o conteudo do documento
+
+<i> - Italico
+
+<u> - sublinhado
+
+<small> - Texto com letras menores
+
+<p> - paragraph. paragrafo.
+
+<b> - Negrito.
+
+<div> - representa um elemento em bloco generico
+
+<span> - representa um elemento em linha generico
+
+<center> - centraliza na pagina ou frame o conteudo(imagem ou texto) dentro dela
+
+<blink> - faz um texto piscar na pagina
+
+<!-- exemplo --> - Comentario adiciona um comentario ao documento html tudo o q esta entre a tag sera ignorado pelo intepretador
+
+<pre> - Pre-Formatted os espaços e linhas em branco do texto dentro desta tag serão imprimidos na pagina da web
+
+
+<h1><h2><h3><h4><h5><h6> - Cabeçalhos quanto maior o numero de h menor o texto
+
+<del> - Passa um linha no meio do texto dentro da tag
+
+<sup> - deixa o texto acima como em 2¹ como este 1
+
+<sub> - deixa o texto abaixo como em uma formula quimica H20 o 2 tem que ser menor e pequeno ou seja H<sub>2</sub>O
+
+<q> - transforma o texto em uma citação
+
+<blockquote> - versão em bloco de <q> que transforma um bloco de texto em citação
+
+<adress> - utilizado para informações de contato deixa o texto em uma fonte apropriada
+
+<label> - adiciona um rotulo a tag <label> possui um atributo for="" que recebe um id de 
+          um campo de formulario para se associar a ele é uma medida de acessibilidade para o browser
+	sem mudança visivel 
+
+<br> - Break Pula uma linha
+
+<hr> - Horizontal ruling Define uma linha horizontal
+
+
+
+===============================================================================================
+Atributos gerais
+
+Todas as tags html possuem os seguintes atributos
+para a sua indentificação
+
+- name //Define o nome de uma tag varias tags podem ter o mesmo nome <h1 name="cabecalho"></h1>
+
+- id //Define um id para uma tag um id é uma identificação unica duas tags nunca podem ter <h1 id="cabecalho"></h1>
+     //o mesmo id
+
+- class // define uma classe CSS para a tag varias tags podem participar de uma mesma classe <h1 class="cabecalho"></h1>
+
+
+*uma tag pode ter um ou mais dos atributos acima ao mesmo tempo
+
+

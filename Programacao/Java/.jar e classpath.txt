@@ -1,0 +1,34 @@
+Arquivos .jar são repositorios java e são criados da seguinte  forma
+
+va no cmd e digite
+
+jar cf nomeDoJar.jar arquivoDeclasse1.class ArquivoDeclasse2.class imagem.gif classe.html
+ //após o nome do jar coloque o nome e a extensão dos outros arquivos a serem compactados
+
+uso do jar na pagina html
+
+<applet code="exemplo.class" archive="nomeDoJar.jar"></applet>
+
+//Os arquivos necessarios para a execução do applet serão procurados no repositorio
+
+--------------------------------------------------------------------------------------
+
+Criando um jar pelo Eclipse
+
+botão direito no projeto
+
+export
+
+jar
+
+selecione o destino
+
+--------------------------------------------------------------------------------------
+
+utilizando .jar como classpath a jvm
+
+classpath indica aonde a jvm aonde procurar recursos para executar o programa
+
+uso:
+
+java -classpath C:\endereçoDoJar.jar nomeDaClasseAExecutar

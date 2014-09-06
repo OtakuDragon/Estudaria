@@ -1,0 +1,12 @@
+Objeto attribute
+
+O objeto attribute representa os 
+atributos das tags HTML
+
+=================================================
+Atributos de attribute ('-')
+
+attribute.isId //retorna uma boolean dizendo se o atributo é do tipo id ou não
+attribute.name //retorna o nome do atributo
+attribute.value //define ou retorna o valor de um atributo
+attribute.specified //retorna uma boolean dizendo se o atributo possui um valor ou não

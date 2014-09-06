@@ -1,0 +1,13 @@
+Sombreamento de elementos em bloco, propriedade do CSS 3
+
+propriedade:
+
+box-shadow:horizontalOffset verticalOffset optionalBlurDistance  optionalSpreadDistance;
+
+todos em uma unidade de medida como px
+
+ex:
+
+box-shadow: 10px 10px;
+box-shadow: 10px 10px 5px #888;
+box-shadow: inset 2px 2px 2px 2px black;

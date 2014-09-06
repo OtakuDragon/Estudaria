@@ -1,0 +1,71 @@
+A taglib Facelets
+
+A taglib Facelets possui recursos poderosos para a reutilização
+de paginas de interface web
+
+=======================================================
+Tags			Descrição
+
+<ui:remove>		Agrupa uma parte do código que não deve ser exibida na pagina nem processada pelo jsf
+			semelhante a uma parte do codigo comentada (<!---->) com o detalhe de que tags comentadas
+			apesar de não serem mostradas na pagina ainda sim são processadas pelo JSF
+
+---------------------------------------------------------------------------------------------------------------------------------
+<ui:repeat> 		funciona como dataTable mas ela apenas itera sobre coleções, toda a configuração de exibição
+			que em dataTable é no formato de uma tabela, é completamente definida pelo programador
+			Ela possui dois atributos obrigatórios: value e var. O atributo value deve ser associado a uma coleção de objetos e o atributo var deve 
+                        definir o nome da variável.
+
+ex:
+
+<ul>
+ <ui:repeat value ="#{testeBean.cursos}" var ="curso">
+ <li>
+ <h:outputText value ="#{curso.sigla}: #{curso.nome}" />
+ </li >
+</ui:repeat>
+</ul>
+
+HTML output:
+
+<ul>
+ <li>K11 : Orientação a Objetos em Java </li>
+ <li>K12 : Desenvolvimento Web com JSF2 e JPA2 </li>
+ <li>K21 : Persistência com JPA2 e Hibernate </li>
+ <li>K51 : Design Patterns em Java </li>
+</ul>
+
+*é possivel observer que a tag <li> é repetida com valores diferentes de acordo com a iteração da coleção definida em value
+
+----------------------------------------------------------------------------------------------------------------------------------------
+<ui:insert>		Tag utilizada para inserir conteudo dinamico em um template ela possui um nome pelo qual ela
+			é indentificada na tag <ui:define> que define o conteudo.
+
+--------------------------------------------------------------------------------------------------------------------------------
+<ui:composition>	Tag que define partes dinamicas em um template deve ser a tag raiz em um arquivo xhtml e possui
+			a seguinte assinatura, o atributo template recebe o endereço da pagina de template que esta pagina usará
+			seu codigo pode ser separado em <ui:define> ou ser um codigo puro que é importado para uma pagina qualquer
+			com a tag <ui:include>
+ex:
+
+<ui:composition template ="/template.xhtml"
+ xmlns=" http://www.w3.org/1999/xhtml"
+ xmlns:h="http://java.sun.com/jsf/html"
+ xmlns:f="http://java.sun.com/jsf/core"
+ xmlns:ui="http://java.sun.com/jsf/facelets">
+
+</ui:composition>
+
+---------------------------------------------------------------------------------------------------------------------------
+<ui:define>		Tag utilizada dentro de uma <ui:composition> para definir o conteudo das partes dinamicas de um template
+			em seu atributo name recebe o nome da tag <ui:insert> que diz aonde inserir e dentro do seu corpo
+			é inserido o codigo da parte dinamica
+
+---------------------------------------------------------------------------------------------------------------------------
+<ui:include>		Importa o conteudo de um arquivo <ui:composition> para dentro de uma pagina qualquer
+			pode receber parametros em seu interior com a tag <ui:param> recebidos pelo
+			<ui:composition>, diretamente por UEL #{nomeDoParametro}
+
+------------------------------------------------------------------------------------------------------------------------
+<ui:param>		Tag interna de <ui:include> para a passagem de parametros para o  <ui:composition>
+			o parametro tem um nome e um valor

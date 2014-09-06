@@ -1,0 +1,85 @@
+Objeto String em C++
+
+O objeto String possui varios metodos 
+para a manipulação de texto
+
+e é criado quando uma variavel string é criada
+
+ex:
+
+string nome; //nome é um objeto string
+
+obs: uma String pode ser acessada como um Array ex:(objetoString[5])
+
+====================================
+Alguns Metodos de string
+
+
+
+objetoString.append(string); //Recebe como parametro uma string e adiciona esta string ao texto do objetoString
+
+objetoString.assign(string);//Recebe como parametro uma string e substitui o texto do objetoString por esta string
+
+objetoString.substr(int,int);//retorna a substring que começa no primeiro parametro e vai até o segundo parametro
+
+objetoString.at(int);//Recebe um numero inteiro e começando do 0 retorna uma REFERÊNCIA ao char naquela posição do objetoString
+                     // ou seja objetoString.at(0)='B'; substitui a primeira letra 
+
+objetoString.back();//Retorna uma REFERÊNCIA para o ultimo char da string
+
+objetoString.front();//Retorna uma REFERÊNCIA para o primeiro char da string
+
+objetoString.clear(); //Limpa o valor da string tornado-a uma string vazia de length 0
+
+objetoString.compare(string); //Recebe uma string e a compara com objetoString se elas forem iguais retorna 0 se não qualquer outro numero
+
+objetoString.copy(char[],int,int);//Recebe um array de chars, o numero de letras as quais copiar e a posição de aonde começar a copia
+                    		  //copia o conteudo da string selecionada para o array de chars e retorna o numero de letras que foram copiadas   
+objetoString.c_str() ou objetoString.data();//retorna a string como um array de chars terminado em null(\0) ou seja converte a string para uma string em C
+
+objetoString.empty(); //testa se a string esta vazia retorna true se o length for igual e 0 e false se for > 0
+
+objetoString.erase(int,int);//apaga uma parte da string, recebe como parametro o posição aonde começar e até aonde apagar
+
+objetoString.insert(int,string);//insere uma string dentro de objetoString na posição indicada pelo primeiro parametro
+
+objetoString.length() ou objetoString.size();//Retorna o numero de caracteres da string
+
+objetoString.max_size();//retorna o numero maximo de caracteres uma string pode ter(constante) depende do SO
+
+objetoString.pop_back(); //apaga o ultimo char da string
+
+objetoString.push_back(char); //insere um char no final da string
+
+objetoString.replace(int,int,string);//substitui uma parte da string começando no primeiro parametro e indo até o segundo parametro pelo terceiro parametro
+
+objetoString.resize(int,char);//se a string for maior que o parametro:exclui caracteres do final da string até que ela tenha o tamanho passado como parametro
+			     //se a string for menor do que o parametro: adiciona copias do caracter passado no segundo parametro, se o segundo parametro não for
+                             //passado adiciona caracteres null até que o tamanho seja atingido
+
+//Pesquisa
+
+objetoString.find(string); //recebe uma string e procura a ocorrência(char por char) dela no texto de objetoString se for encontrado
+ 	                   //retorna o indice do primeiro caractere encontrado se não retorna string::npos
+
+objetoString.rfind(string); //recebe uma string e procura a ocorrência(char por char) dela no texto de objetoString se for encontrado
+                           //retorna o indice do ultimo caractere encontrado se não retorna string::npos
+
+objetoString.find_first_not_of(string);//recebe uma string e procura no objetoString o primeiro char que não esta na string passada
+				       //se achar retorna a posição do char se não achar retorna string::npos
+
+objetoString.find_first_not_of(string);//recebe uma string e procura no objetoString o primeiro char que esta na string passada
+				       //se achar retorna a posição do char se não achar retorna string::npos
+
+objetoString.find_last_not_of(string);//recebe uma string e procura no objetoString o ultimo char que não esta na string passada
+				       //se achar retorna a posição do char se não achar retorna string::npos
+
+objetoString.find_last_of(string);//recebe uma string e procura no objetoString o ultimo char que esta na string passada
+				  //se achar retorna a posição do char se não achar retorna string::npos
+
+
+
+
+
+
+

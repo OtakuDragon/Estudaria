@@ -1,0 +1,19 @@
+Arrays em C++
+
+sintaxe:
+
+tipoDeDado nomeDoArray[tamanho];
+
+ex:
+
+int idades[2];
+
+==========================================
+preenchendo um array
+
+int idades[2]={18,25};
+
+=========================================
+Arrays multidimensionais
+
+int idades[2][3];

@@ -1,0 +1,111 @@
+Listas
+
+Listas em HTML são uma maneira de se armazenar informações
+em uma coluna
+
+existem 3 tipos possiveis de listas em HTML:
+
+-Listas ordenadas //possuem uma numeração em cada item
+-Listas não ordenadas //possuem um desenho em cada item
+-Lista de definições //possuem um topico e uma sublista de definições
+
+==========================================================================================
+A tag <li>
+
+Define um elemento de lista deve ser definido dentro de <ul> ou <ol> e deve ser fechado
+
+==========================================================================================
+
+<ul> - Unordered list cria uma lista não ordenada exemplo:
+ . Arroz
+ . Feijão
+
+-----------------------------------------------------------------------------------
+
+atributo de <ul>
+
+type - define o tipo de marcador para a lista unordered
+
+----------------------------------------------------------------------------------
+
+valores de type
+
+disc - marcador "uma bolinha preta"
+
+circle - marcador "uma bolinha branca com borda preta"
+
+square - marcador "um quadrado preto"
+
+exemplo de uso
+
+<ul type="disc" ou "circle" ou "square" >
+
+<li>lista aqui</li>
+
+
+</ul>
+
+==============================================================================================
+
+<ol> - ordered list cria uma lista ordenada exemplo:
+1. Arroz
+2. Feijão
+
+---------------------------------------------------------------------------------------
+
+atributo de <ol>
+
+type - define o tipo de marcador para a lista ordered
+
+----------------------------------------------------------------------------------------
+
+valores de type
+
+A - marcador "Letras maiusculas"
+
+a - marcador "Letras minusculas"
+
+I - marcador "Numeros romanos grandes"
+
+i - marcador "Numeros romanos pequenos"
+
+exemplo de uso
+
+<ol type="A" ou "a" ou "I" ou "I" >
+
+<li>lista aqui</li>
+
+</ol>
+
+
+
+
+
+==========================================================================================
+
+
+Lista de definições <dl>
+
+lista de definições tem um termo e definições para ele depois outro termo
+e assim por diante
+
+<dl>
+	<dt>Arroz</dt>//termo
+	<dd>grão branco</dd>
+	<dd>comido com feijão</dd>
+	<dt>Feijão</dt>
+	<dd>grão marrom ou preto<dd>
+	<dd>comido com arroz</dd>
+
+
+
+</dl>
+
+ex visual:
+
+Arroz
+	grão branco
+	comido com feijão
+Feijão
+	grão marrom ou preto
+	comido com arroz

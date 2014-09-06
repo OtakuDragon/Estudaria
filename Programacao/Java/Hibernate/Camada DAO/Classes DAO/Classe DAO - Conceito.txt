@@ -1,0 +1,8 @@
+Classe DAO
+
+A classe DAO é uma classe que acompanha uma entidade
+e que encapsula todas as atividades necessarias no banco
+de dados dentro de metodos para serem acessados na camada
+de Regras de negocio
+
+============================================================

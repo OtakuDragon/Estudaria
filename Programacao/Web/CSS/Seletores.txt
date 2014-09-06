@@ -1,0 +1,203 @@
+Seletores
+
+Seletores no css são a parte que vem antes das declarações
+e servem para dizer ao css aonde exatamente aplicar as propriedades
+
+ex:
+
+Seletor{propriedade:valor;...}
+
+####Seletores simples#####
+
+seletores simples são simples porque são compostos de
+somente um elemento
+
+==============================================================
+
+Seletor universal *
+
+É o seletor que representa todos os elemetos na pagina
+suas propriedades serão adicionadas a todos os elementos da pagina
+
+* {
+
+	color:blue;
+
+}
+
+//tudo na pagina tera a propriedade color com o valor blue
+
+===========================================================
+
+Seletor elemento
+
+O seletor elemento é um seletor que representa uma tag html
+
+p {
+
+	margin:0;
+	
+
+}
+
+//aonde for utilizada a tag <p> recebera as mudanças
+
+=================================================================
+
+Seletor por classe
+
+Toda tag html possui o atributo class
+que pode receber um nome qualquer que na verdade refere-se
+a uma classe css criada da seguinte forma
+
+.nomeDaClasse {
+
+	propriedade:valor;
+	...
+
+
+}
+
+//sera utilizada na tag que possuir o atributo class com o nome da classe ex: <p class="nomeDaClasse">
+//uma tag pode implementar duas classes separando-as por espaço ex: <h1 class="primeiraClasse segundaClasse">
+//antes do . é possivel colocar uma tag html tambem para especificar a classe somente para aquele tipo de tag
+
+=======================================================================
+
+Seletor por id
+
+Toda tag html tambem possui o atributo id
+e um id é unico para cada elemento se cria um codigo
+para id da segunte forma:
+
+#nomeDoID {
+
+
+	propriedade:valor;
+
+
+
+}
+
+//sera aplicado no elemento html que tiver o id da segunte forma <li id="nomeDoID">
+
+===========================================================================
+
+Seletor por elemento + atributo
+
+É possivel selecionar um elemento especifico pelo valor de um atributo dele
+da seguinte forma:
+
+nomeDoElemento[nomeDoAtributo="valorDoAtributo"]{
+
+	propriedade:valor;
+
+
+
+}
+
+//pode ser usado somente o nomeDoAtributo e o = é para atributos com exatamente aquele valor
+// o ~= é para atributos que contenham aquele valor junto de outras coisas separados por espaço
+// o |= é para atributos que contenham aquele valor junto de outras coisas separadas por hifen
+// o ^= é para atributos que comecem com aquele valor
+// o $= é para atributos que terminem com aquele valor
+
+//exemplo 
+css:
+
+input[type="button"]{
+
+	propriedade:valor;
+
+
+}
+
+input[value~="botao"]{
+
+	propriedade:valor;
+
+
+}
+
+html:
+
+<input type="button" value="botao de login">
+
+================================================================================
+
+#####Seletores compostos#####
+
+seletores compostos são compostos porque são formados por mais de um elemento
+
+============================================================================
+
+Seletor Descendente
+
+Ele indica duas tags e significa:
+aplique as mudanças na segunda tag que esta dentro da primeira
+
+ex:
+
+div p {
+
+
+	propriedade:valor;
+
+
+
+
+}
+
+//ira aplicar as mudanças em qualquer p que estiver dentro de div não necessariamente
+//diretamente
+ex:
+
+ <div>
+	<h1>
+	<p>as mudanças serão aplicadas aqui mesmo estando dentro de uma tag h1</p>
+	</h1>
+
+</div>
+
+================================================================================
+
+Seletor Filho
+
+Ele indica uma uma duas tags 
+e significa aplique as mudanças
+na segunda tag que esta diretamente dentro da primeira
+
+ex: div > p{
+
+
+	propriedade:valor;
+
+
+}
+
+ex:
+
+<div>
+	<h1>
+	<p>as mudanças não serão aplicadas aqui porque div nao tem um filho p diretamente</p>
+	</h1>
+
+</div>
+
+===============================================================================
+Seletor irmão adjacente
+
+Este seletor recebera duas tags
+e aplicara as mudanças na proxima ocorrencia 
+da segunda tag apos a primeira
+
+ex:
+
+ div + p{
+
+
+	propriedade:valor;
+
+
+}
+

@@ -1,0 +1,148 @@
+Tratamento de erros OO
+
+O tratamento de erros em php tem sua
+forma tradicional e apartir do php 5
+ganhou uma forma OO de tratamento de
+objetos com uma classe Exception e
+os blocos try,catch
+
+=============================================
+A classe Exception
+
+O tratamento de erros OO gira em torno das 
+exceções todos os erros são exceções então
+vamos aprender como é uma exceção por padrão
+
+Metodos:
+
+__construct ([string $message = NULL[,int$code]]) //O contrutor de uma exeção padrão recebe a mensagem de erro como parametro obrigatorio
+						  //e o codigo da exceção como parametro opcional
+getMessage (void)		//Retorna o valor do atributo mensagem da exceção
+getCode (void)			//Retorna o valor do atributo codigo da exceção
+getFile (void)			//Retorna em qual arquivo ocorreu a exceção da exceção
+getLine (void)			//Retorna em qual linha ocorreu a  exceção
+getTrace (void)			//Retorna o stack trace da exceção
+getTraceAsString (void)		//Retorna o stack trace da exceção como string
+__toString (void)
+
+-------------------------------------------------
+Instanciando exceções
+
+O php ja possui varias exceções para
+todos os erros possiveis da linguagem
+mas é possivel criar uma exceção padrão
+com uma mensagem customizada
+
+Sintaxe:
+
+new Exception("Mensagem do erro").
+
+------------------------------------------------
+Criando exceções
+
+Se uma exceção padrão com mensangem diferente não
+for o suficiente é possivel criar sua propria exceção
+extentendo da classe Exception e adicionar metodos
+ou propriedades
+
+*todos os metodos de Exception são finais não podem ser reescritos
+*O construtor de Exception pode ser sobreescrito
+
+ex:
+
+class minhaException extends Exception 
+{
+
+	public __construct ()
+	{
+	parent::_construct(" ");
+	}	
+
+	public function erroMeu()
+	{
+	echo "GG son";
+	}
+
+
+
+}
+
+
+$a = new minhaException();
+$a->erroMeu();
+
+==========================================================
+Try, catch e throw
+
+As exceções funcionam em uma estrutura try,catch
+
+try
+{
+
+//Codigo no qual a possivel exceção pode ocorrer
+
+
+}catch(Exception $e)
+{
+//Caso uma exceção acontecer o codigo é pausado aonde a exceção
+//ocorreu e o trecho de codigo dentro do catch é executado
+//dentro do catch você tem acesso ao objeto Exception que representa
+//aquela exception e possui todas as suas informações
+
+
+//para cada exceção lançada deve existir um catch para captura-la
+//caso não tenha um fatal error uncaught exception acontece
+}
+
+
+------------------------------------------------------------
+Palavra chave throw
+
+Quando dentro de uma estrutura try você quer fazer uma 
+exceção acontecer a palavra throw é usada com um objeto exception
+ao qual jogar como operando
+
+throw lança um objeto Exception ou qualquer objeto que herda de Exception
+
+ex:
+
+try
+{
+
+//codigo
+
+throw new Exception("Errinho");
+
+}
+catch(Exception $e)
+{
+
+echo $e->getMessage();
+
+}
+
+=====================================================================
+Top Level Exception handler
+
+Top Top Level Exception handler é o catch que pega todas
+as exceções que não são capturadas durante o codigo(uncaught exception)
+o padrão gera um erro fatal mas é possivel definir um customizado com
+a função 
+
+set_exception_handler('NomeDaFunção');
+
+'NomeDaFunção' - o nome da função com o codigo para tratar todas as exceções não
+                 pegas no codigo
+
+ex:
+
+<?php
+function myException($exception)
+{
+echo "<b>Exception:</b> " , $exception->getMessage();
+}
+
+set_exception_handler('myException');
+
+throw new Exception('Uncaught Exception occurred');
+?>

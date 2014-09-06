@@ -1,0 +1,222 @@
+Criteria API
+
+Apesar da utilização de HQL ser util e
+adaptada a orientação a objetos ela ainda
+é bem semelhante a os codigos comuns de SQL
+
+o que pode em bancos de dados mais complexos
+causar muitas linhas de codigo para queries
+que como estão em um formato string podem causar
+problemas na hora de fazer mundaças no codigo
+
+Para resolver este problema de queries em string
+existe a criteria API que realiza consultas sem
+a necessidade de uma string query utilizando objetos
+criteria e restrictions que funcionam como select e where
+em uma query
+
+=============================================================
+Objeto Criteria
+
+Instanciação:
+
+//dentro de session.beginTransaction();
+
+Criteria criteria = session.createCriteria(User.class); //no momento da criação o metodo createCriteria()
+                                                        //recebe como parametro uma referencia a classe da entidade
+                                                        //sobre qual esta criteria tera efeito
+                                                        //é como se fosse a seleção de uma tabela com a clausula FROM no SQL
+
+
+//Apos um objeto criteria criado é possivel definir restrictions
+//atraves do metodo criteria.add() ou não se nenhuma restriction
+//for definida a tabela toda será retornada se sim somente os objetos
+//que atendem as restrições serão recuperados pelo metodo criteria.list()
+
+List<User> users = (List<User>) criteria.list(); //neste caso como nenhuma restrição foi definida a lista trará
+                                                 //todos os objetos da tabela
+
+
+//finaliza a transação e a sessão
+
+===================================================================
+Restrições
+
+Restrições são como uma clausula where limitam
+o que será retornado na lista do objeto criteria
+
+elas são adicionadas a criteria por meio do metodo
+criteria.add()
+
+-------------------------------------------------------------------
+Exemplo de restrição
+
+O Objeto Restictions possui varias restrições todas possiveis
+em uma clausula where como, like, between. Abaixo temos um exemplo
+de uso de restrição
+------------------------------------------------------------------
+
+Restrição de igualdade(Restrictions.eq())
+
+Restrição de igualdade faz a comparação dos valores da tabela
+com um valor passado e somente traz na lista os que contiverem
+aquele valor
+
+é como um WHERE campo = valor;
+
+ex:
+
+//dentro de session.beginTransaction();
+
+Criteria criteria = session.createCriteria(User.class); 
+
+criteria.add(Restrictions.eq("campo","valor")); //campo = nome do atributo da entidade ao qual comparar
+                                                //valor = ao que comparar este campo
+
+List<User> users = (List<User>) criteria.list(); //a lista só possuira os objetos que passarem pela restrição
+
+
+//finaliza a transação e a sessão
+
+---------------------------------------------------------------------
+Restrição OR
+
+Por padrão adicionar varias restrições a um objeto
+criteria possui um relacionamento AND ou seja os dados
+só serão repuperados se atenderem a todas elas é possivel
+adicionar um relacionamento OR entre duas restrições
+por meio da Restriction.or()
+
+ex:
+
+//dentro de session.beginTransaction();
+
+Criteria criteria = session.createCriteria(User.class); 
+
+//Exemplo de uma relação or entre duas restrições
+//por padrão o metodo add causa uma relação and
+//o metodo de restrictions .or() recebe duas restrições
+//e as relaciona com or
+
+criteria.add(Restrictions.or(Restrictions.between("userId",0,3),Restrictions.like("userName","%dragon")));
+
+
+ 
+
+List<User> users = (List<User>) criteria.list(); //a lista só possuira os objetos que passarem pela restrição
+
+
+//finaliza a transação e a sessão
+
+===========================================================================
+Projections
+
+Por meio de projections no objeto criteria é possivel realizar funções SQL(max(),min())
+ou recuperar somente um atributo do objeto
+
+----------------------------------------------------------------------
+Recuperando somente um atributo do objeto
+
+
+//dentro de session.beginTransaction();
+
+Criteria criteria = session.createCriteria(User.class); 
+
+
+criteria.setProjection(Projections.property("userId"));//recebe o nome do atributo(coluna)
+
+
+ 
+
+List<Integer> ids = (List<Integer>) criteria.list(); //a lista retornada conterá somente os dados do atributo(coluna)
+                                                     //userId
+
+
+//finaliza a transação e a sessão
+
+----------------------------------------------------------------------------
+Executando funções 
+
+//dentro de session.beginTransaction();
+
+Criteria criteria = session.createCriteria(User.class); 
+
+
+criteria.setProjection(Projections.max("userId"));//O Objeto Projections possui as funções SQL e podem ser usadas assim
+
+
+ 
+
+List<Integer> ids = (List<Integer>) criteria.list(); 
+
+
+//finaliza a transação e a sessão
+
+==============================================================================
+Ordenação com Criteria
+
+é possivel adicionar uma ordem ascendente ou descendente
+para os dados retornados na list() atraves do objeto Order
+
+ex:
+
+//dentro de session.beginTransaction();
+
+Criteria criteria = session.createCriteria(User.class); 
+
+
+criteria.addOrder(Order.desc("UserId"));//Order possui os metodos asc para crescente e desc para descendente
+                                        //e recebe como parametro qual atributo irá definir a ordem
+
+
+ 
+
+List<User> users = (List<User>) criteria.list(); //list de usuarios com o UserId do maior para o menor
+
+
+//finaliza a transação e a sessão
+
+================================================================================
+Query by example
+
+Quando se quer recuperar um objeto(s) especifico(s) se
+torna complicado criar varias restrições para identificar
+aquele(s) objeto(s), para estes casos é possivel criar
+um objeto de exemplo e pesquisar no banco por objetos
+que combinam com ele e só estes objetos são recuperados na lista
+
+
+Ex:
+
+//dentro de session.beginTransaction();
+
+User objeto = new User(); //criação do objeto de exemplo
+objeto.setUserName("gilson2008"); //definição dos parametros que serão comparados
+objeto.setSenha("123");
+
+/*caracteristicas*/
+
+//O objeto example não considera o atributo chave primaria(@Id)
+//se nenhum atributo for definido a list() terá todos os objetos
+
+Example example = Example.create(objeto); //encapsula o objeto User em um objeto Example para ser usado na criteria
+                                          //é possivel ignorar outra propriedades alem da @Id com a sintaxe
+					  //Example example = Example.create(objeto).excludeProperty("nomeDoAtributo");
+                                          //é possivel considerar wildcards nos valores dos atributos com a sintaxe
+                                          //Example example = Example.create(objeto).enableLike();
+					  //isto significa que valores de variaveis string podem conter codigo wildcard
+                                          //e será considerado pelo exemplo na criteria
+                          
+Criteria criteria = session.createCriteria(User.class); 
+
+
+criteria.add(example); //adiciona o objeto Example diretamente dentro da criteria
+                       //na lista só terão objetos que tem as mesmas caracteristicas do objeto exemplo
+
+ 
+
+List<User> users = (List<User>) criteria.list(); //list de usuarios com o UserId do maior para o menor
+
+
+//finaliza a transação e a sessão
+

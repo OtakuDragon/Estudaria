@@ -1,0 +1,15 @@
+Maven
+
+Maven é uma ferramenta criada pela apache que tem
+como função construir e gerenciar projetos.
+
+A construção de um projeto é:
+
+*Definção da estrutura dos diretorios
+
+*Importação dos jars de um projeto para todos os
+ framworks que serão utilizados e suas dependencias
+
+*Compilação do programa
+
+*Release do programa

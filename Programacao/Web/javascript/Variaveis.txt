@@ -1,0 +1,70 @@
+======Variaveis em javascript========
+
+variaveis em javascript são utilizadas para armazenar dados digitados pelo usuario em um site
+cada variavel é indentificada por um nome
+
+Regras para nomes de variaveis em java-script
+
+* Os Nomes de variaveis não pode sem palavras-chave javascript (break,continue,function,etc..)
+
+* Os Nomes de variaveis não pode sem palavras-reservadas javascript(byte,float,etc..)
+
+* Os Nomes das variaveis podem  começar com uma letra ou underline(_)
+
+* Os nomes das variaveis podem conter numeros e underline (_)
+
+* Os nomes das variaveis podem ter letras maiusculas ou minusculas. ou seja, são case sensitive
+
+* Os nomes das variaveis não podem conter espaços
+
+obs: o javascript é case sensitive
+
+========================================================================
+Tipos de variaveis em javascript
+
+Javascript possui três tipos de variaveis
+
+Number - São usadas para armazenar valores numericos como 1 , 2.3 , 54.43
+
+String - São usadas para armazenar strings(palavras) como "34.10","Bom dia"
+
+Boolean - São usadas para armazenar valores lógicos verdadeiro(true) e falso (false) 
+
+=====================================================================
+Declaração de variaveis em javascript
+
+sintaxe:
+
+          var variablename;
+
+Exemplo :
+
+         var login;
+
+--------------------------------------------------------------
+Declaração de constantes em javascript
+
+const NOME_DA_CONSTANTE = valor;
+
+=============================================================
+Valores especiais  de variaveis
+
+1. undefined // valor dado pelo javascript a variaveis que não foram atribuidas a nada
+
+2. null // valor que representa nada
+
+3. NaN // Not a number, valor dado a uma variavel quando ocorre uma operação aritmetica ilegal
+          como multiplicar strings
+
+4. Infinity // valor dado a variaveis do tipo number que possuem valor maior do que o maior
+	       valor suportado pelo javascript(1.7976931348623157e+309)
+
+5. -Infinity // valor dado a variaveis do tipo number que possuem valor menor do que o menor
+	       valor suportado pelo javascript(5e-324)
+
+========================================================================
+Escopos 
+
+como em todas as linguagens de programação as variaveis javascript
+possuem escopos que podem ser local ou global, dependendo da sua
+localização no codigo

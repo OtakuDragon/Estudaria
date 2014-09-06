@@ -1,0 +1,40 @@
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+
+public class Cliente {
+
+	
+	
+	public static void main(String[] args) throws UnknownHostException, IOException, ParserConfigurationException {
+		double x = 5;
+		double y = 5;
+		
+		Socket s = new Socket("localhost",6000);
+		
+		InputStream is = s.getInputStream();
+		OutputStream os = s.getOutputStream();
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+				
+		//Cria um novo documento XML
+		Document doc = db.newDocument();
+				
+		//Cria a tag raiz 'usuarios'
+		Element rootElem = doc.createElement("usuarios");
+		doc.appendChild(rootElem);
+
+	}
+
+}

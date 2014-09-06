@@ -1,0 +1,16 @@
+Adicionando Jquery a uma pagina
+
+é possivel acessar o codigo do jquery no site jquery.com
+em dowloads e adicionar este codigo diretamente a uma tag script
+na pagina
+
+ex:
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.js"></script>
+
+
+Ou baixar o arquivo .js do site e adiciona-lo localmente
+
+ex:
+
+<script type="text/javascript" src="js/jquery-2.0.3.js"></script>

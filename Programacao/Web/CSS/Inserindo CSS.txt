@@ -1,0 +1,89 @@
+CSS
+
+
+CSS ou Cascading style sheets cuida das cores, fontes e formatação de textos no html
+
+O css pode ser inserido de varias formas em um documento html:
+
+*A forma recomendada pelo W3C é em um arquivo separado com extensão .css
+
+--------------------------------------------------------------
+
+Diretamente na tag alvo:
+
+<h1 style="Codigo CSS">texto aqui</h1>
+
+-------------------------------------------------------------------
+
+Com a tag HTML do CSS:
+
+a tag style possui dois atributos
+type e media, media define para qual tipo
+de dispositivo é aquele css
+
+os valores de media são
+
+screen - monitores de computador
+
+tty
+
+tv - televisão
+
+projection
+
+handheld - dispositivos mobile
+
+print - para impressão
+
+braille
+
+aural
+
+all - todos os acima e valor padrão
+
+este atributo define diferentes codigos css para
+diferentes dispositivos ou seja com ele é possivel
+vocÊ ter um css para a pagina no browser de um computador
+e outro layout para a mesma pagina no browser de um celular
+
+<style type="text/css" media="screen">
+<!--
+
+codigo CSS
+
+
+-->
+</style>
+
+*A tag style deve ser colocada dentro de <head>
+
+------------------------------------------------------------------
+
+Em um arquivo externo importado com a tag <link>
+ 
+<link rel="stylesheet" href="arquivo.css" type="text/css">
+
+*O codigo CSS esta no arquivo.css
+*A tag link deve ser colocada dentro de <head>
+
+-----------------------------------------------------------------
+
+Em um arquivo externo importado com o comando CSS @import
+
+é possivel passar o atributo media na tag style ou depois da url no import, 
+é opcional
+
+<style type="text/css">
+<!--
+
+@import url(arquivo.css) screen,handheld;
+
+
+-->
+</style>
+
+
+*A tag style deve ser colocada dentro de <head>
+
+================================================================
+

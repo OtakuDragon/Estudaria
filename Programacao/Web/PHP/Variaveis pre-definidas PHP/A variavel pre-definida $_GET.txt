@@ -1,0 +1,28 @@
+A Variavel predefinida $_GET
+
+É usada para receber dados pelo method get de um formulario os dados vem em um array
+no qual os indices são os nomes dos campos input e os valores os valores dos campos input
+
+Codigo HTML da pagina
+
+<form action="welcome.php" method="get">
+Name: <input type="text" name="fname" />
+Age: <input type="text" name="age" />
+<input type="submit" />
+</form> 
+
+Codigo welcome.php acessando os dados
+
+Welcome <?php echo $_GET["fname"]; ?>.<br />
+You are <?php echo $_GET["age"]; ?> years old!
+
+----------------------------------------------------
+
+*O method get do <form> possui alguns detalhes
+
+* Os dados aparecem explicitamente na url por isso não podem ser nada confidencial
+
+* Existe um limite de 2000 characteres para dados passados em url
+
+*Em elementos de formulario multipla escolha o nome do elemento tem que ser seguido de
+ [] quando este elemento chegar ao array chegara como um array e podera ser utilizado como um

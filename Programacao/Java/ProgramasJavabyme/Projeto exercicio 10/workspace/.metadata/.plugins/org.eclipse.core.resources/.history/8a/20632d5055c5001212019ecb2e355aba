@@ -1,0 +1,114 @@
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
+
+
+public class Servidor {
+
+	public double soma(double x,double y){
+		return x + y;
+		
+	}
+	
+	public double sub(double x,double y){
+		return x - y;
+		
+	}
+	
+	public double mult(double x,double y){
+		return x * y;
+		
+	}
+	
+	public double div(double x,double y){
+		return x / y;
+		
+	}
+	
+	public static void main(String[] args) throws IOException, ClassNotFoundException, ParserConfigurationException {
+		
+		Document doc = null;
+		
+		Servidor calc = new Servidor();
+		
+		ServerSocket ss = new ServerSocket(6002);
+		ObjectInputStream ois = null;
+		ObjectOutputStream oos = null;
+		
+		while(true){
+			try{
+			Socket s = ss.accept();
+			
+			InputStream is = s.getInputStream();
+			OutputStream os = s.getOutputStream();
+			
+			ois = new ObjectInputStream(is);
+			doc = (Document)ois.readObject();
+			Element rootElem = doc.getDocumentElement();
+			NodeList opNodeList = rootElem.getElementsByTagName("op");//retorna uma lista com todos os filhos usuario da tag raiz
+
+			Element tagOp = (Element) opNodeList.item(0);
+			
+			NodeList valor1NodeList = rootElem.getElementsByTagName("valor1");
+			Element tagValor1 = (Element) valor1NodeList.item(0);
+			double x = Double.parseDouble(tagValor1.getTextContent());
+			
+			NodeList valor2NodeList = rootElem.getElementsByTagName("valor2");
+			Element tagValor2 = (Element) valor2NodeList.item(0);
+			double y = Double.parseDouble(tagValor2.getTextContent());
+			
+			Double result = (double) 0;
+			
+			if(tagOp.getTextContent().equals("soma")){
+				result = calc.soma(x, y);
+			}else if(tagOp.getTextContent().equals("sub")){
+				result = calc.sub(x, y);
+			}else if(tagOp.getTextContent().equals("div")){
+				result = calc.div(x, y);
+			}else{result = calc.mult(x, y);}
+			
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+					
+			
+			Document docResponse = db.newDocument();
+					
+		
+			Element rootElemResponse = docResponse.createElement("response");
+			docResponse.appendChild(rootElemResponse);
+			
+			Element result1 = docResponse.createElement("result");
+			Text resultText = docResponse.createTextNode(result.toString());//definir a operação aqui
+			result1.appendChild(resultText);
+			rootElemResponse.appendChild(result1);
+			
+			oos = new ObjectOutputStream(os);
+			oos.writeObject(docResponse);
+		
+			
+			
+			
+			}finally{oos.close(); ois.close(); ss.close(); }
+			
+			
+		}
+		
+		
+		
+	}
+	
+
+}

@@ -1,0 +1,53 @@
+Referenciando game objects em script
+
+Drag & Drop
+
+há momentos em que se faz necessaria a manipulação
+de um outro objeto no script não apenas daquele a
+qual o script se aplica
+
+para isso é possivel passar uma referência de um gameobject
+para um script
+
+Isto é feito no unity por meio da criação de uma variavel publica no script
+para guardar esta referencia e arrastanto o objeto do qual se deseja a referencia
+para cima da variavel
+
+------------------------------------------------------------------
+ex:
+
+//Importado um component transform
+
+//script
+
+public var referenciaTransform : Transform;
+
+//Esta variavel estará visivel no component script do game object a qual ela
+//pertence para importar um objeto transport de outro game object basta arrasta-lo para cima
+//desta variavel
+
+=================================================================
+Por tag
+
+Para a referenciação de um objeto completamente por script
+é possivel procurar por um objeto ou um grupo de objetos pela
+sua tag
+
+A tag é uma palavra que identifica um objeto ou um grupo de objetos
+em um script e pode ser definido no inspector do game object abaixo do nome
+
+algumas tags padrões do unity existem e novas tags podem ser criadas
+
+-----------------------------------------------------------
+Recuperando gameObjects por tag
+
+//No caso de uma tag unica é possivel recuperar apenas um gameObject
+
+var object : GameObject;
+object =  GameObject.FindGameObjectWithTag("nomeDaTag");
+
+//No caso de varios objetos com uma mesma tag é possivel recuperar um array de objetos
+
+var objects[] : GameObject;
+objects =  GameObject.FindGameObjectsWithTag("nomeDaTag");//note que agora esta escript FindGameObjects<=
+

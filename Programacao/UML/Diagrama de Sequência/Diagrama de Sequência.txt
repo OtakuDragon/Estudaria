@@ -1,0 +1,93 @@
+Diagrama de Sequência
+
+O Diagrama de Sequência é o diagrama de interação
+mais utilizado da uml.
+
+como um diagrama de interação seu objetivo é descrever
+a interação entre diversos objetos para realizar um processo
+ou caso de uso.
+
+estas interações são baseadas na chamada(mensagens) e retorno de metodos.
+
+============================================================
+Simbologia
+
+Participante(Objeto)
+
+O participante representa um objeto no processo
+e é representado por uma lifeline,que possui o formato
+de um retangulo com o nome do objeto:tipo da classe
+e uma linha pontilhada na qual acontece as interações
+
+apartir desta linha pontilhada podem ser chamados metodos
+e nela podem ser recebidos retornos de metodos
+
+nos pontos aonde as interações acontecem a linha pontilhada
+é substituida por um retangulo chamado barra de ativação
+para mostrar que o objeto esta ativo naquele ponto
+
+--------------------------------------------------------
+Mensagens e retornos
+
+Toda a interação em um diagrama de sequencia é feita
+por meio de:
+
+ - Mensagens(Chamadas de metodos) = representadas por uma seta preenchida(sincrona)
+ 				    e pé de galinha(assincrona) e significa que
+				   o objeto de origem da seta, chamou o metodo no objeto destino
+
+				   A chamada de metodo deve identificar em cima da seta o nome do metodo
+				   e se forem passado parametros quais parametros com a sintaxe: obterPreço(quantidade:int,etc)
+
+
+
+- Retorno = O retorno do metodo é representado por uma seta pé de galinha com listra pontilhada no sentido oposto
+            da mensagem e possui o nome do valor retornado.
+
+---------------------------------------------------------
+Criando e Excluindo participantes
+
+Muitas vezes há necessidade de fazer um participante 
+criar um outro participante ou excluir um participante
+ou até mesmo declarar o fim de um participante
+
+Criando um participante
+
+A criação de um participante é feita atravez de uma mensagem
+sincrona com o nome de new diretamente para o retangulo do
+participante sendo criado
+
+Excluido participante
+
+Para fazer um participante excluir outro participante
+basta enviar uma mensagem sincrona com o nome de close
+apontando para um X na lifeline do participante destino
+
+para fazer um participante se excluir após não ser mas 
+necessario o seu uso basta adicionar um X na sua lifeline
+
+*A exclusão em um ambiente com o garbage collector significa que 
+ o objeto não vai ser mais utilizado e está pronto para ser coletado,
+ é util para declarar o fechamento de recursos
+
+--------------------------------------------------------------
+Laços e condicionais 
+
+Laços(while,for,etc.) e condicionais(if) podem ser exibidas
+no diagrama de sequência porem este não é o melhor diagrama
+para o estudo destes tipos de estruturas.
+
+Os laços e condicionais são representados por um retangulo(quadro de interação)
+que subdivide o diagrama e enclausura as interações que pertencem
+aquela estrutura
+
+estes retangulos possuem dois identificadores:
+
+ -marcador de interação: Operador que identifica que tipo de estrutura
+                         é aquela com uma palavra chave(ver imagem de operadores)
+
+
+ -sentinela: a condição a qual aquela estrutura deve obedecer, deve estar dentro
+             do retangulo da estrutura e estar entre []
+
+

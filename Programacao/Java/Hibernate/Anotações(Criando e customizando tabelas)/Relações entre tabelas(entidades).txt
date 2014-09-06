@@ -1,0 +1,263 @@
+Relações entre tabelas(Entidades)
+
+Caso uma entidade possua um objeto que não seja 
+embeddable seja uma entidade e que tenha sua propria
+tabela as anotações utilizadas são as de relação
+
+@OneToOne
+
+Define a relação de tabelas de um para um
+ela anota o objeto entidade dentro de outra
+entidade e cria uma coluna estrangeira
+
+com a chave primaria da segunda entidade
+na primeira
+
+obs: a anotação @JoinColumn pode ser usada para definir
+     o nome da coluna de chave estrageira na tabela da primeira entidade
+
+propriedades:
+
+cascade - (não obrigatorio) Define que o hibernate irá considerar as referencias
+          a entidade estrangeira automaticamente sem ser necessario adiciona-las na sessão
+
+          ela pode receber diversos valores que limitam a quais fases esse efeito
+          cascata acontece
+
+
+ex:
+
+@Entity
+public class Teste{
+
+@Id @GeneratedValue
+private int PK_Entidade1;
+
+@OneToOne(cascade=CascadeType.ALL)
+@JoinColumn(name="ChaveEstrangeiraEntidadeTeste2")
+private Teste2 objeto;
+
+//getters and setters
+
+}
+
+
+@Entity
+public class Teste2{
+
+@Id @GeneratedValue
+private int PK_Entidade2;
+
+//getters and setters
+}
+
+
+A tabela da entidade Teste teria os campos:
+PK_Entidade1 e ChaveEstrangeiraEntidadeTeste2 com o valor da chave
+primaria do objeto Teste2 definido
+
+-------------------------------------------------------------------
+@OneToMany 
+
+Quando a entidade em questão não possui apenas um 
+objeto entidade mas sim uma coleção de objetos de
+uma classe entidade a relação em questão é uma OneToMany
+
+A maneira que o hibernate cria a relação one to many
+é criar as duas tabelas entidade normalmente sem chaves
+estrangeiras e criar uma tabela extra que possui dois campos
+
+as chaves primarias da primeira entidade e as chaves primarias
+da segunda entidade
+
+propriedades:
+
+cascade - (não obrigatorio) Define que o hibernate irá considerar as referencias
+          a entidade estrangeira automaticamente sem ser necessario adiciona-las na sessão
+
+          ela pode receber diversos valores que limitam a quais fases esse efeito
+          cascata acontece
+
+ex:
+
+
+@Entity
+public class Teste{
+
+@Id @GeneratedValue
+private int PK_Entidade1;
+
+@OneToMany(cascade=CascadeType.ALL)
+@JoinTable(name="NomeDaTabelaDeChaves",
+           joinColumns=@JoinColumn(name="NomeDaColunaDeChavesDaEntidadeOne")
+           inversejoinColumns=@JoinColumn(name="NomeDaColunaDeChavesDaEntidadeMany")
+)
+private Collection<Teste2> many = new ArrayList<Teste2>;
+
+//getters and setters
+
+}
+
+
+@Entity
+public class Teste2{
+
+@Id @GeneratedValue
+private int PK_Entidade2;
+
+@ManyToOne
+private Teste one;
+
+//getters and setters
+}
+
+
+As tabelas geradas serão as tabelas das entidades normalmente
+e uma terceira tabela chamada NomeDaTabelaDeChaves  com dois campos
+NomeDaColunaDeChavesDaEntidadeOne e NomeDaColunaDeChavesDaEntidadeMany
+que representam as duas chaves primarias das duas entidades
+
+-----------------------------------------------------------------------------
+@ManyToOne
+
+O relacionamento @ManyToOne acontece quando é necessario ter um objeto
+de uma outra entidade em uma entidade mas não obrigatoriamente ter um objeto
+desta entidade na outra entidade
+
+A anotação @ManyToOne não é obrigatoria para a relação @OneToMany
+e nem ter um objeto da entidade One na Many mas é uma boa opção caso
+seja necessario recuperar o valor na primeira entidade por um valor na segunda
+
+por exemplo:
+
+tabela onetomany
+
+Pessoa_ID Carro_ID
+1	  56
+1         87
+1         65
+2         20
+3         36
+3         28
+
+caso se possua o Carro_ID e seja necessario recuperar o Pessoa_ID sem o objeto one
+e a tag @ManyToOne não é possivel
+
+Caso a referencia do objeto one exista na entidade many é possivel criar a tabela
+onetomany de uma maneira diferente com uma coluna na entidade many com a chave primaria
+da entidade one
+
+propriedades:
+
+cascade - (não obrigatorio) Define que o hibernate irá considerar as referencias
+          a entidade estrangeira automaticamente sem ser necessario adiciona-las na sessão
+
+          ela pode receber diversos valores que limitam a quais fases esse efeito
+          cascata acontece
+
+ex:
+
+@Entity
+public class Teste{
+
+@Id @GeneratedValue
+private int PK_Entidade1;
+
+//nome do objeto desta entidade na entidade Teste2
+@OneToMany(mappedBy="one")(cascade=CascadeType.ALL)
+@JoinTable(name="NomeDaTabelaDeChaves",
+           joinColumns=@JoinColumn(name="NomeDaColunaDeChavesDaEntidadeOne")
+           inversejoinColumns=@JoinColumn(name="NomeDaColunaDeChavesDaEntidadeMany")
+)
+private Collection<Teste2> many = new ArrayList<Teste2>;
+
+//getters and setters
+
+}
+
+
+@Entity
+public class Teste2{
+
+@Id @GeneratedValue
+private int PK_Entidade2;
+
+@ManyToOne
+@JoinColumn(name="nomeDaColunaFK_EntidadeOne")
+private Teste one; //A PROPRIEDADE mappedBy RECEBE O NOME DESTE OBJETO ONE NA ENTIDADE MANY
+
+//getters and setters
+}
+
+
+
+Neste caso apenas duas tabelas são criadas uma tabela para
+cada entidade sendo que a tabela da entidade many neste caso Teste2
+terá um campo extra que é uma chave estrangeira que representa a chave
+primaria da entidade one para cada registro
+
+----------------------------------------------------------------------------------------
+@ManyToMany
+
+Quando duas entidades possuem coleções de objetos
+entre si há uma relação ManyToMany o hibernate cria
+uma terceira tabela mapeando as chaves primarias das duas
+entidades
+
+propriedades:
+
+cascade - (não obrigatorio) Define que o hibernate irá considerar as referencias
+          a entidade estrangeira automaticamente sem ser necessario adiciona-las na sessão
+
+          ela pode receber diversos valores que limitam a quais fases esse efeito
+          cascata acontece
+
+ex:
+
+@Entity
+public class Teste{
+
+@Id @GeneratedValue
+private int PK_Entidade1;
+
+//a propriedade mappedBy é necessaria para não haver
+//dois mapeamentos e ele pode estar na primeira entidade
+//ou na segunda e deve receber como valor o nome da coleção
+//da outra entidade
+@ManyToMany(mappedBy="many2",cascade=CascadeType.ALL)
+@JoinTable(name="NomeDaTabelaDeChaves",
+           joinColumns=@JoinColumn(name="NomeDaColunaDeChavesDaEntidadeOne")
+           inversejoinColumns=@JoinColumn(name="NomeDaColunaDeChavesDaEntidadeMany")
+)
+private Collection<Teste2> many = new ArrayList<Teste2>;
+
+//getters and setters
+
+}
+
+
+@Entity
+public class Teste2{
+
+@Id @GeneratedValue
+private int PK_Entidade2;
+
+@ManyToMany
+private Collection<Teste> many2 = new ArrayList<Teste>; //A PROPRIEDADE mappedBy RECEBE O NOME DESTE OBJETO 
+
+//getters and setters
+}
+
+============================================================================================
+Supressão de erros
+
+Em alguns casos referencias nas relações não estão preenchidas
+e isso causa o hibernate a jogar uma exceção para impedir esta
+exceção é possivel usar a anotação @NotFound
+
+Ela deve vir apos a anotação de relação
+
+ex:
+
+@ManyToOne
+@NotFound(action=NotFoundAction.IGNORE)

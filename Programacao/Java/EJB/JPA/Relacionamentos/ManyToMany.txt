@@ -1,0 +1,65 @@
+@ManyToMany
+
+Relacionamento de muitos para muitos que
+acontece quando os dois lados do relacionamento
+possuem multiplas referencias entre si.
+
+Ou seja:
+
+*A entidade A possui uma coleção de instancias da entidade B
+*Cada instancia de A possui varias referencias a diferentes instancias de B 
+
+e
+
+*E a entidade B possui uma coleção de instancias da entidade A
+*Cada instancia de B possui varias referencias a diferentes instancias de A
+
+Qualquer um dos dois lados pode ser o lado forte do relacionamento
+
+======================================================
+Definição da anotação @ManyToMany
+
+*Todos opcionais
+
+Class targetIdentity       - Recebe um .class indificando a qual entidade o atributo ou coleção
+                                       anotado pertence, é uma opção a utilização de generics, definindo o tipo da 
+									   coleção/referencias como uma Class
+
+CascadeType cascade - Uma constante de CascadeType dizendo qual comportamento
+                                       em cascata este relacionamento terá a alterações nos dados, default: não fazer nada
+
+FetchType  fetch           - Uma constante FetchType dizendo se o tipo de busca é lazy(só quando preciso)
+							           ou eager(no momento da instanciação), default: EAGER
+	
+String mappedBy			 - Se dado o valor, do nome da coleção do outro lado do relacionamento 
+                                       define que este é o lado fraco do relacionamento
+									   
+IMPORTANTE: cabe-se notar que comparado com os outros relacionamentos a anotação @ManyToMany
+						não possui o atributo booleano optional, uma coleção vazia funciona como o valor nulo da referencia,
+						e este controle deve ser feito pelo programador, se a referencia for not null setar uma coleção vazia 
+						deve jogar uma exceção.
+						
+==============================================================
+ex:
+
+@Entity
+public class Category {
+	@Id
+	protected Long categoryId;
+	protected String name;
+
+	@ManyToMany 
+	protected Set<Item> items;
+
+}
+
+@Entity
+public class Item {
+	@Id
+	protected Long itemId;
+	protected String title;
+	
+	@ManyToMany(mappedBy=”items”) 
+	protected Set<Category> categories;
+	
+}

@@ -1,0 +1,200 @@
+Tratemento de erros tradicional
+
+Existem algumas maneiras de tratar erros
+no php de maneira não orientada a objeto
+
+Mas primeiro vamos aos tipos(niveis) de erros
+existentes no PHP:
+
+Tipos de erros:
+
+E_WARNING		Non-fatal run-time errors. Execution of the script is not halted
+E_NOTICE		Run-time notices. The script found something that might be an error, but could also happen when running a script normally	E_USER_ERROR	Fatal user-generated error. This is like an E_ERROR set by the programmer using the PHP function trigger_error()
+E_USER_WARNING		Non-fatal user-generated warning. This is like an E_WARNING set by the programmer using the PHP function trigger_error()
+E_USER_NOTICE		User-generated notice. This is like an E_NOTICE set by the programmer using the PHP function trigger_error()
+E_RECOVERABLE_ERROR	Catchable fatal error. This is like an E_ERROR but can be caught by a user defined handle (see also set_error_handler())
+E_ALL			All errors and warnings (E_STRICT became a part of E_ALL in PHP 5.4)
+==============================================
+Metodo die()
+
+A maneira mais simples de tratar um erro no php
+é testar alguma condição e caso esta condição
+não seja satisfeita chamar o metodo die()
+
+O metodo die() finaliza o script e imprime um texto
+que no caso identificaria o erro
+
+---------------------------------------------
+ex:
+
+<?php
+if(!file_exists("welcome.txt"))
+  {
+  die("File not found");
+  }
+else
+  {
+  $file=fopen("welcome.txt","r");
+  }
+?>
+
+==================================================
+Criando um error Handler
+
+Um error handler é uma função chamada pelo php
+quando um erro acontece eles são criados por meio 
+do metodo set_error_handler()
+
+------------------------------------------------
+Função error handler
+
+Uma função error handler pode ter um nome qualquer
+mas deve ter no minimo dois parametros e pode ter
+até 5 todos estes parametros são informações sobre
+o erro que aconteceu e são passados pelo php quando
+o erro acontece
+
+ex:
+
+Sintaxe:
+
+function error_function(error_level,error_message,error_file,error_line,error_context)
+{
+
+//codigo executado quando o erro acontece
+
+}
+
+parametros:
+
+*esses parametros são passados pelo php quando o erro acontece
+*o nome dos parametros podem ser outros
+
+error_level	//Obrigatorio  especifica qual o nivel do erro
+error_message	//Obrigatorio especifica a mensagem padrão de definição do erro
+error_file	//opcional diz o arquivo aonde aconteceu o o erro
+error_line	// opcional diz qual foi a linha aonde o erro aconteceu
+error_context	//Optional. Specifies an array containing every variable, and their values, in use when the error occurred
+
+-----------------------------------------------------------
+Definindo um error handler
+
+Após ter uma função error handler pronta é preciso defini-la
+como error handler para que o php possa usa-la
+
+Função set_error_handler()
+
+Sintaxe:
+
+set_error_handler("NomeDaFunção",TipoDoErroAoQualAplicar);
+
+-"NomeDaFunção" //Obrigatorio,nome da função error handler no caso do exemplo acima error_function
+
+-TipoDoErroAoQualAplicar //Opcional, a qual tipo de erro aplicar se nenhum for definido vai ser aplicar a todos
+
+=========================================================================
+Invocando um erro(Chamando um error handler)
+
+Após definir error handlers é possivel invocar um erro
+caso algum problema seja detectado pelo codigo atraves
+da função trigger_error()
+
+Função trigger_error()
+
+Sintaxe:
+
+trigger_error("DescriçãoDoErro",TipoDoErro);
+
+-"DescriçãoDoErro" //descrição do erro lançado no caso do exemplo sera a mensagem que o parametro
+		   //error_message ira receber
+
+-TipoDoErro //Opcional define o tipo de erro a ser lançado caso você possua um error handler para
+            //cada tipo de erro é possivel lançar com esta função 3 tipos de erro
+
+valores possiveis:
+
+E_USER_ERROR - Fatal user-generated run-time error. Errors that can not be recovered from. Execution of the script is halted
+E_USER_WARNING - Non-fatal user-generated run-time warning. Execution of the script is not halted
+E_USER_NOTICE - Default. User-generated run-time notice. The script found something that might be an error, but could also happen when running a script normally
+
+-----------------------------------------------------------------------------------------
+EXEMPLO COMPLETO:
+
+<?php
+//error handler function
+function customError($errno, $errstr)
+  {
+  echo "<b>Error:</b> [$errno] $errstr<br>";
+  echo "Ending Script";
+  die();
+  }
+
+//set error handler
+set_error_handler("customError",E_USER_WARNING);
+
+//trigger error
+$test=2;
+if ($test>1)
+  {
+  trigger_error("Value must be 1 or below",E_USER_WARNING);
+  }
+?>
+
+//output
+
+Error: [512] Value must be 1 or below
+Ending Script
+
+
+===================================================================================================
+Logs
+
+O PHP tem um sistema de logging padrão que escreve em um aquivo
+.log todos os erros que acontecem no servidor o local deste arquivo
+é definido na propriedade error_log de php.ini
+
+é possivel tambem gerar um log customizado para um arquivo ou para um e-mail
+com a função error_log() uma mensagem definida na função é enviada para o arquivo
+de log toda vez que a função é invocada
+
+Função error_log("MensagemDeErro",tipo,"destino","cabeçalhos");
+
+-"MensagemDeErro" //Obrigatorio, mensagem de erro há ser escrita no log
+
+- tipo //opcional define qual o metodo utilizado para receber a mensagem de log
+
+valores possiveis:
+
+0 - padrão, log padrão do php definido no atributo error_log do php.ini
+
+1 - Envio por e-mail esta opção é a unica que usa o parametro "cabeçalhos"
+
+2 - Enviado atraves da PHP debugging connection (??????)
+
+3 - Envio para um arquivo
+
+- "destino" //opcional define para aonde enviar o log e depende do tipo 
+
+*tipo e-mail(1) o parametro destino recebe o e-mail para aonde enviar o log
+
+*tipo file(3) O parametro destino recebe a URL do arquivo ao qual escrever o log
+
+-Headers //Se o tipo for email(1) o cabeçalho "From:Email que envia o log" é obrigatorio e
+         //os outros cabeçalhos de email são opcionais
+
+-------------------------------------------------------------------------------
+ex:
+
+<?php
+$test=2;
+
+if ($test>1)
+{
+error_log("A custom error has been triggered",1,"someone@example.com","From: webmaster@example.com");
+}
+?>
+
+
+//output no e-mail
+
+A custom error has been triggered

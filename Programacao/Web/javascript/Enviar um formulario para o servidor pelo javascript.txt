@@ -1,0 +1,29 @@
+
+Enviando um formulario pelo script apos passar por validações
+
+
+1º passo indentificar seu formulario com o atributo id
+
+
+<form id='myform' action='exemplo.php'>
+
+//formulario
+
+</form>
+
+2º passo criar uma função javascript que envie seu formulario pelo objeto document
+
+function enviarFormulario(){
+                        
+            //sintaxe:
+           
+
+              document.forms["id do seu formulario"].submit();
+	   
+	   // exemplo:
+
+	     document.forms["myform"].submit();
+                    
+
+
+                            }

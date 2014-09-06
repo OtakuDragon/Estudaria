@@ -1,0 +1,52 @@
+Consumindo um Web Service
+
+Para se utilizar um web service como cliente em uma classe java
+existe a ferramenta wsimport que vem com o java SE e EE e gera
+as classes que compoem a Service Endpoint Interface atraves da WSDL
+do web service
+
+este pacote de classes da SEI deve ser importado para o projeto
+
+=================================================================
+Comandos importantes de wsimport
+
+Sintaxe:
+
+wsimport [options] wsdl_url
+
+Opções importantes:
+
+-keep  diz ao wsimport para manter as classes java o padrão compila para .class e exclui as .java
+
+-s     diz em qual diretorio salvar as .java geralmente -s src
+
+//por padrão o wsimport gera o SEI na pasta aonde é executado
+
+
+ex:
+
+wsimport -keep -s src http://www.webservicex.net/globalweather.asmx?WSDL
+
+=====================================================================
+a representação de um serviço em wsdl é a seguinte:
+
+ex:
+
+<wsdl:service name="GlobalWeather">
+   <wsdl:port name="GlobalWeatherSoap" binding="tns:GlobalWeatherSoap">
+   <soap:address location="http://www.webservicex.net/globalweather.asmx"/>
+   </wsdl:port>
+</wsdl:service>
+
+Obs: Um serviço pode possuir varias portas
+===================================================================
+A utilização de um web service segue seguinte ordem:
+
+  - Instanciação da classe de serviço (ex: GlobalWeather gw = new GlobalWeather();)
+  - Instanciação de uma porta atraves da classe de serviço (ex: GlobalWeatherSoap gwSoap = new gw.getGlobalWeatherSoap();)
+  - Através do objeto da porta é possivel chamar os metodos do webservice (ex: gwSoap.getCitiesByCountry("Brazil");)
+  - Os metodos da porta podem retornar objetos padrões(string,int,etc.) ou um tipo customizado que tambem será uma classe
+    do SEI neste caso basta recuperar o resultado do metodo da porta em um objeto deste tipo (ex: GlobalWeatherDTO dto = gwSoap.getCitiesByCountry("Brazil");)
+
+
+

@@ -1,0 +1,8 @@
+A variavel predefinida $_REQUEST
+
+possui os conteudos de $_POST,$_GET e $_COOKIE
+
+exemplo:
+
+Welcome <?php echo $_REQUEST["fname"]; ?>!<br>
+You are <?php echo $_REQUEST["age"]; ?> years old.

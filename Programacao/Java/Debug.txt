@@ -1,0 +1,31 @@
+Debug
+
+É o ato de rodar o programa linha por linha acompanhando
+cada processo, e cada valor de variavel.
+
+No debugging uma importante ferramnta é o breakpoint
+
+Breakpoints são pontos de interesse marcados para que
+o debug pare quando chegar neles e você possa observar
+de perto o que acontece existem breakpoint
+
+De Classe(Class load breakpoint)
+De variavel(Watchpoint)
+De Exception
+De metodos
+
+Breakpoints podem ser configurados para realizarem certos codigos
+e são ativados com dois cliques na barra azul na extrema esquerda da ide
+
+Botões
+
+Step into
+
+Se for em um metodo vai para dentro do metodo e
+mostra o que acontece dentro do metodo
+
+
+Step Over
+
+Percorre o programa linha a linha
+

@@ -1,0 +1,28 @@
+Construtores
+
+Um metodo que é executado na instanciação
+do objeto e incia o valor de suas propriedades
+
+-------------------------------------------------
+
+sintaxe:
+
+
+function _construct(){
+
+//codigo
+
+}
+
+========================================================
+Destrutores
+
+Metodo chamado assim que todas as referencias
+ao objeto forem removidas ou o objeto for destruido
+por um metodo
+
+function _destruct(){
+
+//codigo
+
+}

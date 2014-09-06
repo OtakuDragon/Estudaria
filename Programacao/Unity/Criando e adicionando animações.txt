@@ -1,0 +1,27 @@
+Criando Animações no unity
+
+
+1º - Adicionar a tab Animation em window>animation
+
+2º - Selecionar o gameObject
+
+3º - Adicionar uma Curve, Animação é baseada na mudança do valor de uma ou varias propriedades
+     em um intervalo de tempo, isto é chamado de curva, ao criar uma curva é necessario escolher
+     qual propriedade de qual componenent do gameObject irá variar durante o tempo
+
+4º - Agora na aba animation/curves mostrará a tela de animação que representa:
+
+     Na Horizontal: o tempo passado
+
+     Na Vertical: O valor da propriedade(a variação é de 0-1 em  um checkbox por exemplo)
+
+5º - A animação é divida em breakpoints os quais é possivel adicionar em qualquer momento no tempo
+     e são eles que definem a curva pois eles definem qual o valor a propriedade deve possuir naquele
+     tempo, a distancia entre um breakpoint e outro é a variação do valor
+
+================================================================================
+Adicionando animações
+
+1º - Adicionar o component miscelaneous>animation ao gameObject
+
+2º - arrastar o arquivo.anim para o componente animation 

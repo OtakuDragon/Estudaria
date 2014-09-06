@@ -1,0 +1,37 @@
+Interfaces Aware
+
+É possivel recuperar informações sobre o bean container
+dentro de um bean, por meio das interfaces Aware estas
+interfaces implementam um metodo setter
+
+Este metodo setter é utilizado pelo spring quando o bean
+é instanciado para passar a informação ou referencia necessaria
+
+=================================================================
+ex:
+
+*obs: estas são apenas duas interfaces que recuperam uma referencia e
+      uma informação existem outras
+
+public class Triangle implements ApplicationContextAware,BeanNameAware{
+
+private ApplicationContext context;
+private String name;
+
+
+
+//Atribui uma referencia ao applicationcontext da aplicação a uma variavel
+//do bean na sua instanciação
+public void setApplicationContext(ApplicationContext context)throws BeansException{
+   this.context=context;
+
+ }
+
+//Atribui o nome do bean definido do spring.xml
+//a uma variavel do bean na sua instanciação
+public void setBeanName(String name){
+ this.name=name; 
+
+ }
+
+}
