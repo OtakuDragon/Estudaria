@@ -19,6 +19,9 @@ ex:
 Um otimo exemplo de um atributo @Embeddable é 
 o endereço de um usuário.
 
+*Todas as configurações de mapeamento como @Column funcionam
+  em classes embeddable
+
 @Embeddable
 public class Address {
 	protected String streetLine1;
@@ -42,3 +45,22 @@ public class User {
 	protected String phone;
 	...
 }
+
+===============================================================
+@Embeddable em varias entidades
+
+Um objeto embeddable, pode estar presente em varias entidades diferentes
+significando que as tabelas de cada umas destas entidades terão campos com definições
+iguais, é possivel modificar algumas dessas definições anotando o atributo embedded
+com a anotação @AttributeOverrides 
+
+ex:
+
+O exemplo abaixo configura para que na tabela daquela entidade o atributo state da classes
+embeddable Address será mapeado para uma coluna com o nome STATE_CODE independente
+do que foi configurado, na classe Adress
+
+@Embedded
+@AttributeOverrides({@AttributeOverride(name="state",column=@Column(name="STATE_CODE"))})
+protected Address address;
+

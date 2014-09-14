@@ -1,0 +1,166 @@
+Gerando valores para chaves primarias
+
+Chaves primarias em um ambiente ORM, tem o simples
+objetivo de ser um identificador único para um objeto,
+por isso chaves primarias com dados que fazem parte do
+negócio e chaves primarias compostas não são recomendadas
+ 
+O que é recomendado é criar uma chave primaria conhecida como
+surrogate, para as entidades o que significa uma chave numerica
+criada com o único objetivo de conter um numero único que identifique
+um registro.
+
+Chaves surrogate devido a sua natureza, geralmente tem os seus
+valores gerados automaticamente, normalmente com um incremento
+isto é feito em JPA utilizando a anotação @GeneratedValue
+
+IMPORTANTE: Geração de valores é utilizado em chaves primarias mas não se limita a isso
+						qualquer outro campo numerico pode ter o seu valor gerado automaticamente
+						utilizando as estrategias abaixo.
+
+========================================================
+A anotação @GeneratedValue
+
+A anotação @GeneratedValue  anota uma chave primaria(@Id)
+definindo qual estrategia será utilizada para gerar este valor de chave
+primaria, existem 4 estrategias possiveis:
+
+*GenerationType.IDENTITY
+*GenerationType.SEQUENCE
+*GenerationType.TABLE
+*GenerationType.AUTO
+
+=====================================================
+GenerationType.AUTO
+
+Deixa com que o framework ORM, decida de acordo com
+o banco de dados utilizado qual é a melhor estrategia de 
+geração de valor entre uma das outras tres estrategias.
+
+@Id
+@GeneratedValue(strategy=GenerationType.AUTO)
+@Column(name="USER_ID")
+protected Long userId;
+
+======================================================
+GenerationType.IDENTITY
+
+Alguns bancos de dados possuem a capacidade de gerar
+valores unicos automaticamente para as chaves sem que nada
+mais precise ser definido, este tipo de estrategia é o GenerationType.IDENTITY
+
+cabe-se notar que este valor só é gerado após o commit do insert, não sendo
+possivel saber de antemão qual será este valor.
+
+ex:
+
+@Id
+@GeneratedValue(strategy=GenerationType.IDENTITY)
+@Column(name="USER_ID")
+protected Long userId;
+
+==========================================================
+*GenerationType.SEQUENCE
+
+Esta é maneira mais comum e lógica de se criar uma chave primaria
+gerada automaticamente, e tambem a maneira que é utilizada no 
+paradigma relacional, utilizando uma sequence no banco de dados.
+
+O primeiro passo necessário para a utilização deste tipo de geração é
+criar uma sequence no banco de dados
+
+ex:
+--postgre, sequence que começa em 1 e é incrementada de 1 em 1.
+CREATE  SEQUENCE user_sequence  INCREMENT BY  1 START  WITH 1;
+
+Tendo uma sequence criada nós precisamos definir um @SequenceGenerator
+Geralmente vindo anteriormente a anotação @GeneratedValue na chave primaria,
+mas uma vez criado pode ser utilizado em qualquer outra entidade.
+
+Um @SequenceGenerator poder ser criado em um campo, metodo ou classe de uma entidade
+---------------------------------------------------------------------------------------------
+Atributos da anotação @SequenceGenerator:
+
+*Apenas o atributo name é obrigatorio
+
+String name    		- Nome do sequence Generator sendo criado, não está relacionado com o
+							  nome da sequence no banco de dados.
+
+String sequenceName - Atributo mais importante, recebe o nome da sequence no banco de dados que este
+									 sequence generator manipulará
+							  
+int allocationSize  - Valor pelo qual a sequence será incrementada a cada insert, utilizada apenas como uma
+								documentação já que a sequence ja está criada no banco e o seu incremento ja está definido(INCREMENT BY ).
+
+int initialValue      - Valor inicial da sequence utilizada apenas como uma documentação , já que a sequence ja está criada no banco e
+							 o seu valor inicial ja está definido(START  WITH).
+							 
+String schema    - schema ao qual a sequence pertence no banco.
+
+String catalog    - catalogo ao qual a sequence pertence no banco.
+							 
+							 
+ex:
+
+@SequenceGenerator(name="USER_SEQUENCE_GENERATOR",
+sequenceName="user_sequence",
+initialValue=1, allocationSize=10)
+
+-------------------------------------------------------------------------------------------------
+Apos a definição de um @SequenceGenerator, basta referencia-lo 
+pelo nome no atributo generator a anotação @GeneratedValue
+
+ex:
+
+@Id
+@SequenceGenerator(name="USER_SEQUENCE_GENERATOR",sequenceName="user_sequence",initialValue=1, allocationSize=10)
+@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="USER_SEQUENCE_GENERATOR")
+@Column(name="USER_ID")
+protected Long userId;
+
+============================================================
+GenerationType.TABLE
+
+A geração de valores por tabela, define a criação de uma tabela que pode conter
+multiplas sequences esta tabela deve seguir o seguinte padrão:
+
+*SQL oracle
+CREATE TABLE sequence_generator_table
+(sequence_name VARCHAR2(80) NOT NULL,
+sequence_value NUMBER(15) NOT NULL,
+PRIMARY KEY (sequence_name));
+
+podendo claro ter os nomes modificados, todas as vezes que uma criar uma nova 
+sequence utilizando esta estrategia requer um insert com o seu nome desta sequence,
+e o seu valor inicial:
+
+INSERT INTO
+sequence_generator_table (sequence_name, sequence_value)
+VALUES ('USER_SEQUENCE', 1);
+
+Depois temos que criar table generator, que se mapeará a uma sequence na
+tabela de sequences criada.
+
+@TableGenerator (name="USER_TABLE_GENERATOR",  -- Nome do generator
+								table="SEQUENCE_GENERATOR_TABLE", --Nome da tabela de sequences criada
+								pkColumnName="SEQUENCE_NAME", -- Nome da coluna varchar da tabela que representa o nome da sequence
+								valueColumnName="SEQUENCE_VALUE", -- Nome da coluna number da tabela que representa o valor da sequence
+								pkColumnValue="USER_SEQUENCE" -- Nome do registro inicial da sequence que este generator irá manipular
+								allocationSize = 1)--De quanto em quando a sequence será incrementada por insert
+								
+Depois basta referenciar o @TableGenerator pelo nome no atributo generator da anotação @GeneratedValue,
+uma vez criado o @TableGenerator pode ser utilizado em qualquer outra entidade.
+
+@Id
+@GeneratedValue(strategy=GenerationType.TABLE,generator=”USER_TABLE_GENERATOR”)
+@Column(name="USER_ID")
+protected Long userId;
+
+
+
+
+
+
+
+
+
