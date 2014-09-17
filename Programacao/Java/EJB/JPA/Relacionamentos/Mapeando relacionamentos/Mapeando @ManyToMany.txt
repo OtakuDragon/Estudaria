@@ -1,0 +1,57 @@
+Mapeando @ManyToMany
+
+Relacionamentos @ManyToMany são mapeados
+atraves de uma tabela associativa como no mundo
+relacional, esta tabela deve seguir a seguinte estrutura
+
+CREATE TABLE entidade1_entidade2( 
+	entidade1_FK int , 
+	entidade2_FK int ,
+	ADD CONSTRAINT fk1 FOREIGN KEY (entidade1_FK) REFERENCES (Entidade1.entidade1_PK),
+	ADD CONSTRAINT fk2 FOREIGN KEY (entidade2_FK) REFERENCES (Entidade2.entidade2_PK),
+	ADD CONSTRAINT pk PRIMARY KEY (entidade1_FK,entidade2_FK)
+)
+
+Ou seja deve ser composta de duas colunas, uma referenciando
+a chave primaria de cada entidade, e as duas deve ser chave primaria
+da tabela associativa.
+
+Com esta tabela pronta podemos mapear o relacionamento utilizando a anotação
+@JoinTable esta anotação pode aparecer em qualquer um dos lados do relacionamento,
+mas não dos dois, o outro lado se for bidirecional deve conter um mapped by
+
+======================================================================
+ex:
+
+@Entity
+@Table(name="CATEGORIES")
+public class Category implements Serializable {
+	@Id
+	@Column(name="CATEGORY_ID")
+	protected Long categoryId;
+	
+	@ManyToMany
+	@JoinTable(name="CATEGORY_ITEMS",  -- Nome da tabela associativa criada
+	joinColumns= 
+	@JoinColumn(name="CI_CATEGORY_ID", --Nome da coluna chave estrangeira na tabela associativa que referencia a chave primaria desta entidade(Category)
+	referencedColumnName="CATEGORY_ID"), --Nome da coluna chave primaria desta entidade(Category)
+	inverseJoinColumns= 
+	@JoinColumn(name="CI_ITEM_ID", --Nome da coluna chave estrangeira na tabela associativa  que referencia a chave primaria da outra entidade(Item)
+	referencedColumnName="ITEM_ID")) --Nome da coluna chave primaria da outra entidade(Item)
+	protected Set<Item> items;
+
+}
+@Entity
+@Table(name=”ITEMS”)
+public class Item implements Serializable {
+	@Id
+	@Column(name=”ITEM_ID”)
+	protected Long itemId;
+
+	//Bidirecionalidade opcional, mas se existir deve obrigatoriamente possuir mappedBy
+	//E só por que este lado contem mappedBy não significa que ele é o lado fraco em ManyToMany
+	//Não existe lado fraco, mas apenas uma lado deve possuir a especificação @JoinTable
+	@ManyToMany(mappedBy=”items”) 
+	protected Set<Category> categories;
+
+}

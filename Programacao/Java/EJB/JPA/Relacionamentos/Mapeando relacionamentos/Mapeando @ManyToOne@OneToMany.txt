@@ -1,0 +1,51 @@
+Mapeando @ManyToOne/@OneToMany
+
+O relacionamento @ManyToOne/@OneToMany, é
+mapeado atraves de uma chave estrangeira do lado Many
+que se referencia a chave primaria do lado One isto é feito
+atraves da anotação @JoinColumn
+
+*Um relacionamento @OneToMany Não pode existir sem estar
+  relacionado a um @ManyToOne, pelo padrão JPA
+
+=====================================================
+Atributos da anotação @JoinColumn
+
+String name - Nome da coluna na tabela da entidade Many que é a chave estrangeira
+
+String referencedColumnName - Nome da coluna na tabela da entidade  One a qual a chave estrangeira
+												   se referencia, deve ser chave primaria da tabela  One
+							  
+..Todos os atributos da anotação @Column para configuração da coluna
+
+=====================================================
+ex:
+
+//Lado One
+@Entity
+@Table(name="ITEMS")
+public class Item {
+	@Id
+	@Column(name="ITEM_ID")
+	protected Long itemId;
+	
+	//Bidirecionalidade, opcional mas se existir deve obrigatoriament estar com o mapped by definido
+	//como o nome do atributo @ManyToOne no lado many
+	@OneToMany(mappedBy="item")
+	protected Set<Bid> bids;
+
+}
+
+//Lado Many
+@Entity
+@Table(name="BIDS")
+public class Bid {
+	@Id
+	@Column(name="BID_ID")
+	protected Long bidId;
+
+	@ManyToOne
+	@JoinColumn(name="BID_ITEM_ID", referencedColumnName="ITEM_ID") 
+	protected Item item;
+
+}

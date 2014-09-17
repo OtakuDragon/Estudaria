@@ -1,0 +1,18 @@
+Auto-relacionamento
+
+Uma entidade pode se relacionar a ela mesma.
+
+ex:
+
+@Entity
+@Table(name="CATEGORIES")
+public class Category implements Serializable {
+	@Id
+	@Column(name=“CATEGORY_ID”)
+	protected Long categoryId;
+
+	//A coluna chave estrangeira PARENT_ID refere-se a coluna chave primaria desta tabela CATEGORY_ID
+	@ManyToOne
+	@JoinColumn(name="PARENT_ID", referencedColumnName=”CATEGORY_ID") 
+	Category parentCategory; 
+}
