@@ -1,0 +1,97 @@
+Mapeando @OneToOne
+
+Em um relacionamento OneToOne, o mapeamento de relacionamento
+depende de onde a FK ficará
+
+===========================================================
+A FK fica na entidade Pai
+
+No caso de a entidade(pai) possuir uma coluna chave estrangeira que faz
+referência à chave primaria da entidade(filha), a anotação @JoinColumn é utilizada
+
+-------------------------------------------------- 
+Atributos da anotação @JoinColumn
+
+String name - Nome da coluna na tabela da entidade pai que é a chave estrangeira
+
+String referencedColumnName - Nome da coluna na tabela da entidade filha a qual a chave estrangeira
+							  se referencia, deve ser chave primaria da tabela filha
+							  
+..Todos os atributos da anotação @Column para configuração da coluna
+-------------------------------------------------
+ex:
+
+//Entidade Pai
+@Entity
+@Table(name=”USERS”)
+public class User {
+	@Id
+	@Column(name=”USER_ID”)
+	protected String userId;
+
+	@OneToOne
+	@JoinColumn(name=”USER_BILLING_ID”, referencedColumnName=”BILLING_ID”, updatable=false) 
+	protected BillingInfo billingInfo;
+}
+
+//Entidade Filho
+@Entity
+@Table(name=”BILLING_INFO”)
+public class BillingInfo {
+	@Id
+	@Column(name=”BILLING_ID”)
+	protected Long billingId;
+	
+	//Campo que torna o relacionamento bidirecional, opcional
+	@OneToOne(mappedBy=”billingInfo”)
+	protected User user;
+
+}
+===================================================
+A FK é a PK da entidade filha
+
+A outra situação acontece quando a chave primaria da entidade
+filha é uma chave estrangeira que referencia a chave primaria da
+entidade pai.
+
+Nesta situação nos utilizamos a anotação @PrimaryKeyJoinColumn
+------------------------------------------------------
+Atributos da anotação @PrimaryKeyJoinColumn
+
+String name - Nome da coluna na tabela da entidade pai que é a chave primaria
+
+String referencedColumnName - Nome da coluna na tabela da entidade filha que é chave 
+							  primaria/estrangeira, e referencia a chave primaria da entidade pai
+	
+String columnDefinition - SQL de criação da coluna, somente valido quando a tabela é gerada automaticamente
+
+*Como é apenas um join e nenhuma coluna é criada na entidade pai, não a configurações de @Column
+-------------------------------------------------------
+ex:
+
+//Entidade Pai
+@Entity
+@Table(name=”USERS”)
+public class User {
+	@Id
+	@Column(name=”USER_ID”)
+	protected Long userId;
+
+	@OneToOne
+	@PrimaryKeyJoinColumn(name=”USER_ID”, referencedColumnName=”BILLING_USER_ID”) 
+	protected BillingInfo billingInfo;
+}
+
+//Entidade Filho
+@Entity
+@Table(name=”BILLING_INFO”)
+public class BillingInfo {
+	@Id
+	@Column(name=”BILLING_USER_ID”)
+	protected Long userId;
+	
+	//Campo que torna o relacionamento bidirecional, opcional
+	@OneToOne(mappedBy=”billingInfo”)
+	protected User user;
+
+}
