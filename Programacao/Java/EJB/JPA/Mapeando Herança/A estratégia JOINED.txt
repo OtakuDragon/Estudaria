@@ -1,0 +1,52 @@
+A estratégia JOINED
+
+Na estratégia joined cada entidade da hierarquia possui uma
+tabela, as tabelas das entidades herdeiras possuem obrigatoriamente
+como chave primaria/estrangeira uma referencia a chave primaria
+da entidade pai.
+
+Como na estrategia single table, a tabela pai tambem possui a coluna descriminatoria
+e as tabelas herdeiras possuem @DiscriminatorValue, porque o framework ainda
+precisa indentificar quais registros da tabela pai pertencem a qual entidade
+para saber quando e como realizar os joins
+
+Isto possibilita um relacionamento 1..1 das entidades filhas com a entidade pai
+fazendo com que cada tabela possua apenas os campos que lhes pertençam, resolvendo
+os problemas da estrategia SINGLE_TABLE.
+
+A estrategia JOINED é considerada melhor do que SINGLE_TABLE de um ponto de vista de design,
+resolvendo os seus problemas e limitações, mas tambem é um pouco mais lenta porque suas consultas
+requerem joins(utilizando surrogate keys esta diferença de performance é insignificante), mesmo com
+este detalhe de performance a entrategia JOIN é a melhor das 3, e a RECOMENDADA para o mapeamento de herança.
+=============================================================================
+ex:
+
+*A entidade pai não possui @DiscriminatorValue por ser abstrata, ou seja
+ nunca terá um registro do seu tipo, ela NÃO PRECISA ser abstrata.
+
+//Entidade Pai
+@Entity
+@Table(name="USERS")
+@Inheritance(strategy=InheritanceType.JOINED)//Definição da estrategia
+@DiscriminatorColumn(name=”USER_TYPE”,//Definição do nome da coluna descriminatoria
+discriminatorType=STRING, length=1)//Configurações da coluna descriminatoria
+public abstract class User{
+...
+}
+
+@Entity
+@Table(name="SELLERS")
+@DiscriminatorValue(value="S")//Definição do valor na coluna descriminatoria que representa esta entidade
+@PrimaryKeyJoinColumn(name="USER_ID")//Nome da coluna PK/FK desta tabela que possui o mesmo nome da coluna PK da entidade pai, 
+public class Seller extends User{	 //caso os nomes sejam diferentes o nome da PK da entidade pai deve ser inserido no atributo referencedColumn
+...
+}
+
+@Entity
+@Table(name="BIDDERS")
+@DiscriminatorValue(value="B")
+@PrimaryKeyJoinColumn(name="USER_ID_FK", //Nome da coluna PK/FK desta tabela que referencia a PK da entidade pai
+      referencedColumnName="USER_ID")    //Nome da coluna PK da entidade pai
+public class Seller extends User{
+...
+}

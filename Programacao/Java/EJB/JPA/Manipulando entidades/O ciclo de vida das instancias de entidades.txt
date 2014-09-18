@@ -1,0 +1,49 @@
+O ciclo de vida de uma Entidade
+
+O ciclo de vida de instancias de entidades,
+possui cinco estados:
+
+New				 - Quando uma nova instancia de entidade é criada, e o container
+				   não tem o conhecimento da sua existencia, nem a gerencia,
+				   
+				   Uma instancia no estado new só pode mudar o seu estado para:
+				   
+					Managed - isto acontece quando ela é persistida pelo EntityManager(persist())
+
+Managed/Attached - Significa que o EnityManager possui controle sobre
+				   esta instancia, e manterá os seus dados atualizados
+				   com o seu registro no banco de dados automaticamente(se o flush mode do EntityManager for Auto).
+				   
+				   Uma instancia no estado Managed pode se tornar:
+
+						Detached - Caso o metodo clear() do entity manager seja chamado,
+								   todas as instancias de entidades sendo gerenciadas se tornarão
+								   detached
+								   
+								   Ou se a transação na qual a instancia da entidade managed se encontrava foi commitada, uma
+								   instancia de entidade que não pertence a uma transação ativa se torna detached
+							 
+						Removed  - Caso ela seja removida do banco de dados atraves do metodo remove()
+					  
+Detached		 - Uma instancia detached é uma intância que o EntityManager não sabe da existencia
+				   e nem gerencia, tornar uma instancia Detached é util quando queremos manipular o objeto
+				   seu que o seu estado seja salvo, e depois efetuar merge e realizar apenas um UPDATE
+				   
+					Uma instancia no estado Detached pode se tornar:
+					
+						Managed novamente caso ela seja merge() ou refresh()
+						
+Persisted		- Uma instância de entidade que só existe no banco de dados, quando ela é buscada
+				  o container passa a gerencia-la
+				  
+					Uma instancia no estado Persist pode se tornar:
+					
+						Managed - caso ela seja recuperada do banco de dados através de find() ou query
+						
+Removed			- Estado que uma instância fica após ser removida do banco de dados(remove()) este estado é irreversivel
+
+
+*Note que todos os estados, que além do estado Managed/Attached são Detached, a separação de nomes apenas especifica o que o tornou
+ Dettached
+						
+						

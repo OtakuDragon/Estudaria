@@ -1,0 +1,5 @@
+Plug-in do eclipse para ajudar com OR-Mapping
+
+http://www.eclipse.org/webtools/dali/
+
+http://wiki.eclipse.org/JPA_Diagram_Editor_Project_Tutorial

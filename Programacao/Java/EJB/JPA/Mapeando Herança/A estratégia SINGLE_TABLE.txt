@@ -1,0 +1,49 @@
+A estrategia SINGLE_TABLE
+
+Nesta estratégia como o proprio nome diz, tudo é
+armazenado em uma única tabela, ou seja todos os campos
+de todas as entidades que herdam de uma entidade-pai 
+estarão na tabela desta entidade-pai.
+
+Para que o framework saiba qual registro se pertence a qual
+entidade da hierarquia é necessária a criação de uma coluna na tabela-pai conhecida
+como discriminator column, está coluna dirá ao JPA a qual das entidades da hierarquia
+o registro pertence  atraves do valor configurado como @DiscriminatorValue nas entidades.
+
+O problema com esta de estrategia é que cada registro na tabela consiste de todos
+os campos de toda a hierarquia, e só são preenchidos os campos que aquela entidade
+sendo registrada possui, causando muitos campos null e a incapacidade de utilizar a
+contraint not null no banco de dados ja que para registros de uma entidade, os campos
+que pertencem a outra entidade nunca estarão preenchidos.
+
+=============================================================
+ex:
+
+*Perceba que somente a entidade pai possui, as definições
+ de @Inheritance e @DiscriminatorColumn enquanto as herdeiras
+ só necessitam de @DiscriminatorValue ou seja qual valor às representa
+ na coluna discriminadora, se este valor não for definido o nome simples
+ da classe será considerado.
+ 
+*A entidade pai não possui @DiscriminatorValue por ser abstrata, ou seja
+ nunca terá um registro do seu tipo, ela NÃO PRECISA ser abstrata.
+
+//Entidade pai
+@Entity
+@Table(name="USERS")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)//Definição da estrategia de herança
+@DiscriminatorColumn(name=”USER_TYPE”,//Nome da coluna na tabela desta entidade(pai) que será a descriminator column
+discriminatorType=DiscriminatorType.STRING, length=1) //Configurações da descriminator column
+public abstract class User{
+...
+}
+@Entity
+@DiscriminatorValue(value=”S”) //Definição do valor na coluna descriminatoria que representa esta entidade
+public class Seller extends User{
+...
+}
+@Entity
+@DiscriminatorValue(value=”B”)
+public class Bidder extends User{
+...
+}

@@ -1,0 +1,35 @@
+A Estratégia TABLE_PER_CLASS(NÂO RECOMENDADO)
+
+Nesta estratégia uma tabela é criada para cada entidade
+na hierarquia e não há nenhum relacionamento entre elas
+o que significa que todas as tabelas filhas repetem os campos
+da entidade pai.
+
+e os registros em todas estas tabelas compartilham o valor
+de chave primaria, o que significa que se eu fiz um registro
+na entidadeFilha1 com a chave primaria valor 1, eu não posso
+fazer um registro em uma entidadeFilha2 com a chave primaria valor 1
+por mais que elas sejam tabelas diferentes sem relacionamentos entre si
+
+Esta estrategia é antiquada do ponto de vista relacional e OO e 
+NÃO DEVE SER UTILIZADA
+
+======================================================================
+ex:
+
+@Entity
+@Table(name="USERS")
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)//Definição da estrategia
+public class User {
+...
+}
+@Entity
+@Table(name="SELLERS")//Nome da tabela daquela entidade
+public class Seller extends User {
+...
+}
+@Entity
+@Table(name="BIDDERS")
+public class Bidder extends User {
+...
+}

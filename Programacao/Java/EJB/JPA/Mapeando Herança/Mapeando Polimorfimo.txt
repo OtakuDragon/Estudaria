@@ -1,0 +1,10 @@
+Mapeando Polimorfimo
+
+Digamos que uma entidade possui uma referencia a uma
+classe abstrata, quando este objeto é recuperado, o 
+framework reconhece a hierarquia busca o registro
+da entidade filha associada aquele registro e atribui este
+registro ao tipo abstrato, para que ele possa ser utilizado
+
+Ou seja o mapeamento de polimorfimos é feito automaticamente
+pelo JPA

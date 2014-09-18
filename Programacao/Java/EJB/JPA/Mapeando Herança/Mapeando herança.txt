@@ -1,0 +1,11 @@
+Mapeando herança
+
+O JPA oferece três estrategias para o mapeamento
+de herança entre entidades no banco de dados estas
+estrategias são definidas pela anotação @Inheritance
+
+As estrategias são:
+
+*InheritanceType.SINGLE_TABLE
+*InheritanceType.JOINED
+*InheritanceType.TABLE_PER_CLASS
