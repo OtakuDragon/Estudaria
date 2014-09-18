@@ -17,11 +17,12 @@ Managed/Attached - Significa que o EnityManager possui controle sobre
 				   Uma instancia no estado Managed pode se tornar:
 
 						Detached - Caso o metodo clear() do entity manager seja chamado,
-								   todas as instancias de entidades sendo gerenciadas se tornarão
-								   detached
+							   todas as instancias de entidades sendo gerenciadas se tornarão
+							   detached
 								   
-								   Ou se a transação na qual a instancia da entidade managed se encontrava foi commitada, uma
-								   instancia de entidade que não pertence a uma transação ativa se torna detached
+							   Se o PersistenceContext for do escopo Transaction o que é padrão e a transação na qual a instancia
+							   da entidade managed se encontrava foi commitada ou rolled back ou seja a transação não está mais ativa
+							   ela se tornará detached.
 							 
 						Removed  - Caso ela seja removida do banco de dados atraves do metodo remove()
 					  
