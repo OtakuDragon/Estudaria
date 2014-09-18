@@ -11,32 +11,32 @@ entidade, e trocar estados em seus ciclo de vida.
 Metodos:
 
 public void persist(Object entity); - Metodo responsavel por efetuar o INSERT de novas instancias de entidade
-													  ao banco de dados, ele recebe como parametro o objeto a ser salvo e após persisti-lo
-													  torna o estado de ciclo de vida do objeto em managed.
+				      ao banco de dados, ele recebe como parametro o objeto a ser salvo e após persisti-lo
+				      torna o estado de ciclo de vida do objeto em managed.
 
 public <T> T find(Class<T> entityClass - Efetua o SELECT de uma instancia de entidade atraves do .class da entidade e a chave primária
-				, Object  primaryKey);  			 e retorna o objeto encontrado ou null se o objeto não existir.
+		 , Object  primaryKey);  e retorna o objeto encontrado ou null se o objeto não existir.
 									  
 public <T> T merge(T entity);       - Merge recebe como parametro uma instancia entidade que ja existe no banco de dados(estado persisted) mas
-													  foi modificada,e atualiza(UPDATE) o registro no banco de dados com os dados do objeto passado e o retorna
+				      foi modificada,e atualiza(UPDATE) o registro no banco de dados com os dados do objeto passado e o retorna
 									  
 public void refresh(Object entity); - Refresh faz o inverso de merge, recebe um objeto que já existe no banco(estado persisted) mas foi modificado e o "reseta"
-													  com os dados do banco de dados, ou seja anula qualquer mudança que tenha sido feita a ele.
+				      com os dados do banco de dados, ou seja anula qualquer mudança que tenha sido feita a ele.
 
 public void remove(Object entity); - Efetua o DELETE de uma instancia de entidade que ja foi persistida, atraves do seu objeto.
 
 boolean contains(Object entity);   -  Procura a entidade entre as instancias managed do entitymanager e se encontra-la retorna true
 
-public void clear();				- Torna todas as instancias de entidade no estado managed para o estado detached			
+public void clear();		   - Torna todas as instancias de entidade no estado managed para o estado detached			
 
-public void flush();				- Procura por diferenças entre o objeto e o seu registro no banco de dados para todas as instancias managed e se encontrar diferenças
-											  atualiza o banco de dados com os dados do objeto
+public void flush();		   - Procura por diferenças entre o objeto e o seu registro no banco de dados para todas as instancias managed e se encontrar diferenças
+				     atualiza o banco de dados com os dados do objeto
 
 public void setFlushMode(FlushModeType flushMode); - Define a maneira como o EntityManager mantem instancias de entidades no estado managed atualizadas, pode possuir dois valores:
 														
-																						*FlushModeType.AUTO - Default, todas as vezes que uma query é executada executa flush().
+						     	*FlushModeType.AUTO - Default, todas as vezes que uma query é executada executa flush().
 																			  
-																						*FlushModeType.COMMIT - Default, apenas executará flush() quando um commit ocorrer.
+							*FlushModeType.COMMIT - Default, apenas executará flush() quando um commit ocorrer.
 														
 public FlushModeType getFlushMode(); - Retorna o FlushMode ativo no EntityManager
 
