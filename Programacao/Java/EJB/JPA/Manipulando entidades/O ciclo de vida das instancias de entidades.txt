@@ -19,8 +19,8 @@ Managed/Attached - Significa que o EnityManager possui controle sobre esta insta
 					   todas as instancias de entidades sendo gerenciadas se tornarão
 					   detached
 								   
-					   Se o PersistenceContext for do escopo Transaction o que é padrão e a transação na qual a instancia
-					   da entidade managed se encontrava foi commitada ou rolled back ou seja a transação não está mais ativa
+					   Se o PersistenceContext for do escopo Transaction o que é padrão e a única opção para todos os componentes java EE
+					   exceto SFSBs e a transação na qual a instancia da entidade managed se encontrava foi commitada ou rolled back ou seja a transação não está mais ativa
 					   ela se tornará detached.
 							 
 				Removed  - Caso ela seja removida do banco de dados atraves do metodo remove()
