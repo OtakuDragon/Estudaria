@@ -1,0 +1,61 @@
+Container Managed EntityManager
+
+O método de instanciação de EntityManager gerenciado pelo
+container significa que quem instância o entitymanager, gerencia
+sua interação com transações(joinTransaction(), getTransaction())
+e os finaliza é o Java EE container.
+
+Nós só precisamos definir, aonde precisaremos deles e configura-los
+com a anotação @PersistenceContext.
+
+=================================================================
+A anotação @PersistenceContext
+
+A anotação @PersistenceContext anota objetos EntityManager, dizendo
+ao container Java EE que aquele EntityManager deve ser injetado e
+gerenciado por ele.
+
+Esta anotação pode anotar EntityManagers em qualquer componente Java EE
+mas por se tratar de um objeto de gerenciamento de persistência deve por design
+geralmente ser um atributo de classes de negócio(Session beans, MDB, Singleton) 
+
+---------------------------------------------------------------
+Atributos da anotação @PersistenceContext
+
+String name(); 			-- Nome JNDI do EntityManager desejado, não necessário quando utilizando DI
+String unitName() ;		-- Nome da <persistence-unit> do persistence.xml apartir da qual aquele EntityManager
+						   será criado isto define, tudo sobre a conexão com o banco de dados, e quais classes estão
+						   mapeadas como entidades.
+
+PersistenceContextType type;--Define o escopo do entity manager, existem dois tipos de escopo:
+								
+								PersistenceContextType.TRANSACTION - Default, Sempre que uma transação é finalizada
+																	 (commit,rollback) todas as entidades que pertenciam a ela
+																	 se tornam detached, ou seja, uma instancia de entidade só será managed se
+																	 pertencer a uma transação ativa.
+								
+								PersistenceContextType.EXTENDED  - O modo extended só está disponivel para Stateful session beans
+																   e significa que enquanto o bean existir, instancias de entidades managed
+																   continuarão sendo managed, a menos que elas mudem de estado por algum outro motivo
+																   pertencendo a transações ativas ou não
+																   
+								
+
+PersistenceProperty[] properties() default {}; --Recebe propriedades de configuração como as que estão definidas na sub-tag <property> de <persistence-unit> 
+												 para a configuração programática do persistence unit que gera o EntityManager
+
+*Nenhum atributo é obrigatório mas o atributo unitName é recomendado
+ para que o container saiba qual <persistence-unit> do persistence.xml
+ utilizar
+--------------------------------------------------------------
+ ex:
+ 
+@Stateful
+public class CRUDBean implements CRUD{
+ 
+	@PersistenceContext(unitName="minhaPersistenceUnit",type=PersistenceContextType.EXTENDED)
+	EntityManager entityManager;
+	
+	//Entity manager pronto para uso
+	...
+}

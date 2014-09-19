@@ -1,0 +1,44 @@
+Exemplo de Session Bean que efetua CRUD com JPA
+
+@Stateless
+public class ItemManagerBean implements ItemManager {
+	//Dependecy Injection do EntityManager
+	@PersistenceContext(unitName="actionBazaar")
+	private EntityManager entityManager;
+
+	//Construtor vazio padrão
+	public ItemManagerBean() {}
+	
+	//Método que efetua INSERT apartir de dados e retorna a instancia de entidade persistida
+	public Item addItem(String title, String description, byte[] picture, double initialPrice, long sellerId) {
+		Item item = new Item();
+		item.setTitle(title);
+		item.setDescription(description);
+		item.setPicture(picture);
+		item.setInitialPrice(initialPrice);
+		Seller seller = entityManager.find(Seller.class, sellerId); 
+		item.setSeller(seller);
+		entityManager.persist(item); 
+		
+		return item;
+	}
+	
+	//Método que efetua UPDATE apartir de uma instancia de entidade
+	public Item updateItem(Item item) {
+		entityManager.merge(item);
+		return item;
+	}
+	
+	//Método que recebe uma entidade modificada por um cliente e
+	//reseta os seus valores com o seu registro do banco de dados,
+	//funciona como um botão reset para um formulario html
+	public Item undoItemChanges(Item item) {
+		entityManager.refresh(entityManager.merge(item)); 
+		return item;
+	}
+	
+	//Efetua o DELETE apartir da instancia da entidade
+	public void deleteItem(Item item) {
+		entityManager.remove(entityManager.merge(item)); |#6
+	}
+}

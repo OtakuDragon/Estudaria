@@ -1,0 +1,27 @@
+Instanciando EntityManagers
+
+O primeiro passo para se efetivamente utilizar
+JPA é obter uma intância de EntityManager é possível
+se fazer isto de duas maneiras:
+
+*Container Managed EntityManager    -  Neste tipo de instanciação ocorre a injeção de depêndencia do entity manager
+									   realizada pelo container Java EE, em qualquer elemento gerenciado por ele (ManagedBeans,
+									   Servlets, SLSB, SFSB, etc.;)
+									   
+									   Neste caso o entity manager é instanciado pelo container e fechado
+									   pelo container, nós só temos que utiliza-lo em nosso componente.
+									   
+obs: IMPORTANTE, EntityManager não é thread-safe, ou seja a injeção dele em
+	 elementos java EE multithread como o layer de apresentação web(paginas JSF,JSP)
+	 não é suportada.
+								   
+*Application Managed EntityManager -   Neste tipo de instanciação, nós temos um objeto EntityManagerFactory
+									   e criamos EntityManagers atraves dele, temos que nos preocupar em,
+									   quando entrar em transações e quando fechar o EntityManager.
+
+									   Este tipo de instanciação é utilizado quando se deseja um controle maior
+									   sobre o ciclo de vida do entity manager ou não se tem acesso ao container
+									   Java EE para realizar DI como em aplicações java SE e o servidor de aplicação
+									   Tomcat
+
+

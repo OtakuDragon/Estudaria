@@ -1,0 +1,124 @@
+Application Managed EntityManager
+
+Neste modo de instanciação nós temos acesso a um objeto
+EntityManagerFactory e atraves dele criamos o EntityManager
+e este  deve ser utilizado e finalizado pela nossa
+aplicação.
+
+A principal função deste tipo de instanciação é utilizar JPA
+fora do Java EE container.
+
+*Application Managed EntityManager são sempre do escopo EXTENDED
+
+=======================================================
+Instanciando EntityManagerFactory
+
+Existem duas maneiras de se instanciar um objeto
+EntityManagerFactory:
+
+* Por injeção de dependecia do container
+
+* Instanciação direta
+
+---------------------------------------------------------
+Injeção de dependecia do container
+
+O Container Java EE tem a capacidade de injetar
+uma instancia de EntityManagerFactory por através
+da anotação @PersistenceUnit
+
+Isto limita a instanciação do EntityManagerFactory
+apenas a componentes Java EE
+
+ex:
+
+//O JPA instancia o EntityManagerFactory atraves de uma unidade
+//de persistencia definida no persistence.xml o nome esta unidade
+//de persistencia deve ser passado no atributo unitName da anotação
+@PersistenceUnit(unitName="minhaPersistenceUnit")
+private EntityManagerFactory entityManagerFactory;
+
+*Neste tipo de instanciação a fechamento da EntityManagerFactory fica
+ de responsabilidade do container
+
+--------------------------------------------------------
+Instanciação direta
+
+Utilizando a classe Persistence do JPA nos conseguimos
+criar uma instancia de EntityManagerFactory apartir do
+nome de uma <persistence-unit>
+
+este tipo de intanciação é util quando temos que utilizar
+JPA em componentes que não perteçam a um container Java EE
+como aplicações Java SE
+
+ex:
+
+EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(“minhaPersistenceUnit”);
+
+*A instanciação direta EntityManagerFactory requer o fechamento 
+ da fabrica, quando ela não for mais necessária
+----------------------------------------------------------------
+Metodos da interface EntityManagerFactory
+
+Um objeto EntityManagerFactory possui metodos muito simples
+ja que eles só existem para criar EntityManagers
+
+EntityManager createEntityManager(); -- Metodo mais importante, é ele quem cria um novo EntityManager através da persistence
+										unit definida
+										
+EntityManager createEntityManager(Map map) -- Com um mapa definindo <properties> como no atributo da anotação @PersistenceContext
+
+void close() -- Fecha a fabrica
+
+Boolean isOpen() -- Verifica se a fabrica está aberta
+
+==========================================================
+Utilizando um Application Managed EntityManager
+
+Um entityManager que não é gerenciado pelo container
+possui duas diferenças além da instanciação apartir da
+EntityManagerFactory:
+
+*O Gerenciamento de transações deve ser manual
+	
+	O que significa que em metodos de session beans(CMT), aonde
+	toda execução de um metodo gera inicia e finaliza uma transação
+	a utilizaçaõ do entity manager dever ser precedida da chamada de
+	entityManager.joinTransaction();, o que insere o entityManager na
+	transação existente antes de realizar as alterações de persistencia.
+	
+	E quando em aplicações java SE, devemos gerenciar transações apartir do objeto
+	EntityTransaction entityTransaction = entityManager.getTransaction();, e com ele
+	iniciar transações, antes de chamar qualquer método de persistencia e finalizar estas
+	transações para comitar as mudanças
+
+*O Fechamento do entityManager deve ser manual
+
+============================================================
+Instanciação Thread local
+
+A instanciação de Application Managed EntityManager em alguns
+servidores de aplicação como Tomcat e Jetty requerem a recuperação
+do objeto EntityManager atraves de um objeto thread safe, como nos
+metodos de exemplo abaixo:
+
+private static EntityManagerFactory entityManagerFactory;
+public static final ThreadLocal<EntityManager> _threadLocal = new ThreadLocal<EntityManager>();
+
+public static EntityManagerFactory getEntityManagerFactory() {
+if (entityManagerFactory == null) {
+	entityManagerFactory =
+	Persistence.createEntityManagerFactory("actionBazaar");
+	}
+	return entityManagerFactory;
+}
+
+public static EntityManager getEntityManager() {
+	EntityManager entityManager = _threadLocal.get();
+	if (_threadLocal == null) {
+		entityManager = entityManagerFactory.createEntityManager();
+		_threadLocal.set(entityManager); |#3
+	}
+	return entityManager;
+}
