@@ -1,0 +1,75 @@
+Cascading operações
+
+Na configuração dos relacionamentos entre entidades
+o JPA nós da a opção de definir o elemento cascade,
+este elemento define como uma operação CRUD realizada
+em uma entidade relacionada a outra, afeta esta entidade
+no outro lado do relacionamento.
+
+*Por padrão o comportamento é não fazer nada.
+
+como no exemplo abaixo:
+
+public User addUser(String username, String email,String creditCardType, String creditCardNumber,Date creditCardExpiration) {
+	User user = new User();
+	user.setUsername(username);
+	user.setEmail(email);
+	BillingInfo billing = new BillingInfo();
+	billing.setCreditCardType(creditCardType);
+	billing.setCreditCardNumber(creditCardNumber);
+	billing.setCreditCardExpiration(creditCardExpiration);
+	user.setBillingInfo(billing);
+	
+	entityManager.persist(user); 
+	return user;
+}
+
+perceba que duas entidades são instanciadas User e BillingInfo sendo que BillingInfo
+é um atributo de User, e então este User é persistido, o que acontece com o objeto BillingInfo
+dentro de User?
+
+Por padrão nada, se o elemento cascade não estiver configurado um erro ocorrerá, por que
+BillingInfo não foi explicitamente persistido(efetuar persist() no BillingInfo antes de seta-lo em User);
+
+Para que o exemplo acima gere dois INSERTs primeiro para BillingInfo e depois para User, o
+atributo BillingInfo em User deve estar configurado com o atributo cascade para persist como abaixo
+
+public class User {
+	@OneToOne(cascade=CascadeType.PERSIST)
+	public void setBillingInfo(BillingInfo billing) {
+	...
+}
+...
+}
+
+Esta definição diz ao JPA que sempre que for realizado um insert de um objeto User, e um objeto
+BillingInfo estiver settado nele, deve se primeiro inserir este objeto para depois inserir User
+
+============================================================================
+Configurando cascade
+
+O elemento cascade, pode ser configurado para todas as operações CRUD, só uma
+ou alguma delas seus valores possiveis são:
+
+CascadeType.ALL       -- Todas as operações
+
+CascadeType.MERGE -- merge() encadeado. 
+
+CascadeType.PERSIST  -- persist() encadeado. 
+
+CascadeType.REFRESH -- refresh() encadeado. 
+
+CascadeType.REMOVE -- emove() encadeado. 
+
+---------------------------------------------------------------------------------------------
+ex:
+
+@OneToOne(cascade={CascadeType.PERSIST,CascadeType.REMOVE})
+	public void setBillingInfo(BillingInfo billing) {
+	...
+}
+
+@ManyToOne(cascade={CascadeType.ALL)
+	public void setBillingInfo(BillingInfo billing) {
+	...
+}

@@ -1,0 +1,31 @@
+Efetuando INSERTs
+
+Inserts em JPA são feitos através do metodo:
+
+public void persist(Object entity);
+
+Do entity manager e tem o comportamento de tornar
+a instancia da entidade persistida para o estado managed
+
+===============================================
+Quando o INSERT ocorre
+
+Em um entity manager de escopo TRANSACTION o insert
+é feito assim que a transação é commitada.
+ 
+Em um entity manager de escopo EXTENDED o insert é executado quando
+o entity manager é fechado.
+
+Ou independente de escopo o insert será executado quando o metodo flush()
+for executado após o persist()
+
+=================================================
+Observações
+
+Cabe-se notar duas coisas sobre o metodo persist:
+
+* Não é possível persistir objetos fora de uma transação
+  ativa.
+  
+* Não é possivel persistir um objeto que já existe, no banco de dados
+  ou seja que possui uma chave primaria igual a uma já existente
