@@ -29,8 +29,9 @@ boolean contains(Object entity);   -  Procura a entidade entre as instancias man
 
 public void clear();		   - Torna todas as instancias de entidade no estado managed para o estado detached			
 
-public void flush();		   - Procura por diferenças entre o objeto e o seu registro no banco de dados para todas as instancias managed e se encontrar diferenças
-				     atualiza o banco de dados com os dados do objeto
+public void flush();		   - Procura por diferenças entre todas as instancias managed e o seu registro no banco de dados, se encontrar diferenças
+				     atualiza o banco de dados com os dados do objeto, e executa todas as instruções sql acumuladas geradas pelos metodos CRUD
+				     desde o ultimo flush.
 
 public void setFlushMode(FlushModeType flushMode); - Define a maneira como o EntityManager mantem instancias de entidades no estado managed atualizadas, pode possuir dois valores:
 														
