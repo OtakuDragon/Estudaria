@@ -1,4 +1,16 @@
-Exemplo de Session Bean que efetua CRUD com JPA
+Entity Acess Object
+
+Entity Acess Objects(EAO) são os componentes que formam a camada de persistencia
+das aplicações e manipulam diretamente o entityManager, se localizam entre a
+camada de negocio e o banco de dados, centralizando a utilização do JPA e
+abstraindo a utilização do entitymanager da camada de negocio.
+
+Arquitetura:
+
+View => Negócio => Persistencia(EAO) => Banco de dados
+
+======================================================================================
+ex:
 
 @Stateless
 public class ItemManagerBean implements ItemManager {
