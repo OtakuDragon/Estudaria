@@ -20,8 +20,8 @@ public <T> T find(Class<T> entityClass - Efetua o SELECT de uma instancia de ent
 public <T> T merge(T entity);       - Merge recebe como parametro uma instancia entidade que ja existe no banco de dados(estado persisted) mas
 				      foi modificada,e atualiza(UPDATE) o registro no banco de dados com os dados do objeto passado e o retorna
 									  
-public void refresh(Object entity); - Refresh faz o inverso de merge, recebe um objeto que já existe no banco(estado persisted) mas foi modificado e o "reseta"
-				      com os dados do banco de dados, ou seja anula qualquer mudança que tenha sido feita a ele.
+public void refresh(Object entity); - Refresh faz o inverso de merge, recebe um objeto que já existe no banco de dados, está no estado managed(vindo de persist(),find() ou merge())
+				      e foi modificado e o "reseta" com os dados do banco de dados, ou seja anula qualquer mudança que tenha sido feita a ele.
 
 public void remove(Object entity); - Efetua o DELETE de uma instancia de entidade que ja foi persistida, atraves do seu objeto.
 
