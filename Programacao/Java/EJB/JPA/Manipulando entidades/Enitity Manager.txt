@@ -37,8 +37,8 @@ public void setFlushMode(FlushModeType flushMode); - Define a maneira como o Ent
 						     	*FlushModeType.AUTO - Default, executa flush() ao final de transações, logo antes de o EntityManager ser fechado e
 						     			      sempre que uma query que contem uma entidade modificada que ainda não foi atualizada no banco precisa ser executada.
 																			  
-							*FlushModeType.COMMIT - Apenas executará flush() no momento de commit das transações e não se procupa em executar queries com entidades
-										modificadas que não possuiram suas mudanças persistidas.
+							*FlushModeType.COMMIT - Apenas executará flush() no momento de commit das transações e não se procupa em executar queries que contem entidades
+										modificadas que não possuiram suas mudanças atualizadas no banco de dados, cabendo ao programador este cuidado.
 														
 public FlushModeType getFlushMode(); - Retorna o FlushMode ativo no EntityManager
 
