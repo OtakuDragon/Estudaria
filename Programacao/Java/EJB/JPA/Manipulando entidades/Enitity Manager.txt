@@ -34,9 +34,11 @@ public void flush();		   - Procura por diferenças entre o objeto e o seu regist
 
 public void setFlushMode(FlushModeType flushMode); - Define a maneira como o EntityManager mantem instancias de entidades no estado managed atualizadas, pode possuir dois valores:
 														
-						     	*FlushModeType.AUTO - Default, todas as vezes que uma query é executada executa flush().
+						     	*FlushModeType.AUTO - Default, executa flush() ao final de transações, logo antes de o EntityManager ser fechado e
+						     			      sempre que uma query que contem uma entidade modificada que ainda não foi atualizada no banco precisa ser executada.
 																			  
-							*FlushModeType.COMMIT - Default, apenas executará flush() quando um commit ocorrer.
+							*FlushModeType.COMMIT - Apenas executará flush() no momento de commit das transações e não se procupa em executar queries com entidades
+										modificadas que não possuiram suas mudanças persistidas.
 														
 public FlushModeType getFlushMode(); - Retorna o FlushMode ativo no EntityManager
 
