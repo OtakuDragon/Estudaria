@@ -1,0 +1,26 @@
+Efetuando SELECT por chave primaria
+
+Existem vária maneiras de se buscar entidades através do JPA,
+a maneira mais simples e a única que não envolve a utilização
+da API de query nós permite a busca de uma instancia de entidade
+através da sua chave primaria
+
+através do método:
+
+public <T> T find(Class<T> entityClass, Object  primaryKey);
+
+Do entity manager, que recebe como parametro o tipo de entidade
+a ser buscada, e a chave primária do registro desejado, esta chave primária
+pode ser tanto um dado primitivo, no caso recomendado de chaves surrogate
+ou instancias de classes @IdClass e @EmbeddedId, para chaves primarias compostas
+
+*Se o registro não desejado não for encontrado o metodo retornará null
+
+======================================================================
+Observações:
+
+	O metodo find() pode ser chamado fora de uma transação ativa,
+se isto acontecer a encontrada será recuperada no estado detached.
+
+	ja no caso de o find() ser executado em uma transação ativa a entidade
+recuperada será managed

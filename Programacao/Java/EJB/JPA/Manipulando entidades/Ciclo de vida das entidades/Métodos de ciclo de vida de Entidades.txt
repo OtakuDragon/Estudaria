@@ -1,0 +1,119 @@
+Métodos de ciclo de vida de Entidades
+
+O JPA nós da a capacidade de executar codigo antes e
+depois que ações sejam executadas com as entidades isto
+nos traz as vantagens de Aspect oriented programming para o JPA
+
+as ações possiveis são:
+
+@PrePersist  - Antes inserir uma instancia de entidade ao banco de dados
+@PostPersist - Após inserir uma instancia de entidade ao banco de dados
+@PostLoad    - Após uma instancia de entidade ser buscada por find(),query ou refresh
+@PreUpdate   - Antes de atualizar uma entidade no banco de dados
+@PostUpdate  - Após atualizar uma entidade no banco de dados
+@PreRemove   - Antes de remover uma instancia de entidade.
+@PostRemove  - Após remover uma instancia de entidade.
+
+Os metodos que contem o código devem seguir a seguinte assinatura:
+
+void nomeDoMetodo(Object entidade);//recebem como parametro a instancia da entidade sobre a qual
+								   //a ação será executada.
+								   
+Se qualquer exceção ocorrer dentro de um metodo "pre" de ciclo de vida
+a ação não será executada, isto é importante para validar regras antes
+de efetuar ações como inserts, updates e deletes.
+
+ex:
+
+//Método que impede que sejam efetuados inserts e updates de itens com o valor menor do
+//que o permitido
+
+@PreUpdate
+@PrePersist
+public void newItemVerifier(Item item){
+	if (item.getInitialPrice()<MIN_INITIAL_PRICE){
+		throw new ItemException("Item Price is lower than Minimum Price Allowed");
+	}
+}
+
+====================================================================
+EntityListener
+
+Por mais que seja possivel incluir os métodos acima diretamente
+em entidades, isto não é recomendando já que os códigos que estes
+métodos contem não tem nenhuma relação com o mapeamento O-R, e sim
+com validação, auditamento e logging.
+
+A separação entre a entidade(logica de mapeamento) e a implementação
+dos métodos de ciclo de vida é feita apartir de EntityListeners.
+
+EntityListener são pojos puros cuja a unica função é conter métodos de ciclo de vida
+não implementam interface, não herdam de nenhuma classe e não suportam DI, a vinculação
+de um EntityListener a uma entidade é feita atraves da anotação @EntityListeners na entidade
+pelo  fully qualified name da classe do entity listener, ou um array deles
+
+----------------------------------------------------------------------
+ex:
+
+//Entity Listener
+public class ItemMonitor {
+
+	public ItemMonitor() {}
+
+	@PrePersist
+	@PreUpdate 
+	public void monitorItem(Item item) {
+		if (item.getInitialBidAmount() >ItemMonitor.MONITORING_THRESHOLD) {
+			notificationManager.sendItemPriceEmailAlert(item);
+		}
+	}
+}
+
+@Entity
+@EntityListeners(otakudragon.jpa.listeners.ItemMonitor.class)//Fully qualified name do entity listener ou @EntityListeners({otakudragon.jpa.listeners.ItemMonitor.class,otakudragon.jpa.listeners.ItemMonitor2.class}) para mais de um listener
+public class Item implements Serializable {
+...
+}
+
+========================================================================
+Default EntityListener
+
+Também é possivel se definir um ou mais EntityListeners que se aplicam a todas
+as entidades da persistence-unit, este são os chamados default entity listeners
+e devem ser declarados no persistence.xml como baixo:
+
+<default-entity-listeners>
+	otakudragon.jpa.listeners.DefaultListener.class
+</default-entity-listeners> 
+
+==========================================================================
+Ordem de execução
+
+No caso de vários entity listeners de vários niveis agirem sobre
+ações de uma mesma entidade a ordem de execução será a seguinte:
+
+*Default listeners na ordem de declaração no persistence.xml
+
+*Entity listeners da superclasse(se possuir), na ordem de declaração na anotação @EntityListeners
+
+*Entity listeners da entidade, na ordem de declaração na anotação @EntityListeners
+
+===========================================================================
+Exclusão
+
+É possivel anular a execução de default entity listeners e entity listeners
+de super classe para entidades especificas atraves das anotações de exclusão:
+
+@ExcludeDefaultListeners    - Nenhum default listener será executado sobre as operações na entidade
+@ExcludeSuperClassListeners - Nenhum listener da superclasse será executado sobre as operações na entidade
+
+ex:
+
+@Entity
+@ExcludeDefaultListeners
+@ExcludeSuperClassListeners
+@EntityListeners(otakudragon.jpa.SellerMonitor.class)
+public class Seller extends User {
+..
+}
+

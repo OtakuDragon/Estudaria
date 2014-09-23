@@ -1,0 +1,16 @@
+Efetuando DELETEs
+
+Deletar instancias de entidades do banco de dados
+é possivel através da utilização do metodo
+
+public void remove(Object entity);
+
+Do entity manager.
+==============================================
+Observações:
+
+*Só é possivel deletar instancias de entidade
+ no estado managed
+ 
+*remove() deve ser chamado dentro de uma transação
+ ativa

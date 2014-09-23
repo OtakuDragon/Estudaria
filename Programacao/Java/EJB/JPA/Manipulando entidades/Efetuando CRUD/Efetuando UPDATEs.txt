@@ -1,0 +1,26 @@
+Efetuando UPDATEs
+
+A atualização de instancias de entidades no estado
+managed, é efetuada automaticamente pelo JPA.
+
+Mas à muitas situações em que instancias de entidades se tornam
+detached tem os seus dados modificados e nós precisamos que essas
+modificações sejam persistidas
+
+Neste caso nos utilizamos o metodo:
+
+public <T> T merge(T entity);
+
+Do entitymanager que atualiza o registro do banco de dados apartir
+de uma instancia de entidade que já foi persistida anteriormente
+e torna a instancia passada para o estado managed.
+
+==========================================================
+Observações
+
+*Não pode ser chamado fora de uma transação
+
+*Só pode receber como parametro entidades que já estão persistidas
+
+*Não atualiza relacionamentos, mesmo que o atributo de entidade seja atualizado
+ a menos que cascade MERGE esteja definido.

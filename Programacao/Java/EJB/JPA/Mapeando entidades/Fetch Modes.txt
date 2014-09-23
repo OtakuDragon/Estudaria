@@ -1,0 +1,48 @@
+Fetch Modes
+
+O Fetch mode, de um atributo diz ao JPA se aquele atributo
+deve ser buscado no select de busca da instancia de entidade(Eager fetching)
+
+Ou deve ser buscado separadamente com um select particular executado
+quando o seu getter for chamado(Lazy fetching)
+
+A definição de fetch mode é util para melhorar a performance da aplicação
+no aspecto de busca de entidades com relação a quantidade de Selects executados
+ou a complexidade de Selects executados.
+
+===============================================================
+Este atributo pode ser configurado em 
+duas situações:
+
+@Basic - Para qualquer atributo normal da classe, util para efetuar lazy fetching de @Lobs,
+		 obs: a implementação desta anotação é considerada opcional pela especificação
+
+Anotações de relacionamento  - Define se o select de busca da entidade conterá joins para buscar as referencias de
+(@OneToOne,@ManyToOne, etc.)   entidade ou se um novo select deve ser feito, quando o getter for chamado
+===============================================================
+ex:
+
+@Column(name="PICTURE")
+@Lob
+@Basic(fetch=FetchType.LAZY)
+public byte[] getPicture() {
+	return picture;
+}
+
+=============================================================
+Defaults
+
+Atributos de entidade:
+
+Por padrão todos os atributos de entidade que não são
+referencias de um relacionamento ou seja atributos comuns
+possuem o fetch mode EAGER.
+
+Relacionamentos:
+
+O fetch mode dos relacionamentos segue a filisofia que
+se o join por chave primaria retornar apenas um resultado
+(@OneToOne e @ManyToOne) o fetch mode padrão é EAGER
+
+Já nos casos em que o join por chave primaria retorna multiplos
+resultados (@ManyToMany, @OneToMany) o fetch mode padrão é LAZY
