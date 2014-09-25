@@ -1,0 +1,169 @@
+Configurando Queries
+
+Após a criação de uma Query, com o
+objeto Query em mãos o proximo passo
+é configura-la.
+
+Não há diferenças de configuração entre
+Named e Dynamic queries
+
+===========================================
+Setando parametros
+
+O tipo de configuração de query mais comum e necessário
+para quase todas as queries é a definição de parametros
+
+Isto é feito através do método setParameter() da Query
+que possui algumas assinaturas, segue abaixo a explicação
+das maneiras mais comuns de definição de parametros.
+
+------------------------------------------------
+Positional Parameter
+
+Seta o parametro pela sua posição na query,
+não é uma maneira recomendada por sua baixa clareza
+
+Os parametros aparecem na query seguindo a sintaxe ?pos
+"pos" sendo um numero inteiro
+
+Assinatura:
+
+query.setParameter(int pos, Object valor);
+
+
+Ex:
+
+Query query = em.createQuery("SELECT i FROM Item i WHERE i.initialPrice > ?1 AND i.initialPrice < ?2"):
+
+query.setParameter(1, 100.00);
+query.setParameter(2, 200.00);
+
+--------------------------------------------------
+Named Parameter
+
+Seta o parametro por um nome dado a ele na query,
+é a maneira mais recomenada por sua facil leitura
+
+Os parametros aparecem na query seguindo a sintaxe :nome
+
+Assinatura:
+
+query.setParameter(String name, Object valor);
+
+Ex:
+
+Query query = em.createQuery("SELECT i FROM Item i WHERE i.initialPrice > :lowerLimit AND i.initialPrice < :higherLimit"):
+
+query.setParameter("lowerLimit", 100.00);
+query.setParameter("higherLimit", 200.00);
+
+----------------------------------------------------
+Setando datas como parametro
+
+O metodo setParameter() tem assinaturas especiais para
+a definição de objetos Date ou Calendar como parametro
+
+Assinatura:
+
+query.setParameter(String/int name/pos, Calendar/Date value, TemporalType temporalType);
+
+*Primeiro parametro - definição de qual parametro representa a data por nome ou por posição
+*Segundo parametro  - objeto da data pode ser Date ou Calendar
+*Terceiro parametro - formato da data só data, só hora ou timestamp atraves de uma enum TemporalType
+
+ex:
+
+Query query = em.createQuery("SELECT i FROM Item i WHERE i.registerDate >= :regDate"):
+
+//Procura os itens registrados hoje
+query.setParameter("regDate",new Date(),TemporalType.DATE);
+
+==================================================================
+Paginação
+
+Outro aspecto importante de configuração da query diz
+respeito ao tamanho do resultado, nem sempre nós queremos
+todos os resultados de uma vez
+
+A interface Query nós oferece métodos para efetuar a paginação
+de consultas de forma simples
+
+Estes métodos são:
+
+query.setFirstResult(int first);  //A partir de qual registro começar(offset/ponteiro da página)
+query.setMaxResults(int results); //Numero maximo de registros para se trazer(Tamanho da pagina)
+
+
+ex:
+
+//Digamos que uma busca de 200 itens foi feita, e nós queremos exibir 50 por vez em uma pagina da web
+//que está dividida em 4 "páginas"
+
+//A primeira página
+
+//A partir do primeiro registro(0), pegue 50 registros
+query.setFirstResult(0);
+query.setMaxResults(50);
+List items = query.getResultList();
+
+fillClientPage(items);
+
+//A segunda página
+
+//A partir do 50º registro, pegue 50 registros
+query.setFirstResult(50);
+query.setMaxResults(50);
+List items = query.getResultList();
+
+fillClientPage(items);
+
+//E assim por diante
+==============================================================================
+Configurando hints
+
+Hints são configurações especificas de cada implementação
+que podem definir detalhes como cache e timeout de queries
+hints são definidas através do metodo:
+
+query.setHint(String name, Object value);
+
+Os nomes e os valores suportados nas hints são definidas pela
+implementação segue abaixo a lista de hints do hibernate:
+
+http://docs.jboss.org/hibernate/stable/entitymanager/reference/en/html/objectstate.html#d0e1215
+
+ex:
+
+query.setHint("org.hibernate.timeout", new Integer(10));
+
+//hints em anotação namedQueries
+//obs: name queries tambem podem possuir hints setadas pelo metodo setHint() esta é apenas 
+//     uma maneira de manter hints centralizadas e estaticas
+
+@NamedQuery(
+name = "findUserWithNoItems",
+query = "SELECT DISTINCT u FROM User u WHERE u.items is EMPTY",
+hints = { @QueryHint(name = "org.hibernate.timeout", value = "10") }
+)
+==============================================================================
+FlushMode
+
+Tambem é possivel se configurar o flush mode da query
+isto define qual será o comportamento do JPA sobre entidades
+managed recuperadas.
+
+Esta configuração pode ser definida através do metodo:
+
+query.setFlushMode();
+
+E pode receber dois valores:
+
+FlushModeType.AUTO - (Default)O JPA manterá entidades managed atualizadas com o seus registros 
+					 no banco de dados
+					 
+FlushModeType.COMMIT - A especificação não define o comportamento deste tipo de flush,
+					   ficando a cargo da implementação definir o comportamento
+					   
+*Obs: NÂO É RECOMENDADO REDEFINIR O FLUSH MODE
+					   
+					   

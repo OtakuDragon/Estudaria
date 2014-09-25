@@ -1,0 +1,33 @@
+Instanciando Queries
+
+O primeiro passo para se efetuar uma busca
+utilizando a Query API é obter um objeto Query
+
+Estes objetos são criados apartir dos metodos
+de criação de query do EntityManager
+
+que são:
+
+* entityManager.createQuery(String jpql); // Cria uma Dynamic query apartir de uma instrução JPQL
+
+* entityManager.createNamedQuery(String name);//Recupera uma instancia de named query já declarada(@NamedQuery) apatir do nome
+
+* entityManager.createNativeQuery(String sqlString); // Cria uma Dynamic query sql que não retorna resultados(DELETE/UPDATE)
+
+* entityManager.createNativeQuery(String sqlString, Class result-class);// Cria uma Dynamic query sql que retorna apenas um resultado
+
+* entityManager.createNativeQuery(String sqlString, String result-setMapping);// Cria uma Dynamic query sql que retorna varios resultados
+
+Obs: Os métodos recomendados é mais utilizados são os que utilizam JPQL e retornam como resultados entidades(createQuery(),createNamedQuery()),
+	 apenas utilizar queries nativas quando estritamente necessario
+
+============================================================================
+ex:
+
+Instanciando Dynamic Query:
+
+Query query = em.createQuery("SELECT i FROM Item i");
+
+Instanciando Named Query:
+
+Query query = em.createNamedQuery("findAllCategories");

@@ -1,0 +1,83 @@
+Executando Queries
+
+Com a Query criada em configurada
+agora basta executa-la, existem 3 métodos
+para a execução de queries em um objeto Query
+
+Eles são:
+
+* query.getSingleResult();
+* query.getResultList();
+* query.executeUpdate();
+
+Obs: Queries podem ser executadas fora de transações
+     ativas, se isto acontecer as entidades retornadas 
+	 virão no estado detached.
+	 
+	 O recomendado é sempre executar queries dentro de
+	 transações ativas para que elas sejam recuperadas
+	 no estado managed e não haja risco de inconsistencias.
+	 
+==============================================
+getSingleResult()
+
+O metodo query.getSingleResult() tem como objetivo
+executar queries que retornam apenas um resultado.
+
+Ele retorna este registro encontrado como um Object
+que pode ser casted, para uma entidade caso a consulta
+tenha sido feita por JPQL.
+
+Ou para a classe passada para o método createNativeQuery()
+caso a query seja um select SQL.
+
+*Se nenhum resultado for encontrado a exceção NoResultException é jogada
+
+*Se mais de um resultado for encontrado a exceção NonUniqueResultException é jogada
+
+ex:
+
+try {
+
+	Category cat = (Category)query.getSingleResult();
+
+}catch (NonUniqueResultException ex) {
+	handleException(ex);
+}
+catch (NoResultException ex) {
+	handleException(ex);
+}
+
+==================================================
+getResultList()
+
+O metodo query.getResultList() tem como objetivo
+executar queries que retornam um ou mais resultados.
+
+Este metodo retorna uma List de Object que pode ser casted
+para uma lista de entidades caso a query tenha sido
+JPQL.
+
+*Se nenhum resultado for encontrado a lista retornada estará vazia
+
+ex:
+
+List<Item> items = (List<Item>)query.getResultList();
+
+if(items.isEmpty()){
+	throw new Exception("Itens não encontrados");
+}
+
+==================================================
+executeUpdate()
+
+O metodo query.executeUpdate() tem como objetivo
+executar queries de update ou delete
+
+E retorna um inteiro dizendo quantas linhas foram afetadas
+
+ex:
+
+int registros = query.executeUpdate();
+
+System.out.println("Você deletou "+registros+" Itens do estoque");

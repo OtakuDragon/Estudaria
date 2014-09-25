@@ -1,0 +1,47 @@
+Named Queries
+
+Named queries são queries de definição estatica criadas
+para serem executadas em vários lugares do código.
+
+A declaração de queries como named queries é recomendada para
+queries de conteudo estático, ou seja, não tem seu
+código de busca(JPQL/SQL) alterado pela aplicação em certas situações
+
+elas precisam ser declaradas e nomeadas antes de poderem ser
+utilizadas já que elas são estaticas e compartilhadas por todo
+o persistence context isto é feito através da anotação @NamedQueries
+na entidade
+-----------------------------------------------------------------
+ex:
+
+@Entity
+@NamedQueries({
+@NamedQuery(
+name = "findCategoryByName", //Nome da query
+query = "SELECT c FROM Category c WHERE c.categoryName //código JPQL/SQL da query
+LIKE :categoryName order by c.categoryId"
+),
+@NamedQuery(
+name = "findCategoryByUser",
+query = "SELECT c FROM Category c JOIN c.user u
+WHERE u.userId = ?1"
+)})
+@Table(name = "CATEGORIES")
+public class Category implements Serializable {
+}
+
+*obs: o nome das queries devem ser unicos dentro de um persistence unit
+
+===============================================================
+Vantagens de se utilizar Named Queries
+
+As named queries são instanciadas apenas uma vez e reutilizadas
+durante toda a aplicação o que traz:
+
+*Melhoria na performance por instanciar apenas uma vez
+*Centralização do código, ja que a named query pode ser declarada
+ em um lugar e utilizada em toda a aplicação facilitando manutenções
+=================================================================
+Utilizando Named Queries 
+
+Query query = em.createNamedQuery("NomeDaNamedQuery");

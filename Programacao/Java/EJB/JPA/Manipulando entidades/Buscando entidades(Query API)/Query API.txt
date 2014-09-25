@@ -1,0 +1,50 @@
+Query API
+
+O JPA nos oferece duas maneiras de se buscar
+entidades:
+
+*Através do metodo find() do entityManager.
+
+*Utilizando a query API
+
+A query API do JPA nos oferece métodos poderosos
+para a busca de entidades e suporta queries escritas
+em duas linguagens:
+
+*JPQL - Java Persistence Query Language, linguagem especifica do JPA
+		que retorna como resultado objetos de entidades.
+		
+*SQL  - SQL nativo do banco de dados utilizando, só que neste caso
+        os resultados retornados são em forma de result set.
+		
+=====================================================
+Tipos de query
+
+*Dynamic Query  - Queries dinamicas são queries formadas de acordo com a situação
+				  e não tem uma forma fixa, pode variar a sua formação de execução para execução
+
+*Named Query    - Named Queries são queries fixas que sempre terão a mesma formação, e podem ser armazenadas
+                  de forma estatica no código, para que seja instnaciadas apenas uma vez.
+
+obs: tipos de query independem da linguagem utilizada.	
+
+=====================================================
+Sequencia lógica da Query API
+
+Para se efetuar a busca de entidades
+atraves da query API nós precisamos:
+
+* Obter uma instancia de um objeto Query instanciado
+  apartir de um dos metodos de query do entity manager
+  
+* Utilizar este objeto, para setar parametros na query,
+  definir paginação e outras configurações
+  
+* Chamar um dos métodos de execução do objeto Query para
+   obter o resultado desejado
+  	
+
+
+ 
+ 
+ 
