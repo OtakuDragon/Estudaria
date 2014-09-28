@@ -1,0 +1,15 @@
+Instalando nexus
+
+O nexus vem como uma aplicação web .war que pode ser
+baixada em http://download.sonatype.com/nexus/oss/nexus-latest.war
+e então colocada em um servidor de aplicação java como tomcat
+(não funciona no jboss)
+
+Com o nexus no servidor basta acessa-lo no servidor e logar com
+o usuário padrão:
+
+login: admin
+
+senha: admin123
+
+*Outros usuários podem ser criados na aba lateral security => users

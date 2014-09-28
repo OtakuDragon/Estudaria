@@ -1,0 +1,11 @@
+Integração Nexus e Openshift
+
+Nós podemos criar repositorios em um nexus rodando em um
+tomcat, e utilizar estes repositorios em aplicações rodando no
+jboss utilizando openshift.
+
+Para manter nossos proprios repositorios de projetos internos ou
+de artefatos publicos(3rd Party) caso haja algum problema de encontrar
+estes artefatos nos repositorios remotos publicos.
+
+E controlar as dependecias dos projetos rodando no jboss

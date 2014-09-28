@@ -1,0 +1,22 @@
+Utilizando repositorios remotos
+ 
+Com os artefatos no repositorio nexus, antes de podermos
+referenciar seus artefatos como dependencias nas nossas 
+aplicações  nós temos que primeiro declarar o repositorio
+remoto no pom.xml do projeto cliente
+
+==================================================
+ex:
+ 
+No pom.xml tag <project>
+ 
+ <repositories>
+    <repository>
+	  <!--Id no repositorio no nexus(Na aba repositories, selecionar repositorio e clicar em configuration para ver o id)-->
+      <id>my-internal-site</id>
+	  <!--Url do repositorio(Repository path, na aba repositories do nexus)-->
+      <url>http://myserver/repo</url>
+    </repository>
+  </repositories>
+  
+ E então teremos acesso a todos os artefatos deste repositorio remoto

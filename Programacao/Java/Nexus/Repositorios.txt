@@ -1,0 +1,21 @@
+Repositorios
+
+O nexus default ja vem com uma serie de repositorios instalados
+os que nos utilizamos são:
+
+*3rd Party - Repositorio para guardar aplicações/bibliotecas feitas por outras pessoas
+
+*Snapshots - Repositorio para guardar aplicações/bibliotecas em desenvolvimento
+
+*Releases - Repositorio para guardar aplicações/bibliotecas em versão final
+
+obs: tambem é possivel criar seus proprios repositorios
+
+======================================================
+Tipos de repositorio
+
+*Hosted: Repositório local, os artefatos são obtidos e inseridos no servidor que hospeda o aplicativo;
+
+*Proxy: Repositório que age como um proxy para um repositório que está remoto ao aplicativo;
+
+*Group: Agrega e ordena um conjunto de repositórios, incluindo os dois citados acima.

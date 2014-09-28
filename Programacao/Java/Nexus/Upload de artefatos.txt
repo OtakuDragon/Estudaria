@@ -1,0 +1,110 @@
+Upload de artefatos
+
+A parte mais importante de se ter um repositorio é
+fazer upload dos artefatos para que poms que possuam
+o repositorio possam ter acesso a eles
+
+======================================================
+Upload de Releases
+
+Releases são versões de aplicações/bibliotecas que são finais e não
+são nem possuem nenhuma dependencia com o sufixo -SNAPSHOT.
+
+Versões release pode ser colocadas no repositorio atraves do site do nexus
+basta clicar em  um repositorio tipo release ir na aba  artifact upload selecionar
+gav definition como POM, e escolher o pacote do= artefato(.jar,.war,.ear)
+
+*obs: Releases tambem podem ser inseridas no repositorio, utilizando 
+         o plugin deploy do maven como descrito abaixo para snapshots
+
+========================================================
+Upload de Snapshots
+
+Snapshots são versões instaveis e em desenvolvimento, possuem o nome
+com sufixo -SNAPSHOT, estes tipos de artefato não podem ser colocadas
+diretamente no repositorio pelo site do maven
+
+O seu upload é feito através do plug-in deploy do maven, que requer as
+seguites configurações:
+
+-------------------------------------------------------------------------------
+A criação do arquivo settings.xml
+
+No repositorio local pasta .m2, este arquivo define
+os dados de autenticação para o upload do artefato,
+o nexus só permitira o upload se for feito por um de
+seus usuários.
+
+Com a sintaxe:
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                          http://maven.apache.org/xsd/settings-1.0.0.xsd">
+      <localRepository/>
+      <interactiveMode/>
+      <usePluginRegistry/>
+      <offline/>
+      <pluginGroups/>
+	  <servers>
+		  <server>
+			 <!--Id do repositorio configurado no nexus ao qual se deseja fazer upload(Na aba repositories, selecionar repositorio e clicar em configuration para ver o id)-->
+			  <id>snapshots</id>
+			 <!--Nome do usuário do nexus-->
+			  <username>admin</username>
+			   <!--Senha do usuário do nexus-->
+			  <password>admin123</password>
+		</server>
+	</servers>
+      <mirrors/>
+      <proxies/>
+      <profiles/>
+      <activeProfiles/>
+ </settings>
+---------------------------------------------------------------------------------------
+No Pom.xml do artefato:
+
+A definição do plugin de deploy do maven que permitirá
+o upload 
+
+<!--O plug-in de deploy do maven dentro da tag <plugins>-->
+ <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-deploy-plugin</artifactId>
+		<version>2.8.2</version>
+</plugin>
+
+<!--A definição do repositorio, para o qual fazer upload-->
+
+<!--Subtag de <project>-->
+  <distributionManagement> 
+		<!--Definição de um ou mais repositorios para se fazer o upload-->
+		<!--No exemplo abaixo o repositorio declarado é snapshot por isso a tag <snapshotRepository> -->
+		<!--para fazer um upload de release basta declarar no lugar de <snapshotRepository> a tag <repository> -->
+        <snapshotRepository> 
+				<!--Id no repositorio no nexus(Na aba repositories, selecionar repositorio e clicar em configuration para ver o id)-->
+                <id>snapshots</id> 
+				<!--Url do repositorio(Repository path, na aba repositories do nexus)-->
+                <url>http://localhost:8080/nexus-2.9.2-01/content/repositories/snapshots/</url> 
+        </snapshotRepository> 
+</distributionManagement>  
+
+----------------------------------------------------------------------------------------
+Definir a Run Configuration
+
+Rodar maven install, só instalará o artefato no repositorio
+local, para instala-lo no repositorio remoto nexus, nós temos
+que rodar maven deploy
+
+*Clicar no projeto
+*Run As
+*Run Configurations...
+*Na aba main selecionar o base directory como a pasta do projeto
+ no workspace
+ *Definir o goals como "deploy"(Sem aspas)
+ *Run
+ 
+ Isto instalará o repositorio localmente e no repositorio nexus
+ 
+
+ 
