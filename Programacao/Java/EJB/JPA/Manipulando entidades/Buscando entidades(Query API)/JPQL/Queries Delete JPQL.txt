@@ -1,0 +1,12 @@
+Delete JPQL
+
+O DELETE do JPQL nós permite excluir um
+ou mais registros de uma entidade.
+
+Abaixo a sintaxe:
+
+DELETE entityName indentifierVariable WHERE filter
+
+Exemplo:
+
+DELETE Seller s WHERE s.status = 'Silver'

@@ -1,0 +1,55 @@
+A Clausula FROM JPQL
+
+A Clausula FROM em uma query language serve para dizer
+quais entidades, fazem parte de uma determinada query,
+e podem ser utilizadas nas outras clausulas.
+
+A clausula FROM é composta por identificadores 
+
+O SQL possui dois tipos de identificadores:
+
+*Nomes das tabelas e aliases
+
+*Colunas das tabelas
+
+O JPQL possui tres tipos de identificadores
+
+*EntityName(Nome da entidade)
+
+*Identifier variable(aliases)
+
+*Single-value Path expression(atributos)
+
+*Collection-value Path expression(atributos do tipo coleção)
+========================================================
+EntityName
+
+São os equivalentes ao nome das tabelas no SQL,
+nas queries JPQL são os nome das entidades
+
+-entityName, O nome da entidade definido no atributo name da tag @Entity, se nenhum nome
+			 for definido por default é o nome simples da classe da entidade.
+
+--------------------------------------------------------
+Identifier variable
+
+São os equivalentes aos  aliases do SQL e
+servem para abreviar o nome das entidades e 
+facilitar a recuperação de path expressions
+
+-alias, como no sql um apelido para a entidade, pode ser qualquer combinação valida de letras
+        de acordo com as regras de nome de variavel para o java e que não seja uma palavra reservada JPQL
+ 
+----------------------------------------------------------
+Exemplo:
+ 
+sintaxe da clausula from em queries JPQL:
+
+FROM entityName alias;
+
+ex:
+
+SELECT c FROM Category c;
+
+==========================================================
+

@@ -1,0 +1,5 @@
+JPQL
+
+A Java Persistence Query Language é a linguagem utilizada
+no JPA para buscar, atualizar ou deletar entidades ela funciona
+como a SQL da orientação a objetos

@@ -1,0 +1,19 @@
+Update JPQL
+
+O JPQL tambem suporta updates, para a mudança
+de valores de um ou mais registros de entidades
+o update do JPQL possui a seguinte sintaxe:
+
+UPDATE entityName identifierVariable SET alias.singleValuePathExpression = newValue, ... WHERE filter
+
+Cabe-se notar que a clausula SET aonde se definem
+quais valores mudarão e para qual valor, só aceita
+identificadoressingle value path expressions, do lado
+direito da atribuição.
+
+ex:
+
+UPDATE Seller s SET s.status = 'G', s.commissionRate = 10 WHERE s.lastName like 'PackRat%'
+
+//Como queries são strings, strings ou chars dentro das queries devem
+//ser identificadas por aspas simples(')

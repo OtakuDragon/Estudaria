@@ -1,0 +1,18 @@
+SELECT JPQL
+
+O JPQL suporta queries de busca de uma ou varias entidades
+utilizando o SELECT, que possui uma sintaxe muito parecida
+com o SQL, sendo a grande diferença os identificadores
+
+O Select do JPQL suporta as seguintes clausulas:
+
+SELECT 
+FROM 
+WHERE 
+ORDER BY
+GROUP BY
+HAVING
+
+ex:
+
+SELECT c FROM Category c WHERE c.categoryName LIKE :categoryName ORDER BY c.categoryId

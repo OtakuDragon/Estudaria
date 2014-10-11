@@ -1,0 +1,78 @@
+Path Expressions
+
+Path Expressions representam os atributos da entidade e são
+equivalentes aos nomes de uma coluna no SQL, são recuperados
+atraves de identificadores e são utilizados nas diversas clausulas
+seguindo a sintaxe:
+
+Sintaxe:
+
+entityName.atributo ou alias.atributo
+
+ex:
+
+//Busca apenas o atributo nome dos registros da entidade Category
+SELECT c.name FROM Category c;
+
+=========================================================
+Path expressions são divididos em dois tipos:
+
+Single-value Path expression
+
+Representam os atributos de tipo primitivo
+ou não primitivo das entidades, e são como 
+no exemplo
+
+ex:
+
+Campo primitivo
+
+//dentro da entidade
+int idade;
+
+//Na query
+
+SELECT a.nome FROM Aluno a WHERE a.idade > 15;
+
+--------------------------------------------------------
+Campo não primitivo
+
+A navegação de campos não primitivos é similar a
+de campos primitivos, mas você consegue pegar os
+atributos internos destes objetos e inclusive atributos
+internos de objetos internos e assim por diante
+
+com a sintaxe:
+
+atributoDaEntidade.objetoInterno.atributoDoObjetoInterno...
+
+
+ex:
+
+//dentro da entidade
+Notas n;
+
+//Na query
+
+SELECT a.nome FROM Aluno a WHERE a.n.nota1 > 6;
+======================================================
+Collection-value Path expression
+
+Representam atributos de coleção nas entidades,
+não é possivel se recuperaros os valores dos itens desta
+por meio da path expression e utilizar na query.
+
+Elas são raramente usadas mas quando são isto acontece
+através de operadores especiais como no exemplo abaixo:
+
+ex:
+
+//dentro da entidade
+List<Item> items;
+
+//Na query
+SELECT distinct c FROM Category c WHERE c.items is NOT EMPTY;
+
+*Busca os objetos de Category que possuam items
+*Se fosse necessário filtrar estes items seria necessario um join com Item
+
