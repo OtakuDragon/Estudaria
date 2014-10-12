@@ -1,0 +1,70 @@
+JOINS JPQL
+
+O JPQL suporta 4 tipos de joins:
+
+* Theta-joins
+* Inner joins
+* Outer joins
+* Fetch joins
+
+===============================
+Theta-joins
+
+Theta joins são joins sem uma palavra chave especial,
+apenas comparando campos de entidades que possuem
+o mesmo tipo de dado, eles sendo PK/FK ou não.
+
+Obs: é possivel se fazer inner joins como theta joins, basta
+         comparar fks com pks
+
+ex:
+
+SELECT i FROM Item i, Category c WHERE i.star = c.rating
+
+=================================
+Inner joins
+
+Inner joins como no sql, juntam duas entidades
+que possuem um relacionamento e só trazem
+os resultados, dos registros aonde a PK existe
+como FK na outra entidade.
+	
+ex:
+
+SELECT u FROM User u INNER JOIN u.Category c WHERE u.userId LIKE ?1
+
+obs: note que no lado direito do join a entidade é recuperada atraves do identificador
+       do lado direito (u.Category)
+
+==================================
+Outer joins
+
+Outer joins tambem junta duas entidades
+relacionadas mas, tem a capacidade de trazer
+de um ou dos dois lados, não só os resultados
+que combinarem PK e FK mas todos eles 
+
+ex:
+
+SELECT u FROM User u LEFT OUTER JOIN u.Category c WHERE u.userId like ?1
+
+SELECT u FROM User u RIGHT OUTER JOIN u.Category c WHERE u.userId like ?1
+
+obs: note que no lado direito do join a entidade é recuperada atraves do identificador
+       do lado direito (u.Category)
+====================================
+Fetch joins
+
+Fetch join é um tipo de join exclusivo, que possui do lado
+direito do join a path expression do atributo do relacionamento, e oque ele
+faz é fazer fetch nesta instancia de relacionamento e deixa os dados
+deste objeto disponivel para a utilização na query
+
+Isto é util para forçar Eager fetch em uma situação aonde o fetch é lazy
+
+ex:
+
+//b.bidder é um atributo da entidade Bid, do tipo Bidder(Entidade) e possui um relacionamento com Bid
+//para todo registro de Bid selecionado o b.bidder relacionado será atribuido, e tem seus dados disponiveis
+//para a utilzação na query
+SELECT b FROM Bid b FETCH JOIN b.bidder WHERE b.bidDate >= :bidDate

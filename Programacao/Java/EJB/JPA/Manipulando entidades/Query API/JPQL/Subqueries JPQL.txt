@@ -1,0 +1,48 @@
+Subqueries JPQL
+
+O JPQL tambem suporta subqueries nas
+clausulas WHERE e HAVING, uma subquery
+pode ser utilizada com 4 operadores:
+======================================
+Operador IN
+
+Recebe uma subquery que recupera uma lista
+de valores para um campo, se o campo da query
+principal estiver inserido nesta lista retorna true(Expressão verdadeira)
+
+ex: 
+
+SELECT i FROM Item i WHERE i.user IN (SELECT c.user FROM Category c WHERE c.categoryName LIKE :name)
+		
+=======================================
+Operador EXISTS
+
+Retorna true(Expressão verdadeira) se a subquery trouxer algum resultado
+
+ex: 
+
+SELECT i FROM Item i WHERE EXISTS (SELECT c FROM Category c WHERE c.user = i.user)
+
+======================================
+Operador ALL
+
+Recebe uma subquery que recupera uma lista de
+valores para um campo e retorna true se a comparação 
+de TODOS os itens da lista com o campo da query principal 
+retornarem true.
+		   
+ex: 
+
+SELECT c FROM Category c WHERE c.createDate >= ALL (SELECT i.createDate FROM Item i WHERE i.user = c.user)
+
+=======================================
+Operador ANY
+
+Recebe uma subquery que recupera uma lista de
+valores para um campo e retorna true se a comparação 
+de QUALQUER UM dos itens da lista com o campo da
+query principal retorne true.
+		   
+ex: 
+
+SELECT c FROM Category c WHERE c.createDate >= ANY (SELECT i.createDate FROM Item i WHERE i.user = c.user)

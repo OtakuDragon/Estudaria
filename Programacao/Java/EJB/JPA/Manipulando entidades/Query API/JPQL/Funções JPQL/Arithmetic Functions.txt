@@ -1,0 +1,60 @@
+Arithmetic Functions
+
+As funções aritmeticas do JPQL realizam operações
+comuns com numeros, além das ja oferecidas pelos
+operadores aritmeticos(+,-,/,*)
+
+elas são:
+============================================
+ABS
+
+Retorna o valor absoluto do numero(modulo do numero),
+ou seja se o sinal for negativo torna o numero positivo
+
+Sintaxe:
+
+	ABS(numero)
+	
+Ex:
+
+	ABS(-5) //retorna 5
+===========================================
+SQRT
+
+Retorna o valor da raiz quadrada do numero
+
+Sintaxe:
+
+	SQRT(numero)
+	
+Ex:
+
+   SQRT(56)
+==========================================
+MOD
+
+Retorna o resto da divisão
+
+Sintaxe:
+
+	MOD(Numero, Divisor)
+	
+Ex:
+
+	MOD(8, 4) // retorna 0 
+	
+=========================================
+SIZE
+
+Retorna o numero de elementos de um collection value
+path expression(Collection.size())
+
+Sintaxe:
+
+SIZE(Collection value path expression)
+
+Ex:
+
+WHERE SIZE(c.items) = 5
+	
+	

@@ -72,7 +72,9 @@ if(items.isEmpty()){
 executeUpdate()
 
 O metodo query.executeUpdate() tem como objetivo
-executar queries de update ou delete
+executar queries de update ou delete, este método só deve
+ser executado dentro de uma transação ativa, para evitar
+problemas de desincronização
 
 E retorna um inteiro dizendo quantas linhas foram afetadas
 

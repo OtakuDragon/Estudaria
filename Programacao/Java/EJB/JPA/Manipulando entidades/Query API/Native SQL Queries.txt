@@ -1,0 +1,64 @@
+Native SQL Queries
+
+É possivel executar queries SQL com o JPA, isto
+não é recomendado por diversos motivos
+
+A execução de INSERTS, UPDATES e DELETES
+utilizando queries SQL, com o JPA não é recomendada
+porque o persistence context não ficará sabendo das
+mudanças nas entidades o que pode causar inconsistencias
+
+Inserir SQL nativo dentro das aplicações significa remover a
+portabilidade de banco de dados.
+
+A utilizaçaõ de SELECTs utilizando sql nativo, só é recomendada
+se for necessaria a utilização de um recurso no select que o JPQL não suporta
+==========================================
+Mapeando queries SQL
+
+Single result
+
+Mapeando native queries de single result é simples com o jpa
+basta passar o .class da entidade do resultado na criação da
+query(entityManager.createNativeQuery(String sqlString, Class result-class);)
+
+O retorno da execução será um objeto da entidade
+
+---------------------------------------------------------------------------
+Multiple results
+
+Para queries nativas que retornam varios registros é
+necessario definir na classe de uma das entidades a anotação
+@SqlResultSetMapping, para dizer aonde cada coluna retornada
+será inserida
+
+e passar o nome deste SqlResultSetMapping na criação da query
+com entityManager.createNativeQuery(String sqlString, String result-setMapping);
+
+abaixo um exemplo de @SqlResultSetMapping
+
+@SqlResultSetMapping(
+    name="EmployeeAndManager",
+    entities={
+        @EntityResult(entityClass=Employee.class),
+        @EntityResult(
+            entityClass=Employee.class,
+            fields={
+                @FieldResult(name="country", column="MGR_COUNTRY"),
+                @FieldResult(name="id", column="MGR_ID"),
+                @FieldResult(name="name", column="MGR_NAME"),
+                @FieldResult(name="manager.country", column="MGR_MGR_COUNTRY"),
+                @FieldResult(name="manager.id", column="MGR_MGR_ID")
+            }
+        )
+    }
+)
+public class Employee {
+...
+}
+==============================================
+Executando Native SQL queries
+
+A execuçaõ de queries SQL é similar a de queries JPQL,
+desde que o mapeamento tenha sido feito corretamente
+o retorno será dos objetos esperados.

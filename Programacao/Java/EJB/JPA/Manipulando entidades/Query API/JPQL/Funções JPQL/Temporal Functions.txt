@@ -1,0 +1,16 @@
+Temporal Functions
+
+Temporal Functions são palavras-chave utilizadas
+para recuperar os valores do banco de dados para
+a data/hora atual do sistema e utiliza-los em queries
+
+Eles são:
+
+* CURRENT_DATE - Data atual
+* CURRENT_TIME  - Hora Atual
+* CURRENT_TIMESTAMP - Data e Hora atuais
+
+Ex:
+
+SELECT u FROM User u WHERE  u.dataRegistro = CURRENT_DATE
+

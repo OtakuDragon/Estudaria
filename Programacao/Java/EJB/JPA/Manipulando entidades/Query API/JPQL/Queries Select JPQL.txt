@@ -9,10 +9,77 @@ O Select do JPQL suporta as seguintes clausulas:
 SELECT 
 FROM 
 WHERE 
-ORDER BY
+ORDER BY(Default ASC)
 GROUP BY
 HAVING
 
 ex:
 
-SELECT c FROM Category c WHERE c.categoryName LIKE :categoryName ORDER BY c.categoryId
+SELECT c FROM Category c WHERE c.categoryName LIKE :categoryName ORDER BY c.categoryId ASC, c.name DESC
+====================================================
+Sintaxe:
+
+SELECT [DISTINCT] identifier.single_value_path_expression1, identifier.single_value_path_expression2, identifier,... FROM EntityName Identifier, ... [Outras Clausulas]
+
+=====================================================
+Identificadores de campos no select
+
+Identificadores de campos aparecem após a palavra SELECT e especificam
+quais campos vão ser recuperados, podem ser de três tipos:
+
+*identifier.single_value_path_expression - Especifica qual campo da entidade trazer
+*identifier - Funciona como o "*" do sql trazendo todos os campos
+*Constructor - A query retornará não uma instancia da entidade sendo buscada e sim
+                      um objeto do construtor especificado
+		
+Obs: note que collection value path expressions não podem ser utilzados como identificadores
+====================================================
+Utilizando Construtores em SELECT
+
+O JPQL nos da a possibilidade de instanciar novos objetos
+que não necessariamente precisam ser Entidades com os dados
+recuperados no select, utilizando a sintaxe:
+
+SELECT NEW fullqualifiednameDaClasse.Construtor(parametros) FROM Entidade [Clausulas]
+
+O Object retornado pela execução da query será do tipo da classe sendo instanciada,
+isto se torna muito util quando selects não retornam a entidade simplesmente, como na
+utilização de funções de agregação,quando são criados novos campos então o objeto
+recuperado pelo metodo de execução da query deve ser um tipo de dados customizado
+que suporte o resultado desta query especial.
+
+ex:
+
+SELECT NEW actionbazaar.persistence.ItemReport (c.categoryID,c.createdBy) FROM Category WHERE categoryId.createdBy = :userName
+
+====================================================
+Queries Polimorficas
+
+Quando é efetuado um select em uma entidade-pai, todos
+os registros das entidades filhas que atenderem as clausulas
+do select tambem serão recuperados.
+
+----------------------------------------------------------------------------------------
+Abaixo um exemplo filtrando os tipos de classe-filhas
+recuperados por um select na classe pai User
+
+Query query = em.createQuery("SELECT u FROM User u WHERE u.firstName LIKE :firstName");
+query.setParameter("firstName", firstName);
+List<User> users = query.getResultList();
+Iterator i = users.iterator();
+
+while (i.hasNext()) {
+	User user = (User) i.next();
+	System.out.print("User:"+emp.getUserId());
+	if (user instanceof Seller) {
+		Seller seller = (Seller) user;
+		System.out.println("Seller:" +
+		seller.getCommissionRate());
+	}
+	else if (user instanceof Bidder) {
+		Bidder bidder = (Bidder) bidder;
+		System.out.println("Bidder:" +
+		bidder.getDiscountRate());
+	}
+}
+

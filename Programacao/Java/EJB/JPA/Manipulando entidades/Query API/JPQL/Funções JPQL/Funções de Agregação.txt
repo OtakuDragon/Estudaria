@@ -1,0 +1,88 @@
+Funções de Agregação
+
+Funções de agregação são utilizadas em selects
+para agrupar campos e efetuar  operações matematicas
+com eles criando assim novos campos
+
+*Obs: como funções de agregação criam campos no select,
+          seus resultados devem ser retornados em selects com
+		  construtor que instanciem objetos que suportem estas novos campos.
+		  
+		  Tentar converter o resultado de um select com agregação para
+		  um objeto da entidade original dará erro, ver o exemplo do modo apropriado
+		  em AVG.
+
+As funções de agregação no JPQL são:
+-------------------------------------------------------
+AVG
+
+Retorna a media aritmetica de todos os resultados
+selecionados para um campo definido
+
+ex:
+
+SELECT AVG(u.age) FROM User u
+
+ex de retorno apropriado:
+//Retorna o resultado da função de agregação como uma string
+SELECT NEW java.lang.String(AVG(u.age)) FROM User u
+-------------------------------------------------------
+COUNT
+
+Retorna o numero de ocorrencias(registros)
+de um campo nos resultado do select
+
+ex:
+
+SELECT COUNT(c) FROM Category c
+-------------------------------------------------------
+MAX
+
+Retorna o valor mais alto regitrado para o 
+campo na tabela da entidade 
+
+ex:
+
+SELECT MAX(u.age) FROM User u
+-------------------------------------------------------
+MIN
+
+Retorna o valor mais baixo regitrado para o 
+campo na tabela da entidade 
+
+ex:
+
+SELECT MIN(u.age) FROM User u
+-------------------------------------------------------
+SUM
+
+Retorna a soma de todos os resultados
+selecionados para um campo definido
+
+SELECT SUM(u.age) FROM User u
+=================================
+A Clausula GROUP BY
+
+Quando funções de agregação são utilizadas
+juntamente com campos normais.
+
+A clausula  GROUP BY deve ser utilizada para dizer  como
+agrupar os resultados da função de agregação com
+os campos normais
+
+ex:
+
+//Para cada valor diferente de c.user, existira um resultado de COUNT(c.categoryId)
+SELECT c.user, COUNT(c.categoryId) FROM Category c GROUP BY c.user
+
+================================
+A clausula HAVING
+
+Esta clausula é utilizada quando é necessario
+filtrar um select com função de agregação atraves
+do valor desta função, funciona como o WHERE das
+funções de agregação
+
+ex:
+
+SELECT c.user, COUNT(c.categoryId) FROM Category c WHERE c.createDate is BETWEEN :date1 and :date2 GROUP BY c.user HAVING COUNT(c.categoryId) > 5

@@ -1,0 +1,102 @@
+String Functions JPQL
+
+As funções de string do JPQL, tem como objetivo
+manipular single paths expressions do tipo string
+na query para filtrar resultados.
+
+*Sempre que possivel deve-se tratar strings com a String API do java
+  por uma questão de performance
+  
+elas são:
+==============================================
+CONCAT
+
+Concatena duas strings
+
+Sintaxe:
+
+CONCAT(string1, string2) ;
+
+Ex:
+
+WHERE CONCAT(u.firstName, u.lastName) = 'ViperAdmin'
+==============================================
+SUBSTRING
+
+Retorna a substring de uma string
+
+Sintaxe:
+
+SUBSTRING(string, position, length) -
+
+Ex:
+
+SELECT SUBSTRING(u.lastName, 1, 3), u FROM User u;
+
+==============================================
+TRIM
+
+Remove o [trim_character]  do começo[LEADING] da string
+do final[TRAILING] da string ou do começo e do final da string [BOTH]
+se nenhum  [trim_character] for especificado o default é o espaço(" ")
+
+Sintaxe:
+
+TRIM([LEADING | TRAILING | BOTH] [trim_character] FROM] string_to_trimmed) 
+
+Ex:
+
+WHERE TRIM(BOTH ' ' FROM u.lastName)  = 'Lopes'
+==============================================
+LOWER
+
+Retorna a string com todas as letras convertidas para
+lowercase
+
+Sintaxe:
+
+LOWER(string)
+
+Ex:
+
+WHERE LOWER(u.lastName) = 'lopes';
+==============================================
+UPPER
+
+Retorna a string com todas as letras convertidas para
+uppercase
+
+Sintaxe:
+
+UPPER(string)
+
+Ex:
+
+WHERE UPPER(u.lastName) = 'LOPES';
+==============================================
+LENGTH
+
+Retorna o numero de caracteres da string
+
+Sintaxe:
+
+LENGTH(string)
+
+Ex:
+
+	WHERE LENGTH(u.lastName) > 5
+	
+==============================================
+LOCATE
+
+Procura por uma string dentro de outra, se encontrar
+retorna a posição de inicio desta string
+
+Sintaxe:
+
+LOCATE(searchString,stringToBeSearched[initialPosition])
+
+Ex:
+	WHERE LOCATE('Lopes',u.lastName) > 0
+
+

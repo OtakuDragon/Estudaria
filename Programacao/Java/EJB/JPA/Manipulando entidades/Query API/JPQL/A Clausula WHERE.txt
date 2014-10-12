@@ -29,6 +29,7 @@ expressões
    =  - Igualdade
   <> - Diferença
   >, >=, <, <= - Maior, menor, ou igual que
+  +,-  - Simbolos de numero positivo e negativo(ex: -5, +5)
   [NOT] BETWEEN  - Valores numericos ou de data em um range(os valores de min e o max devem ser do mesmo tipo de dado)
   [NOT] LIKE            - Valores de single value single expressions do tipo String que combinam com uma String literal ou um pattern utilizando wildcards
 								 (WildCards suportadas: "_" Single character "%" any character)

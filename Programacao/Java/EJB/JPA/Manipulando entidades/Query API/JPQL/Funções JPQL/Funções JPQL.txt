@@ -1,0 +1,17 @@
+Funções JPQL
+
+O JPQL nos oferece funções pré-definidas
+para nos ajudar a realizar operações mais
+complexas em nossas queries, estas funções
+estão dividas em:
+
+* String functions - Funções para manipulação, formatação de strings
+
+* Arithmetic functions - Funções que efetuam operações matematicas como, mod
+
+* Temporal functions - Palavras chave para a recuperação do timestamp atual do sistema
+
+* Funções de agregação - Funções de agregação do SQL que podem ser utilizadas no SELECT
+									   para agrupar resultados
+
+Funções JPQL podem ser usadas nas clausulas SELECT e WHERE
