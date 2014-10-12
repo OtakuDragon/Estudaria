@@ -1,0 +1,134 @@
+A Clausula WHERE
+
+A clausula WHERE filtra, quais registros a query deve
+afetar ou buscar, as expressões de  clausula where do
+JPQL aceitam alem de path expressions a maioria dos
+tipos de dados literais do java, com exceção de:
+
+* Numeros octais e hexadecimais
+
+* Arrays([])
+
+ex:
+
+SELECT c FROM Category c WHERE c.categoryId > 500
+===========================================
+Operadores suportados em expressões WHERE
+
+Um registro só é afetado pela query quando ele atende
+a todas as expressões da clausula where que o mencionam,
+abaixo todos os operadores disponiveis para a montagem destas
+expressões
+===========================================
+ Operadores Relacionais
+ 
+ Os operadores principais, similares aos que estão disponiveis
+ no SQL, que comparam path expressions com valores numericos,
+ String ou booleanos, para formar expressões.
+ 
+   =  - Igualdade
+  <> - Diferença
+  >, >=, <, <= - Maior, menor, ou igual que
+  [NOT] BETWEEN  - Valores numericos ou de data em um range(os valores de min e o max devem ser do mesmo tipo de dado)
+  [NOT] LIKE            - Valores de single value single expressions do tipo String que combinam com uma String literal ou um pattern utilizando wildcards
+								 (WildCards suportadas: "_" Single character "%" any character)
+  [NOT] IN                - Valores que fazem parte de uma lista definida diretamente ou por meio de subquery
+
+  *Obs [NOT] significa que o operador NOT pode ser opcionalmente
+  incluido para inverter o resultado booleano da operação(como o ! no java)
+ 
+-------------------------------------------------------------------------
+Sintaxes:
+ 
+ BETWEEN
+  path_expression [NOT] BETWEEN lowerRange and upperRange
+ ex:
+  WHERE c.categoryId BETWEEN :lowRange AND :highRange
+  
+ IN
+  path_expression [NOT] IN (List_of_values)
+ ex:
+  WHERE u.userId IN ('viper', 'drdba', 'dumpster')
+ ex sub-query:
+  WHERE c.user IN (SELECT u FROM User u WHERE u.userType = 'A')
+  
+  LIKE
+   string_value_path_expression [NOT] LIKE pattern_value_
+  ex literal:
+   WHERE c.itemName LIKE 'Bike'
+  ex WildCard:
+    WHERE c.itemName LIKE '_ike%'
+  
+=======================================================
+Operadores de checagem
+
+Single value path expressions:
+
+ IS [NOT] NULL      - Checa se em um registro, um single  value path expression
+								é nulo ou não.
+								
+								IMPORTANTE: Expressões logicas com single value path expressions
+														nulos não retornam true nem false, retornam unknown,
+														por isso é importante filtra-las
+Sintaxe:
+
+	WHERE identifier.singleValuePathExpression IS [NOT] NULL
+														
+ex:
+
+	WHERE c.parentCategory IS NULL
+----------------------------------------------------------------------------------------------
+Collection value path expressions:
+
+ * IS [NOT] EMPTY   - Checa se um collection value path expression esta vazio ou não
+ 
+ Sintaxe:
+
+	WHERE identifier.collectionValuePathExpression IS [NOT] EMPTY
+	
+  ex:
+  
+   WHERE c.items IS EMPTY
+
+ * [NOT] MEMBER [OF] - Checa se um single value path expression esta inserido em um
+                                       collection value path expression
+									  
+  Sintaxe:
+  
+	entity_expression [NOT] MEMBER [OF] collection_value_path_expression
+	
+   ex:	
+   
+	WHERE :item MEMBER OF c.items								 							 
+==========================================================
+Operadores Aritmeticos
+
+Utilizados para calculos matematicos, sendo que o 
+resultado destes calculos são depois utilizados em
+expressões boleanas
+
+ + - Soma
+ -  - Subtração
+ *  - Multiplicação
+ /  - Divisão
+ 
+ ex:
+ 
+ SELECT t FROM Trabalhador t WHERE (t.salarioBruto - t.totalDiscontos) > 2000
+ 
+==========================================================
+Operadores logicos
+ 
+Relacionam expressões, para que os seus resultados
+sejam combinados.
+ 
+NOT - Negação, inverte o resultado booleano de uma expressão
+AND - "E", somente verdadeiro se todas as expressões relacionadas forem verdadeiras
+OR  - "OU" - verdadeiro se uma das expressões relacionadas for verdadeiras
+
+ex:
+
+WHERE c.categoryName = 'Dumped Cars' OR c.categoryName = 'Furniture from Garbage'
+ 
+
+ 
