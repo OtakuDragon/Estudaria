@@ -159,7 +159,7 @@ public void meuMetodo (){
 =========================================================
 Definindo o default interceptor
 
-no web.xml:
+no ejb-jar.xml:
 
 <assembly-descriptor>
 	<interceptor-binding>
