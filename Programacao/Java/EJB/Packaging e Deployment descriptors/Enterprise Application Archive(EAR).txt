@@ -1,0 +1,59 @@
+Enterprise Application Archive(EAR)
+
+Pacotes EAR tem como objetivo, agrupar os
+outros tipos de pacotes Java EE necessarios
+para o deployment de uma ou mais aplicações.
+
+Eles são importantes porque, centralizam artefatos
+java EE necessarios para a execução de uma aplicação
+ou um grupo de aplicações em apenas um arquivo e fazem
+com que o servidor tenha que realizar deploy de deste
+arquivo(.ear).
+======================================================
+Estrutura de um EAR
+
+Como descrito acima, um EAR é composto por outros
+pacotes java EE, a sua estrutura interna segue este
+padrão:
+
+META-INF/application.xml
+recurso1-ejb.jar
+recurso2.war
+recurso3-client.jar
+...
+lib/biblioteca1.jar
+...
+
+======================================================
+EAR Deployment Descriptor
+
+O deployment descriptor do EAR é o application.xml
+ele é opcional e define quais os modulos(pacotes java EE)
+fazem parte do EAR e quais os seus tipos para que
+o servidor saiba como realizar deploy alem de outras
+coisas como qual é o diretorio de bilbliotecas
+
+ex:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd" version="5">
+  <description>Descrição do EAR</description>
+  <display-name>nomeEAR</display-name>
+  <!--Declaração de um pacote ejb-jar-->
+  <module>
+    <ejb>recurso1.jar</ejb>
+  </module>
+  <!--Declaração de um pacote war-->
+  <module>
+	<web>
+		<web-uri>actionBazaar.war</web-uri>
+		<context-root>ab</context-root>
+	</web>
+   </module>
+   <!--Declaração de um pacote jar-->
+   <module>
+		<java>actionBazaar-client.jar</java>
+   </module>
+   <!--Declaração do pacote de bibliotecas, pasta aonde podem ser colocados jars que estarão disponiveis para os componentes de EAR-->
+  <library-directory>lib</library-directory>
+</application>
