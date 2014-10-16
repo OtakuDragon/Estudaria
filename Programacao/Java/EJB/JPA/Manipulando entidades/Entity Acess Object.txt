@@ -1,9 +1,9 @@
 Entity Acess Object
 
 Entity Acess Objects(EAO) são os componentes que formam uma interface para a
-camada de persistencia de persistencia JPA das aplicações e manipulam diretamente
-o entityManager, se localizam entre a camada de negocio e o JPA, centralizando
-a utilização das APIs JPA e abstraindo esta utilização da camada de negocio.
+camada de persistencia JPA das aplicações e manipulam diretamente o entityManager,
+se localizam entre a camada de negocio e o JPA, centralizando a utilização das APIs
+JPA e abstraindo esta utilização da camada de negocio.
 
 EAOs são os sucessores dos Data access Objects utilizados para abstrair código
 JDBC, da camada de negócio com a diferença que os Data Transfer Objects(DTO) não
@@ -64,6 +64,6 @@ public class ItemEAOImpl implements ItemEAO {
 	
 	//Efetua o DELETE apartir da instancia da entidade
 	public void deleteItem(Item item) {
-		entityManager.remove(entityManager.merge(item)); |#6
+		entityManager.remove(entityManager.merge(item));
 	}
 }
