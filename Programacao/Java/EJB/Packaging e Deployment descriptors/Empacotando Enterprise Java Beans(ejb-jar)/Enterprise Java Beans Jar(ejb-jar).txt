@@ -1,0 +1,83 @@
+Enterprise Java Beans Jar(ejb-jar)
+
+EJBs são empacotados em arquivos jar, jars
+que contem classes com anotações ejb ou o deployment
+descriptor ejb-jar.xml são reconhecidos como ejb-jar 
+
+ejb-jars devem conter, os beans as interfaces EJB e podem
+tambem possuir entidades JPA e outras classes alem de classes
+configuradas como EJB, como classes de utilidade.
+
+=======================================================
+Os deployment descriptors do ejb-jar
+
+ejb-jars podem conter três deployments descriptors:
+
+* ejb-jar.xml(opcional)
+* Vendor Specific Descriptor(opcional)
+* persistence.xml(obrigatorio ao se utilizar JPA, pode aparecer tambem em .wars
+				  mas o lugar recomendado em uma aplicação EJB que utilize JPA é no ejb-jar )
+
+obs: todos os deployments descriptors deve estar na pasta META-INF
+=======================================================
+ejb-jar.xml 
+
+O deployment descriptor ejb-jar.xml é o deployment 
+descriptor padrão da especificação ejb nele é possivel
+descrever qualquer aspecto de configuração de enterprise beans.
+
+Ou seja tudo o que se faz com anotações EJB tambem é possivel
+se fazer no ejb-jar.xml, e configurações expressas no ejb-jar.xml
+sobreescrevem configurações feitas pelas anotações caso a mesma
+configuração seja feita nos dois lugares
+
+A utilização de configuração utilizando o ejb-jar.xml é importante
+para separar configurações que dependem de servidor, do código como
+o nome de um data source que pode ser diferente, do servidor de desenvolvimento
+para o servidor de produção, com a configuração feita no arquivo ejb-jar.xml
+não é necessário alterar o atributo da anotação e recompilar todo o codigo da
+aplicação para que este nome seja configurado, basta alterar o arquivo xml
+
+ex:
+
+<ejb-jar version="3.0">
+	<!--Tag aonde se declara beans-->
+	<enterprise-beans>
+		<session>
+			<ejb-name>BazaarAdmin</ejb-name> 
+			<remote>actionbazaar.buslogic.BazaarAdmin</remote>
+			<ejb-class>actionbazaar.buslogic.BazaarAdminBean</ejb-class>
+			<session-type>stateless</session-type> 
+			<transaction-type>Container</transaction-type> 
+		</session>
+	</enterprise-beans>
+	…
+	<!--Tag aonde se configura beans-->
+	<assembly-descriptor>
+		<container-transaction> 
+			<method>
+				<ejb-name>BazaarAdmin</ejb-name>
+				<method-name>*</method-name>
+			</method>
+			<trans-attribute>Required</trans-attribute>
+			</container-transaction>
+			<security-role>
+			<role-name>users</role-name> 
+			</security-role>
+	</assembly-descriptor>
+</ejb-JAR>
+
+*IMPORTANTE: a tag <ejb-name> é importante porque relaciona um bean declarado por anotação ao deployment descriptor
+			 o seu valor será o atributo name das anotações @Stateless,@Singleton, @Stateful e @MessageDriven se o atributo não 
+			 estiver definido o <ejb-name> será o nome simples da classe do bean
+================================================================================
+Vendor Specific Descriptor
+
+Os servidores de aplicação que implementam a especificação EJB possuem
+deployment descriptors a parte para configurações especificas de cada
+implementação, estas configurações são independentes do ejb-jar.xml
+como pooling e cache.
+
+O servidor jboss possui o Vendor Specific Descriptor jboss.xml para ejb-jars
+
+================================================================================

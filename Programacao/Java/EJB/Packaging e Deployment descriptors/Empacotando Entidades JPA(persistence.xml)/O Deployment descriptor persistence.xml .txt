@@ -1,0 +1,121 @@
+O deployment descriptor persistence.xml
+
+O deployer java EE reconhece que um pacote java EE possui
+um modulo de persistência JPA se ele encontrar o deployment
+descriptor persistence.xml em um dos pacotes que pode
+conte-lo(ver  Empacotando Entidades JPA)
+
+O persistence.xml é o unico deployment descriptor obrigatorio
+da especificação java EE não é possivel utilizar JPA sem definir
+um persistence.xml.
+
+É nele que nós definimos informações importantes como quais são
+nossas persistence units, qual data source utilizar para conectar
+com o banco e propriedades que dizem como nós queremos
+que o JPA se comporte
+
+-------------------------------------------------------------------------------------------
+ex persistence.xml:
+
+<persistence>
+	<persistence-unit name = "actionBazaar" transaction-type = "JTA">
+		<provider> oracle.toplink.essentials.PersistenceProvider</provider>
+		<jta-data-source>jdbc/ActionBazaarDS</jta-data-source> 
+		<mapping-file>secondORMap.xml</mapping-file>
+		<jar-file>entities/ShippingEntities.jar</jar-file>
+		<class>ejb3inaction.persistence.Category</class> |#4
+		<class>ejb3inaction.persistence.Bid</class>. |#4
+		…
+		<properties> 
+		<property name = "toplink.ddl-generation" value = "drop-and-create-tables"/> 
+		</properties>
+	</persistence-unit>
+</persistence>
+
+==========================================================
+Definindo um persistence.xml
+
+<!--Tag raiz-->
+<persistence>
+	<!--
+		Persistence unit agrupa um conjunto de entidades, e define configurações
+		de persistencia de alto nivel para elas como qual data source utilizar
+		uma aplicação pode possuir um ou mais persistence units caso possua mais
+		de um é necessário definir quais classes(entidades) pertencem a cada persistence unit 
+		
+		Atributos:
+		
+			name(Obrigatorio) - O atributo name define o nome que identifica o persistence unit
+								deve ser único para todo o container java EE, é através desse nome
+								que nós escolhemos um persistence unit para a instanciação de EntityManagers
+								ex: @PersistenceContext(unitName = "meuPersistenceUnit")
+									private EntityManager entityManager;
+									
+		    transaction-type - Define qual tipo de transação utilizar o valor padrão é "JTA" e é o que deve
+							   ser utilizado sempre que em um container Java EE, o outro valor possivel é "RESOURCE_LOCAL"
+							   e somente deve ser utilizado quando fora do container java EE aonde jta não esta disponivel
+													
+	-->
+	<persistence-unit name="meuPersistenceUnit">
+		<!--Tag opcional que define qual classe possui a implementação da fabrica de persistencia do JPA
+			por padrão todos os servidores de aplicação que suportam JPA possuem a sua implementação como default
+			esta tag serve para quando queremos utilizar uma implementação especifica, ou quando queremos utilizar
+			JPA fora de um container java EE e desejamos utilizar o provider de um container apartir de um jar
+			ex:
+				<provider>org.hibernate.ejb.HibernatePersistence</provider>
+			-->
+		<provider>fullQualifiedNameOfProvider</provider>
+		
+		<!--
+			Definição do datasource através do qual o JPA fará a conexão com o banco de dados para manipular
+			as entidades neste persistence-unit, teoricamente a definição é opcional se um datasource não for
+			definido na persistence-unit o JPA tentará utilizar o datasource padrão do servidor de aplicação
+			
+			Data sources devem primeiro ser configurados e atribuidos a arvore JNDI do servidor, pois eles são definidos
+			na tag apartir do seu nome JNDI global
+			
+			Existem duas tags para a definição de data sources:
+				<jta-data-source> - Data source com suporte para JTA, o que é padrão e recomendado para qualquer aplicação java EE
+				<non-jta-data-source> - Utilizado quando a criação de datasources JTA não é possivel, e limita transações para apenas as criadas pelo servidor
+												    não suporta transações distribuidas
+		-->
+				<jta-data-source>jdbc/meuDataSource</jta-data-source>
+				
+			<!--	
+				Dentro do da persistence-unit tambem existe a opção de se definir quais classes(entidades) fazem parte desta persistence-unit, se
+				isso não for feito o container irá detectar todas as classes anotadas com @Entity e mapea-las para a persistence-unit declarada, se
+				mais de uma persistence-unit existir então a declaração de quais classes pertencem a qual persistence-unit é obrigatoria para que o container
+				saiba em qual persistence-unit atribuir cada entidade
+				
+				A declaração de classes(entidades) em uma persistence-unit pode ser feita de duas maneiras:
+				
+				*Diretamente pelo fully qualified name da classe utilizando a tag <class>
+				*Pela declaração de um jar ou mais jars que contem entidades utilizando a tag <jar-file> cabe-se notar que o caminho
+				  especificado em <jar-file> é relativo ao jar que contem o persistence.xml
+			-->
+				<!-- 
+				este caminho significa:
+							jarQContemOPersistenceXML.jar
+							entities(pasta)
+									MinhasEntidades.jar
+				-->
+				<jar-file>entities/MinhasEntidades.jar</jar-file>
+				<class>minhaAplicacao.persistence.Category</class>
+				<class>minhaAplicacao.persistence.Bid</class>
+				
+				<!--
+					A declaração de propriedades que são especificas de cada implementação,
+					e controlam comportamentos como logging, e a geração automatica de banco
+					de dados é feita na tag abaixo
+					
+					Os nomes e valores possiveis das propriedades assim como as propriedades
+					disponiveis dependem de cada implementação do JPA
+				-->
+				<properties>
+					<property name = "nomeDaPropriedade1" value = "valorDaPropriedade1"/>
+					<property name = "nomeDaPropriedade2" value = "valorDaPropriedade2"/>
+					...
+				</properties>
+
+	</persistence-unit>
+</persistence>

@@ -1,0 +1,25 @@
+Empacotando Entidades JPA
+
+Entidades JPA não possuem um tipo de pacote 
+especifico por serem independentes de plataforma,
+ou seja, é possivel utilizar JPA em java SE, java EE
+container sem EJB e java EE com EJB container
+ 
+Portanto criar um pacote java EE para ela não faria
+sentido ja que este pacote seria proprietario da plataforma
+java EE.
+
+A solução para o empacotamento de entidade JPA definida
+pela especificação java EE é inclui-la a outros pacotes
+java EE, entidades JPA podem ser empacotadas em uma aplicação
+java EE dentro de dos pacotes:
+
+* ejb-jar - Entidades como classes do projeto e persistence.xml definido como um dos deployment descriptors
+* war     - Entidades como classes do projeto e persistence.xml definido como um dos deployment descriptors,
+			só se deve utilizar o persistence.xml no war quando a aplicação não utilizar EJBs
+* ear	  - Entidades empacotadas em um jar na pasta de bibliotecas do EAR e persistence.xml definido como 
+		    um dos deployment descriptors com a definição de qual jar contem as entidades, persistence units
+			definidas em nivel de EAR estarão visiveis para todos os pacotes do EAR.
+			
+Obs: o persistence.xml deve estar dentro do META-INF do pacote
+===============================================================================

@@ -1,0 +1,70 @@
+O Deployment descriptor orm.xml 
+
+O JPA possui um deployment descriptor que nos permite
+mapear entidades, da mesma maneira que fazemos com anotações
+mas por meio de xml, removendo do código o mapeamento.
+
+Isto é feito no deployment descriptor orm.xml, que é opcional e 
+sobreescreve configurações feitas por anotações, se as mesmas
+configurações forem feitas nele.
+
+o orm.xml pode ser colocado em dois lugares, como qualquer deployment
+descriptor dentro da pasta META-INF do pacote já bastando para que seja
+reconhecido, ou pode ser declarado na tag <mapping-file> do persistence.xml
+
+====================================================================
+ex de orm.xml:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="1.0" xmlns=http://java.sun.com/xml/ns/persistence/orm xmlns:xsi=http://www.w3.org/2001/XMLSchema-instance xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_1_0.xsd">
+	<persistence-unit-metadata>
+		<persistence-unit-defaults> 
+		<schema>ACTIONBAZAAR</schema>
+		<access>PROPERTY</access>
+		<entity-listeners> 
+			<entity-listener
+			class = "actionbazaar.persistence.DefaultListener">
+			….
+			</entity-listener>
+		</entity-listeners>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+	<package>actionbazar.persistence</package>
+	<access>PROPERTY</access>
+	<named-query name = "findAllCategories">
+		<query>SELECT c FROM Category AS c</query>
+		<hint name = "refresh" value = "true"/>
+	</named-query>
+	<entity name = "Category" class = "Category"> 
+		<table name = "CATEGORIES" metadata-complete = "false"/>
+		<sequence-generator name = "CATEGORY_SEQ_GEN"
+		sequence-name = "CATEGORY_SEQ"
+		allocation-size = "25"/>
+		<exclude-default-listeners/>
+		<exclude-superclass-listeners/>
+		<attributes>
+		<id name = "categoryId">
+		<column name = "CATEGORY_ID"/>
+		<generated-value strategy = "TABLE"
+		generator = "CATEGORY_TABLE_GEN"/>
+		</id>
+		<basic name = "categoryName">
+		<column name = "CATEGORY_NAME"/>
+		</basic>
+		<basic name = "createDate">
+		<column name = "CREATE_DATE"/>
+		</basic>
+		<many-to-many name = "items" target-entity = "Item">
+		<cascade>
+		<cascade-all/>
+		</cascade>
+		<join-table name = "CATEGORY_ITEMS">
+		<join-column name = "CATEGORY_ID"
+		referenced-column-name = "CATEGORY_ID"/>
+		<inverse-join-column name = "ITEM_ID"
+		referenced-column-name = "ITEM_ID"/>
+		</join-table>
+		</many-to-many>
+		</attributes>
+	</entity>
+</entity-mappings>
