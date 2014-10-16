@@ -13,3 +13,15 @@ elas são:
 @PersistenceUnit    - JPA
 
 ============================================
+Dependency Injection de Stateful Session Beans
+
+Não faça dependency injection de stateful session
+beans em classes multi-treaded como ManagedBeans
+porque apenas uma instancia do session bean será
+compartilhada em todas as threads.
+
+A maneira correta de se utilizar stateful session
+beans em classes multi-threaded é realizar o lookup
+de um objeto JNDI, e adicionar o objeto recuperado
+na HTTPSession do usuário, neste caso uma instancia
+de stateful bean será utilizada por cada thread
