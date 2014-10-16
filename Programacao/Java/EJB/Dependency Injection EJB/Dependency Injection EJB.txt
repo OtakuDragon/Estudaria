@@ -14,6 +14,7 @@ elas são:
 
 ============================================
 Dependency Injection de Stateful Session Beans
+em ambientes multi-thread
 
 Não faça dependency injection de stateful session
 beans em classes multi-treaded como ManagedBeans
