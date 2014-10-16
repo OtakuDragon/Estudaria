@@ -1,25 +1,38 @@
 Entity Acess Object
 
-Entity Acess Objects(EAO) são os componentes que formam a camada de persistencia
-das aplicações e manipulam diretamente o entityManager, se localizam entre a
-camada de negocio e o banco de dados, centralizando a utilização do JPA e
-abstraindo a utilização do entitymanager da camada de negocio.
+Entity Acess Objects(EAO) são os componentes que formam uma interface para a
+camada de persistencia de persistencia JPA das aplicações e manipulam diretamente
+o entityManager, se localizam entre a camada de negocio e o JPA, centralizando
+a utilização das APIs JPA e abstraindo esta utilização da camada de negocio.
+
+EAOs são os sucessores dos Data access Objects utilizados para abstrair código
+JDBC, da camada de negócio com a diferença que os Data Transfer Objects(DTO) não
+são mais necessários já que as entidades JPA funcionam como os DTOs transparentemente
+
+Cada entidade deve possuir uma classe EAO relacionado a ela, que realize as operações de
+persistencia necessárias, a criação de interfaces para EAOs é considerada uma boa prática,
+criando a possibilidade de varias implementações diferentes de um mesmo EAO, para tecnologias
+ORM diferentes, facilitando a migração.
+
+Em um ambiente java EE classes EAO devem ser session beans, para a utilização de container
+managed e dependency injection de EntityManagers, a utilização de beans stateless ou stateful
+depende dos tipos de operações de persistência necessários.
 
 Arquitetura:
 
-View => Negócio => Persistencia(EAO) => Banco de dados
+View => Controller => Negócio(EJBs) => Entity Acess Objects => JPA => Banco de dados
 
 ======================================================================================
 ex:
 
 @Stateless
-public class ItemManagerBean implements ItemManager {
+public class ItemEAOImpl implements ItemEAO {
 	//Dependecy Injection do EntityManager
 	@PersistenceContext(unitName="actionBazaar")
 	private EntityManager entityManager;
 
 	//Construtor vazio padrão
-	public ItemManagerBean() {}
+	public ItemEAOImpl() {}
 	
 	//Método que efetua INSERT apartir de dados e retorna a instancia de entidade persistida
 	public Item addItem(String title, String description, byte[] picture, double initialPrice, long sellerId) {
