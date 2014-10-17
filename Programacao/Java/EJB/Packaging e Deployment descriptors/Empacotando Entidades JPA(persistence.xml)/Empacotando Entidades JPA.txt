@@ -14,9 +14,10 @@ pela especificação java EE é inclui-la a outros pacotes
 java EE, entidades JPA podem ser empacotadas em uma aplicação
 java EE dentro de dos pacotes:
 
-* ejb-jar - Entidades como classes do projeto e persistence.xml definido como um dos deployment descriptors
-* war     - Entidades como classes do projeto e persistence.xml definido como um dos deployment descriptors,
-			só se deve utilizar o persistence.xml no war quando a aplicação não utilizar EJBs
+* ejb-jar - Entidades como classes(.java) em pacotes do projeto e persistence.xml definido como um dos deployment descriptors
+* war     - Entidades como classes(.class) na pasta WEB-INF/classes e persistence.xml na pasta WEB-INF/classes/META-INF 
+	    ou criar um jar contendo as entidades e o persistence.xml e coloca-lo em WEB-INF/lib, só se deve utilizar o persistence.xml
+	    no war quando a aplicação não utilizar EJBs.
 * ear	  - Entidades empacotadas em um jar na pasta de bibliotecas do EAR e persistence.xml definido como 
 		    um dos deployment descriptors com a definição de qual jar contem as entidades, persistence units
 			definidas em nivel de EAR estarão visiveis para todos os pacotes do EAR.
