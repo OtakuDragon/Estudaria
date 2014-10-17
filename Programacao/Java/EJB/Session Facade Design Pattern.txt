@@ -1,0 +1,103 @@
+Session Facade Design Pattern
+
+Uma premissa básica de uma boa relação entre a camada
+de visão e a camada de negócio é a de que a camada
+de visão não deve conter nenhum codigo relacionado
+a regras de negócio apenas chamar métodos da camada
+de negocio que possuem todo o conhecimento sobre as 
+regras.
+
+O design pattern Session Facade diz que quando a camada
+de visão chama varios métodos de negócio para realizar
+uma operação,significa que nós estamos espalhando a utilização
+de vários EJBs na camada de visão e que o cliente deve saber como
+tratar cada um deles, isto não é uma boa prática porque diminui o
+nivel de separação das camadas, torna a manutenção complicada e no 
+caso de um eventual acesso remoto muitas chamadas RMI tem que ser 
+feitas para realizar uma operação o que diminui a performance
+
+E propoe a solução de agrupar este conjunto de métodos de negócio
+em um session bean conhecido como facade, e que a camada de visão
+somente chame um único metodo do session bean facade que realizará
+todas as operações necessárias.
+
+Isto centraliza operações de negocio dentro do container EJB,
+o que até facilita o gerenciamento de transações.
+
+A filosofia é a de que o cliente deva acessar a camada de negócio o mais
+abstratamente possivel e tambem não deve ter que entender das regras de
+negócio apenas o que ele envia para a camada de negocio e quais são os
+retornos possiveis.
+
+*Facade sessions beans podem ser stateless ou stateful dependendo da situação
+ implementada
+=======================================================================
+ex:
+//Camada de visão
+//Não seguindo a Session Facade Pattern
+
+public class ActionBazaarServlet implements GenericServlet {
+//Utiliza varios EJBs
+@EJB private ItemManager itemManager;
+@EJB private UserManager userManager;
+@EJB private BidManager bidManager;
+…
+public void createBid(String userId, Long itemId, Double bidPrice)
+throws BidException {
+	//Executa varios métodos
+	Item item = itemManager.findByItemId(itemId);
+	Bid highBid = bidManager.findHighestBid(item);
+	//Isto é uma regra de negocio que não deveria aparecer nesta camada
+	if (bidPrice <= highBid.getBidPrice()) {
+	throw new
+	BidException("Bid Price is lower than the current bid price");
+	}
+	…
+	Bid bid = bidManager.createBid(item, bidder, bidPrice);
+}
+}
+---------------------------------------------------------------------
+//Camada de negócio
+//Session bean facade implementando um método para a operação acima
+
+@Stateless(name = "PlaceBid")
+public class PlaceBidBean implements PlaceBid {
+	
+	@EJB private ItemManager itemManager;
+	@EJB private UserManager userManager;
+	@EJB private BidManager bidManager;
+	
+	public PlaceBidBean() {
+	}
+	public Long addBid(String userId, Long itemId, Double bidPrice)
+	throws BidException {
+		…
+		Item item = itemEAO.findByItemId(itemId);
+		Bid highBid = itemEAO.findHighestBidForItem(item);
+		if (bidPrice <= highBid.getBidPrice()) {
+		throw new
+		BidException("Bid Price is lower than the current bid price");
+		}
+		…
+		return bidEAO.addBid(item, userId, bidPrice);
+	}
+}
+
+----------------------------------------------------------------------
+//Camada de visão
+//Utilizando o session bean facade, como o design pattern
+//recomenda
+
+public class ActionBazaarServlet implements GenericServlet {
+//Utiliza apenas um EJB o facade
+@EJB
+private PlaceBid placeBid;
+…
+	public void createBid(String userId, Long itemId, Double bidPrice)
+	throws BidException {
+		//A execução do método de visão foi unificada, e as regras de negócio
+		//fora de lugar foram implementadas dentro do método facade chamado
+		Bid bid = placeBid.addBid(itemId, userId, bidPrice);
+	}
+}
+

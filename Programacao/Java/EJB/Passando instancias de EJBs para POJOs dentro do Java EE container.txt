@@ -1,0 +1,75 @@
+Passando instancias de EJBs para POJOs dentro do Java EE container
+
+Não é possivel utilizar dependency injection para
+injetar EJBs em classes que não são gerenciadas pelo
+Java EE container diretamente, como classes(POJO) de
+utilidade por exemplo.
+
+Desde que estas classes sejam utilizadas por alguma classe
+gerenciada pelo container, existem algumas maneiras de se inserir
+EJBs nelas.
+
+======================================================
+Por lookup JNDI
+
+Se na classe gerenciada pelo container que utiliza o POJO
+nós declararmos a anotação @EJB em nivel de classe, definindo
+a interface do ejb e um nome JNDI, como abaixo:
+
+//Servlet classe gerenciada pelo container java EE
+@EJB (name = "ejb/PlaceBid", beanInterface = PlaceBid.class)
+public class ActionBazaarBidControllerServlet extends HttpServlet {
+	UtilPojo exemplo = new UtilPojo();
+	...
+}
+
+*obs: o mesmo se aplica para passar EntityManagers para POJOs com a anotação @PersistenceContext
+	  em nivel de classe
+
+Dentro dos objetos que forem utilizados por esta classe mesmo que eles
+não forem container managed,será possivel recuperar uma instancia do EJB
+declarado atraves de um lookup JNDI com o nome definido como abaixo:
+
+public class UtilPojo{
+
+	//Referencia ao EJB
+	PlaceBid placeBid;
+
+	public UtilPojo(){
+		//lookup para recuperar uma instancia do ejb
+		placeBid = (PlaceBid)context.lookup("java:comp/env/ejb/PlaceBid");
+	}
+}
+
+==========================================================
+Por construtor
+
+Uma maneira mais simples de se referenciar EJBs em POJOs
+é simplesmente realizar Dependency Injection na classe managed
+e passar o objeto instanciado como parametro no construtor do pojo
+como no exemplo abaixo:
+
+//Servlet classe gerenciada pelo container java EE
+public class ActionBazaarBidControllerServlet extends HttpServlet {
+	
+	//Injeção de dependencia feita na classe managed
+	@EJB 
+	PlaceBid placeBid;
+	
+	//Referencia instanciada passada no construtor de um POJO
+	UtilPojo exemplo = new UtilPojo(placeBid);
+	...
+}
+
+*obs: o mesmo se aplica a entityManagers injetados com @PersistenceContext
+
+
+public class UtilPojo{
+
+	//Referencia ao EJB
+	PlaceBid placeBid;
+
+	public UtilPojo(PlaceBid placeBid){
+		this.placeBid = placeBid;
+	}
+}
