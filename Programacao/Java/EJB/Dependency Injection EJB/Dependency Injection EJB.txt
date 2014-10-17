@@ -26,3 +26,29 @@ beans em classes multi-threaded é realizar o lookup
 de um objeto JNDI, e adicionar o objeto recuperado
 na HTTPSession do usuário, neste caso uma instancia
 de stateful bean será utilizada por cada thread
+
+ex:
+
+//Na classe multi-threaded(Servlet, ManagedBean) o EJB deve ser declarado em
+//nivel de classe e nomeado no contexto JNDI
+@EJB(name = "UserRegistrationBean", beanInterface = UserRegistration.class)
+public class ActionBazaarRegistrationControllerServlet extends HttpServlet {
+  public void init(){
+    try {
+      //Uma referencia ao stateful bean deve ser reucuperada por jndi utilizando o nome definido acima
+      InitialContext ctx = new InitialContext();
+      userReg = (UserRegistration)ctx.lookup(
+      "java:comp/env/UserRegistrationBean");
+      
+      //E adicionada na sessão http
+      session.setAttribute("user_reg", userReg);
+    } catch (Exception e) {
+      handleException(e);
+    }
+  }
+}
+
+//Quando o método @Remove do stateful session bean for chamado 
+//e ele não for mais necessário é preciso remove-lo da sessão
+session.removeAttribute("user_reg");
+
