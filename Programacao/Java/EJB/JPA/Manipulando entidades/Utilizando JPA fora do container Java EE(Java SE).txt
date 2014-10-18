@@ -1,0 +1,68 @@
+Utilizando JPA fora do container java EE 
+
+O JPA é independente de plataforma o que significa
+que por mais que o java EE container nos ajude com uma
+série de recursos e código pronto para a utilização de
+JPA, o JPA pode ser usado fora dele, em qualquer aplicação java
+
+seja em aplicações web em servidores como o tomcat que não possuem
+java EE container, ou em aplicações desktop java SE
+==================================================================================
+Definindo persistence unit
+
+Fora do java ee container, é necessario adicionar o jar de um JPA provider
+(como os que os servidores de aplicação com java EE oferecem) ao projeto, e no
+persistence.xml, ao inves de uma referencia JNDI a um datasource, deve ser configurada
+uma conexão JDBC, utilizando <properties> oferecidas pelo implementador
+do provider utilizado.
+
+ex:
+
+<persistence xmlns = "http://java.sun.com/xml/ns/persistence" version = "1.0">
+	<persistence-unit name = "actionBazaar">
+		<provider>oracle.toplink.essentials.PersistenceProvider</provider>
+		<class>actionbazaar.persistence.Bid</class>
+		<class>actionbazaar.persistence.Item</class>
+		<properties>
+			<property name = "toplink.jdbc.driver" value = "oracle.jdbc.OracleDriver"/>
+			<property name = "toplink.jdbc.url" value = "jdbc:oracle:thin:@//localhost:1521/ORCL"/>
+			<property name = "toplink.jdbc.user" value = "scott"/>
+			<property name = "toplink.jdbc.password" value = "tiger"/>
+		</properties>
+	</persistence-unit>
+</persistence>
+======================================================================================
+Utilizando EntityManager
+
+A unica opção disponivel de utilização do JPA fora do container java EE
+é a de um application managed EntityManager o que significa recuperar instancia
+atraves de uma EntityManagerFactory e gerenciar o ciclo de vida do entityManager
+e as transações manualmente
+
+ex:
+
+public class PlaceBidBeanJavaSE {
+
+	private static EntityManagerFactory emf;
+	private static EntityManager em;
+	
+	public static void main(String[] args) {
+		String userId = "gilson";
+		Long itemId = new Long(100);
+		Double bidPrice = 2001.50;
+		try
+		{
+			//Create EntityManagerFactory
+			emf = Persistence.createEntityManagerFactory("actionBazaar"); 
+			em = emf.createEntityManager();
+			em.getTransaction().begin();
+			addBid(userId, itemId, bidPrice);
+			em.getTransaction().commit();
+		}
+		finally
+		{
+			closeEntityManager();
+			emf.close();
+		}
+	}
+}
