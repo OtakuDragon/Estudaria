@@ -1,0 +1,80 @@
+Optimistic Lock
+
+A estrategia optimistic lock tem como ideologia impedir que
+um registro que foi buscado por um usuário(1), seja alterado por ele,
+se outro usuário(2) já buscou aquele mesmo registro e o alterou após
+o momento em que o usuário(1) fez a busca.
+
+O que significa que o registro que o usuario(1) está tentando alterar não
+foi mais o mesmo que ele buscou e portanto não deve ser alterado, deve
+ser buscado novamente com a alteração feita pelo usuário(2).
+
+Isto é identificado atraves de um campo numerico no registro, que é incrementado
+todas as vezes que uma atualização é feita, e antes que um novo UPDATE seja realizado
+é feito o select deste valor, para o registro, se ele for maior do que o do registro
+buscado originalmente para realizar o UPDATE significa que ele foi alterado por outra pessoa.
+
+A estrategia optimistic lock é muito mais leve e rapida, mas o seu bloqueio
+bloqueia apenas UPDATEs e DELETEs e não SELECTs, o que em algumas
+situações muito especificas pode não ser o suficiente, nestes casos deve se
+utilizar o pessimistic lock.
+
+=======================================================
+Implementação JPA - Optimistic Lock
+
+A implementação de um optimistic lock no JPA é feita adicionando-se
+uma coluna numerica(long ou Long) de versão nas entidades
+que serão afetadas pelo optimistic lock e anotar este campo
+com a anotação @Version como no exemplo abaixo:
+
+//Dentro da entidade
+//O nome da coluna e do campo podem ser quaisquer nomes
+//e o campo version deve aparecer na classe da tabela principal da entidade
+//ou seja na classe anotada com @Entity
+@Version
+@Column(name = "OPT_LOCK")
+private Long version;
+
+Este campo funciona como um contador, incrementado automaticamente
+todas as vezes que o registro ao qual ele pertence for atualizado.
+
+Antes do persistence context realizar um update de um registro de entidade,
+ele faz um select na versão atual do campo no banco de dados e se
+ela for diferente da versão da instancia da entidade que o usuário está tentando
+atualizar isto significa que a entidade foi modificada por outro usuário
+e o update, não deve ser feito.
+
+E quando as versões do banco de dados e da referencia do objeto sendo atualizado
+são iguais a alteração é persistida e o campo de versão é incrementado em um.
+
+A incrementação do campo @Version e a sua comparação em cada atualização
+de registros são obrigações do JPA, nós devemos apenas nos preocupar com
+as exceções jogadas quando diferenças de versões são detectadas.
+=======================================================
+Tratamento de erros de concorrencia - Optimistic Lock
+
+Quando um usuário tenta alterar um registro do banco de dados
+atraves de uma instancia de entidade modificada, que possui
+uma versão diferente da versão atual do registro no banco de dados,
+o persistence context joga a exceção:
+
+javax.persistence.OptimisticLockException 
+
+Esta exceção, deve ser tratada buscando novamente o registro e o 
+atualizando ou cancelando a atualização.
+
+-----------------------------------------------------------------------------------------
+ex:
+
+usuario = entityManager.find(Usuario, 5);
+
+usuario.setNome("Nome atualizado");
+usuario.setSenha("Senha atualizada");
+
+try{
+	entityManager.merge(usuario);
+	return("Usuário alterado com sucesso");
+}catch(OptimisticLockException optEx){
+	log.error(optEx);
+	return("Não foi possivel alterar o usuário, porque ele já foi alterado por outro administrador do sistema, favor tentar novamente");
+}

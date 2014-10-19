@@ -1,0 +1,21 @@
+Tratando concorrencia do banco de dados
+
+Em uma aplicação Web podem ocorrer situações
+aonde muitos usuários acessam um mesmo registro 
+no banco de dados ao mesmo tempo, seja para ler,
+alterar ou deletar este registro.
+
+Isto pode causar inconsistencias e comportamentos
+insesperados, portanto quando existirem entidades
+na aplicação, que poderão ter um mesmo registro 
+acessado por mais de um usuário ao mesmo tempo
+é OBRIGATORIO o tratamento de concorrencia.
+
+===========================================
+Estrategias de tratamento
+
+Existem duas estategias de tratamento para o acesso
+simultaneo de registros no banco de dados:
+
+* Pessimistic Lock
+* Optimistic Lock

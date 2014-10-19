@@ -1,0 +1,77 @@
+Pessimistic Lock
+
+A estrategia de pessimistic lock tem como ideologia impedir
+que dois usuários acessem o mesmo registro ao mesmo tempo,
+já assumindo que alguma coisa dará errado se isto acontecer.
+
+O que significa que se um usuário possui um pessimistic lock 
+sobre um registro, qualquer outro usuário que precisar ter acesso
+ao registro terá que esperar, até que o lock seja desfeito para conseguir
+acessar o registro.
+
+Pessimistic locks são uma medida extrema e devem ser utilizados
+com cuidado, porque podem se tornar grandes problemas de performance
+para a aplicação.
+
+=========================================================
+Tipos de pessimistic lock
+
+Pessimistic locks se dividem em dois tipos:
+
+* Write lock (LockModeType.PESSIMISTIC_WRITE) - Um write lock bloqueia, SELECTs, UPDATEs e DELETEs
+																			    sobre o registro trancado.
+		
+* Read Lock(LockModeType.PESSIMISTIC_READ) - Um read lock bloqueia  UPDATEs e DELETEs sobre o registro
+																				trancado mas permite SELECTs.
+					 
+===========================================================
+Implementação JPA - Pessimistic Lock
+
+O JPA nós permite impor pessimistic locks em registros(instancias de entidades)
+através do método lock() do Entity Manager, que recebe um objeto de entidade
+no estado managed e um LockModeType que define o tipo de lock, como explicado acima.
+
+Trancar uma instancia de entidade com o método lock() significa que até
+que a transação a qual ela pertence seja finalizada, nenhum outro usuário
+conseguirá acessar o registro, ou conseguirá apenas lê-lo dependendo do
+tipo de lock, por isso deve ser usado com cuidado, para não causar problemas
+de performance.
+
+O pessimistic lock no JPA pode afetar entidades com optimistic lock ou sem, se
+uma entidade possuir optimistic lock, antes de terminar a transação o pessimistic
+lock irá checar a versão do registro e se houver diferença (o que é teoricamente
+impossivel já que a entidade se manteve trancada durante a transação) ele jogará:
+
+javax.persistence.OptimisticLockException 
+
+Caso haja a tentativa de um segundo usuário acessar uma entidade trancada pelo
+método lock uma exceção:
+
+javax.persistence.PessimisticLockException
+
+Será lançada, e este segundo usuário deve trata-la, tentando novamente ou
+desistindo do acesso ao registro.
+
+obs: Existem lock types optimistic, que podem ser utilizados com lock() para setar
+        o tipo de lock de uma entidade no estado managed, de volta para optimistic,
+		após efetuar um pessimistic lock, se necessario e a entidade possuir @Version.
+------------------------------------------------------------------------------------------------------------
+ex:
+
+usuario = entityManager.find(Usuario, 5);
+
+usuario.setNome("Nome atualizado");
+usuario.setSenha("Senha atualizada");
+
+try{
+	entityManager.lock(usuario, LockModeType.PESSIMISTIC_WRITE)
+	entityManager.merge(usuario);
+	return("Usuário alterado com sucesso");
+}catch(OptimisticLockException optEx){
+	//Teoricamente esta exceção nunca ocorrerá
+	log.error(optEx);
+	return("Não foi possivel alterar o usuário, porque ele já foi alterado por outro administrador do sistema, favor tentar novamente");
+}catch(PessimisticLockException pesEx){
+	log.error(pesEx);
+	return("Não foi possivel alterar o usuário, porque ele um administrador do sistema está alterando este usuário, favor tentar novamente mais tarde");
+}
