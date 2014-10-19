@@ -23,7 +23,7 @@ utilizar o pessimistic lock.
 Implementação JPA - Optimistic Lock
 
 A implementação de um optimistic lock no JPA é feita adicionando-se
-uma coluna numerica(long ou Long) de versão nas entidades
+uma coluna numerica do tipo Long de versão nas entidades
 que serão afetadas pelo optimistic lock e anotar este campo
 com a anotação @Version como no exemplo abaixo:
 
