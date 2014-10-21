@@ -1,12 +1,14 @@
-Cascading operaÁıes
+Cascading opera√ß√µes
 
-Na configuraÁ„o dos relacionamentos entre entidades
-o JPA nÛs da a opÁ„o de definir o elemento cascade,
-este elemento define como uma operaÁ„o CRUD realizada
+Na configura√ß√£o dos relacionamentos entre entidades
+o JPA n√≥s da a op√ß√£o de definir o elemento cascade,
+este elemento define como uma opera√ß√£o CRUD realizada
 em uma entidade relacionada a outra, afeta esta entidade
 no outro lado do relacionamento.
 
-*Por padr„o o comportamento È n„o fazer nada.
+*Por padr√£o o comportamento √© n√£o fazer nada.
+IMPORTANTE: Definir cascading diretamente na tabela do banco de dados melhora
+	    a performance da aplica√ß√£o.
 
 como no exemplo abaixo:
 
@@ -24,12 +26,12 @@ public User addUser(String username, String email,String creditCardType, String 
 	return user;
 }
 
-perceba que duas entidades s„o instanciadas User e BillingInfo sendo que BillingInfo
-È um atributo de User, e ent„o este User È persistido, o que acontece com o objeto BillingInfo
+perceba que duas entidades s√£o instanciadas User e BillingInfo sendo que BillingInfo
+√© um atributo de User, e ent√£o este User √© persistido, o que acontece com o objeto BillingInfo
 dentro de User?
 
-Por padr„o nada, se o elemento cascade n„o estiver configurado um erro ocorrer·, por que
-BillingInfo n„o foi explicitamente persistido(efetuar persist() no BillingInfo antes de seta-lo em User);
+Por padr√£o nada, se o elemento cascade n√£o estiver configurado um erro ocorrer√°, por que
+BillingInfo n√£o foi explicitamente persistido(efetuar persist() no BillingInfo antes de seta-lo em User);
 
 Para que o exemplo acima gere dois INSERTs primeiro para BillingInfo e depois para User, o
 atributo BillingInfo em User deve estar configurado com o atributo cascade para persist como abaixo
@@ -42,16 +44,16 @@ public class User {
 ...
 }
 
-Esta definiÁ„o diz ao JPA que sempre que for realizado um insert de um objeto User, e um objeto
+Esta defini√ß√£o diz ao JPA que sempre que for realizado um insert de um objeto User, e um objeto
 BillingInfo estiver settado nele, deve se primeiro inserir este objeto para depois inserir User
 
 ============================================================================
 Configurando cascade
 
-O elemento cascade, pode ser configurado para todas as operaÁıes CRUD, sÛ uma
-ou alguma delas seus valores possiveis s„o:
+O elemento cascade, pode ser configurado para todas as opera√ß√µes CRUD, s√≥ uma
+ou alguma delas seus valores possiveis s√£o:
 
-CascadeType.ALL       -- Todas as operaÁıes
+CascadeType.ALL       -- Todas as opera√ß√µes
 
 CascadeType.MERGE -- merge() encadeado. 
 
