@@ -1,0 +1,78 @@
+Plugins Maven para empacotamento Java EE
+
+A ferramenta maven de gerenciamento de dependencias
+e construção de aplicações, possui plugins para a construção
+automatica e pré configurada de artefatos java EE em projetos
+maven.
+===============================================
+Plugin para a construção de EARs
+
+Dentro do pom.xml de um ear:
+
+<build>
+	<!--Define o nome gerado pelo artefato .ear construido pelo maven-->
+   <finalName>nome-do-meu-arquivo.ear</finalName>
+    ...
+	<plugins>
+	<!--Declaração de plugin ear-->
+      <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-ear-plugin</artifactId>
+		 <!--Versão do plugin-->
+         <version>2.9.1</version>
+         <configuration>
+		  <!-- Indica para o maven qual versão do JEE estamos usando no caso 7  -->
+            <version>7</version>
+		  <!-- Indica o caminho relativo ao root do projeto em que se encontra a pasta de bibliotecas-->
+            <defaultLibBundleDir>lib</defaultLibBundleDir>
+         </configuration>
+      </plugin>
+      ...
+   </plugins>
+     <!--Para adição de modulos no EAR basta adiciona-los como dependencias-->
+	 <dependencies>
+	   <dependency>
+		  <groupId>br.com.modulos</groupId>
+		  <artifactId>modulo-ejb</artifactId>
+		  <version>0.0.1-SNAPSHOT</version>
+		  <type>ejb</type>
+	   </dependency>
+	    <dependency>
+		   <groupId>br.com.modulos</groupId>
+		   <artifactId>modulo-web</artifactId>
+		   <version>minha-versao</version>
+		   <packaging>war</packaging>
+	  </dependency>
+	   <!-- etc.. -->
+	</dependencies>
+ </build>
+ 
+==========================================================
+Plugin para construção de ejb-jars
+
+Dentro do pom.xml de um ejb:
+
+<build>
+   ...
+   <plugins>
+      <!-- Plugin que informa o maven que o projeto é um artefato ejb-jar -->
+      <plugin>
+         <artifactId>maven-ejb-plugin</artifactId>
+		 <!--Versão do plugin -->
+         <version>2.4</version>
+         <configuration>
+		 <!--Define a versão do framework EJB sendo utilizada -->
+            <ejbVersion>3.1</ejbVersion>
+            <!-- Gera API cliente para o EJB  -->
+            <generateClient>true</generateClient>
+            <clientExcludes>
+               <!-- Excluí as classes *Impl.class do jar cliente(classes de implementação)  -->
+               <clientExclude>**/*Impl.class</clientExclude>
+            </clientExcludes>
+         </configuration>
+      </plugin>
+      ....
+   </plugins>
+   ...
+</build>
+ 
