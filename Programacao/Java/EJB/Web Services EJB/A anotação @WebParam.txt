@@ -1,0 +1,25 @@
+A anotação @WebParam
+
+A anotação @WebParam anota os parametros de um
+@WebMethod(operation) para configurar as partes(part)
+de input da operação descrita pelo @WebMethod.
+
+Se esta anotação não for definida padrões serão assumidos
+ela não é obrigatoria.
+==============================================
+Os atributos da anotação @WebParam
+
+String name                     - Nome da mensagem soap, referenciada por esse <input>
+String targetNamespace   - Namespace especifico para o <input>(Default namespace do webservice)
+Mode mode					   - Em que direção o parametros está indo IN, OUT ou INOUT, existe outra antação
+									     para output @WebParam sempre deve definir modo input IN ou seja permanecer default
+										 (Default Mode.IN)
+boolean header                - Este <input> pertencerá ao header, e não ao body se for definido para true(Default false)
+String partName               - Nome do <input>(Default nome do parametro)
+
+===============================================
+@WebMethod
+public Long addBid(
+@WebParam(name = "user",mode = WebParam.Mode.IN) String userId, …) {
+…
+}

@@ -1,0 +1,53 @@
+A anotação @WebService
+
+A anotação @WebService é a principal anotação na definição de
+um SLSB como webservice e é a unica obrigatoria, todas as outras são
+definidas com o intuito de configurar o comportamento do web service
+
+Ela pode anotar a classe de implementação do SLSB ou a sua interface
+de negócio, de preferencia deve aparecer na classe de implementação
+pois ela possui um maior poder de configuração do web service neste caso
+
+========================================================
+Atributos da anotação @WebService
+
+Todos os atributos são opcionais e possuem defaults.
+
+String name				      - Nome do webservice, este nome aparecerá no atributo
+									    name da tag <portType> no wsdl(Default nome simples da classe)
+										
+String targetNamespace  - Define o namespace deste web service no wsdl(Default nome dos pacotes)
+
+String serviceName         - Nome do serviço do web service que aparece no atributo name
+										da tag <service> do wsdl, este atributo só pode ser definido se
+										a anotação aparecer na classe de implementaçaõ(Default nome simples da classe + Service)
+										
+String wsdlLocation          - Se a classe for construida apartir de um wsdl pronto, este atributo recebe
+										 o caminho deste wsdl, se a classe não obedecer as regras do wsdl, ocorrerão exceções
+										 ex: wsdlLocation = "META-INF/meuWSDLpreDefinido.wsdl"(Default é criado um novo WSDL)
+
+String endpointInterface   - Define o nome da endpoint interface do web service, esta interface geralmente é a interface de negocio do SLSB
+										recebe o full qualified name da interface, se a anotação aparecer na interface de negocio ela é considerada como a endpointInterface
+										(Default (se classe de implementaçaõ anotada)é criada uma interface de endpoint para o web service)
+										
+String portName		     - Nome da porta do webservice, este nome aparecerá no atributo
+									   name da tag <port> no wsdl(nome simples da classe + Port)
+================================================================
+ex:
+
+@Stateless
+@WebService(
+        portName = "CalculatorPort",
+        serviceName = "CalculatorService",
+        targetNamespace = "http://otakuDragon.org/wsdl",
+        endpointInterface = "org.otakuDragon.calculator.ws.CalculatorWs")
+public class Calculator implements CalculatorWs {
+
+    public int sum(int add1, int add2) {
+        return add1 + add2;
+    }
+
+    public int multiply(int mul1, int mul2) {
+        return mul1 * mul2;
+    }
+}

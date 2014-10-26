@@ -1,0 +1,26 @@
+Consumindo WebServices em EJBs
+
+Session beans e MDBs podem consumir web services
+facilmente atraves da anotação @WebServiceRef.
+
+EJBs podem ser clientes de qualquer web service soap,
+para que eles possam ser utilizados o primeiro passo é
+construir os objetos(stubs/proxy) do web service dentro
+do projeto EJB, isto pode ser feito utilizando  a ferramenta
+wsimport disponivel na JDK, e em alguns servidores de aplicação
+
+Após a geração destes objetos a injeção de dependencia de
+um webservice pode ser feita como no exemplo abaixo
+==============================================
+ex:
+
+//PlaceBidService = objeto de serviço gerado pelo wsimport
+@WebServiceRef(wsdlLocation="http://localhost:8080/PlaceBidService/PlaceBidBean?WSDL") 
+private static PlaceBidService placeBidService;
+
+//atraves do serviço, se chama a porta, para se conseguir uma referencia
+//a endpoint interface
+PlaceBidBean placeBid = placeBidService.getPlaceBidBeanPort();
+
+//Atraves da endpoint interface se utiliza os métodos do web service
+placeBid.addBid("dpanda",Long.valueOf(9001), 2000005.50 ));

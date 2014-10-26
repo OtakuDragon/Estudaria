@@ -1,0 +1,38 @@
+A anotação @WebReturn
+
+A anotação @WebReturn anota o métodos definidos como
+@WebMethod(operation) para configurar a parte(part) de
+output da operação descrita pelo @WebMethod.
+
+Se esta anotação não for definida padrões serão assumidos
+ela não é obrigatoria.
+==============================================
+Os atributos da anotação @WebReturn
+
+String name                     - Nome da mensagem soap, referenciada por esse <output>(Default return)
+String targetNamespace   - Namespace especifico para o <output>(Default namespace do webservice)
+boolean header                - Este <output> pertencerá ao header, e não ao body se for definido para true(Default false)
+String partName               - Nome do <output> 
+
+===============================================
+@WebMethod
+@WebResult(name = "bidNumber")
+public Long addBid(
+@WebParam(name = "user",mode = WebParam.Mode.IN) String userId, …) {
+…
+}
+
+===============================================
+A anotação @OneWay
+
+A anotação @OneWay anota um @WebMethod(operation) de
+retorno void, ou seja que não possui um <output>
+
+---------------------------------------------------------------------------------
+ex:
+
+@WebMethod
+@OneWay
+public void metodoSemRetorno() {
+...
+}

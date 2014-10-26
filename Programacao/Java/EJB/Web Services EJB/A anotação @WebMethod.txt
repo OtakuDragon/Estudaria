@@ -1,0 +1,40 @@
+A anotação @WebMethod
+
+A anotação @WebMethod tem como função anotar métodos 
+de um SLSB declarado como @WebService na classe de
+implementação a anotação ela define quais métodos serão expostos
+como operações do web service e configura os seus aspectos no WSDL.
+
+Se a anotação @WebMethod não aparecer na classe de implementação
+de um SLSB anotado com @WebService todos os métodos publicos
+da classe serão expostos.
+
+Se a anotação @WebService aparecer na interface de
+negocio(endpoint) todos os métodos publicos da interface serão
+expostos.
+
+================================================
+Atributos da anotação @WebMethod
+
+*Todos os parametros são opcionais
+
+String operationName - Define o atributo name da tag <operation> do WSDL
+								   (Default nome do método)
+String action              - Define da soapAction da operação definida na tag <soap:operation>
+								   (Default possui um valor default mas eu não sei qual é)
+boolean exclude         - Se definido para true faz com que o método não seja exposto como web service
+								   (Default false)
+================================================
+ex:
+
+@WebMethod(operationName = "addNewBid",
+action = "http://otakuDragon.com/NewBid")
+public Long addBid(...) {
+}
+
+gera o WSDL:
+
+<operation name = "addNewBid">
+<soap:operation soapAction = "http://otakuDragon.com/NewBid"/>
+…
+</operation>

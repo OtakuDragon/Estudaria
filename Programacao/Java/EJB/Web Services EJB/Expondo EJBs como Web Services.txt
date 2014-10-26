@@ -1,0 +1,11 @@
+Expondo EJBs como Web Services
+
+A especificação JWS do java nos permite expor stateless
+session beans, como web services SOAP apenas utilizando
+anotações(ver as anotações descritas nesta pasta).
+
+As anotações da especificação  JWS são idependentes da especificação
+EJB e tambem permitem que pojos normais sejam declarados com web
+services em aplicações web(war), mas quando houver a possibilidade da
+utilização do EJB container(aplicações ejb-jar) a declaração de SLSB como
+webservices é preferivel pois eles oferecem todas as vantagens do framework EJB.
