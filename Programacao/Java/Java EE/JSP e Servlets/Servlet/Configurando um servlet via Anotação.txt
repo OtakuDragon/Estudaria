@@ -1,0 +1,54 @@
+Configurando um servlet via Anotação
+
+Apartir do java EE 6 a declaração de um servlet foi simplificada,
+em contra partida à declaração no web.xml da aplicação se tornou
+possivel a configuração de um servlet por meio da anotação @WebServlet
+
+É possivel se definir um servlet apenas anotando uma classe que extenda
+HttpServlet e anotando-a com @WebServlet o atributo mais importante desta
+anotação é o seu value, que recebe as url-patterns do servlet
+
+ex:
+
+@WebServlet("/response")
+public class ResponseServlet extends HttpServlet {
+	@Override
+	public void doGet(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+		try (PrintWriter out = response.getWriter()) {
+			String username = request.getParameter("username");
+			if (username != null && username.length()> 0) {
+				out.println("<h2>Hello, " + username + "!</h2>");
+			}
+	}
+} 
+
+A classe acima equivale a seguinte configuração no web.xml:
+
+<servlet>
+	//O nome padrão do servlet criado com @WebServlet é o nome completo da classe isto pode ser configurado
+	//com o atributo name da anotação.
+  <servlet-name>br.com.ResponseServlet</servlet-name>
+  <servlet-class>br.com.ResponseServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>br.com.ResponseServlet</servlet-name>
+  <url-pattern>/response</url-pattern>
+</servlet-mapping>
+========================================================================
+Principais atributos da anotação @WebServlet
+
+String name           - Nome do servlet, default fully qualified name da classe.
+String[] value         - Url patterns que o servlet cobre, default " ".
+String[] urlPattens  - Url patterns que o servlet cobre, default " ".
+int loadOnStartup   - Define se o servlet é instanciado quando o servidor sobe(1), ou somente quando.
+							   houver uma request para uma url que ele cobre(-1) default -1.
+							   
+ex:
+
+@WebServlet(name="OtakusWorld", urlPatterns={"/HelloWorld", "/HiWorld","/ItsASmallWorld"},loadOnStartup=1)
+public class HelloWorld extends HttpServlet {
+...
+}
+
+
+

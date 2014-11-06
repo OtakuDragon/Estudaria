@@ -1,0 +1,32 @@
+Empacotando Web Archives(WAR)
+
+Web Archive é o pacote Java EE utilizado para empacotar
+aplicações web, ele possui a seguinte estrutura:
+
+Root  - Chamado de WebContent pelo maven, nele nós incluímos os arquivos
+		web da aplicação como html,javascript,css e imagens chamados de web resources.
+		
+Root/WEB-INF - Funciona como o META-INF dos outros pacotes, é aqui que todos os deployment
+			   descriptors da aplicação web devem ficar, por exemplo, quando a aplicação web possuir
+			   classes EJB e um ejb-jar.xml for necessário ele é colocado nesta pasta.
+
+Root/WEB-INF/classes - Pasta para a qual todas as classes incluídas na aplicação são colocadas após serem compilação,
+					   para que possam ser utilizadas(o bin, da aplicação).
+
+Root/WEB-INF/lib     - Nesta pasta são colocados dependencias externas, no formato jar para que elas possam
+					   ser utilizadas na aplicação, como por exemplo o driver do banco de dado.
+
+Root/META-INF - Pasta que contem o MANIFEST.MF
+
+Web Archives podem conter seja no diretorio classes ou lib, entidades JPA e beans EJB,
+se isto acontecer, os componentes farão parte do war, e somente estarão visiveis para ele.
+
+=========================================================
+O Deployment descriptor web.xml
+
+Web Archives podem optar por definir o deployment descriptor
+web.xml, nele é possivel se declarar e configurar todos os aspectos
+da aplicação web como servlets, filtros e segurança.
+
+Como dito acima, este deployment descriptor deve aparecer dentro
+da pasta WEB-INF da aplicação.
