@@ -1,0 +1,83 @@
+Factory Pattern
+
+O design pattern factory é um creational pattern
+que tem como função dar a o cliente um objeto capaz
+de instanciar várias implementações de uma mesma interface
+chamada fabrica, basta ao cliente dizer qual implementação
+ele quer para a fabrica.
+
+E então a fabrica retorna o objeto instanciado daquela
+implementação.
+
+=======================================================
+ex:
+
+//Interface comum entre as implementações
+public interface Shape { 
+ void draw(); 
+} 
+
+//Implementações
+public class Rectangle implements Shape { 
+ 
+ @Override 
+ public void draw() { 
+ System.out.println("Inside Rectangle::draw() method."); 
+ } 
+} 
+
+public class Square implements Shape { 
+ 
+ @Override 
+ public void draw() { 
+ System.out.println("Inside Square::draw() method."); 
+ } 
+}
+
+public class Circle implements Shape { 
+ 
+ @Override 
+ public void draw() { 
+ System.out.println("Inside Circle::draw() method."); 
+ } 
+}
+
+//Fabrica, um enum é mais aconselhavel como parametro
+public class ShapeFactory { 
+ 
+ //use getShape method to get object of type shape 
+ public Shape getShape(String shapeType){ 
+ if(shapeType == null){ 
+ return null; 
+ } 
+ if(shapeType.equalsIgnoreCase("CIRCLE")){ 
+ return new Circle(); 
+ } else if(shapeType.equalsIgnoreCase("RECTANGLE")){ 
+ return new Rectangle(); 
+ } else if(shapeType.equalsIgnoreCase("SQUARE")){ 
+ return new Square(); 
+ } 
+ return null; 
+ } 
+}
+
+//Cliente utilizando a fábrica
+public class FactoryPatternDemo { 
+ 
+ public static void main(String[] args) { 
+ ShapeFactory shapeFactory = new ShapeFactory(); 
+ 
+ Shape shape1 = shapeFactory.getShape("CIRCLE"); 
+ 
+ shape1.draw(); 
+
+ Shape shape2 = shapeFactory.getShape("RECTANGLE"); 
+ 
+ shape2.draw(); 
+
+ Shape shape3 = shapeFactory.getShape("SQUARE"); 
+ 
+ shape3.draw(); 
+ } 
+}
+

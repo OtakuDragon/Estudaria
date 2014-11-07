@@ -1,0 +1,22 @@
+Design patterns
+
+Design patterns são soluções para problemas comuns
+de programação orientada a objetos, eles foram criados
+por desenvolvedores experientes na base da tentativa 
+e erro, e com o passar do tempo foram amplamente utilizados
+e melhorados, hoje sendo considerados as melhores soluções
+para estes problemas.
+
+======================================================
+Tipos de Design pattern
+
+Design patterns se dividem em quatro categorias:
+
+* Creational patterns - Design patterns com a função de instanciar objetos.
+
+* Structural patterns - Design patterns com a função de definir estrutura de classes.
+
+* Behavioral patterns - Design patterns com a função de definir a comunicação entre objetos.
+
+* J2EE Patterns - Design patterns criados especificamente para a camada de apresentação do java EE,
+				  pela sun.

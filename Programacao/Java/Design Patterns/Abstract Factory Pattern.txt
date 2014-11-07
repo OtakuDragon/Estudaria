@@ -1,0 +1,118 @@
+Abstract Factory Pattern
+
+Uma Abstract Factory, é uma fabrica de Factories
+(Factory Pattern), a sua implementação é feita apartir
+da criação de uma classe abstrata que define os métodos
+de instanciação de objetos de várias fábricas
+
+Fazendo com que todas as fabricas extendam esta classe
+e então é criada uma classe chamada factory producer que
+instancia uma implementação da classe abstrata de acordo
+com um parametro passado.
+
+E com essa fabrica instanciada ela é utilizada como uma
+fabrica da factory pattern.
+
+=======================================================
+ex:
+
+//Duas interfaces que podem ter várias implementações e terão duas fabricas
+public interface Shape { 
+ void draw(); 
+} 
+
+public interface Color { 
+ void fill(); 
+} 
+
+//A classe abstrata que será implementada pelas duas fábricas individuiais
+//e define a assinatura dos métodos de instanciação parametrizada das duas
+public abstract class AbstractFactory { 
+ abstract Color getColor(String color); 
+ abstract Shape getShape(String shape); 
+} 
+
+//As fabricas como definidas no factory pattern , com a diferença que eles
+//extendem a classe abstrata acima, e possuem os dois métodos de instanciação
+//um sendo implementado(o de sua interface) e o outro retornando null
+public class ShapeFactory extends AbstractFactory { 
+ 
+ @Override 
+ public Shape getShape(String shapeType){ 
+ if(shapeType == null){ 
+ return null; 
+ } 
+ if(shapeType.equalsIgnoreCase("CIRCLE")){ 
+ return new Circle(); 
+ } else if(shapeType.equalsIgnoreCase("RECTANGLE")){ 
+ return new Rectangle(); 
+ } else if(shapeType.equalsIgnoreCase("SQUARE")){ 
+ return new Square(); 
+ } 
+ return null; 
+ } 
+ 
+ @Override 
+ Color getColor(String color) { 
+ return null; 
+ } 
+} 
+
+public class ColorFactory extends AbstractFactory { 
+ 
+ @Override 
+ public Shape getShape(String shapeType){ 
+ return null; 
+ } 
+ 
+ @Override 
+ Color getColor(String color) { 
+ if(color == null){ 
+ return null; 
+ } 
+ if(color.equalsIgnoreCase("RED")){ 
+ return new Red(); 
+ } else if(color.equalsIgnoreCase("GREEN")){ 
+ return new Green(); 
+ } else if(color.equalsIgnoreCase("BLUE")){ 
+ return new Blue(); 
+ } 
+ return null; 
+ } 
+} 
+
+//A fabrica de fabricas, que instancia a fabrica que o cliente quiser
+public class FactoryProducer { 
+ public static AbstractFactory getFactory(String choice){ 
+ if(choice.equalsIgnoreCase("SHAPE")){ 
+ return new ShapeFactory(); 
+ } else if(choice.equalsIgnoreCase("COLOR")){ 
+ return new ColorFactory(); 
+ } 
+ return null; 
+ } 
+} 
+
+//E apartir desta fabrica de fabricas o cliente pode recuperar qualquer uma
+//das fabricas e com ela ter acesso as implementações
+public class AbstractFactoryPatternDemo { 
+ public static void main(String[] args) { 
+ 
+ //get shape factory 
+ AbstractFactory shapeFactory = FactoryProducer.getFactory("SHAPE"); 
+ 
+ //get an object of Shape Circle 
+ Shape shape1 = shapeFactory.getShape("CIRCLE");
+ 
+ //call draw method of Shape Circle 
+ shape1.draw();
+ 
+ //get color factory 
+ AbstractFactory colorFactory = FactoryProducer.getFactory("COLOR"); 
+ 
+ //get an object of Color Red 
+ Color color1 = colorFactory.getColor("RED"); 
+ 
+ //call fill method of Red 
+ color1.fill(); 
+
