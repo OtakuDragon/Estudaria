@@ -1,0 +1,3 @@
+Códigos fonte de exemplos do livro
+
+http://code.google.com/p/springbatch-in-action/

@@ -1,0 +1,37 @@
+Spring Batch
+
+Spring batch é uma API do framework Spring que
+tem como objetivo tornar facil a construção de
+aplicações batch rápidas,robustas¹ e confiaveis².
+
+¹ Robusta - Que suporta e trata erros de processamento
+			sem que seja necessário a interrupção da execução
+			
+² Confiavel - Uma aplicação batch confiavel ou reliable é uma aplicação
+			  que loga erros, warnings, problemas e sucessos das suas execuções
+			  
+=====================================================
+O que é uma aplicação Batch?
+
+Aplicações batch tem como objetivo geral ler grandes
+quantidades de dados de uma fonte(XML,¹Flat file, Database)
+opcionalmente processa-los e escrever estes dados processados
+ou não em outra fonte de dados.
+
+Aplicações batch tem como caracteristicas processar grandes
+quantidades de dados e não necessitarem interação com o usuário,
+salvo os casos em que correção de erros graves são necessários
+
+¹ Flat file - Arquivo de texto utilizado para armazenar dados
+----------------------------------------------------------------- 
+Divisões de aplicações batch
+
+As aplicações batch se dividem em:
+
+Batch/Processo/Lote - os nomes são sinonimos e esta é a raiz da aplicação
+					  ela é composta por jobs
+				
+Job - Job é uma operação formada por um conjunto de steps
+
+Step - Step é a menor divisão da aplicação batch e é dentro deles que o código é colocado.
+
