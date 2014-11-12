@@ -1,0 +1,57 @@
+Glossário Spring Batch
+
+==================================================================================================
+Infraesturura
+--------------------------------------------------------------------------------------------------
+Job Repository
+
+  Um elemento de infraesturura do spring batch que tem como função
+armazenar e gerenciar metadata sobre a execução de jobs, estes dados
+são mantidos em um banco de dados relacional, fisico ou em memoria.
+--------------------------------------------------------------------------------------------------
+Job Launcher
+
+   Elemento de infraestrutura do spring batch que tem como função iniciar
+a execução de jobs, utiliza o job repository para iniciar estas execuções,
+é apartir do job launcher que uma aplicação cliente utiliza os jobs configurados
+em aplicações spring batch.
+
+==================================================================================================				 
+Elementos core
+--------------------------------------------------------------------------------------------------
+Job	
+
+ Elemento central do framework spring batch ele agrupa steps e representa a execução
+de um processo batch.
+--------------------------------------------------------------------------------------------------				 
+Step		   
+
+ Elemento que compõe o job, e representam a execução de uma ação no processo batch,
+a principal função dos steps é controlar os fluxos de execução das aplicações batch.
+--------------------------------------------------------------------------------------------------				 
+Tasklet        
+
+ Um step é composto por um tasklet é o tasklet que realmente realiza as ações(transacionais e possivelmente repetiveis)
+necessárias para a realização da etapa do job, existem varios tipos de tasklet prontos para operações comuns mas tambem
+é possivel implementar tasklets customizados.
+--------------------------------------------------------------------------------------------------				 
+Item		   
+
+Um item é um elemento de dado lido de ou escrito em um data source, ex: linha de tabela em banco de dados relacional.
+--------------------------------------------------------------------------------------------------
+Chunk		   
+
+Um chunk é um conjunto de tamanho pré-definido de itens.
+--------------------------------------------------------------------------------------------------
+ItemReader     
+
+Um componente responsavel por ler itens de um data source.
+--------------------------------------------------------------------------------------------------				 
+ItemProcessor     
+
+Um componente responsavel receber itens lidos por um Item reader e processa-los ou filtra-los antes
+de serem escritos por um ItemWriter.
+--------------------------------------------------------------------------------------------------				 
+ItemWriter     
+
+Um componente responsavel por escrever itens em um data source.

@@ -1,0 +1,26 @@
+Spring Batch XML Namespace
+
+O namespace abaixo adiciona ao beans.xml o schema do framework
+batch e o schema padrão do spring(beans) e considera o este
+como o default do documento(sem prefixo), e as tags do schema
+batch possuem o prefixo "batch:"
+
+obs: este é o namespace minimo necessário para utilização do spring batch
+	 muitos outros schemas de outras apis spring podem ser adicionados
+====================================================================
+Namespace:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:batch="http://www.springframework.org/schema/batch"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/batch
+http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+<batch:job id="myJob">
+...
+</batch:job>
+
+</beans>

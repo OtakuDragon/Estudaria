@@ -1,0 +1,4 @@
+Spring batch admin
+
+Spring batch admin é uma aplicação web que representa
+graficamente a metadata colhida pelo job repository.

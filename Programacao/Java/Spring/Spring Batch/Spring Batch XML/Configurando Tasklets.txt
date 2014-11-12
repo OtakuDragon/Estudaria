@@ -1,0 +1,75 @@
+Configurando Tasklets
+
+Tasklets são os elementos que executam
+código transacional e possívelmente repetível
+para realizar as ações definidas nós steps do
+job e são definidos dentro de <batch:step> pela
+tag <batch:tasklet>
+
+Cada <batch:step> pode possuir um tasklet,
+tasklets são classes que implementam a interface
+org.springframework.batch.core.step.tasklet que possui
+apenas um método:
+
+RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext);
+
+e é nele que o código a ser executado pelo tasklet é
+inserido.
+
+tasklets são configurados e definidos conforme
+a explicação abaixo
+====================================================
+Atributos da tag <batch:tasklet>
+
+String ref - Referencia ao id de um spring bean que implemente a
+			 interface org.springframework.batch.core.step.tasklet.
+			 
+int start-limit - Numero de vezes que o spring pode re-executar o tasklet
+			      em uma possiveis re-execuções do job
+				  
+boolean allow-start-if-complete - Se setado para true permite que o tasklet seja
+								  re-executado em uma possivel re-execução do job mesmo
+								  que ele já tenha completado com sucesso anteriormente
+			 
+transaction-manager - referencia ao id de um spring bean transaction manager
+					  que gerênciará as transações da operação executada pelo tasklet,
+					  um transaction manager do spring é uma classe que implemente a interface
+					  PlatformTransactionManager, e o spring oferece alguma implementações prontas.
+					  default: "transactionManager"
+					  
+==================================================
+Incluindo um tasklet a um step
+
+Existem duas maneiras de se inserir um tasklet em um step
+por referencia utilizando o atributo ref:
+
+<job id="importProducts">
+	<step id="decompress" next="readWrite">
+		<tasklet ref="decompressTasklet" />
+	</step>
+</job>
+<bean id="decompressTasklet" class="com.manning.batch.DecompressTasklet"/>
+
+Ou inserindo o bean diretamente dentro da tag tasklet:
+
+<job id="importProducts">
+	<step id="decompress" next="readWrite">
+		<tasklet>
+			<bean id="decompressTasklet" class="com.manning.batch.DecompressTasklet"/>
+		</tasklet>
+	</step>
+</job>
+
+=================================================
+Ex implementação:
+
+
+public class DecompressTasklet implements Tasklet {
+
+//Código...
+
+//O método execute deve retornar RepeatStatus.FINISHED ou RepeatStatus.CONTINUABLE
+//este parametro diz ao spring como agir caso o tasklet esteja configurado para repetição
+return RepeatStatus.FINISHED;
+
+}

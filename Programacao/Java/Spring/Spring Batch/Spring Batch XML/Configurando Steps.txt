@@ -1,0 +1,35 @@
+Configurando Steps
+
+Steps são sub tags de <batch:job> que
+descrevem o fluxo da execução do processo batch
+e encapsulam tasklets.
+
+Steps são adicionados a um <batch:job> utilizando
+a tag <batch:step> e podem possuir as configurações
+descritas abaixo.
+=================================================
+Atributos de <batch:step>
+
+String id - Identificador único do step
+
+String next - id do proximo step à ser executado
+			  após este, default: nenhum
+			  
+String parent - id do step pai deste, default: nenhuma herança
+
+boolean abstract - Define se o step é abstrato ou uma implementação concreta
+				   como no java, default: false
+------------------------------------------------
+ex:
+
+<job id="importProductsJob">
+	<step id="decompress" next="readWrite">
+	(...)
+	</step>
+	<step id="readWrite">
+	(...)
+	</step>
+</job>
+
+*obs: o prefixo <batch: é apenas um apelido para o namespace spring batch
+	  não faz parte da tag no schema.

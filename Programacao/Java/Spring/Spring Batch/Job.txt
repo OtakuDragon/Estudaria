@@ -1,0 +1,32 @@
+Job
+
+Jobs são o core do spring batch um job é considerado a raiz de
+uma aplicação spring batch, eles são compostos por steps e executados
+por um JobLauncher invocado pelo cliente.
+
+==================================================================
+Representações de um job
+
+O job repository controla a metadata de um job e de suas
+execuções, este controle divido um job em três entidades:
+
+Job - O Job em si definido como um bean spring em xml.
+
+Job Instance - Uma job instance é criada apartir de um bean de job e de parametros de execução,
+			   estes parametros de execução definem a instancia, por isso é aconselhavel se inserir
+			   um parametro que será diferente para cada execução quando se deseja instancias diferentes.
+
+Job Execution - A execução de uma instancia de job.
+==================================================================
+Regras de execução
+
+Jobs seguem as seguintes regras de execução:
+
+* Quando um job é executado pela primeira vez, o spring cria uma job instance
+  e então executa o job apartir desta instancia, uma job instance é identificada
+  pelos parametros de execução passados(parametros com os mesmo valores == mesma instancia).
+  
+* Se a execução de uma job instance ocorrer com sucesso, é impossivel executar
+  ela novamente.
+  
+* Não é possivel executar uma job instance, mais de uma vez simultanêamente

@@ -1,0 +1,128 @@
+Configurando Jobs
+
+Jobs são a tag raiz de um processo batch e são
+adicionados em um Spring Batch XML através da
+tag <batch:job> as configurações  que se aplicam
+a o job estão descritas abaixo
+======================================================
+Atributos da anotação <batch:job>
+
+String id - Identificador único do job
+
+boolean restartable - Configura se há a possibilidade do job ser reiniciado
+					  pelo spring batch ou não, default: true
+					  
+String job-repository - Seta um job repository para este job, recebe o id de um
+						job repository configurado, dafault: "jobRepository"
+
+String parent - Seta o job pai deste job, recebe o id do job pai, default: nenhuma herança
+						
+boolean abstract - Seta o job como abstrato, o que significa que ele nunca será executado
+				   apenas servirá como pai de outros jobs, como uma classe abstract java, default: false 
+				   
+String incrementer - Ver seção Incrementer.
+
+ex:
+
+<batch:job id="importProductsJob" incrementer="customIncrementer" restartable="false" job-repository="myRepository">
+(...)
+</batch:job>
+=====================================================
+Incrementer
+
+O incrementer de um job define uma maneira de inserir
+lógica de geração de novos parametros para um job quando ele
+for executado atraves de uma chamada JobOperator.startNextInstance();
+
+Um incrementer é um bean spring que implementa a interface JobParametersIncrementer
+esta interface possui apenas um método:
+
+JobParameters getNext(JobParameters parameters);
+
+Que recebe os parametros da ultima instancia criada e gera novos parametros
+apartir deles, esta classe deve ser implementada e passada pelo seu id para o job no
+atributo incrementer.
+
+A utilização de um incrementer é util quando se que gerar novos parametros automaticamente
+para multiplas execuções de um job.
+
+obs: a execução de job através do job launcher, obriga a definição de
+	 parametros, ou seja, não permite uso de incrementer.
+	 
+ex:
+
+<batch:job id="importProductsJob" incrementer="customIncrementer">
+(...)
+</batch:job>
+<bean id="customIncrementer" class="com.manning.sbia.configuration.job.CustomIncrementer"/>
+	 
+====================================================
+Validators
+
+<batch:job>'s podem ter 3 subtags:
+
+-Validators
+-Steps
+-Listeners
+
+Steps merecem um arquivo separado por ser o proximo passo
+na hierarquia de configuração, listeners se aplicam a todos
+os elementos da hierarquia portanto tambem estarão em um arquivo
+separado.
+
+Validators são spring beans que validam parametros passados para
+o job, classes validator implementam a interface JobParametersValidator
+que possui um método:
+
+void validate(JobParameters parameters) throws JobParametersInvalidException;
+
+Que recebe os parametros do job, e se encontrar algum problema
+com eles joga a exceção JobParametersInvalidException.
+
+---------------------------------------------------------------
+Inserindo validators
+
+Validators são inseridos em jobs através da tag
+<batch:validator> que possui o atributo ref, que referencia
+o id do spring bean do validator.
+
+ex:
+
+<batch:job id="importProductsJob">
+(...)
+<batch:validator ref="idValidator"/>
+</batch:job>
+--------------------------------------------------------------
+Validators pré definidos
+
+O spring nos oferece alguns validators prontos,
+um deles é o org.springframework.batch.core.job.DefaultJobParametersValidator 
+que nos permite validar o preenchimento dos parametros
+como no exemplo abaixo:
+
+<batch:job id="importProductsJob">
+(...)
+	<batch:validator ref="validator"/>
+</batch:job>
+
+<bean id="validator" class="org.springframework.batch.core.job.DefaultJobParametersValidator">
+	<!--Parametros obrigatorios-->
+	<property name="requiredKeys">
+		<!--o parametro de nome date do job será obrigatorio-->
+		<set>
+		<value>date</value>
+		</set>
+	</property>
+	<!--Parametros não obrigatorios-->
+	<property name="optionalKeys">
+		<!--o parametro de nome productId do job não será obrigatorio-->
+		<set>
+		<value>productId</value>
+		</set>
+	</property>
+</bean>
+
+
+
+					  
+
