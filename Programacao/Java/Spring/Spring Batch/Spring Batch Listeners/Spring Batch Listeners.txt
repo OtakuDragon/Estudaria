@@ -1,0 +1,16 @@
+Spring Batch Listeners
+
+Listeners são classes de eventos de ciclo de vida
+tambem conhecidas como callbacks, que possuem métodos
+chamados pelo framwork quando estes eventos acontecem
+
+O spring batch oferece três tipos de listeners:
+
+Job Listener - Listener que possui os eventos de ciclo de vida
+			   do job
+
+Step Listener - Listener que possui os eventos de ciclo de vida
+			    do step e de seu tasklet
+
+
+				

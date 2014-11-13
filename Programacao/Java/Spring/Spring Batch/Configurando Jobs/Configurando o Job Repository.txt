@@ -1,0 +1,96 @@
+Configurando o Job Repository
+
+O job repository é o elemento responsavel
+por manter metadata sobre a execução de jobs
+e pode ser configurado de duas maneiras
+
+* In-memory Job Repository
+
+* Persistent Job Repository
+===============================================
+In-Memory Repository
+
+Repositorios em memoria são faceis de se definir
+mas apenas uteis em ambiente de teste, já que
+os dados de execução dos jobs são perdidos de
+execução para execução.
+
+O spring possui a classe MapJobRepositoryFactoryBean,
+e um transaction manager place holder ResourcelessTransactionManager
+para a criação de um repositorio em memoria
+----------------------------------------------
+ex:
+
+<!-- in memory job repositories são definidos como beans spring da classe MapJobRepositoryFactoryBean-->
+<bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+<property name="transactionManager-ref" ref="transactionManager"/>
+</bean>
+
+<!--Transaction manager place-holder ele não faz nada é apenas porque há a obrigatoriedade da definição de um para o repositorio-->
+<bean id="transactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager"/>
+
+<batch:job id="importInvoicesJob" job-repository="jobRepository">
+(...)
+</batch:job>
+=================================================
+Persistent Job Repository
+
+Persistent job repositories utilizam um banco de dados
+relacional atraves de um datasource para manter a metadata
+de execução dos jobs e controlar a criação de instancias de
+jobs.
+
+O primeiro passo para a criação de um persistent job
+repository é a criação de um banco de dados e das
+tabelas necessárias para que ele trabalhe, o spring batch
+cede os scripts de criação destas tabelas no pacote org.springframework.batch.core
+
+Persistent job repositorioes são definidos com a tag <batch:job-repository>
+e configurados como abaixo
+-------------------------------------------------
+Atributos da tag <batch:job-repository>
+
+String data-source - O id do bean data source que o job repository utilizará para
+					 acessar o banco de dados, atributo obrigatorio, default: "dataSource".
+					 
+String transaction-manager - O id do bean transaction manager que irá gerenciar as transações
+							 do job repository, este atributo é obrigatorio, default:"transactionManager"
+							 
+Isolation isolation-level-for-create - Define o nivel de isolação para a transação de criação de novas instancias
+									   e execuções de job, default: "SERIALIZABLE" - o nivel mais pesado de isolação
+									   
+int max-varchar-length - tamanho maximo para colunas do tipo varchar no banco de dados
+
+String table-prefix - Prefixo das tabelas utilizadas pelo repositorio, default:"BATCH_", como está no script de criação
+					  obs: eu não sei se alterar este prefixo invalida o script de criação de tabelas
+					  
+lob-handler - Referencia a um bean que gerencia o tratamento de large objects muito raramente utilizado
+--------------------------------------------------
+ex:
+
+<!--Definição do datasource-->
+<bean id="dataSource"class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<property name="driverClassName" value="${batch.jdbc.driver}" />
+	<property name="url" value="${batch.jdbc.url}" />
+	<property name="username" value="${batch.jdbc.user}" />
+	<property name="password" value="${batch.jdbc.password}" />
+</bean>
+
+<!--Definição do transaction manager-->
+<bean id="transactionManager" lazy-init="true" class="org.springframework.jdbc.datasource .DataSourceTransactionManager">
+	<property name="dataSource" ref="dataSource" />
+</bean>
+
+<!--Definição do job repository-->
+<batch:job-repository id="jobRepository"
+data-source="dataSource"
+transaction-manager="transactionManager"
+isolation-level-for-create="SERIALIZABLE"
+table-prefix="BATCH_"
+/>
+
+<!--utilização do job repository-->
+<batch:job id="importInvoicesJob" job-repository="jobRepository">
+(...)
+</batch:job>
+					 

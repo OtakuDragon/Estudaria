@@ -1,0 +1,61 @@
+Configurando Herança
+
+O spring batch oferece a possibilidade de
+configurar herança para jobs e steps com
+o objetivo de reduzir a duplicação de configuração
+
+isto é feito nos atributos:
+
+abstract - define o elemento como abstrato, ou seja não será
+		   instanciado só existe para ser herdade
+		   
+parent - diz qual é o elemento pai daquele.
+
+Um elemento filho herda todas os atributos e propriedades
+do elemento pai, inclusive configurações de tags internas(sub-tags)
+--------------------------------------------------------------------------------------
+ex:
+
+<step id="parentStep" abstract="true">
+	<tasklet allow-start-if-complete="true">
+		<chunk commit-interval="100"/>
+	</tasklet>
+</step>
+
+<!--Este step filho herda as configurações de tasklet e chunk do step pai -->
+<step id="productStep" parent="parentStep">
+	<tasklet start-limit="5">
+		<chunk reader="productItemReader"
+		writer="productItemWriter"
+		processor="productItemProcessor"
+		commit-interval="15"/>
+	</tasklet>
+</step>
+===================================================
+A funcionalidade de merge
+
+A herança do spring batch adiciona uma funcionalidade
+à herança padrão do spring, ao herdar listas de um
+elemento pai e especificar uma lista no elemento
+filho, o comportamento de herança padrão do spring é que
+a lista do filho sobre escreve a lista do pai.
+
+Na herança do spring batch a lista do pai é inserida(merged) na lista do filho
+formando apenas uma lista, se o atributo merge estiver definido como true no filho.
+------------------------------------------------------------------------------------------
+ex:
+
+<job id="parentJob" abstract="true">
+	<listeners>
+		<listener ref="globalListener"/>
+	<listeners>
+</job>
+
+<job id="importProductsJob" parent="parentJob">
+	(...)
+	<!--A lista de listeners do pai é inserida na lista do filho, e o job passa a ter dois listeners-->
+	<listeners merge="true">
+		<listener ref="specificListener"/>
+	<listeners>
+</job>
+

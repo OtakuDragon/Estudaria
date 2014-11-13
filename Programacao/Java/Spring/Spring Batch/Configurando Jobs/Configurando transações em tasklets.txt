@@ -1,0 +1,41 @@
+Configurando transações em tasklets
+
+No spring batch é possivel configurar atributos
+para transações em tasklets desde que o atributo 
+transaction-manager do tasklet esteja definido,
+isto é feito utilizando os atributos de transação
+do spring core com a tag <batch:transaction-attributes>
+
+ex:
+
+<batch:tasklet transaction-manager="meuTransactionManager">
+	<batch:chunk reader="productItemReader" writer="productItemReader" commit-interval="100"/>
+		<batch:transaction-attributes isolation="DEFAULT"
+		propagation="REQUIRED"
+		timeout="30"/>
+	</batch:chunk>
+</batch:tasklet>
+
+===================================================================
+Configurando rollbacks
+
+Por padrão o transaction manager commita transações
+aonde nenhuma exceção ou checked exceções acontecem
+e efetua rollback em transações aonde runtime exceptions
+acontece.
+
+é possivel configurar este comportamento dentro de tasklets
+utilizando a tag <batch:no-rollback-exception-classes>
+
+ex:
+
+<batch:tasklet>
+(...)
+	<batch:no-rollback-exception-classes>
+		<!--Esta runtime exception pode acontecer que o commit ainda será efetuado-->
+		<batch:include class="org.springframework.batch.item.validator.ValidationException"/>
+		<!--Se esta checked exception acontecer que o rollback será efetuado-->
+		<batch:include class="com.otakudragon.MyBussinessException"/>
+	</batch:no-rollback-exception-classes>
+</batch:tasklet>
+

@@ -1,0 +1,152 @@
+Step Listeners
+
+O spring batch oferece listeners para
+todos os aspectos de um step e do seu
+tasklet, eles são:
+
+StepExecutionListener - métodos de ciclo de vida do step
+
+ChunkListener - métodos de ciclo de vida de um chunk oriented
+				tasklet
+
+ItemReadListener - métodos de ciclo de vida do reader de um chunk
+				
+ItemProcessListener - métodos de ciclo de vida do processor de um chunk
+
+
+ItemWriteListener - métodos de ciclo de vida do writer de um chunk
+
+SkipListener - métodos de ciclo de vida do skip de um item seja no writer,
+			   reader ou processor do chunk
+			   
+RepeatListener - métodos de ciclo de vida dos repeats de um tasklet
+
+RetryListener - métodos de ciclo de vida dos retries de um tasklet
+					  
+====================================================================
+Step Execution Listener
+
+Step execution listeners são spring beans que
+implementam a interface StepExecutionListener 
+esta interface possui dois métodos:
+
+void beforeStep(StepExecution stepExecution); - Chamado logo antes a execução do step
+
+ExitStatus afterStep(StepExecution stepExecution);- Chamado logo após a execução do step e retorna
+													o status de saida do step uma enumeração ExitStatus,
+													que diz se o step foi executado, se foi com sucesso ou não
+====================================================================
+Chunk listeners
+
+Chunk listeners são spring beans que implementam
+a interface ChunkListener, esta interface possui 
+dois métodos:
+
+void beforeChunk(); - Chamado logo antes à execução de um chunk oriented tasklet
+void afterChunk();  - Chamado logo após à execução de um chunk oriented tasklet
+==============================================================================
+Item read Listener
+
+Item read listener são spring beans que implementam
+a interface ItemReadListener<T> sendo t o tipo do dado
+do item lido, esta interface possui três métodos.
+
+void beforeRead(); - Chamado logo antes a leitura de um item
+
+void afterRead(T item); - Chamado logo após da leitura de um item e recebe como
+						  parametro o item lido.
+						  
+void onReadError(Exception ex); - Chamado sempre que ocorrer um erro na leitura de um item
+
+====================================================================
+Item Process Listener
+
+Item process listeners são spring beans que implementam
+a interface ItemProcessListener<T,S> sendo T o tipo de dado
+do item antes do processamento e S depois do processamento
+esta interface possui três métodos:
+
+void beforeProcess(T item); - Chamado logo antes o processamento e recebe como parametro
+							  o item que será processado
+
+void afterProcess(T item, S result); - Chamado logo após o processamento de um item e recebe como
+									   parametro o item original e o item processado
+									   
+void onProcessError(T item, Exception e); - Chamado quando ocorrer uma exceção no processamento de um item
+											recebe o item e a exceção jogada
+========================================================================
+Item Write Listener
+
+Item write listeners são spring beans que implementam
+a interface ItemWriteListener<S> sendo S o tipo de dado
+do item, esta interface possui três métodos:
+
+void beforeWrite(List<S> items); - Chamado logo antes a escrita de uma lista de items, e tem como parametro
+								   a lista que será escrita.
+								   
+void afterWrite(List<S> items); - Chamado logo apos a escrita de uma lista de items, e tem como parametro
+								   a lista que foi escrita.
+								   
+void onWriteError(Exception exception, List<S> items); - Chamado quando ocorrer uma exceção na escrita recebe como parametro
+														 a lista que causou o erro item e a exceção jogada
+														 
+======================================================================
+Skip Listener
+
+Skip listeners são spring beans que implementam a interface
+SkipListener<T,S> sendo T o tipo do item antes do processamento
+e S depois do processamento, esta interface possui três métodos:
+
+void onSkipInRead(Throwable t); - Chamado quando o skip acontece na leitura,
+								  recebe a exceção que causou o skip
+
+void onSkipInProcess(T item, Throwable t); - Chamado quando acontece um skip no processamento
+											 de um item recebe o item que causou o skip e a exceção
+											 
+void onSkipInWrite(S item, Throwable t);  - Chamado quando acontece um skip na escrita
+										    de um item recebe o item processado que causou o skip e a exceção
+======================================================================
+Repeat Listener
+
+Repeat listeners são spring beans que implementam a interface
+RepeatListener esta interface possui 5 métodos:
+
+void open(RepeatContext context);  - Chamado antes da primeira repetição
+void close(RepeatContext context); - Chamado após a ultima repetição
+void before(RepeatContext context); - Chamado antes de cada repetição
+void after(RepeatContext context, RepeatStatus result);- Chamado após cada repetição
+void onError(RepeatContext context, Throwable e);- Chamado quando ocorre um erro em uma repetição
+
+=====================================================================
+Retry Listeners
+
+Retry listeners são spring beans que implementam a interface
+RetryListener esta interface possui 3 métodos:
+
+<T> void open(RetryContext context, RetryCallback<T> callback); - Chamado antes da tentativa
+<T> void close(RetryContext context, RetryCallback<T> callback, Throwable e); - Chamado após a tentativa
+<T> void onError(RetryContext context,RetryCallback<T> callback, Throwable e);- Chamado caso ocorra um erro em alguma tentativa
+======================================================================
+IMPORTANTE: todas as interfaces podem ser subtituidas por anotações como no job listener
+======================================================================
+Incluindo Step Listeners em um step
+
+Step listeners são incluidos dentro do tasklet
+do step utilizando a tag <batch:listeners>
+
+<batch:job id="importProductsJob">
+	<batch:step id="decompress" next="readWrite">
+		<batch:tasklet ref="decompressTasklet">
+			<batch:listeners>
+				<!--ref é o id do spring bean que implementa uma das interfaces acima-->
+				<batch:listener ref="stepListener"/>
+				<batch:listener ref="readListener"/>
+				<batch:listener ref="skipListener"/>
+			</batch:listeners>
+		</batch:tasklet>
+	</batch:step>
+</ batch:job>
+
+Todos os listeners acima são incluidos desta maneira
+
+

@@ -1,0 +1,150 @@
+Chunk Oriented Tasklet
+
+Chunks são tasklets que seguem a filosofia
+padrão das aplicações batch de leitura, processamento
+e escrita de items, eles aparecem dentro de um tasklet
+na estrutura do job, atraves da anotação <batch:chunk>.
+
+E podem ser configurados como descrito abaixo.
+==================================================== 
+Atributos da anotação <batch:chunk>
+
+String reader - Componente do chunk responsável por ler itens de um 
+				datasource, recebe uma referencia ao id de um spring bean
+				que implemente a interface ItemReader.
+
+String processor - Componente do chunk responsável por processar os itens lidos
+				   pelo reader do datasource, o processamento é opcional em um chunk,
+				   recebe uma referencia ao id de um spring bean que implemente a interface ItemProcessor.
+
+String writer - Componente do chunk responsável por escrever itens em um 
+				datasource, recebe uma referencia ao id de um spring bean
+				que implemente a interface ItemWriter. 
+
+int commit-interval - Um chunk por definição é um conjunto de itens este atributo define quantos itens o chunk
+					  irá ler, opcionalmente processar e escrever antes de comitar a operação, ou seja, o tamanho do chunk.
+
+int skip-limit - Recebe o numero maximo de itens que podem ser "pulados"(skipped) por conta de erro, na leitura,
+				 processamento ou escrita antes que o step seja interrompido e falhe.
+ 
+int retry-limit - Numero maximo de tentativas de execução do chunk oriented tasklet.
+
+String skip-policy - Recebe a referencia ao id de um spring bean implementando a interface SkipPolicy,
+					 que define as regras de skip de itens.
+
+int cache-capacity - Define o tamanho do cache para a skip-policy em itens, se este numero de itens skipped for atingido
+					 idependente da skip policy o step irá falhar
+
+String retry-policy - Recebe a referencia ao id de um spring bean implementando a interface RetryPolicy,
+					  que define as regras de retry do processo de chunk.
+
+String chunk-completion-policy - Recebe a referencia ao id de um spring bean implementando a interface CompletionPolicy,
+								 que define quando o processo chunk é completado.
+
+boolean reader-transactional-queue - Se o reader for de um data source JMS diz se ele é transacional ou não
+
+boolean processor-transactional - Diz se o componente processor do chunk é transacional ou não.
+----------------------------------------------------------------------------------------------------------------
+ex:
+
+<batch:job id="importProductsJob">
+	<batch:step id="readWrite">
+		<batch:tasklet>
+			<batch:chunk
+			reader="myItemReader"
+			writer="myItemWriter"
+			processor="myItemProcessor"
+			skip-limit="20"
+			retry-limit="3"
+			cache-capacity="100"
+			chunk-completion-policy="timeoutCompletionPolicy"/>
+		</batch:tasklet>
+	</batch:step>
+</batch:job>
+<bean id="timeoutCompletionPolicy" class="org.springframework.batch.repeat.policy.TimeoutTerminationPolicy">
+	<constructor-arg value="60"/>
+</bean>
+===============================================================================================
+Subtags de <batch:chunk>
+-----------------------------------------------------------------------------------------------
+<batch:reader>,<batch:processor>,<batch:writer>,<batch:skip-policy> e <batch:retry-policy>
+
+Estas tags tem a mesma função de seus atributos, definir os bean de implementação
+destas entidades, as subtags são utilizadas para ao inves de referenciar um bean
+incluir a definição do bean dentro do proprio <batch:chunk>
+
+ex:
+
+<batch:chunk commit-interval="100">
+	<batch:reader>
+		<bean class="(...)">
+		(...)
+		</bean>
+	</batch:reader>
+	<batch:processor>
+		<bean class="(...)">
+		(...)
+		</bean>
+	</batch:processor>
+</batch:chunk>
+-------------------------------------------------------------------------------------------------
+<batch:skippable-exception-classes> e <batch:retryable-exception-classes>
+
+Definem qual comportamento o chunk terá com relação a exceções, incluindo
+e excluindo exceções que causam comportamentos de skip e retry
+
+ex:
+
+<batch:tasklet>
+	<batch:chunk commit-interval="100"
+	skip-limit="10">
+	<skippable-exception-classes>
+		<!--O chunk poderá skippar o item se esta exceção ocorrer-->
+		<include class="org.springframework.batch.item.file.FlatFileParseException"/>
+		<!--O chunk não poderá skippar o item se esta exceção ocorrer-->
+		<exclude class="java.io.FileNotFoundException"/>
+	</skippable-exception-classes>
+	<!--Outras tentativas podem ocorrer se está exceção acontecer-->
+	<retryable-exception-classes>
+		<include class="org.springframework.dao.DeadlockLoserDataAccessException"/>
+	</retryable-exception-classes>
+	</batch:chunk>
+</batch:tasklet>
+-------------------------------------------------------------------------------------------------
+<batch:streams>
+
+ItemWriter, ItemReader e ItemProcessor são streams se eles forem configurados
+no chunk, eles automaticamente já serão declarados como streams do chunk esta
+anotação serve para dizermos ao chunk que streams além dos registrados fazem
+parte dele, como no caso de um writer composto por dois outros writers, estes
+dois outros writers não serão declarados como streams e portanto terão que aparecer
+pelo id como ref na tag <batch:streams> do chunk
+
+ex:
+
+<batch:job id="importProductsJob">
+	(...)
+	<batch:step id="readWrite">
+		<batch:tasklet>
+		<batch:chunk reader="productItemReader" writer="compositeWriter"/>
+			<streams>
+				<stream ref="productItemWriter1"/>
+				<stream ref="productItemWriter2"/>
+			</streams>
+		</batch:tasklet>
+	</batch:step>
+</batch:job>
+<bean id="compositeWriter"
+class="org.springframework.batch.item.support.CompositeItemWriter">
+	<property name="delegates">
+		<list>
+		<ref bean="productItemWriter1"/>
+		<ref bean="productItemWriter2"/>
+		</list>
+	</property>
+	</bean>
+-------------------------------------------------------------------------------------------------
+<batch:retry-listeners>
+
+Ver listeners
+--------------------------------------------------------------------------------------------------

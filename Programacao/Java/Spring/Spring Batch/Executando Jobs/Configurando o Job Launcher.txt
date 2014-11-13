@@ -1,0 +1,74 @@
+Configurando o Job Launcher
+
+JobLauncher é a interface o core a
+API de execução de jobs do spring batch,
+ela possui um único método:
+
+public JobExecution run(Job job, JobParameters jobParameters) throws (…);
+
+Sendo que job é o <batch:job> à ser executado
+e job parameters são os parametros de execução
+
+O spring batch nos oferece a seguinte implementação desta interface:
+
+ org.springframework.batch.core.launch.support.SimpleJobLauncher
+ 
+Para executar jobs utilizando o job launcher basta configurar
+um bean spring desta implementação com o uma única propriedade
+obrigatoria, um job repository
+---------------------------------------------------------------
+ex de configuração xml:
+ 
+<batch:job-repository id="jobRepository" >
+(...)
+</batch:job-repository>
+
+<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+	<property name="jobRepository" ref="jobRepository" />
+</bean>
+
+ex utilização do cliente:
+
+ApplicationContext context = (...)
+JobLauncher jobLauncher = context.getBean(JobLauncher.class);
+Job job = context.getBean(Job.class);
+jobLauncher.run(
+	job,
+	new JobParametersBuilder()
+	.addString("inputFile", "file:./products.txt")
+	.addDate("date", new Date())
+	.toJobParameters()
+);
+==============================================================
+Execução sincrona e assincrona
+
+Por padrão o método run() do job launcher somente
+retorna o objeto JobExecution com as informações de
+resultado da execução do job após a execução completa dele,
+ou seja possui uma execução sincrona, o que nem sempre é a
+melhor opção já que um job pode demorar horas para executar
+e a thread do cliente tem que esperar até que o método run()
+retorne para prosseguir.
+
+O spring batch tambem oferece a execução assincrona de jobs
+o que significa que o método run() returna imediatamente um
+JobExecution com o status started e a thread do cliente fica
+livre para continuar, e pode checar depois o status objeto job
+execution para saber se a execução foi finalizada.
+
+Isto é feito definindo um pool de threads de execução <task:executor>
+e definindo-o na propriedade taskExecutor do job launcher
+-----------------------------------------------------------------
+ex de job launcher assincrono:
+
+<!--Pool de threads que executará jobs assincronamente, com 10 threads
+    o que significa que 10 jobs poderão estar sendo executados simultaneamente
+	valores maiores podem ser definidos conforma haja necessidade-->
+<task:executor id="executor" pool-size="10" />
+
+<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+	<property name="jobRepository" ref="jobRepository" />
+	<property name="taskExecutor" ref="executor" />
+</bean>
+
+

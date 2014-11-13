@@ -1,0 +1,103 @@
+Parametros de execução em jobs(SpEL)
+
+Tasklets ou chunk oriented tasklets podem precisar
+de parametros somente definidos no tempo de execução,
+ou seja que não estão definidos fixamente na configuração
+xml.
+
+O spring batch nos oferece a possibilidade de utilizar
+a spring expression language para definir parametros que
+são passados no momento da execução do job.
+
+Para que isto seja possivel é necessário que o elemento
+tenha o escopo(atributo scope) step que é proprio do spring
+batch e define que o bean só será instanciado no momento da
+execução do step no qual ele está inserido, assim podendo recuperar
+valores definidos na execução do job e utiliza-los como parametros
+
+Tipos de parametros suportados:
+
+- String
+- long
+- double
+- Date
+
+ex:
+
+<batch:tasklet>
+	<bean id="decompressTasklet" class="com.manning.sbia.ch01.batch.DecompressTasklet" scope="step">
+	...
+	</bean>
+</batch:tasklet>
+
+Um elemento tasklet no escopo step tem acesso a três
+contextos(mapas de valores):
+
+jobParameters - Parametros de execução da instancia do job passados no momento da execução
+
+jobExecutionContext - Mapa de parametros contendo informações sobre a execução do job
+
+stepExecutionContext - Mapa de parametros contendo informações sobre a execução do step
+
+===========================================================================================
+Setando parametros
+
+A maneira mais comum de se setar parametros é no momento
+da execução de um job pelo job launcher, um mapa de parametro
+e nomes são passados como segundo parametro do launcher
+
+ex:
+
+jobLauncher.run(job, new JobParametersBuilder()
+			.addString("inputResource", "file:"+repoDir+"/products.zip")
+			.addString("targetDirectory", targetDir+"/importproductsbatch/")
+			.addString("targetFile","products.txt")
+			.addString("date", dateFormat.format(calendar.getTime()))
+			.toJobParameters()
+		);
+		
+Os parametros do job launcher são setados no contexto jobParameters
+setar parametros nos outros contextos é feito dentro da implementação
+dos tasklets, tasklets possuem o método execute() que recebe como parametro
+um objeto ChunkContext, neste objeto temos o método getStepContext() que
+retorna um StepContext e este objeto possui os dois mapas jobExecutionContext e
+stepExecutionContext
+
+ex:
+
+//Dentro do tasklet
+RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext){
+	chunkContext.getStepContext.getJobExecutionContext.set("MeuParamJob","1");
+	chunkContext.getStepContext.getStepExecutionContext.set("MeuParamStep","2");
+}
+
+obs importante: os mapas dos três contextos são do tipo <String,Object>
+
+=======================================================================================
+Recuperando parametros
+
+Parametros podem ser recuperados em elementos de scope step,
+estes elementos podem ser tasklets, readers, processers
+ou writers desde que este escopo esteja definido.
+
+Para se recuperar parametros se utiliza a seguinte sintaxe 
+da spring expression language:
+
+#{nomeDoContext['chaveDoParametro']}
+
+e estes parametros podem ser passado como valor de qualquer
+atributo das tags, desde que o tipo do parametro seja valido
+para aquele atributo, geralmente se utiliza para definir valores
+dos atributos(property) dos beans
+
+ex:
+
+<!--Setando valores de atributos como parametros em um tasklet-->
+<bean id="decompressTasklet" class="com.manning.sbia.ch01.batch.DecompressTasklet" scope="step">
+	<!--O atributo inputResource da classe DecompressTasklet, terá o valor definido para o parametro de chave inputResource
+		no mapa de jobParameters-->
+	<property name="inputResource" value="#{jobParameters['inputResource']}" />
+	<property name="targetDirectory" value="#{jobParameters['targetDirectory']}" />
+	<property name="targetFile" value="#{jobParameters['targetFile']}" />
+</bean>
+

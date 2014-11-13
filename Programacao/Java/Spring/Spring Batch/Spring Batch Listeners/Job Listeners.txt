@@ -1,0 +1,90 @@
+Job Listeners
+
+Job listeners conseguem executar código
+nos eventos de ciclo de vida do job eles
+são:
+
+* beforeJob - Logo antes da execução do job
+
+* afterJob - Logo após a execução do job
+
+===============================================
+Definindo um job listener
+
+Job listeners são spring beans que implementam 
+a interface JobExecutionListener, esta interface
+possui dois métodos:
+
+public void beforeJob(JobExecution jobExecution);
+
+e
+
+public void afterJob(JobExecution jobExecution);
+
+O objeto jobExecution recebido como parametro possui
+todas as informações sobre a execução do job.
+
+Alem de classes que implementam a interface JobExecutionListener
+job listeners podem ser configurados em classes simples(sem interface)
+que possuem dois métodos public void de qualquer nome e anotados
+com:
+
+@BeforeJob
+
+e
+
+@AfterJob
+--------------------------------------------------------------
+ex:
+
+public class ImportProductsJobListener implements JobExecutionListener {
+	public void beforeJob(JobExecution jobExecution) {
+	// Called when job starts
+	}
+	
+	public void afterJob(JobExecution jobExecution) {
+		if (jobExecution.getStatus()==BatchStatus.COMPLETED) {
+		// Called when job ends successfully
+		} else if (jobExecution.getStatus()==BatchStatus.FAILED) {
+		// Called when job ends in failure
+		}
+	}
+}
+
+ou
+
+public class AnnotatedImportProductsJobListener {
+	@BeforeJob
+	public void executeBeforeJob(JobExecution jobExecution) {
+	//Notifying when job starts
+	}
+	
+	@AfterJob
+	public void executeAfterJob(JobExecution jobExecution) {
+		if (jobExecution.getStatus()==BatchStatus.COMPLETED) {
+		//Notifying when job successfully ends
+		} else if (jobExecution.getStatus()==BatchStatus.FAILED) {
+		//Notifying when job ends with failure
+		}
+	}
+}
+
+IMPORTANTE: Nos dois casos a classe deve estar definida como um spring bean
+==============================================================================
+Incluindo job listeners a jobs
+
+Após a implementação e declaração do spring bean dos listeners
+dentro do job existe a tag <batch:listeners> para declaração de
+job listeners
+
+ex:
+
+<!--Um job pode ter vários listeners-->
+<batch:job id="importProductsJob">
+	(...)
+	<batch:listeners>
+		<batch:listener ref="importProductsJobListener"/>
+	</batch:listeners>
+</batch:job>
+
+<bean id="importProductsJobListener" class="ImportProductsJobListener"/>
