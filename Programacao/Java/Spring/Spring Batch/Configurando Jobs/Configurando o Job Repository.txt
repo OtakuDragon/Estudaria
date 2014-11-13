@@ -23,7 +23,7 @@ ex:
 
 <!-- in memory job repositories são definidos como beans spring da classe MapJobRepositoryFactoryBean-->
 <bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
-<property name="transactionManager-ref" ref="transactionManager"/>
+<property name="transactionManager" ref="transactionManager"/>
 </bean>
 
 <!--Transaction manager place-holder ele não faz nada é apenas porque há a obrigatoriedade da definição de um para o repositorio-->
