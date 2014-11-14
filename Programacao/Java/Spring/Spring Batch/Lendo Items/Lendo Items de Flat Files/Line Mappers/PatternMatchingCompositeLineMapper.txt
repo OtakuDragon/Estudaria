@@ -1,0 +1,31 @@
+PatternMatchingCompositeLineMapper
+
+PatternMatchingCompositeLineMapper funciona como um conjunto
+de linemappers com o objetivo de processar itens diferentes
+em um mesmo arquivo, os itens são identificados de acordo com
+um regex e então passado para os respectivos tokenizers e line mappers
+=======================================================================
+ex:
+<!--No exemplo abaixo o arquivo sendo lido possui dois tipos de itens
+    que são identificados pelas três primeiras letras do record PRM ou PRB-->
+<bean id="productLineMapper" class="org.springframework.batch.item.file.mapping.PatternMatchingCompositeLineMapper">
+	<!--Grupo de tokenizers idenficados pelo pattern que eles tokenizam e o id do bean tokenizer-->
+	<property name="tokenizers">
+		<map>
+			<entry key="PRM*" value-ref="mobileProductLineTokenizer"/>
+			<entry key="PRB*" value-ref="bookProductLineTokenizer"/>
+		</map>
+		</property>
+		<!--Grupo de fieldSetMappers idenficados pelo pattern que eles mapeiam e o id do bean fieldSetMappers-->
+		<property name="fieldSetMappers">
+		<map>
+			<entry key="PRM*" value-ref="mobileProductFieldSetMapper"/>
+			<entry key="PRB*" value-ref="bookProductFieldSetMapper"/>
+		</map>
+	</property>
+</bean>
+
+<bean id="mobileProductLineTokenizer" class="(...)"> (...) </bean>
+<bean id="mobileProductFieldSetMapper" class="(...)"> (...) </bean>
+<bean id="bookProductLineTokenizer" class="(...)"> (...) </bean>
+<bean id="bookProductFieldSetMapper" class="(...)"> (...) </bean>

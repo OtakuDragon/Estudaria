@@ -1,0 +1,190 @@
+DefaultLineMapper
+
+O DefaultLineMapper é utilizando em flat files
+com itens separados por token ou de tamanho fixo
+
+ele é composto por dois outros objetos:
+
+* lineTokenizer - Objeto responsavel por separar uma linha em um
+				  mapa de atributos chamado FieldSet, que futuramente se tornará
+				  o objeto do item.
+				  
+* fieldSetMapper - Objeto responsavel por receber um FieldSet montando pelo lineTokenizer
+				   e transforma-lo em um objeto de item
+				   
+---------------------------------------------------------
+ex:
+
+<bean id="productLineMapper" class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+	<property name="lineTokenizer" ref="productLineTokenizer"/>
+	<property name="fieldSetMapper" ref="productFieldSetMapper"/>
+</bean>
+
+<bean id="productLineTokenizer" class="(...)"> (...) </bean>
+<bean id="productFieldSetMapper" class="(...)"> (...) </bean>
+				   
+=========================================================
+Line Tokenizer
+
+Line tokenizers são classes que implementam a interface
+
+public interface LineTokenizer {
+	FieldSet tokenize(String line);
+}
+
+E como descrito acima transformam uma linha do arquivo em um
+FieldSet utilizado para construir um item.
+
+O FieldSet é um mapa de <String,Object> com o nome do atributo
+e o seu valor para aquele item.
+
+É possivel se criar  LineTokernizers customizados ou utilizar
+os que o spring batch implementa, eles são:
+
+* DelimitedLineTokenizer
+
+* FixedLengthTokenizer
+
+---------------------------------------------------------
+DelimitedLineTokenizer
+
+DelimitedLineTokenizer separa uma linha em atributos
+fazendo um String.split(), por um token delimitador definido
+como no exemplo abaixo
+
+Arquivo.txt
+
+gilson;21;programador
+wiliam,25;analista
+
+Digamos que o arquivo acima utiliza a SimpleRecordSeparatorPolicy
+que separa linhas do arquivo por quebra de linha, este arquivo terá
+duas linhas, e cada linha terá 3 atributos
+
+A configuração de um bean DelimitedLineTokenizer recebe duas propriedades:
+
+* delimiter - token que representa a separação dos atributos
+* names - Nome dos atributos no mapa do field set separados por virgula.
+
+ex:
+
+<bean id=" productLineTokenizer" class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+	<property name="delimiter" value=";"/>
+	<property name="names"
+	value="nome,idade,profissao"/>
+</bean>
+---------------------------------------------------------
+FixedLengthTokenizer
+
+FixedLengthTokenizer separa uma linha em atributos
+por um tamanho fixo de caracteres como no exemplo abaixo
+
+Arquivo.txt
+
+gilson....21programador....
+wiliam....25analista.......
+
+Obs: "." = Espaço em branco
+
+Um FixedLengthTokenizer	separa este arquivo em atributos
+sabendo que do caractere 1 até o 10 da linha está o atributo nome
+o atributo idade está representado nas posições 11 e 12 da linha e
+o atributo profissão está representado da posição 13 até a 28 e uma
+linha do arquivo sempre terá 28 caracteres.
+
+Ele recebe duas propriedades:
+
+* columns - O mapeamento de range dos atributos, sendo o primeiro caractere o numero 1
+			no formato "inicio-fim,..."
+* names - Nome dos atributos no mapa do field set separados por virgula.
+
+ex:
+
+<bean id=" productLineTokenizer" class="org.springframework.batch.item.file.transform.FixedLengthTokenizer">
+	<property name="columns" value="1-10,11-12,13-28"/>
+	<property name="names" value="nome,idade,profissao"/>
+</bean>
+
+=====================================================================
+FieldSet Mapper
+
+Um FieldSet Mapper é um objeto responsavel por
+receber um objeto FieldSet e transforma-lo em um
+objeto de item, que é um objeto de dados qualquer
+criado pelo programador.
+
+FieldSet mappers implementam a interface:
+
+public interface FieldSetMapper<T> {
+	T mapFieldSet(FieldSet fieldSet) throws BindException;
+}
+
+Sendo T o tipo de dado do item à ser criado, fieldset mappers
+podem ser customizados ou podem ser criados apartir de implementações
+padrão do spring batch:
+
+* BeanWrapperFieldSetMapper
+
+* PassThroughFieldSetMapper
+
+--------------------------------------------------------------------
+A implementação BeanWrapperFieldSetMapper
+
+A implementação BeanWrapperFieldSetMapper oferece um field set
+mapper padrão para preencher objetos de items, desde que os atributos
+do item e os nomes dos atributos no FieldSet retornado pelo tokenizer
+sejam os mesmos, isto é feito apenas passando um bean no escopo prototype
+para o BeanWrapperFieldSetMapper
+
+ex:
+
+<bean id="productFieldSetMapper" class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+	<property name="prototypeBeanName" value="product"/>
+</bean>
+<bean id="product" class="com.manning.sbia.reading.Product" scope="prototype"/>
+--------------------------------------------------------------------
+A implementação PassThroughFieldSetMapper
+
+A implementação PassThroughFieldSetMapper é um placeholder
+que não preenche um objeto de item apenas retorna objeto
+FieldSet que recebe.
+
+ex:
+
+<bean id="productFieldSetMapper" class="org.springframework.batch.item.file.mapping.PassThroughFieldSetMapper"/>
+--------------------------------------------------------------------
+FieldSet Mapper customizado
+
+ex:
+
+//Objeto do item à ser criado
+public class Product {
+	private String id;
+	private String name;
+
+	private String description;
+	price float price;
+	public String getId() { return id; }
+	public void setId(String id) { this.id = id; }
+	(...)
+	public float getPrice() { return price; }
+	public void setPrice(float price) { this. price = price; }
+}
+
+//Implementação da interface FielSetMapper
+public class ProductFieldSetMapper implements FieldSetMapper<Product> {
+	public Product mapFieldSet(FieldSet fieldSet) {
+		Product product = new Product();
+		//O fieldset oferece métodos para a recuperação de valores de atributos
+		//pelo seu nome no mapa e o seu tipo de dado como abaixo.
+		product.setId(fieldSet.readString("id"));
+		product.setName(fieldSet.readString("name"));
+		product.setDescription(fieldSet.readString("description"));
+		product.setPrice(fieldSet.readFloat("price"));
+		return product;
+	}
+}
+
+			   
+
+				  

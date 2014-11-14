@@ -1,0 +1,65 @@
+Lendo Items de Flat Files
+
+Flat files são arquivos de texto(legiveis por humanos)
+independentes de formato que contem dados com pouca ou
+nenhuma metadata.
+
+O bean do spring batch que representa um reader de flat
+files é o FlatFileItemReader e ele suporta a leitura de
+flat files:
+
+* Com itens separados por um caractere(token)
+
+* Com itens de tamanho fixo(range)
+
+* Itens no formato JSON
+-------------------------------------------------------
+ex:
+
+<bean id="productItemReader" class="org.springframework.batch.item.file.FlatFileItemReader">
+	<property name="resource" value="datafile.txt"/>
+	<property name="linesToSkip" value="1"/>
+	<property name="recordSeparatorPolicy"
+	ref="productRecordSeparatorPolicy"/>
+	<property name="lineMapper" ref="productLineMapper"/>
+</bean>
+
+=========================================================
+Propriedades do bean FlatFileItemReader
+
+Resource resource - Local do arquivo à ser lido
+
+RecordSeparatorPolicy recordSeparatorPolicy - Referencia a um bean que implementa a interface RecordSeparatorPolicy
+											  e define o que é uma linha no arquivo.
+
+LineMapper<T> lineMapper - Referencia ao bean que implementa a interface LineMapper<T>, e define a logica
+						   que transforma uma linha do arquivo em um Objeto T de item, line mappers são a parte
+						   mais complexa do FlatFileItemReader, por isso suas explicações estão em uma pasta diferente
+						   Line Mappers
+						   
+int linesToSkip - Numero de linhas para ignorar apartir do inicio do arquivo, útil para a definição de cabeçalhos e
+				  ignora-los durante a leitura.
+				  
+LineCallbackHandler skippedLinesCallback - Referencia a um bean que implementa a interface LineCallbackHandler que
+										   tem como função processar as linhas skippadas pela propriedade linesToSkip
+
+String encoding - Tipo de encoding do arquivo lido, default: DEFAULT_CHARSET
+
+String[] comments - Array com as strings que representam prefixos de comentarios no arquivo, quando uma linha
+					começa com uma das strings definidas a linha é ignorada na leitura
+					
+boolean strict - Se definido para true define que o reader joga uma exceção se o arquivo definido no atributo
+				 resource não for encontrado, default: true.
+
+BufferedReaderFactory bufferedReaderFactory - Referência a um spring bean do tipo BufferedReaderFactory
+											  que cria instancias de BufferedReader para a leitura, default:
+											  um spring bean do tipo DefaultBufferedReaderFactory, já definido pelo
+											  spring batch que é util para a leitura de arquivos de texto, este atributo
+											  só deve ser definido para outro tipo se o arquivo lido for um arquivo binário
+											  
+===========================================================
+
+
+
+
+											  

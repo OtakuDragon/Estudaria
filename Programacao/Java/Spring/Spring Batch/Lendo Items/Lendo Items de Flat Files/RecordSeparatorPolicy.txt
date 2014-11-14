@@ -1,0 +1,89 @@
+RecordSeparatorPolicy
+
+RecordSeparatorPolicy, são spring beans que implementa a
+interface RecordSeparatorPolicy e definem o que caracteriza
+uma linha do arquivo.
+
+ex:
+
+<bean id="separatorPolicy" class="org.springframework.batch.item.file.separator.SimpleRecordSeparatorPolicy"/>
+==================================================================
+Implentações do spring batch
+
+Pacote: org.springframework.batch.item.file.separator
+
+O spring batch oferece implementações de RecordSeparatorPolicy 
+mais comuns utilizados na leitura de flat files, eles são:
+
+SimpleRecordSeparatorPolicy 
+
+ Implementação mais básica de RecordSeparatorPolicy
+separa items no arquivo baseado em quebra de linha
+							
+-------------------------------------------------------------------							
+DefaultRecordSeparatorPolicy 
+
+ Define o final de uma linha como quebra de linha e adiciona exceções,
+o caractere "\" representa a continuação de uma linha ignorando quebra de linha
+e caractere '"'(aspas duplas) como o final de uma linha após a continuação ele é o default
+para FlatFileItemReader se o atributo recordSeparatorPolicy não for definido
+							   
+ex:
+Arquivo.txt
+
+esta é a linha 1 do arquivo\
+continua sendo a linha 1 " agora
+é a linha 2
+linha 3, etc...
+------------------------------------------------------------------							   
+JsonRecordSeparatorPolicy 
+
+ Utilizado para ler flat files no formato JSON, cada item é um objeto JSON
+------------------------------------------------------------------
+SuffixRecordSeparatorPolicy 
+
+ Separa itens no arquivo utilizando um token(sufixo de item), sendo o token padrão ";"
+ 
+=================================================================
+Implementações customizadas de RecordSeparatorPolicy
+
+Quando os separadores padrões não são o suficiente
+é necessário impementar a RecordSeparatorPolicy e criar
+um separador customizado, esta interface possui três métodos:
+
+boolean isEndOfRecord(String line); - Chamado sempre após um ReadBuffer.nextLine() efetuado pelo reader, e recebe a linha recuperada
+									  se retornar true, a linha será considerada como um record e passado para um
+									  tokenizer, senão o reader chamara ReadBuffer.nextLine() novamente e esta nova linha será appended
+									  na linha anterior até que seja retornado true.
+
+String preProcess(String record); - Executado antes de um segundo ReadBuffer.nextLine(), para que a linha anterior possa ser processada
+									e fique pronta para que a proxima linha seja appended
+									
+String postProcess(String record);- Executado após o metodo isEndOfRecord() retornar true, para que seja possivel processar o record completo
+
+
+ex:
+
+public class TwoLineProductRecordSeparatorPolicy implements RecordSeparatorPolicy {
+
+	public String postProcess(String record) {
+	return record;
+	}
+	public String preProcess(String line) {
+	return line;
+	}
+	private int getCommaCount(String s) {
+		String tmp = s;
+		int index = -1;
+		int count = 0;
+		while ((index=tmp.indexOf(","))!=-1) {
+			tmp = tmp.substring(index+1);
+			count++;
+		}
+	return count;
+	}
+	<!--Se a linha possuir três virgulas o record está completo-->
+	public boolean isEndOfRecord(String line) {
+		return getCommaCount(line)==3;
+	}
+}

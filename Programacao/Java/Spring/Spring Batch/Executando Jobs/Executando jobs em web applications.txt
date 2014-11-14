@@ -1,0 +1,97 @@
+Executando jobs em web applications
+
+O spring batch pode executar jobs aonde
+existir spring container e isto inclui
+aplicações web.
+
+A execução de jobs em ambiente web 
+necessita das configurações abaixo:
+
+* Definição do servlet do spring no web.xml
+
+<listener>
+	<listener-class>
+	org.springframework.web.context.ContextLoaderListener
+	</listener-class>
+</listener>
+
+	Este servlet carrega o contexto do spring
+tendo como base o arquivo WEB-INF/applicationContext.xml
+outros arquivos de configuração de contexto devem ser
+referenciados dentro do applicationContext.xml como abaixo
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<import resource="batch-infrastructure.xml"/>
+	<import resource="batch-jobs.xml"/>
+	<import resource="scheduling.xml"/>
+
+</beans>
+
+Todos estes arquivos devem tambem estar em web-inf
+==================================================================
+* Configurar os jobs
+
+Configurar os jobs e a sua infraestrutura normalmente
+dentro dos arquivos de contexto
+==================================================================
+* Configurar o job registry
+
+O job registry é um componente que facilita a busca
+de objetos job pelo seu id no web container.
+
+Configuração:
+
+<bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+<bean class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+<property name="jobRegistry" ref="jobRegistry" />
+</bean>
+
+Utilização:
+
+Job job = jobRegistry.getJob("idJob");
+===================================================================
+* Injetar dependecias necessárias em um componente web e lançar jobs através
+  do job launcher
+  
+ ex:
+ 
+ <bean class="com.manning.sbia.ch04.web.JobLauncherController">
+		<constructor-arg ref="jobLauncher" />
+		<constructor-arg ref="jobRegistry" />
+</bean>
+
+@ManagedBean
+public class JobLauncherController {
+private static final String JOB_PARAM = "job";
+private JobLauncher jobLauncher;
+private JobRegistry jobRegistry;
+
+	public JobLauncherController(JobLauncher jobLauncher,JobRegistry jobRegistry) {
+		super();
+		this.jobLauncher = jobLauncher;
+		this.jobRegistry = jobRegistry;
+	}
+	
+
+	public void launch() throws Exception {
+		JobParametersBuilder builder = extractParameters(request);
+		jobLauncher.run(jobRegistry.getJob(request.getParameter(JOB_PARAM)),builder.toJobParameters());
+	}
+
+	private JobParametersBuilder extractParameters(HttpServletRequest request) {
+		JobParametersBuilder builder = new JobParametersBuilder();
+		Enumeration<String> paramNames = request.getParameterNames();
+		while(paramNames.hasMoreElements()) {
+			String paramName = paramNames.nextElement();
+			if(!JOB_PARAM.equals(paramName)) {
+				builder.addString(paramName,request.getParameter(paramName));
+			}
+		}
+		return builder;
+	}
+}

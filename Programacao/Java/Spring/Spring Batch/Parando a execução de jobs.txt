@@ -1,0 +1,97 @@
+Parando a execução de jobs
+
+Em um caminho feliz da execução de um job
+ele executa até o fim do seu ultimo step e
+finaliza sua execução, mas em algumas situações
+pode ser necessário parar a execução de um job
+antes que ela seja completada
+
+Existem duas maneiras de se fazer isso, cada
+uma delas com um ponto de vista:
+
+* Job operator view
+
+* Application developer view
+
+Independente do ponto de vista a mensagem de stop
+enviada pelo o spring batch para o job somente parará
+imediatamente a execução, quando o spring obtiver
+controle sobre o fluxo, o spring perde o controle
+sobre o fluxo durante a execução tasklets customizados
+===============================================
+Job operator view
+
+Um job operator é a pessoa que executa os
+jobs e é uma entidade externa a aplicação,
+um bean JobOperator pode ser configurado para
+dar o controle de interrupção da execução de
+jobs para um job operator
+
+------------------------------------------------------
+Configuração:
+
+<bean id="jobOperator" class="org.springframework.batch.core.launch.support.SimpleJobOperator">
+	<property name="jobRepository" ref="jobRepository"/>
+	<property name="jobLauncher" ref="jobLauncher" />
+	<property name="jobRegistry" ref="jobRegistry" />
+	<property name="jobExplorer" ref="jobExplorer" />
+</bean>
+<batch:job-repository id="jobRepository" data-source="dataSource" />
+	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+	<property name="jobRepository" ref="jobRepository" />
+</bean>
+<bean class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+	<property name="jobRegistry" ref="jobRegistry" />
+</bean>
+<bean id="jobRegistry"class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+	<property name="dataSource" ref="dataSource" />
+</bean>
+----------------------------------------------------------
+Este job operator pode parar a aplicação utilizando
+os métodos abaixo:
+
+Set<Long> runningExecs = jobOperator.getRunningExecutions("idJob");
+Long executionId = runningExecs.iterator().next();
+boolean stopMessageSent = jobOperator.stop(executionId);
+
+===========================================================
+Application Developer view
+
+Neste tipo de visão o proprio programador
+inclui nos tasklets condições e envio de mensagem
+de stop que pararão a execução se certas condições
+acontecerem, isto é feito através do método:
+
+stepExecution.setTerminateOnly();
+
+E o objeto stepExecution pode ser recuperado em tasklets
+customizados como abaixo:
+
+public RepeatStatus execute(StepContribution contribution,ChunkContext chunkContext) throws Exception {
+	if(shouldStop()) {
+	chunkContext.getStepContext().getStepExecution().setTerminateOnly();
+	}
+}
+
+E em chunk oriented tasklets através do listener:
+
+public class StopListener {
+
+private StepExecution stepExecution;
+
+	@BeforeStep
+	public void beforeStep(
+	StepExecution stepExecution) {
+	this.stepExecution = stepExecution;
+	}
+	@AfterRead
+	public void afterRead() {
+	if(stopConditionsMet()) {
+	stepExecution.setTerminateOnly();
+	}
+	}
+	(...)
+}
+
+

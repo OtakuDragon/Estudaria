@@ -1,0 +1,27 @@
+Lendo Items
+
+A leitura de items é a primeira fase de
+um chunk oriented tasklet e tem como objetivo
+ler registros(records) de um data source qualquer
+e trasforma-los em objetos java, que poderão ser
+processados e escritos no futuro.
+
+Componentes leitores são implementações da interface
+ItemReader e ItemStream  o spring batch oferece imple
+mentações de Item readers para os datasources mais
+comuns:
+
+* Flat files
+* xml Files
+* Banco de dados
+
+Item readers são especificados em um <batch:chunk>
+na propriedade reader, pelo id do seu bean de implementação
+===========================================================
+ex:
+
+<batch:chunk reader="idDoReader"/>
+
+obs: um reader sempre tem que funcionar em conjunto com 
+     um writer e opcionalmente com um processor e um chunk
+     sempre deve possuir um commit-interval ou uma completionPolicy

@@ -1,0 +1,12 @@
+Line Mappers
+
+Line mappers são objetos responsáveis por transformar
+uma linha de um arquivo  definida por um RecordSeparatorPolicy
+em um objeto java que representa o Item.
+
+=================================================
+PassThroughLineMapper
+
+A implementação PassThroughLineMapper do line mapper
+serve como um place holder que não transforma a linha
+em um item e sim retorna esta linha como string.
