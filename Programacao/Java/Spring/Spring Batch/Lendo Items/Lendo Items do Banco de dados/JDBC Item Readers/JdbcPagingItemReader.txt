@@ -1,0 +1,77 @@
+JdbcPagingItemReader
+
+O JdbcPagingItemReader divide o resultado de uma consulta
+em paginas fazendo várias consultas baseados em uma única,
+uma consulta para cada página.
+
+Este item reader é util quando buscando resultSets muito
+grandes nos quais uma consulta dividida em páginas pode 
+melhorar a performance
+--------------------------------------------------------
+ex:
+
+<bean id="productItemReader" class="org.springframework.batch.item.database.JdbcPagingItemReader">
+	<property name="dataSource" ref="dataSource"/>
+	<property name="queryProvider" ref="productQueryProvider"/>
+	<property name="pageSize" value="1500"/>
+	<property name="rowMapper" ref="productRowMapper"/>
+</bean>
+<bean id="productRowMapper" class=" (...) "/>
+<bean id="productQueryProvider" class=" (...) "/>
+========================================================
+Atributos do JdbcPagingItemReader
+
+DataSource dataSource - data source utilizado para acessar o 
+						banco de dados
+						
+Map parameterValues - Mapa de parametros e valores, para os parametros
+					  da query
+						
+int fetchSize - Recuperar dados em grupos de linhas com o tamanho
+				do fetch size, de maneira transparente para a aplicação
+				
+PagingQueryProvider queryProvider - Referencia a uma Implementação de PagingQueryProvider que decide
+									qual será a query para cada página, é nele tambem que se define a query de busca
+									
+RowMapper row - Referencia a uma implementação da interface RowMapper<T> sendo T o tipo de dado do item
+			    que utiliza o resultSet para construir objetos do item.
+				
+int pageSize - Define o tamanho da página em numero de linhas, este numero será utilizado pelo query provider
+			   para definir o que é uma pagina e criar uma query para buscar cada página em sequencia
+			   
+=======================================================
+Configuando um PagingQueryProvider
+
+O objeto PagingQueryProvider utiliza o atributo pageSize
+para montar uma query para cada página que será recuperada,
+o spring batch oference uma fabrica de PagingQueryProvider,
+que constroe um objeto para uma configuraçaõ especifica a
+
+org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean
+---------------------------------------------------------
+Atributos de SqlPagingQueryProviderFactoryBean
+
+boolean ascending -  Define a regra de sorting das paginas se true é asc
+					 e se false desc, default:true
+					 
+DataSource dataSource - datasource utilizado para descobrir o databaseType
+						e portanto o dialeto da query
+						
+String selectClause - Clausula SELECT da query de busca de dados
+
+String fromClause - Clausula FROM da query de busca de dados
+
+String whereClause - Clausula WHERE da query de busca de dados
+
+String sortKey - Coluna da consulta que é utilizada para controlar a paginação
+				 para que o provider saiba qual foi a ultima linha de uma pagina
+				 e a primeira linha de outra, geralmente a primary key.
+---------------------------------------------------------
+ex:
+
+<bean id=" productQueryProvider" class="org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean">
+	<property name="dataSource" ref="dataSource"/>
+	<property name="selectClause" value="select id, name, description, price"/>
+	<property name="fromClause" value="from product"/>
+	<property name="sortKey" value="id"/>
+</bean>

@@ -1,0 +1,72 @@
+JdbcCursorItemReader
+
+JdbcCursorItemReader é a maneira mais básica
+de leitura do bando de dados utilizando o jdbc,
+ele básicamente efetua um select e mapeia cada
+linha do resultSet para um objeto de item
+==================================================
+Atirbutos de JdbcCursorItemReader
+
+DataSource dataSource - data source spring para a conexão com o banco
+						de dados.
+						
+String sql - SELECT utilizado para se recuperar os dados
+
+int fetchSize - Numero de registros do select que o spring batch
+				recupera por vez, esta divisão é transparente para o job,
+				serve mais como um ajuste de performance.
+				
+PreparedStatementSetter preparedStatementSetter - Referencia a uma implementação da interface PreparedStatementSetter
+												  que seta parametros no preparedStatemente.
+						  
+RowMapper rowMapper - Referencia a uma implementação da interface RowMapper<T> sendo T o tipo de dado do item
+					  que utiliza o resultSet para construir objetos do item.
+				
+int maxRows - Numero maximo de rows a serem recuperados pelo select
+
+int queryTimeout - Maximo de tempo em segundos que o reader irá esperar
+				   pelo resultado do select, caso o tempo seja ultrapassado
+				   uma SQLException é jogada
+				   
+boolean driverSupportsAbsolute - true se o driver jdbc suporta o posicionamento
+								 de linhas absoluto, default:false
+								 
+boolean ignoreWarnings - Se definido para true o spring apenas loga warnings sql,
+						 se definido para false uma exceção é jogada quando um warning
+						 acontece, default: true
+						 
+boolean useSharedExtendedConnection - Se definido para true o reader não criará uma nova conexão
+									  para executar a consulta, ele utilizará a conexão do step default: false
+									  
+boolean verifyCursorPosition - Define se o a posição do cursor deve ser verificada com  RowMapper ou RowCallbackHandler,
+							   após a leitura de cada linha, default: true
+================================================================================
+ex:
+
+<bean id="productItemReader" class="org.springframework.batch.item.database.JdbcCursorItemReader">
+	<property name="dataSource" ref="dataSource"/>
+	<property name="sql"
+	value="select id, name, description, price from product where name like ?"/>
+	<property name="rowMapper" ref="productRowMapper"/>
+	<property name="preparedStatementSetter" ref="samsungStatementSetter"/>
+</bean>
+<bean id="productRowMapper" class="com.manning.sbia.reading.jdbc.ProductRowMapper"/>
+<bean id="samsungStatementSetter" class=" com.manning.sbia.reading.jdbc.SamsungStatementSetter"/>
+				
+public class SamsungStatementSetter implements PreparedStatementSetter {
+	void setValues(PreparedStatement ps) throws SQLException {
+	ps.setString(1, "Samsung%");
+	}
+}
+
+public class ProductRowMapper implements RowMapper<Product> {
+	public Product mapRow(ResultSet rs, int rowNum)
+	throws SQLException {
+	Product product = new Product();
+	product.setId(rs.getString("id"));
+	product.setName(rs.getString("name"));
+	product.setDescription(rs.getString("description"));
+	product.setPrice(rs.getFloat("price"));
+	return product;
+	}
+}

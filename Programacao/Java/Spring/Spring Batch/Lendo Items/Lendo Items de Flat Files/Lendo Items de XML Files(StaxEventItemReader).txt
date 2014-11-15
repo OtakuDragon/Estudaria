@@ -1,0 +1,113 @@
+Lendo Items de XML Files(StaxEventItemReader)
+
+O spring batch oferece um componente para a criação
+de um reader de arquivos XML, este componente utiliza
+a standard XML-processing API(StaX) ao invés de DOM ou
+SAX pois esta API é baseada em streams, a mesma tecnologia
+dos readers.
+
+A criação de um StaxEventItemReader é feita através
+da defonição de um spring bean da classe org.springframework
+.batch.item.xml.StaxEventItemReader
+--------------------------------------------------------
+ex:
+
+<bean id="productItemReader" class="org.springframework.batch.item.xml.StaxEventItemReader">
+	<property name="resource" value="datafile.xml"/>
+	<property name="fragmentRootElementName" value="product"/>
+	<property name="unmarshaller" ref="productMarshaller"/>
+</bean>
+<bean id="productMarshaller"
+	class="org.springframework.oxm.castor.CastorMarshaller">
+	<property name="mappingLocation" value="classpath:/com/manning/sbia/reading/xml/mapping.xml"/>
+</bean>
+========================================================
+Atributos da classe StaxEventItemReader
+
+String fragmentRootElementName 
+
+nome do elemento xml que representa um item no arquivo.
+							 
+ex:
+								 
+Arquivo.xml
+								 
+	 <computers>
+		<computer>
+			...
+		</computer>
+	 <computers>
+	 
+No arquivo xml acima digamos que nós queremos construir objetos
+Computer atraves do elemento xml computer o fragmentRootElementName
+seria "computer".
+-------------------------------------------------------
+int maxItemCount
+
+Numero maximo de items à se recuperar do arquivo
+caso haja a necessidade de limitar a leitura, 
+default: numero maximo suportado por um int.
+
+-------------------------------------------------------
+Resource resource
+
+O caminho para o arquivo xml a ser lido
+-------------------------------------------------------
+boolean strict
+
+Se definido como true o reader jogará uma exceção
+se não encontrar o resource definido, default: false
+-------------------------------------------------------
+Unmarshaller unmarshaller 
+
+Uma referencia a uma implementação da interface
+org.springframework.oxm.Unmarshaller o objeto que
+ativamente faz a conversão de um arquivo xml para
+objetos java.
+
+O pacote org.springframework.oxm do spring oferece
+algumas implementações de unmarshaller, cada uma com
+caracteristicas e configurações diferentes, ela são:
+
+* Jaxb1Marshaller and Jaxb2Marshaller
+
+* CastorMarshaller
+
+* XmlBeansMarshaller
+
+* JibxMarshaller
+
+* XStreamMarshaller
+
+===========================================================
+A implementação CastorMarshaller
+
+A implementação unmarshaller CastorMarshaller é
+simples ela apenas requer um arquivo de mapeamento
+que define como classes do projeto se mapeiam em elementos
+xml
+
+é possivel gerar este arquivo mapping.xml apartir de classes
+com ferramentas cedidas pelo proprio CastorMarshaller como a:
+
+org.exolab.castor.tools.MappingTool
+
+do projeto:
+
+<dependency>
+	<groupId>org.codehaus.castor</groupId>
+	<artifactId>castor-xml</artifactId>
+	<version>1.3.2</version>
+</dependency>
+
+*obs: pode precisar de mais dependencias
+
+e é utilizado como abaixo para escrever uma mapping file
+baseada em classes
+
+ MappingTool tool = new MappingTool();
+ tool.setInternalContext(new org.castor.xml.BackwardCompatibilityContext());
+ tool.addClass(TestRequest.class);
+ OutputStream file = new FileOutputStream("gen_mapping.xml" );
+ Writer writer = new OutputStreamWriter(file);
+ tool.write(writer);

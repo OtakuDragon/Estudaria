@@ -1,0 +1,22 @@
+Lendo multiplos arquivos
+
+O spring batch oferece a capacidade de se
+definir um multi resource reader, o que ele
+faz é quando o job é executado pegar todos os
+arquivos que seguirem um determinado padrão no
+nome e passar-los um por um a um ItemReader
+================================================
+ex:
+
+<bean id="multiResourceReader" class="org.springframework.batch.item.file.MultiResourceItemReader">
+	<!--Pegar todos os arquivos que tiverem o nome no formato file-*(* sendo wildcard para qualquer coisa)
+		e passa-los um a um ao reader definido na propriedade delegate-->
+	<property name="resources" value="file:/var/data/input/file-*.txt"/>
+	<property name="delegate" ref="flatFileItemReader"/>
+</bean>
+<bean id="flatFileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader">
+	(...)
+</bean>
+
+obs: Na utilização do MultiResourceItemReader é ele que aparece no chunk
+	 e o reader delegate vai como dependencia.

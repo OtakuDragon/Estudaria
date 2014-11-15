@@ -1,0 +1,39 @@
+StoredProcedureItemReader
+
+O StoredProcedureItemReader funciona como
+um JdbcCursorItemReader que consegue executar
+stored procedures e functions do banco de dados
+================================================
+Atributos de StoredProcedureItemReader
+
+O StoredProcedureItemReader possui todos os
+atributos de JdbcCursorItemReader e mais:
+
+boolean function - Se o que esta sendo executado é uma
+				   função(true) que tem retorno ou um stored
+				   procedure(false)
+				   
+List<Bean> parameters - parametros para o stored procedure
+
+String procedureName - Nome do stored procedure à ser executado
+
+int refCursorPosition - posição do cursor no retorno de uma function
+===============================================
+ex:
+
+<bean id="reader" class="org.springframework.batch.item.database.StoredProcedureItemReader">
+	<property name="dataSource" ref="dataSource"/>
+	<property name="procedureName" value="sp_product"/>
+	<property name="parameters">
+		<list>
+		<bean class="org.springframework.jdbc.core.SqlOutParameter">
+		<constructor-arg index="0" value="products"/>
+		<constructor-arg index="1">
+		<util:constant static-field="oracle.jdbc.OracleTypes.CURSOR"/>
+		</constructor-arg>
+		</bean>
+		</list>
+	</property>
+	<property name="cursorRefPosition" value="1"/>
+	<property name="rowMapper" ref="productRowMapper"/>
+</bean>
