@@ -1,0 +1,56 @@
+JpaPagingItemReader
+
+O spring batch suporta a espeficicação de ORM
+JPA, por meio de um reader de paginação, que utiliza
+uma entitymanager factory para acessar o banco de dados
+e executa queries JPQL.
+================================================
+Atributos de JpaPagingItemReader
+
+int fetchSize - tamanho em items da busca de dados em partes,
+		para melhoria de performance de forma transparente
+		para o reader.
+
+int maxItemCount - numero maximo de registros á se recuperar caso
+		   haja necessidade de limitar.
+
+List parameterValues - Parametros da query
+
+queryString - query em JPQL que será executada
+
+EntityManagerFactory entityManagerFactory - entityManagerFactory utilizada para criar entity managers
+					    que acessarão o banco de dados
+
+int pageSize - Tamanho da página à ser recuperada
+================================================
+ex:
+
+	<bean id="itemReader" class="org.springframework.batch.item.database.JpaPagingItemReader">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="queryString" value="select c from CustomerCredit c" />
+	</bean>
+
+	<bean id="itemWriter" class="org.springframework.batch.item.database.JpaItemWriter">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="persistenceUnitName" value="customerCredit" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="false" />
+			</bean>
+		</property>
+		<property name="jpaDialect">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+		</property>
+	</bean>
+
+
+

@@ -1,0 +1,75 @@
+ItemReaderAdapter
+
+Muitas vezes nós ja temos classes que lêem items,
+ou queremos lê items de uma forma que os readers
+que o spring oferece não cobrem.
+
+Existem sempre a opção de criar um ItemReader 
+mas existe uma maneira mais facil o ItemReaderAdapter
+é uma classe que nos ajuda a implementar um reader
+customizado facilmente.
+
+A configurção de um ItemReaderAdapter requer duas
+propriedades:
+
+* targetObject - uma referencia ao spring bean que implementa
+						   o reader customizado, a única regra desta implementação
+						   é que esta classe deve ter no minimo um método publico
+						   que retorna o item sendo lido e não recebe parametros
+						   
+* targerMethod - nome do método descrito acima na classe, que representa o método read()
+							do item reader.
+							
+Como a classe que o ItemReaderAdapter utiliza como targetObject
+possui limitações para o metodo de leitura(sem parametros e retorna um objeto de item)
+geralmente se cria esta classe como um adapter, e esta classe utiliza as
+classes já existentes do sistema adaptando-as ao formato de leitura de um reader
+
+Obs: na utilização da leitura por ItemReaderAdapter o spring perde o controle do step
+	     durante a fase da leitura já que o reader é uma classe customizada não gerenciada pelo spring
+		 da mesma maneira do que os readers proprietarios
+=============================================================
+Exemplos
+----------------------------------------------------------------------------------------------------------------
+Configuração XML
+
+<bean id="productItemReader" class="org.springframework.batch.item.adapter.ItemReaderAdapter">
+	<property name="targetObject" ref="productServiceAdapter"/>
+	<property name="targetMethod" value="nextProduct"/>
+</bean>
+<bean id="productServiceAdapter" class="com.manning.sbia.reading.service.ProductServiceAdapter">
+	<property name="productService" ref="productService"/>
+</bean>
+<bean id="productService" class="com.manning.sbia.reading.service.ProductServiceImpl">
+(...)
+</bean>
+--------------------------------------------------------------------------------------------------------------
+Classe adapter
+
+public class ProductServiceAdapter implements InitializingBean {
+	//Serviço já existente que faz a leitura
+	private ProductService productService;
+	private List<Product> products;
+	
+	//Inicialização do adapter com a lista de items retornada pelo serviço
+	//de leitura(classe customizada)
+	public void afterPropertiesSet() throws Exception {
+		this.products = productService.getProducts();
+	}
+	
+	//método utilizado como o read() do ItemReader customizado,
+	// ele itera sobre a lista que o serviço retorna ja que readers leem
+	//items um a um.
+	public Product nextProduct() {
+		if (products.size()>0) {
+			return products.remove(0);
+		} else {
+			return null;
+		}
+	}
+
+	public void setProductService(ProductService productService) {
+	this.productService = productService;
+	}
+}
+
