@@ -1,18 +1,18 @@
 ItemReaderAdapter
 
 Muitas vezes nós ja temos classes que lêem items,
-ou queremos lê items de uma forma que os readers
-que o spring oferece não cobrem.
+e queremos queremos utiliza-las ao inves de utilizar
+um ItemReader do spring batch.
 
-Existem sempre a opção de criar um ItemReader 
-mas existe uma maneira mais facil o ItemReaderAdapter
-é uma classe que nos ajuda a implementar um reader
-customizado facilmente.
+O spring batch oferece uma maneira  facil de se adaptar
+classes que não são ItemReaders para a utilização como
+ItemReaders a classe ItemReaderAdapter é utilizada para
+transformar classes normais de leitura de itens em ItemReaders 
 
 A configurção de um ItemReaderAdapter requer duas
 propriedades:
 
-* targetObject - uma referencia ao spring bean que implementa
+* targetObject -    uma referencia ao spring bean que implementa
 						   o reader customizado, a única regra desta implementação
 						   é que esta classe deve ter no minimo um método publico
 						   que retorna o item sendo lido e não recebe parametros
@@ -23,11 +23,15 @@ propriedades:
 Como a classe que o ItemReaderAdapter utiliza como targetObject
 possui limitações para o metodo de leitura(sem parametros e retorna um objeto de item)
 geralmente se cria esta classe como um adapter, e esta classe utiliza as
-classes já existentes do sistema adaptando-as ao formato de leitura de um reader
+classes já existentes de leitura do sistema adaptando-as ao formato de leitura de um reader
+
+IMPORTANTE: O método que representa o read() do adapter, será chamado pelo spring	batch
+					    até que ele retorne null, o reader só para de ler quando o método de leitura de item retorna null
 
 Obs: na utilização da leitura por ItemReaderAdapter o spring perde o controle do step
-	     durante a fase da leitura já que o reader é uma classe customizada não gerenciada pelo spring
-		 da mesma maneira do que os readers proprietarios
+	     durante a fase da leitura, já que o reader é uma classe customizada não gerenciada pelo spring
+		 da mesma maneira de que os readers proprietarios portanto o estado de execução de leitura não 
+		 é mantido, o que no caso de um restart faz com que a leitura comece novamente.
 =============================================================
 Exemplos
 ----------------------------------------------------------------------------------------------------------------

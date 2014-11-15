@@ -1,0 +1,24 @@
+Lendo Items de Destinations JMS
+
+Queues e topics jms tambem podem servir como
+datasource para um chunk, o spring batch oferece
+o JmsItemReader que utiliza um JmsTemplate do spring
+para se conectar a um destination e qual é o tipo de item
+esperado destas mensagens.
+=============================================
+ex:
+
+<bean id="productItemReader" class="org.springframework.batch.item.jms.JmsItemReader">
+	<!--Tipo de dado do Item que será recuperado pelo reader-->
+	<property name="itemType" value="com.manning.sbia.reading.Product"/>
+	<!--JmsTemplate que faz com que o reader tenha acesso a destination para lê-la-->
+	<property name="jmsTemplate" ref="jmsTemplate"/>
+</bean>
+<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+	<property name="connectionFactory" bean="jmsFactory"/>
+	<property name="defaultDestination" ref="productDestination"/>
+	<property name="receiveTimeout" value="500"/>
+	<property name="sessionTransacted" value="true" />
+</bean>
+<bean id="jmsFactory" class="(...)"> (...) </bean>
+<bean id="productDestination" class="(...)"> (...) </bean>

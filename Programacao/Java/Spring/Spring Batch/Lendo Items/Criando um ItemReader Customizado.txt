@@ -1,0 +1,43 @@
+Criando um ItemReader Customizado
+
+Quando nenhum dos item readers que o spring batch
+oferece é o reader certo para o seu datasource e items,
+há a necessidade de se implementar a interface ItemReader<T>
+(T o tipo de dado do item sendo lido) e criar o seu proprio reader
+
+Esta interface é simples possui apenas um método:
+
+public T read() throws Exception, UnexpectedInputException,ParseException, NonTransientResourceException;
+
+Este método é chamado para a leitura de cada item do datasource
+e retorna o item lido, a leitura é finalizada quando este método retorna
+null, e então o spring batch sabe que o reader acabou a sua execução
+e não há mais items há serem lidos.
+======================================================
+Ex:
+
+public class ListDirectoryItemReader implements ItemReader<File> {
+	private List<File> files;
+
+	//O construtor do reader e no caso aonde o data source é inicializado,
+	//a bean lifecycle callback InitializingBean, tambem pode ser utilizado
+	public ListDirectoryItemReader(File directory) {
+		if (directory==null) {
+			throw new IllegalArgumentException("The directory can be null.");
+		}
+		if (!directory.isDirectory()) {
+			throw new IllegalArgumentException("The specified file must be a directory.");
+		}
+		files = Arrays.asList(directory.listFiles());
+	}
+	
+	//Implementação do método read, chamada pelo spring batch até que retorne null
+	public File read() throws Exception, UnexpectedInputException,ParseException, NonTransientResourceException {
+		if (!files.isEmpty()) {
+		return files.remove(0);
+		}
+		return null;
+		}
+		
+	}
+}
