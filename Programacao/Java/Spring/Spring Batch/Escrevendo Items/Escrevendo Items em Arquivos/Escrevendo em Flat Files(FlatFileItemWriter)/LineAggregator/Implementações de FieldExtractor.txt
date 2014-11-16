@@ -1,0 +1,66 @@
+Implementações de FieldExtractor
+
+O spring batch oferece duas implementações padrão
+da interface FieldExtractor<T>:
+
+* PassThroughFieldExtractor - Extrai os dados do item convertendo os seus atributos
+											 em objetos para padrões pré definidos de acordo com o tipo do campos
+											 ex: Um atributo do tipo List é transformado no objeto de List.toArray();
+											 
+* BeanWrapperFieldExtractor - Recebe como atributo a lista dos nomes dos atributos da classe do item e chama	
+											  os getters destes atributos por reflexão para montar Object[].
+											  
+======================================================================
+PassThroughFieldExtractor
+
+A implementação PassThroughFieldExtractor não requer 
+nenhuma configuração já que ela "adivinha", como montar
+o Object[] baseado em um mapeamento padrão de tipo de
+dados java para objeto simples que pode ser impresso.	
+------------------------------------------------------------------------------------------------------------------------
+ex:
+
+<bean id="productItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+	<property name="resource" value="file:target/outputs/delimited-passthroughextractor.txt"/>
+	<property name="lineAggregator">
+		<bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+			<property name="fieldExtractor">
+				<bean class="org.springframework.batch.item.file.transform.PassThroughFieldExtractor" />
+			</property>
+		</bean>
+	</property>	
+</bean>			
+======================================================================
+BeanWrapperFieldExtractor			
+
+O BeanWrapperFieldExtractor utiliza os getters do atributo
+do Item para montar o Object[] e portanto precisa receber
+como propriedade o nome dos atributos do item, na sua propriedade
+names.	 
+------------------------------------------------------------------------------------------------------------------------
+ex:
+
+<bean id="productItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+	<property name="resource" value="file:target/outputs/delimitedbeanwrapperhextractor.txt"/>
+	<property name="lineAggregator">
+		<bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+			<property name="fieldExtractor">
+			<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+				<property name="names"value="id,price,name" />
+			</bean>
+			</property>
+		</bean>
+	</property>
+</bean>
+==================================================================
+Implementações Customizadas
+
+Também é possivel implementar FieldExtractor customizados basta
+implementar a interface:
+
+public interface FieldExtractor<T> {
+Object[] extract(T item);
+}
+
+Fazendo com que o método extract receba o item a ser escrito no
+arquivo e o transforme em um Object[].

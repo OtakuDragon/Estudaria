@@ -1,0 +1,19 @@
+JmsItemWriter
+
+O spring batch oferece uma item writer que escreve em
+destination JMS, a sua configuração é bem simples basta
+passar um JmsTemplate para que ele saiba para qual 
+destination escrever
+=============================================
+ex:
+
+<bean id="productItemWriter" class="org.springframework.batch.item.jms.JmsItemWriter">
+	<property name="jmsTemplate" ref="jmsTemplate" />
+</bean>
+
+<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+	<property name="connectionFactory" ref="jmsFactory" />
+	<property name="defaultDestination" ref="productDestination" />
+	<property name="receiveTimeout" value="500" />
+	<property name="sessionTransacted" value="true" />
+</bean>

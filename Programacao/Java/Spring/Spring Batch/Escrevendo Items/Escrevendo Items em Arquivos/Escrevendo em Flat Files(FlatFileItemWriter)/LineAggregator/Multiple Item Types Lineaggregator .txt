@@ -1,0 +1,69 @@
+Multiple Item Types Lineaggregator
+
+Nos casos de readers que contem PatternMatchingCompositeLineMapper
+ou custom writers que lêem mais de um tipo de item(classe) de um arquivo é
+necessário implementar um Lineaggregator que esteja preparado para transformar
+mais do que uma classe em string.
+
+Esta implementação é uma implementação customizada de Lineaggregator que contem
+um conjunto de aggregators em um mapa e a chave deste mapa é a classe do item(.class)
+quando o método deste aggregator de multiplos items é chamado ele busca o aggregator
+para o .class do item e então executa o seu aggregate
+=================================================================
+Classe que implementa Multiple Item Types Lineaggregator
+
+public class ProductsLineAggregator implements LineAggregator<Product> {
+
+	//Mapa de aggregators com chave do tipo . class do item, setada no xml
+	//com o grupo de implementações de aggregators e tipos de item para cada caso
+	private Map<Class<Product>,LineAggregator<Object>> aggregators;
+	
+	@Override
+	public String aggregate(Product product) {
+		//Implementação do método agregate que ao inves de efetuar aggregate
+		//busca o lineAggregator para aquele item no mapa atraves do seu .getClass()
+		//e então executa o aggregate deste lineAggregator
+		return aggregators.get(product.getClass()).aggregate(product);
+	}
+	
+	public void setAggregators(Map<Class<Product>,LineAggregator<Object>> aggregators) {
+		this.aggregators = aggregators;
+	}
+}
+
+---------------------------------------------------------------------------------------------------------------
+Configuração no XML
+
+<bean id="productItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+	<property name="resource" value="file:target/outputs/fixedwidth-lineaggregator.txt" />
+	<property name="lineAggregator">
+		<!--Bean que define o Multiple Item Types Lineaggregator-->
+		<bean class="com.manning.sbia.ch06.file.ProductsLineAggregator">
+		<!--Preenchimento do mapa com full qualified name da classe de um item como chave e referencia a implementação de um lineAggregator que trata aquele tipo de item como valor-->
+		<property name="aggregators">
+			<map>
+				<entry key="com.manning.sbia.ch06.BookProduct" value-ref="bookProductLineAggregator" />
+				<entry key="com.manning.sbia.ch06.MobilePhoneProduct" value-ref="mobileProductLineAggregator" />
+			</map>
+		</property>
+		</bean>
+	</property>
+</bean>
+
+<bean id="bookProductLineAggregator" class="org.springframework.batch.item.file.transform.FormatterLineAggregator">
+	<property name="fieldExtractor">
+		<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+			<property name="names" value="id,price,name,publisher" />
+		</bean>
+	</property>
+	<property name="format" value="%-9s%6.2f%-30s%-12s" />
+</bean>
+
+<bean id="mobileProductLineAggregator" class="org.springframework.batch.item.file.transform.FormatterLineAggregator">
+	<property name="fieldExtractor">
+		<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+			<property name="names" value="id,price,name,manufacturer" />
+		</bean>
+	</property>
+	<property name="format" value="%-9s%6.2f%-30s%-12s" />
+</bean>

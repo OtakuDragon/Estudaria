@@ -1,0 +1,101 @@
+Adicionando Header e Footer
+
+Ambos Header e Footers em um StaxEventItemWriter
+são implementações da interface StaxWriterCallback
+que utiliza a api XMLEvent do java para escrever no arquivo
+esta interface define o método:
+
+public void write(XMLEventWriter writer);
+
+e o método writer.write() recebe um objeto XMLEvent,
+que é criado apartir de uma XMLEventFactory
+==========================================
+Exemplos
+----------------------------------------------------------------------
+Implementando um Header
+
+public class ProductHeaderStaxCallback implements StaxWriterCallback {
+	@Override
+	public void write(XMLEventWriter writer) throws IOException {
+		try {
+			XMLEventFactory eventFactory = XMLEventFactory.newInstance();
+			XMLEvent event = eventFactory.createStartElement("", "", "header");
+			writer.add(event);
+			event = eventFactory.createAttribute("generated",DateFormat.getInstance().format(new Date()));
+			writer.add(event);
+			event = eventFactory.createEndElement("", "", "header");
+			writer.add(event);
+		} catch (XMLStreamException e) {
+		}
+	}
+}
+
+Configuração
+
+<bean id="productItemWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
+	<property name="headerCallback" ref="headerCallback" />
+	(...)
+</bean>
+<bean id="headerCallback" class="com.otk.xml.writer.ProductHeaderStaxCallback"/>
+
+Header gerado
+
+<header generated="Jan 28, 2011 5:30:16 PM"></header>
+---------------------------------------------------------------------------
+Implementado um Footer
+
+A implementação do footer tem a complexidade extra
+de extender a classe StepExecutionListenerSupport para
+que tenha acesso a metadata de execução do step, e tambem
+deve ser declarado como um <listener> do tasklet
+
+public class ProductFooterStaxCallback extends StepExecutionListenerSupport implements StaxWriterCallback {
+
+	private StepExecution stepExecution;
+	
+	@Override
+	public void write(XMLEventWriter writer) throws IOException {
+		try {
+			XMLEventFactory eventFactory = XMLEventFactory.newInstance();
+			XMLEvent event = eventFactory.createStartElement("", "", "footer");
+			writer.add(event);
+			event = eventFactory.createStartElement("", "", "writeCount");
+			writer.add(event);
+			event = eventFactory.createCharacters(String.valueOf(stepExecution.getWriteCount()));
+			writer.add(event);
+			event = eventFactory.createEndElement("", "", "writeCount");
+			writer.add(event);
+			event = eventFactory.createEndElement("", "", "footer");
+			writer.add(event);
+		} catch (XMLStreamException e) {
+		}
+	}
+	@Override
+	public void beforeStep(StepExecution stepExecution) {
+		this.stepExecution = stepExecution;
+	}
+}
+
+Configuração
+
+<job id="writeProductsJob" xmlns="http://www.springframework.org/schema/batch">
+	<step id="readWrite">
+		<tasklet>
+			<chunk reader="productItemReader" writer="productItemWriter" commit-interval="100" />
+			<listeners>
+			<listener ref="footerCallback"/>
+			</listeners>
+		</tasklet>
+	</step>
+</job>
+<bean id="productItemWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
+	<property name="footerCallback" ref="footerCallback" />
+	(...)
+</bean>
+<bean id="footerCallback" class="com.otk.xml.writer.ProductFooterStaxCallback"/>
+
+Footer gerado
+
+<footer>
+<writeCount>8</writeCount>
+</footer>

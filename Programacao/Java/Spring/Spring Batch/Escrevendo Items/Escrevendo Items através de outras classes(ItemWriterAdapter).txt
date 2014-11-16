@@ -1,0 +1,71 @@
+ItemWriterAdapter
+
+O spring batch oferece um adapter que transforma
+classes normais de escrita em Spring Batch ItemReaders
+
+existem duas implementações de ItemWriterAdapter
+uma que suporta o método write sem parametros e
+uma que suporta o metodo write com parametros sendo
+eles atributos do item.
+==============================================
+ItemWriterAdapter
+
+O ItemWriterAdapter é a implementação de adapter que
+suporte métodos de escrita no seguinte formato:
+
+public void nomeMetodo(T item); - Sendo T o tipo do item
+
+e possui dois atributos:
+
+* targetObject - Uma referência a o objeto que possui o método de escrita
+						no formato acima.
+						
+* targetMethod - O nome do método no formato acima
+-------------------------------------------------------------------------------------
+ex:
+public class ProductService {
+	public void write(Product product) {
+	(...)
+	}
+}
+
+<bean id="productItemWriter" class="org.springframework.batch.item.adapter.ItemWriterAdapter">
+	<property name="targetObject" ref="productService" />
+	<property name="targetMethod" value="write" />
+</bean>
+<bean id="productService" class="com.manning.sbia.ch06.service.ProductService" />
+=========================================================
+PropertyExtractingDelegatingItemWriter
+
+O PropertyExtractingDelegatingItemWriter é uma subclasse de ItemWriterAdapter
+que suporta métodos de escrita que recebem como parametros atributos do item
+
+no formato:
+
+public void nomeMetodo(atributo1,atributo2,...); 
+
+Ele possui os mesmos atributos do ItemWriterAdapter e um adicional o fieldsUsedAsTargetMethodArguments
+que recebe uma lista de nomes dos atributos do item que serão passados na mesma ordem como parametros
+do método de escrita
+-----------------------------------------------------------------------------------------------------
+ex:
+
+public class ProductService {
+	public void write(String id, String name,String description, BigDecimal price) {
+	(...)
+	}
+}
+
+<bean id="productItemWriter" class="org.springframework.batch.item.adapter.PropertyExtractingDelegatingItemWriter">
+<property name="targetObject" ref="productService" />
+<property name="targetMethod" value="write" />
+<property name="fieldsUsedAsTargetMethodArguments">
+	<list>
+		<value>id</value>
+		<value>name</value>
+		<value>description</value>
+		<value>price</value>
+	</list>
+</property>
+</bean>
+<bean id="productService" class="com.manning.sbia.ch06.service.ProductService" />

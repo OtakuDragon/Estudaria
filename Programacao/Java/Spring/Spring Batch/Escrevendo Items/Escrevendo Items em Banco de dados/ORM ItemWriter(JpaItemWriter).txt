@@ -1,0 +1,15 @@
+JpaItemWriter
+
+A implementação de writer para ORM JpaItemWriter
+é bem simples já que apartir de um objeto de item que
+deve ser uma @Entity, ele descobre se ele já existe executa
+um merge(), se não existe executa um save(), para que o Item
+seja inserido ou atualizado no banco de dados.
+
+O unico atributo necessário é EntityManagerFactory.
+===============================================
+ex:
+
+<bean id="productItemWriter" class="org.springframework.batch.item.database.JpaItemWriter">
+	<property name="entityManagerFactory" ref="entityManagerFactory" />
+</bean>

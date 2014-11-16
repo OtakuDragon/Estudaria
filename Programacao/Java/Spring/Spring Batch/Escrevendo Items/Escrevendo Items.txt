@@ -1,0 +1,17 @@
+Escrevendo Items
+
+A fase de escrita é a terceira e ultima em um
+chunk e tem como objetivo escrever um grupo 
+de items de tamanho pré-determinado(chunk)
+em um datasource,
+
+Writers são classes que implementam a interface
+ItemWriter e ItemStream, e o spring batch oferece
+diversas implementações para os mais comuns datasources
+alem de a possiblidade da implementação de custom ItemWriters
+================================================
+Interface ItemWriter
+
+public interface ItemWriter{
+	public void write(List<? extends T> items) throws Exception
+}

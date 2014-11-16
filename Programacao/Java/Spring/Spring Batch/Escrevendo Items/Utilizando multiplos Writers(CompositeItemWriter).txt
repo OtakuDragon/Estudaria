@@ -1,0 +1,28 @@
+CompositeItemWriter
+
+O spring batch oferece uma implementação de item writer
+que encapsula outras implementações e chama uma por uma
+na sua execução permitindo que o writer de um chunk escreva
+para vários sources diferentes, como flat file e banco de dados.
+
+Este implementação é a CompositeItemWriter e ela só possui um
+atributo uma lista de referencias a implementações de ItemWriters
+chamada delegates, no qual são inseridos os multiplos writers que
+serão executados em ordem.
+====================================================
+ex:
+
+<bean id="productItemWriter" class="org.springframework.batch.item.support.CompositeItemWriter">
+	<property name="delegates">
+		<list>
+			<ref local="delimitedProductItemWriter"/>
+			<ref local="fixedWidthProductItemWriter"/>
+		</list>
+	</property>
+</bean>
+<bean id="delimitedProductItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+(...)
+</bean>
+<bean id="fixedWidthProductItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+(...)
+</bean>

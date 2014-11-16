@@ -1,0 +1,74 @@
+StaxEventItemWriter
+
+O spring batch oferece o StaxEventItemWriter para
+a escrita de items em documentos no formato XML,
+este writer utiliza uma implementação de Marshaller
+OXM para fazer as conversões de XML em objeto e
+vice-versa
+
+E tambem oferece a possibilidade de se inserir headers
+e footers em arquivos xml utilizando implemetações de StaxWriterCallback
+========================================================
+Atributos de StaxEventItemWriter
+
+String encoding - Charset do arquivo XML a ser escrito, default:"UTF-8"
+
+StaxWriterCallback headerCallback - Referencia a implementação de StaxWriterCallback que inclui 
+													  header ao documento
+
+StaxWriterCallback footerCallback - Referencia a implementação de StaxWriterCallback que inclui 
+													  footer ao documento
+													  
+Marshaller marshaller - referencia a implementação do spring oxm Marshaller, responsavel por converter
+								   objetos java em tags xml
+								   
+boolean overwriteOutput - Define se o writer deve reescrever o arquivo de destino se ele ja estiver escrito
+									   default: true
+									   
+Resource resource - Localização do arquivo xml À ser escrito
+
+Map<String,String> rootElementAttributes - atributos da tag root do documento
+
+String rootTagName - Nome da tag root do documento
+
+boolean saveState - Define se a operação de escrita deve salvar seu estado no execution context, default: true
+
+boolean transactional - Define se o writer é afetado por transações, default: true
+
+String version - versão do XML sendo escrito, default:"1.0"
+========================================================
+Implementações de marshaller
+
+O unico objeto complexo obrigatorio de um StaxEventItemWriter é
+a implementaçaõ de Marshaller que ele utiliza para efetuar a conversão
+Object-XML, o spring suporta algumas implementações por padrão:
+
+*XML Binding(JAXB) 1.0 and 2.0
+*Castor XML
+*XMLBeans
+*JiBX
+*XStream
+
+Cada implementação possui um marshaller no pacote org.springframework.oxm
+com caracteristicas e configurações particulares, que devem ser pesquisadas
+quando necessário, no exemplo abaixo há uma implementação de XStreamMarshaller
+========================================================
+ex:
+
+<bean id="productItemWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
+	<property name="resource" value="file:target/outputs/products-headerfooter.xml" />
+	<property name="marshaller" ref="productMarshaller" />
+	<property name="rootTagName" value="products" />
+	<property name="overwriteOutput" value="true" />
+	<property name="headerCallback" ref="headerCallback" />
+	<property name="footerCallback" ref="footerCallback" />
+</bean>
+<bean id="productMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+	<property name="aliases">
+		<map>
+		<entry key="product" value="com.manning.sbia.ch06.Product" />
+		</map>
+	</property>
+</bean>
+<bean id="headerCallback" class="com.manning.sbia.ch06.file.ProductHeaderStaxCallback" />
+<bean id="footerCallback" class="com.manning.sbia.ch06.file.ProductFooterStaxCallback" />

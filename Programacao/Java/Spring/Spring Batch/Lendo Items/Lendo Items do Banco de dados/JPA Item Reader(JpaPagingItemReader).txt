@@ -4,6 +4,8 @@ O spring batch suporta a espeficicação de ORM
 JPA, por meio de um reader de paginação, que utiliza
 uma entitymanager factory para acessar o banco de dados
 e executa queries JPQL.
+
+obs: JpaPagingItemReader considera que os itens lidos são @Entity
 ================================================
 Atributos de JpaPagingItemReader
 

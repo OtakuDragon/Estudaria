@@ -1,0 +1,23 @@
+LineAggregator e FieldExtractor
+
+LineAggregators são implementações da interface LineAggregator<T>
+que tem como objetivo transformar um objeto de Item T em uma string que
+possa ser escrita em uma flat file.
+
+LineAggregators utilizam uma implementação da interface FieldExtractor<T>
+que trm como objetivo transformar um objeto de item T em um Object[] e apartir
+deste Object[] o LineAggregator monta a representação em string do objeto
+=============================================================
+Interfaces
+------------------------------------------------------------------------------------------------------
+public interface LineAggregator<T> {
+String aggregate(T item);
+}
+------------------------------------------------------------------------------------------------------
+public interface FieldExtractor<T> {
+Object[] extract(T item);
+}
+===========================================================
+
+
+

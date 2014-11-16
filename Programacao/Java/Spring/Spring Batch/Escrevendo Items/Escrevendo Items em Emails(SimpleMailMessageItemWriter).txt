@@ -1,0 +1,46 @@
+SimpleMailMessageItemWriter
+
+O Spring batch oferece um ItemWriter que envia
+um email para cada item estes email são do tipo 
+SimpleMailMessage e utiliza o componente spring
+JavaMailSenderImpl para enviar email
+
+Como as mensagem enviadas pelo SimpleMailMessageItemWriter
+são do tipo SimpleMailMessage e os items lidos podem não
+ser pode ser necessária a implementaçaõ de um processor que
+transforma os itens lidos em SimpleMailMessages
+=================================================
+ex:
+
+Processor
+
+public class CustomerItemProcessor implements ItemProcessor<Customer, SimpleMailMessage> {
+	@Override
+	public SimpleMailMessage process(Customer item) throws Exception {
+	SimpleMailMessage msg = new SimpleMailMessage();
+	msg.setFrom("springbatchinaction@test.com");
+	msg.setTo(item.getEmail());
+	msg.setSubject("Welcome message !!");
+	msg.setText("Hello " + item.getName());
+	return msg;
+	}
+}
+
+Configuração
+
+<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<property name="host" value="127.0.0.1" />
+	<property name="port" value="3025" />
+	<property name="defaultEncoding" value="UTF-8" />
+</bean>
+(...)
+<step id="readWrite">
+	<tasklet>
+	<chunk reader="customerItemReader" writer="mailMessageItemWriter" processor="customerProcessor" commit-interval="100" />
+	</tasklet>
+</step>
+(...)
+<bean id="mailMessageItemWriter" class="org.springframework.batch.item.mail.SimpleMailMessageItemWriter">
+	<property name="mailSender" ref="javaMailSender" />
+</bean>
+<bean id="customerProcessor" class="com.manning.sbia.ch06.mail.CustomerItemProcessor" />

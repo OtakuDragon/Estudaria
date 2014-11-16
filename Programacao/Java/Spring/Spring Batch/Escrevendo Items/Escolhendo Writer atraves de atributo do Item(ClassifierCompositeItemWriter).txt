@@ -1,0 +1,43 @@
+ClassifierCompositeItemWriter
+
+O ClassifierCompositeItemWriter utiliza uma implementação da
+interface Classifier que lê um atributo do item e o classifica neste
+caso a um writer
+=====================================================
+ex:
+
+Implementação do classifier 
+
+public class ProductRouterClassifier  implements Classifier<String, Product>{
+	
+	public String classify(Product classifiable) {
+		//O valor retornado por este atributo será usado no ClassifierCompositeItemWriter
+		//para decidir qual writer utilizar
+		return classifiable.getOperation();
+	}
+}
+
+Configuração do ClassifierCompositeItemWriter
+
+<bean id="productItemWriter" class="org.springframework.batch.item.support.ClassifierCompositeItemWriter">
+	<property name="classifier">
+		<bean class="org.springframework.batch.classify.BackToBackPatternClassifier">
+			<property name="routerDelegate">
+				//Define a classe que implementa a interface Classifier
+				<bean class="com.manning.sbia.ch06.advanced.ProductRouterClassifier" />
+			</property>
+			<property name="matcherMap">
+				<map>
+				//Se o método classify retornar "C" utiliza este writer e assim por diante
+				<entry key="C" value-ref="insertJdbcBatchItemWriter" />
+				<entry key="U" value-ref="updateJdbcBatchItemWriter" />
+				<entry key="D" value-ref="deleteJdbcBatchItemWriter" />
+				</map>
+			</property>
+		</bean>
+	</property>
+</bean>
+<bean id="insertJdbcBatchItemWriter">
+	(...)
+	<property name="sql" value="INSERT INTO PRODUCT(ID,NAME,PRICE) VALUES(:id,:name,:price)" />
+</bean>

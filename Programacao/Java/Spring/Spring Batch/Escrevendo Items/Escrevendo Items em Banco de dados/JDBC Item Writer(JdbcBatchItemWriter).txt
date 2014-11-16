@@ -1,0 +1,100 @@
+JdbcBatchItemWriter
+
+O spring batch oferece o JdbcBatchItemWriter para
+a realização de escrita em banco de dados utilizando
+a API JDBC
+
+A implementação JdbcBatchItemWriter utiliza a funcionalidade
+de execução em batch the queries do JDBC isso significa que
+as queries só são executadas em grupos do tamanho do commit-interval
+do chunk, o que melhora a performance.
+-------------------------------------------------------------------------
+ex:
+
+<bean id="productItemWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+	<property name="assertUpdates" value="true" />
+	<property name="itemPreparedStatementSetter">
+		<bean class="com.manning.sbia.ch06.database.ProductItemPreparedStatementSetter" />
+	</property>
+	<property name="sql" value="INSERT INTO PRODUCT (ID, NAME, PRICE) VALUES(?, ?, ?)" />
+	<property name="dataSource" ref="dataSource" />
+</bean>
+=====================================================
+Atributos de JdbcBatchItemWriter
+
+DataSource dataSource- Referencia a uma implementação de DataSource
+									  utilizada para acessar o banco de dados
+									  
+boolean assertUpdates - Define se uma exceção EmptyResultDataAccessException deve
+									 ser jogada se alguma execução de query não atualizar nenhuma linha
+									 ou seja, não fazer nada no banco de dados, default:true
+									 
+String sql - String de INSERT,UPDATE ou DELETE utilizada para escrever o item no banco de dados
+
+ItemPreparedStatementSetter<T> itemPreparedStatementSetter - referencia a uma implementação da interface ItemPreparedStatementSetter
+																								  que tem como objetivo preencher parametros posicionais("?") na query
+																								  
+ItemSqlParameterSourceProvider<T> itemSqlParameterSourceProvider - referencia a uma implementação da interface ItemSqlParameterSourceProvider
+																								            que tem como objetivo preencher parametros posicionais nomeados(":name") na query
+																											
+Obs: os atributos itemPreparedStatementSetter e itemSqlParameterSourceProvider tem como função preencher os parametros da query
+		de acordo com com que tipo de parametro a query foi montada, somente um destes atributos deve estar definido em um JdbcBatchItemWriter
+		
+===================================================
+Implementações de ItemPreparedStatementSetter<T>
+
+O ItemPreparedStatementSetter seta parametros posicionais
+representados na query por "?" diretamente utilizando o prepared
+statemente que será executado e o Item que será escrito
+
+A interface define o método:
+
+public void setValues(T item, PreparedStatement ps); - Sendo T o tipo do item a ser escrito.
+
+As implementações de ItemPreparedStatementSetter devem ser
+customizadas por natureza, não existem implementações prontas 
+já que esta é uma maneira tão livre de se setar parametros.
+
+--------------------------------------------------------------------------------------
+ex:
+
+public class ProductItemPreparedStatementSetter implements ItemPreparedStatementSetter<Product> {
+	@Override
+	public void setValues(Product item, PreparedStatement ps) throws SQLException {
+		ps.setString(1, item.getId());
+		ps.setString(2, item.getName());
+		ps.setBigDecimal(3, item.getPrice());
+	}
+}
+
+<bean id="productItemWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+	<property name="assertUpdates" value="true" />
+	<property name="itemPreparedStatementSetter">
+		<bean class="com.manning.sbia.ch06.database.ProductItemPreparedStatementSetter" />
+	</property>
+	<property name="sql" value="INSERT INTO PRODUCT (ID, NAME, PRICE) VALUES(?, ?, ?)" />
+	<property name="dataSource" ref="dataSource" />
+</bean>
+==============================================
+Implementações de ItemSqlParameterSourceProvider<T>
+
+O spring batch oferece uma implementação de ItemSqlParameterSourceProvider<T>
+o BeanPropertyItemSqlParameterSourceProvider que define os named parameters da query
+com os valores dos atributos do item .
+
+Ele sabe qual parametro representa cada atributo do item pelo nome, ou seja o nome dos named
+parameters da query devem ser os mesmos do atributo da classe que eles representam para que
+o ItemSqlParameterSourceProvider funcione
+---------------------------------------------------------------------------------
+ex:
+
+<bean id="productItemWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+	<property name="assertUpdates" value="true" />
+	<property name="itemSqlParameterSourceProvider">
+		<bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+	</property>
+	<!--A classe do produto neste caso possui os atributos id, name e price-->
+	<property name="sql" value="INSERT INTO PRODUCT (ID, NAME, PRICE) VALUES(:id, :name, :price)" />
+	<property name="dataSource" ref="dataSource" />
+</bean>
+================================================

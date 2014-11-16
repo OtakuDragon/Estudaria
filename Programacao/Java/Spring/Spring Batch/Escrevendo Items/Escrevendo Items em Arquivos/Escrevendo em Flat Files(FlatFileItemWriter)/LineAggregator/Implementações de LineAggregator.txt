@@ -1,0 +1,110 @@
+Implementações de line aggregator
+
+O spring batch oferece três implementações padrão
+da interface LineAggregator<T>:
+
+* PassThroughLineAggregator - Não utiliza FieldExtractor e somente chama um toString()
+											   no objeto do item.
+											   
+* DelimitedLineAggregator - Implementação para arquivos que delimitam seus campos com um token
+
+* FormatterLineAggregator - Implementação para arquivos que delimitam seus campos por um numero fixo de
+										   caracteres no arquivo.
+										   
+Obs:, As suas ultimas implementações são	subclasses da classe abstrata ExtractorLineAggregator
+		que define a utilização do FieldExtractor
+================================================================
+PassThroughLineAggregator
+
+A implementação PassThroughLineAggregator é bem simples e sem
+propriedades ja que a unica coisa que ela faz é chamar .toString()
+de cada item
+-------------------------------------------------------------------------------------------------------------
+ex:
+
+<bean id="productItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+	<property name="resource" value="file:target/outputs/delimited-passthroughextractor.txt"/>
+	<property name="lineAggregator">
+			<bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="fieldExtractor">
+					<bean class="org.springframework.batch.item.file.transform.PassThroughFieldExtractor" />
+				</property>
+			</bean>
+	</property>
+</bean>
+================================================================
+DelimitedLineAggregator
+
+A implementação DelimitedLineAggregator tem como padrão o token
+delimitador "," e pode possuir duas propriedades:
+
+*String delimiter - Caso o delimitador do arquivo não seja ","(padrão), este atributo
+						  recebe o token utilizado pelo arquivo para definir a separação dos atributos
+						  de um item.
+						  
+* FieldExtractor fieldExtractor - Referencia a implementaçaõ de FieldExtractor<T> utilizada para
+											  transformar o objeto em Objec[]
+-------------------------------------------------------------------------------------------------------------											  
+ex:
+
+<bean id="productItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+	(...)
+	<property name="lineAggregator">
+	<bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+		<property name="delimiter" value="|">
+		<property name="fieldExtractor">
+		(...)
+		</property>
+	</bean>
+	</property>
+</bean>
+
+
+Escreve um arquivo com os campos delimitados por "|".
+================================================================
+ FormatterLineAggregator
+ 
+ O FormatterLineAggregator possui uma configuração mais complexa
+ porque a maneira como ele define os tamanhos fixos para cada campo
+ é utilizando a Formatter API do java que se baseia do prinf() do C.
+ 
+ Definindo o layout das linhas do arquivo através de um format utilizando
+ characteres especiais da API
+ 
+ *String format - Pattern que utiliza os characteres especiais da Formatter API para
+						definir o layout de cada campo do arquivo
+						
+ Sintaxe:
+ 
+ %[argument_index$][flags][width][.precision]conversion%...
+						  
+* FieldExtractor fieldExtractor - Referencia a implementaçaõ de FieldExtractor<T> utilizada para
+											  transformar o objeto em Object[]
+-------------------------------------------------------------------------------------------------------------
+ ex:
+ 
+<bean id="productItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+	<property name="resource" value="file:target/outputs/fixedwidth-beanwrapperextractor.txt"/>
+	<property name="lineAggregator">
+		<bean class="org.springframework.batch.item.file.transform.FormatterLineAggregator">
+			<property name="fieldExtractor">
+				<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+					<property name="names" value="id,price,name" />
+				</bean>
+			</property>
+			<property name="format" value="%-9s%6.2f%-30s" />
+		</bean>
+	</property>
+</bean>
+==================================================================
+Implementações Customizadas
+
+Também é possivel implementar LineAggregators customizados basta
+implementar a interface:
+
+public interface LineAggregator<T> {
+String aggregate(T item);
+}
+
+Fazendo com que o método aggregate receba o item a ser escrito no
+arquivo e o transforme em uma string.

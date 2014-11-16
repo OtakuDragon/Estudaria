@@ -1,0 +1,52 @@
+FlatFileItemWriter
+
+A implementação FlatFileItemWriter de ItemWriter
+é a implementação padrão do spring batch para a
+escrita em flat files.
+-----------------------------------------------------------------
+ex:
+
+<bean id="productItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+	<property name="resource" value="file:target/outputs/delimitedbeanwrapperhextractor.txt"/>
+	<property name="lineAggregator">
+		<bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+			<property name="fieldExtractor">
+				<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+				<property name="names"value="id,price,name" />
+				</bean>
+			</property>
+		</bean>
+	</property>
+</bean>
+====================================================================
+Atributos de FlatFileItemWriter
+
+boolean appendAllowed - Se o arquivo especificado como o alvo da escrita ja existir
+									  esta propriedade diz se é permitido continuar escrevendo nele(append)
+									  ou se ele deve ser limpo e reescrito, default: false
+									  
+String enconding - tipo de enconding do arquivo à se escrever, default:"UTF-8"
+
+FlatFileFooterCallback footerCallback - Referencia a uma implementação da interface FlatFileFooterCallback
+														  que define o footer do arquivo.
+														  
+FlatFileHeaderCallback	headerCallback - Referencia a uma implementação da interface FlatFileHeaderCallback
+															  que define o header do arquivo.
+															  
+LineAggregator<T> lineAggregator - Referencia a implementação da interface LineAggregator<T> que transforma
+													  um item T em uma string que será escrita no arquivo.(Propriedade obrigatoria)
+													  
+String lineSeparator - tipo de quebra de linha do arquivo, default: propriedade do SO line.separator
+
+Resource resource - Localização do arquivo que será escrito por este writer
+
+boolean saveState - Define se a escrita salva o estado no contexto de execução do step,
+							  util para repeats e retrys, default: true
+							  
+boolean shouldDeleteIfEmpty - Define se o arquivo deve ser deletado no caso de o writer ser executado
+											  e não escrever nenhuma linha no arquivo, default: false
+											  
+boolean shoudDeleteIfExists - Define se o arquivo definido em resource existir ele deve ser excluido antes da
+											 escrita, default: true
+											 
+boolean transactional - Se o writer é afetado pela transação do step ou não, default: true

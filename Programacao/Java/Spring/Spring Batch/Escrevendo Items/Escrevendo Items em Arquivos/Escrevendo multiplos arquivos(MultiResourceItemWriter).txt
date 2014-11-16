@@ -1,0 +1,60 @@
+MultiResourceItemWriter
+
+O MultiResourceItemWriter utiliza um writer de arquivo
+qualquer para dividir a escrita dos itens em vários arquivos
+baseado na quantidade de itens
+
+Por exemplo foram lidos e processados 400 itens é possivel
+utlizar o MultiResourceItemWriter para criar 4 arquivos cada um
+com 100 itens.
+---------------------------------------------------------------------------------
+ex:
+
+<job id="writeProductsJob" xmlns="http://www.springframework.org/schema/batch">
+	<step id="readWrite">
+		<tasklet>
+		<chunk reader="productItemReader" writer="productItemWriter" commit-interval="100" />
+		</tasklet>
+	</step>
+</job>
+<bean id="productItemWriter" class="org.springframework.batch.item.file.MultiResourceItemWriter" scope="step">
+	<property name="resource" value="file:target/outputs/products-multi.xml" />
+	<property name="itemCountLimitPerResource" value="10000" />
+	<property name="delegate" ref="delegateWriter" />
+</bean>
+<bean id="delegateWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
+(...)
+</bean>
+==================================================
+Atributos de MultiResourceItemWriter
+
+Resource resource - Endereço do arquivo a ser escrito, um único arquivo
+							   o MultiResourceItemWriter utiliza a localização deste arquivo
+							   para criar os multiplos arquivos como o mesmo nome do arquivos
+							   definido e um sufixo de identificação
+							   
+ItemWriter delegate - Uma referencia a implementação de um ItemWriter de arquivo utilizada
+								para escrever todos os arquivos, um de cada vez.
+								
+int itemCountLimitPerResource - Numero que limita quantos itens terão cada arquivo é ele que define
+												quantos arquivos serão criados, ex:  itemCountLimitPerResource = 100
+												numero de itens = 405, serão criados 5 arquivos 4 com 100 e um com 5 itens
+												
+boolean saveState - Define se o MultiResourceItemWriter salva o seu estado no execution context, default:true
+
+ResourceSuffixCreator suffixCreator - Implementação da interface ResourceSuffixCreator que define qual é o sufixo de
+														identificação de cada arquivo criado, default: .contadorInteiro ex: meuArquivo.txt.1,meuArquivo.txt.2 etc.
+======================================================
+Implementado ResourceSuffixCreator 
+
+A interface ResourceSuffixCreator define qual será o sufixo
+de identificação dos arquivos criados e define apenas um método:
+
+public interface ResourceSuffixCreator {
+String getSuffix(int index);
+}
+
+Que recebe o index do arquivo e cria a string do sufixo, referencias
+a implementações desta interface são setadas na propriedade suffixCreator
+de MultiResourceItemWriter, por padrão a implementaçaõ SimpleResourceSuffixCreator
+é utilizada que retorna como sufixo o proprio index do arquivo.
