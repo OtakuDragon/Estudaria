@@ -1,0 +1,19 @@
+Driving Query Pattern
+
+O Driving Query Pattern é uma tecnica para buscar uma grande
+quantidade de dados do banco de dados, que reduz o tempo de
+pessimistic lock das tabelas, ela é composta por duas fases:
+
+* Uma select(driving query) é executado buscando apenas as chaves primarias/identificadores
+  unicos, do result set desejado, uma query rapida pois recupera apenas um campo.
+  
+* Este conjunto de chaves primarias então é utilizado por um outro componente que
+  faz uma busca para cada chave primaria o registro completo e monta os objetos.
+
+É facil se implementar Driving Query Pattern em um chunk oriented tasklet,
+o writer executa a driving query recuperando apenas a chaves primarias de cada item,
+como uma string por exemplo.
+
+E passa ela para o processor que nesta situação é obrigatorio, e dentro do processor
+os registros são buscados um a um por sua chave primaria, montados em objetos de item
+e então passados para o writer.  

@@ -1,0 +1,63 @@
+ItemProcessorAdapter
+
+Em algumas situações os métodos de processamento de items
+cabem melhor em uma classe de negócio fora da infra estrutura
+do spring batch, por questão de separação de camadas.
+
+E nós desejamos que o sping batch apenas chame o método de
+processamento desta classe para cada item, para isso podemos
+implementar um ItemProcessor customizado, mas o spring batch
+oferece uma solução melhor o ItemProcessorAdapter para estas
+situações em que  o processor chama um método de uma classe
+de negocio externa.
+
+O método de processamento deve retornar o objeto a ser escrito
+para cada item, ou null quando filtros se aplicarem
+================================================
+ex:
+//Classe de negocio, POJO independente do framework
+public class PartnerIdMapper {
+	private static final String SQL_SELECT_STORE_PRODUCT_ID = "select store_product_id from partner_mapping " + "where partner_id = ? and partner_product_id = ?";
+	private String partnerId;
+	private JdbcTemplate jdbcTemplate;
+	
+	//Método que corresponde ao process do processor
+	public Product map(Product partnerProduct) {
+		String storeProductId=jdbcTemplate.queryForObject(SQL_SELECT_STORE_PRODUCT_ID,String.class,partnerId, partnerProduct.getId());
+		partnerProduct.setId(storeProductId);
+		return partnerProduct;
+	}
+
+	public void setPartnerId(String partnerId) {
+	this.partnerId = partnerId;
+	}
+	public void setDataSource(DataSource dataSource) {
+	this.jdbcTemplate = new JdbcTemplate(dataSource);
+	}
+}
+
+Configuração:
+
+<batch:job id="readWriteJob">
+	<batch:step id="readWriteStep">
+		<batch:tasklet>
+			<batch:chunk reader="reader" processor="processor" writer="writer" commit-interval="100" />
+		</batch:tasklet>
+	</batch:step>
+</batch:job>
+//Configuração do adapter
+<bean id="processor" class="org.springframework.batch.item.adapter.ItemProcessorAdapter">
+	<property name="targetObject" ref="partnerIdMapper" />
+	<property name="targetMethod" value="map" />
+</bean>
+//Wiring da classe de negocio
+<bean id="partnerIdMapper" class="com.manning.sbia.ch07.PartnerIdMapper">
+	<property name="partnerId" value="PARTNER1" />
+	<property name="dataSource" ref="dataSource" />
+</bean>
+<bean id="reader" (...)>
+(...)
+</bean>
+<bean id="writer" (...)>
+(...)
+</bean>

@@ -1,0 +1,81 @@
+ValidatingItemProcessor
+
+Processor podem ter muitas funções:
+
+* Atualizar items
+* Converter items
+* Filtrar items 
+* Validar items
+
+A implementação do spring batch  ValidatingItemProcessor
+de Processor se especializa em padronizar as duas ultimas
+funções da lista acima a filtragem e validação de items.
+------------------------------------------------------------------------------------------------
+ex:
+
+<batch:job id="readWriteJob">
+	<batch:step id="readWriteStep">
+		<batch:tasklet>
+			<batch:chunk reader="reader" processor="processor" writer="writer" commit-interval="100" skip-limit="5">
+			<!--Define que a exceção ValidationException jogada pelo Validator pode causar skip-->
+			<batch:skippable-exception-classes>
+				<batch:include class="org.springframework.batch.item.validator.ValidationException"/>
+			</batch:skippable-exception-classes>
+			</batch:chunk>
+		</batch:tasklet>
+	</batch:step>
+</batch:job>
+<bean id="processor" class="org.springframework.batch.item.validator.ValidatingItemProcessor">
+	<property name="filter" value="false" />
+	<property name="validator">
+		<bean class="com.otk.validation.ProductValidator" />
+	</property>
+</bean>
+<bean id="reader" (...) >
+(...)
+</bean>
+<bean id="writer" (...)>
+(...)
+</bean>
+=======================================================================
+Propriedades de ValidatingItemProcessor
+
+boolean filter - Se a validação do processor se trata de um filtro(return null) ou de uma validação(skip),
+					  default: false, o que significa que se um erro de validação acontecer ele causará um skip do item.
+					  
+Validator validator - Implementação da interface Validator<T> sendo T o tipo do item a ser validado e decide se ou
+							  item é válido ou não.
+							  
+=====================================================================
+Implementando Validator<T>
+
+A interface Validator<T> apresenta apenas um 
+método:
+
+public interface Validator<T> {
+void validate(T value) throws ValidationException;
+}
+
+O método validate recebe um item e o valida, se houver
+qualquer problema com a validação ele deve jogar uma
+ValidationException, apartir desta exceção dependendo
+da configuração filter do ValidatingItemProcessor, o processor
+irá decidir se ele deverá propagar esta exceção e causar um skip
+ou somente retornar null para o writer causando uma filtragem
+
+ex:
+
+public class ProductValidator implements Validator<Product> {
+	@Override
+	public void validate(Product product) throws ValidationException {
+		if(BigDecimal.ZERO.compareTo(product.getPrice()) >= 0) {
+			throw new ValidationException("Product price cannot be negative!");
+		}
+	}
+}
+====================================================================
+Outros Validators Implementados
+
+O spring batch suporta alguns frameworks de validação em sua
+interface Validator<T> como o spring VaLAng, e tambem é possivel utilizar
+Bean validation em conjunto com implementações customizadas da interface Validator.				  

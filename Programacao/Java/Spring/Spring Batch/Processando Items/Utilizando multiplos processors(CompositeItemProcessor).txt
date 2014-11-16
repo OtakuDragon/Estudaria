@@ -1,0 +1,30 @@
+CompositeItemProcessor
+
+A implementação do spring batch de processor
+CompositeItemProcessor permite que um chunk
+orientede tasklet possua vários processors entre
+a leitura e escrita.
+
+Estes processors são executados na sua ordem 
+de definição no CompositeItemProcessor e devem
+seguir a regra básica de retornaram como output
+o tipo de dado que o proximo processor espera como
+input.
+======================================
+ex:
+
+<bean id="processor" class="org.springframework.batch.item.support.CompositeItemProcessor">
+	<property name="delegates">
+		<list>
+			<ref bean="productMapperProcessor" />
+			<ref bean="productIdMapperProcessor" />
+		</list>
+	</property>
+</bean>
+
+<bean id="productMapperProcessor" class="com.otk.processor.PartnerProductItemProcessor">
+(...)
+</bean>
+<bean id="productIdMapperProcessor" class="com.otk.processor.PartnerIdItemProcessor">
+(...)
+</bean>

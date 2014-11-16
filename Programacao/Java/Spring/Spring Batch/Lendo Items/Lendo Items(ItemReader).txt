@@ -18,6 +18,12 @@ comuns:
 Item readers são especificados em um <batch:chunk>
 na propriedade reader, pelo id do seu bean de implementação
 ===========================================================
+Interface
+
+public interface ItemReader<T>{
+	public T read() throws Exception, UnexpectedInputException,ParseException, NonTransientResourceException;
+}
+===========================================================
 ex:
 
 <batch:chunk reader="idDoReader"/>

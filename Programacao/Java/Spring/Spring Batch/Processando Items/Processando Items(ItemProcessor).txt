@@ -1,0 +1,71 @@
+ItemProcessor
+
+O processamento de itens é uma fase opcional e intermediaria
+entre o processo de read e write em um chunk oriented tasklet,
+ele pode servir para filtrar itens, ou transformar itens lidos antes
+que eles sejam escritos
+
+E são implementados atraves da interface ItemProcessor<I,O>
+sendo I o tipo de dado lido pelo reader e O o tipo de dado retornado
+pelo processor após o processamento que irá para o writer e então 
+será escrito, nada impede que I e O sejam o mesmo tipo de dado,
+a unica regra é que o writer precisa estar preparado para escrever
+o tipo de dado O retornado, e se eles forem diferentes o processor
+é um transformation processor, porque transforma o item original em
+um novo tipo para escrita.
+
+A interface ItemProcessor<I,O> define apenas um método:
+
+O process(I item) throws Exception;
+
+Se o chunk oriented tasklet possuir um processor todos os itens
+passarão pelo método process(), e o método pode escolher retornar
+null para filtrar um item, nenhum erro ocorrerá, o item só será ignorado
+e não enviado para o writer.
+
+Se o método process() retornar null significa que um item foi filtrado um
+item filtrado significa que ele é um item válido mas por algum motivo não 
+deve ser escrito, itens são skippados se durante qualquer fase do chunk
+oriented tasklet ocorrer uma runtime exception, um skip significa que um 
+item invalido foi encontrado.
+
+Obs: Filtering processors(process() pode retornar null) e Transformation processors(I != O)  devem ser por convenção
+	    implementados separadamente.
+
+======================================================
+ex:
+
+Implementação:
+
+//Exemplo de processor que não efetua transformação(I==O) mas filtra itens
+//pelo tipo de produto, somente serão escritos produtos do tipo 0 e 1
+public class FilteringProductItemProcessor implements ItemProcessor<Product, Product> {
+
+	@Override
+	public Product process(Product item) throws Exception {
+		return needsToBeFiltered(item) ? null : item;
+	}
+	private boolean needsToBeFiltered(Product item) {
+		return item.getType() == 0 ||  item.getType() == 1;
+
+	}
+}
+
+Configuração:
+
+<batch:job id="readWriteJob">
+	<batch:step id="readWriteStep">
+		<batch:tasklet>
+			<batch:chunk reader="reader" processor="processor" writer="writer" commit-interval="100" />
+		</batch:tasklet>
+	</batch:step>
+</batch:job>
+
+<bean id="processor" class="com.otk.processor.FilteringProductItemProcessor" />
+<bean id="reader" (...) >
+(...)
+</bean>
+<bean id="writer" (...)>
+(...)
+</bean>
+

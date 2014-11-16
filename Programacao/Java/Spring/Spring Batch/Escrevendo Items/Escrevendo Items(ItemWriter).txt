@@ -12,6 +12,6 @@ alem de a possiblidade da implementação de custom ItemWriters
 ================================================
 Interface ItemWriter
 
-public interface ItemWriter{
+public interface ItemWriter<T>{
 	public void write(List<? extends T> items) throws Exception
 }
