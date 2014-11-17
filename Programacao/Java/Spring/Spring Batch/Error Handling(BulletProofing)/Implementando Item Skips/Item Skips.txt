@@ -1,0 +1,46 @@
+Item Skips
+
+Skips são reações a erros(Exceções) de leitura, processamento
+ou escrita em chunk oriented tasklets, que fazem com que
+o spring batch ignore itens inválidos que causam exceção
+e continue a sua execução ao invés de para-la.
+-------------------------------------------------------------------------------------
+ex:
+
+<job id="importProductsJob">
+	<step id="importProductsStep">
+			<tasklet>
+				<chunk reader="reader" writer="writer" commit-interval="100" skip-limit="10">
+				<skippable-exception-classes>
+					<include class="org.springframework.batch.item.file.FlatFileParseException" />
+				</skippable-exception-classes>
+			</chunk>
+		</tasklet>
+	</step>
+</job>
+
+==================================================
+Inserindo Skips
+
+Skips são inseridos dentro da tag <batch:chunk> já que são
+error handlers especificos de chunk oriented tasklets, e podem
+ser configurados de duas maneiras:
+
+* Padrão(Default) - Utilizando a  tag <skippable-exception-classes> e o atributo
+							 skip-limit no chunk 
+							 
+* Custom - Adicionando uma referencia a implementação de SkipPolicy, ao atributo skip-policy de
+				<batch:chunk>, se isto for feito <skippable-exception-classes> e skip-limit são ignorados
+				
+
+Seja qual for a maneira escolhida sempre que uma exceção ocorrer
+em um chunk oriented tasklets o spring batch irá checar a skip-policy
+do chunk, por padrão LimitCheckingItemSkipPolicy configurada por  
+<skippable-exception-classes> e skip-limit.
+
+E se a exceção jogada pela fase do chunk estiver configurada como
+uma exceção que causa skip a transação do chunk atual é rolled back
+e o chunk é reprocessado sem o item skippado, e se este chunk for commitado
+ao fim de sua execução, o spring batch chama os listeners de skip
+passando informações sobre todos os skips que ocorreram durante o 
+processamento daquele chunk.

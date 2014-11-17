@@ -1,0 +1,106 @@
+Configurando SkipPolicy
+
+Quando uma exceção acontece em um chunk oriented tasklet,
+o spring batch precisa saber se aquela exceção está configurada
+para causar um skip, para que ele possa skippar o item e continuar
+a execução do step.
+
+mesmo que implicitamente todo chunk oriented tasklet possui um
+skip policy por padrão o LimitCheckingItemSkipPolicy com limite 0
+e nenhuma exceção configurada.
+====================================================
+Configurando LimitCheckingItemSkipPolicy
+
+LimitCheckingItemSkipPolicy é o SkipPolicy padrão dos chunk oriented
+tasklets, ele implementa o comportamento padrão da interface SkipPolicy
+de controlar skips por uma lista de exceções que causam skips e um numero
+maximo de skips antes que a execução seja interrompida
+
+Ele é implicito, ou seja não precisa ser criado um bean LimitCheckingItemSkipPolicy
+e referencia-lo em skip-policy do chunk, é possivel configura-lo por meio de dois
+elementos:
+
+Atributo skip-limit de <batch:chunk> - Recebe um numero inteiro que diz ao LimitCheckingItemSkipPolicy
+														quantos skips podem acontecer antes que a execução seja interrompida
+														já que ler um arquivo enorme com todas as linhas incorretas pode ser uma
+														perda de tempo, é como dizer os items podem estar errados mas somente
+														até certo ponto.
+														
+Tag <skippable-exception-classes> dentro de <batch:chunk> - Esta tag define quais hierarquias de exceções(exceções e suas subclasses) causam skip(include)
+																							 e quais não causam skip(exclude), quando uma exceção acontece no processo do chunk o spring batch
+																							 checa esta lista de exceções para saber se a exceção aceita skip ou não.
+																							 
+ex:
+
+<job id="importProductsJob">
+	<step id="importProductsStep">
+		<tasklet>
+		<!--Se dez skips acontecerem a execução é interrompida e o step falha-->
+		<chunk reader="reader" writer="writer" commit-interval="100" skip-limit="10">
+			<!--skippable-exception-classes pode ter varios includes e excludes-->
+			<skippable-exception-classes>
+				<!--Qualquer checked exception pode causar skip-->
+				<include class="java.lang.Exception" />
+				<!--Menos IOException e todas as suas subclasses-->
+				<exclude class="java.lang.IOException" />
+			</skippable-exception-classes>
+		</chunk>
+		</tasklet>
+	</step>
+</job>
+==================================================================================
+A interface SkipPolicy
+
+A outra maneira de se configurar SkipPolicy é implementar a interface
+SkipPolicy e referenciar esta implementação no atributo skip-policy do <batch:chunk>
+note que isso faz com que skip-limit e skippable-exception-classes seja ignorados.	
+
+A interface SkipPolicy define um método:
+
+public boolean shouldSkip(Throwable t, int skipCount) throws SkipLimitExceededException
+
+O método shouldSkip retorna true, se baseado na exceção jogada e no numero de skips
+até o momento o erro for skippable, e false se não e o step deve falhar.
+
+O spring tambem oferece implementações prontas de SkipPolicy
+elas são:
+
+ExceptionClassifierSkipPolicy - Utiliza de classifier para escolher uma implementação de skip
+											  policy para cada tipo de exceção jogada.
+											  
+AlwaysSkipItemSkipPolicy - Não importa qual a exceção ou o numero de skips todo erro será skippado
+										  e a execução do chunk oriented tasklet sempre chegará ao final
+										  
+NeverSkipItemSkipPolicy - Nunca ocorrerá skip qualquer exceção durante a execução do chunk oriented
+										tasklet falhará a execuçaõ do step
+-----------------------------------------------------------------------------------------------------------------------------------
+ex custom SkipPolicy:
+
+Implementação:
+
+public class ExceptionSkipPolicy implements SkipPolicy {
+
+	private Class<? extends Exception> exceptionClassToSkip;
+	
+	public ExceptionSkipPolicy(Class<? extends Exception> exceptionClassToSkip) {
+		super();
+		this.exceptionClassToSkip = exceptionClassToSkip;
+	}
+	@Override
+	public boolean shouldSkip(Throwable t, int skipCount) throws SkipLimitExceededException {
+		return exceptionClassToSkip.isAssignableFrom(t.getClass());
+	}
+}
+
+Configuração:
+
+<bean id="skipPolicy" class="com.manning.sbia.ch08.skip.ExceptionSkipPolicy">
+	<constructor-arg value="org.springframework.batch.item.file.FlatFileParseException" />
+</bean>
+<job id="importProductsJobWithSkipPolicy" xmlns="http://www.springframework.org/schema/batch">
+	<step id="importProductsStepWithSkipPolicy">
+		<tasklet>
+			<chunk reader="reader" writer="writer" commit-interval="100" skip-policy="skipPolicy" />
+		</tasklet>
+	</step>
+</job>

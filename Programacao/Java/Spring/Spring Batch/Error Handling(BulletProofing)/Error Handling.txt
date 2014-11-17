@@ -1,0 +1,52 @@
+Jobs Error Handling
+
+Jobs são processos longos e automaticos, erros na execução
+não podem simplesmente cancelar a execução de um job e fazer
+com que todo o processamento até aquele ponto(talvez horas adentro)
+seja perdido.
+
+Jobs devem seguir três principios basicos com relação a error handling:
+
+* Robustez - Jobs devem identificar erros durante a sua execução e conseguir
+					reagir a eles da maneira adequada, alguns erros devem por definição
+					do negocio parar a execução, outros não, nestes casos o job deve 
+					tratar o erro e continuar sua execução.
+				   
+* Traceabilidade - O job não deve somente resistir aos erros sem parar sua execução(Robustez),
+						   ele deve tambem manter log de todos os erros que acontecem durante a execução
+						   para que após a execução estes erros possam ser identificados e corrigidos pelo
+						   operador.
+						   
+* Restartable - Por mais robusto que o job seja não há como suportar todos os erros possiveis,
+					   um bom exemplo é a queda de energia, se um erro fatal acontecer e interromper
+					   a execução do job ele deve ser capaz de na sua proxima execução reniciar do ponto
+					   aonde ele parou a execução anterior que foi interrompida.
+					   
+O spring batch oferece funcionalides que nos ajudam a implementar todos 
+estes três principios
+================================================================
+Funcionalidades de Error Handling
+
+O spring batch implementa três funcionalidades de erro handling
+para jobs:
+
+* Skip - Um skip é uma reação a um erro recuperavel que acontece durante o
+			processamento de um item em um chunk oriented tasklet, como uma linha
+			de um arquivo formatada incorretamente, se configurado o skip ignora o item
+			que gerou o erro e guarda informações sobre o skip como qual item o causou
+			
+			O spring batch tambem faz o controle de parar a execução de um job quando
+			um numero maximo de skips  pré definido é atingido.
+			
+* Retry - Um retry é a capacidade de re-executar uma operação(método) que causou
+			 um erro temporario, como um lock no banco de dados, até que um numero maximo
+			 de retries seja atingido ou a operação seja executada com sucesso
+			 
+* Restart - Restart representa o principio restartable dos jobs,de que se a execução de um job
+				for interrompida por um erro fatal, o seu estado pode ficar salvo para que na proxima
+				execução do mesmo job, não seja iniciada uma nova execução e sim finalizada a execução
+				que foi interrompida.
+			
+			
+
+
