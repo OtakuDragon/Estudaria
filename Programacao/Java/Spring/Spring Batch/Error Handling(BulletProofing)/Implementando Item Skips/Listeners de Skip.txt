@@ -1,0 +1,103 @@
+Listeners de Skip
+
+Um skip é um evento que denota a invalidez de um item,
+saber qual item foi skippado e qual exceção causou o
+skip durante o processo da execução do chunk são informações
+importantes que devem ser logadas, e futuramente utilizadas
+para correção do erro que causou o skip.
+
+Se um skip acontecer no processamento de um conjunto de items(commit-interval)
+ao final do processamento deste conjunto o spring batch procurará por SkipListeners
+no step do chunk e os informará dos skips que aconteceram.
+=================================================================
+Implementando SkipListeners
+
+O spring batch não oferece implementações prontas de
+skip listeners cabe ao programador implementar a interface
+SkipListener<T,S>, e implementar seus proprios listeners
+
+A interface SkipListener<T,S> possui três métodos:
+
+void onSkipInRead(Throwable t); - Chamado quando o skip acontece na leitura,
+								  recebe a exceção que causou o skip
+
+void onSkipInProcess(T item, Throwable t); - Chamado quando acontece um skip no processamento
+											 de um item recebe o item que causou o skip e a exceção
+											 
+void onSkipInWrite(S item, Throwable t);  - Chamado quando acontece um skip na escrita
+										    de um item recebe o item processado que causou o skip e a exceção
+											
+Um para cada fase do chunk oriented tasklet, e possui dois
+generics, o primeiro T, o item lido pelo reader e passado para
+um processor e S o item após processamento recebido pelo writer.
+-----------------------------------------------------------------
+Outras opções
+
+A implementação de SkipListeners por meio da interface
+SkipListener<T,S> obriga a implementação mesmo que vazia
+dos três métodos mas as vezes nós só esperamos skips na
+fase write por exemplo, existem outras maneiras de se
+declarar um skip listener.
+
+Elas são:
+
+Herdar de SkipListenerSupport, estender SkipListenerSupport
+faz com que você só tenha que sobre escrever os métodos desejados
+
+Ou
+
+Utilizar anotação, criar uma classe POJO que não implementa nenhuma
+interface e anotar seus métodos com @OnSkipInRead, @OnSkipInProcess, ou @OnSkipInWrite
+de acordo com a necessidade
+
+---------------------------------------------------------------------
+obs: as três maneiras de implementação são equivalentes, o que significa
+	 que das três maneiras um bean spring é criado implementando uma das formas
+	 e referenciado na tag <listeners> dentro do step
+-------------------------------------------------------------------
+Ex:
+
+Implementação
+
+public class DatabaseSkipListener{
+
+	private JdbcTemplate jdbcTemplate;
+	
+	public DatabaseSkipListener(DataSource ds) {
+		this.jdbcTemplate = new JdbcTemplate(ds);
+	}
+	
+	@OnSkipInRead
+	public void log(Throwable t) {
+		if(t instanceof FlatFileParseException) {
+			FlatFileParseException ffpe = (FlatFileParseException) t;
+			
+			jdbcTemplate.update(
+			"insert into skipped_product " +
+			"(line,line_number) values (?,?)",
+			ffpe.getInput(),ffpe.getLineNumber()
+			);
+		}
+	}
+}
+
+
+Configuração do listener:
+
+<bean id="skipListener" class="com.manning.sbia.ch08.skip.DatabaseSkipListener">
+	<constructor-arg ref="dataSource" />
+</bean>
+<job id="importProductsJob" xmlns="http://www.springframework.org/schema/batch">
+	<step id="importProductsStep">
+		<tasklet>
+			<chunk reader="reader" writer="writer" commit-interval="100" skip-limit="10">
+				<skippable-exception-classes>
+					<include class="org.springframework.batch.item.file.FlatFileParseException" />
+				</skippable-exception-classes>
+			</chunk>
+			<listeners>
+				<listener ref="skipListener" />
+			</listeners>
+		</tasklet>
+	</step>
+</job>
