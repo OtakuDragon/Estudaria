@@ -1,0 +1,44 @@
+Step Retry
+
+Um step retry significa tentar novamente as fases de
+processamento(processor) e escrita(writer) se ocorrer um
+erro na execução destas fases em um chunk oriented step
+
+Retries não englobam a fase da leitura, já que o item skip
+por mais englobe as três fases tem sua funcionalidade focada
+na leitura.
+
+Um retry significa que o step irá dar rollback na execução
+atual, manter os itens lidos em cache e re-excecutar as fases
+de processamento e escrita do começo e com todos os itens.
+
+======================================================================
+Integração retry e skip
+
+Retries são executados antes do skip, o que significa que se
+na fase de processamento ou escrita houver um problema o spring
+batch primeiro checa a retry-policy do chunk, e re-executa as fases
+denovo algumas ou nenhuma vez dependendo da configuração, e se todos
+os retries falharem então a skip-policy será checada e o item que
+causou o erro será skippado.
+=====================================================================
+Configurando Step retries
+
+Retries são definidos por uma implementação da interface 
+RetryPolicy definida no atributo retry-policy do chunk, ou
+configurado pelo RetryPolicy padrão de todos os chunk oriented
+tasklets(SimpleRetryPolicy) utilizando o atributo do chunk retry-limit e
+a tag <retryable-exception-classes>.
+
+O spring batch oferece algumas implementações prontas de RetryPolicy:
+
+* SimpleRetryPolicy - RetryPolicy padrão configurado como bean ou pelo atributo 
+					  retry-limit e tag <retryable-exception-classes>
+					  
+* TimeoutRetryPolicy - Efetua tentativas várias vezes até que um tempo limite seja atingido
+
+* ExceptionClassifierRetryPolicy - Composite de implementações Retry Policy que decide qual implementação
+								   usar dependendo da classe da exceção que causou o retry.
+								   
+						
+		

@@ -1,0 +1,91 @@
+Configurando RetryPolicy
+
+Existem duas maneiras de se configurar RetryPolicy:
+
+Padrão - Configurando uma SimpleRetryPolicy implicitamente com 
+		 atributo retry-limit e tag <retryable-exception-classes>
+		 
+Custom - Configurar uma das implementações do spring de RetryPolicy ou uma
+		 implementação propria como um bean e referencia-lo do atributo retry-policy do chunk
+====================================================================
+Configurando o RetryPolicy padrão
+
+A implementação SimpleRetryPolicy controla retries meio de duas
+configurações:
+
+- retry-limit - Um atributo no chunk dizendo quantas vezes é permitido repetir
+				o processamento e a escrita daquele chunk em caso de erro
+				
+-<retryable-exception-classes> - Uma subtag de chunk definindo quais hierarquias de exceções
+							     são passiveis de retry(include) e quais não são(exclude)
+--------------------------------------------------------------------
+ex:
+
+<job id="job">
+	<step id="step">
+		<tasklet>
+			<chunk reader="reader" writer="writer" commit-interval="100" retry-limit="3" skip-limit="10">
+				<retryable-exception-classes>
+					<include class="org.springframework.dao.DeadlockLoserDataAccessException" />
+				</retryable-exception-classes>
+				<skippable-exception-classes>
+					<include class="org.springframework.dao.DeadlockLoserDataAccessException" />
+				</skippable-exception-classes>
+			</chunk>
+		</tasklet>
+	</step>
+</job>
+		 
+=====================================================================
+Configurando o RetryPolicy customizado
+
+O Retry policy de um chunk oriented tasklet pode tambem ser definido
+no atributo retry-policy do chunk, como uma referencia a um bean que 
+implementa a interface RetryPolicy
+
+Esta interface define os seguintes métodos:
+
+boolean canRetry(RetryContext context); - Método chamado pelo spring batch sempre que
+										  ocorrer um erro no processamento ou escrita e
+										  o seu retorno define se o chunk deve ser re-processado
+										  e re-escrito ou não
+										  
+RetryContext open(RetryContext context); - Chamado antes do primeiro retry
+
+void close(RetryContext context); - Chamado após o ultimo retry
+
+void registrerThrowable(RetryContext context, Throwable throwable); - Chamado sempre que um erro que causa retry acontece
+																      para que informações sobre o erro que o causou sejam processadas
+																	  
+O spring batch tambem oferece implementações prontas desta interface:
+
+* TimeoutRetryPolicy - Limita numero de tentativas de um step com base no tempo decorrido
+
+* ExceptionClassifierRetryPolicy - Composite de imlplementações de RetryPolicy que escolhe uma implementação
+								   com base na exceção ocorrida
+-----------------------------------------------------------------------							   
+ex:
+
+<job id="retryPolicyJob" xmlns="http://www.springframework.org/schema/batch">
+	<step id="retryPolicyStep">
+		<tasklet>
+			<chunk reader="reader" writer="writer" commit-interval="100" retry-policy="retryPolicy" />
+		</tasklet>
+	</step>
+</job>
+<bean id="retryPolicy" class="org.springframework.batch.retry.policy.ExceptionClassifierRetryPolicy">
+	<property name="policyMap">
+		<map>
+			<entry key="org.springframework.dao.ConcurrencyFailureException">
+				<bean class="org.springframework.batch.retry.policy.SimpleRetryPolicy">
+					<property name="maxAttempts" value="3" />
+				</bean>
+			</entry>
+			<entry key="org.springframework.dao.DeadlockLoserDataAccessException">
+				<bean class="org.springframework.batch.retry.policy.SimpleRetryPolicy">
+					<property name="maxAttempts" value="5" />
+				</bean>
+			</entry>
+		</map>
+	</property>
+</bean>
