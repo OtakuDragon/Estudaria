@@ -1,0 +1,42 @@
+Configurando Retry com AOP(Retry qualquer método)
+
+A configuração de RetryPolicy nos permite apenas
+configurar retry para chunk oriented tasklets, é
+possivel aplicar retry a qualquer código incluindo
+tasklets normais, ou qualquer outro método dentro
+de uma classe declarada como spring bean
+
+Isto é feito por meio de aspect oriented programming
+tornando possivel aplicar retry em qualquer método
+alcançavel pelo aspecto.
+
+O aspect que implementa retry do spring batch é o 
+org.springframework.batch.retry.interceptor.RetryOperationsInterceptor
+e a unica configuração que ele precisa como spring bean
+é a definição da propriedade retryOperations.
+
+Que recebe uma implementação de RetryTemplate, um encapsulamento de retry
+aplicavel a qualquer código que por sua vez necessita da propriedade retry
+policy uma referencia a uma implementação de RetryPolicy.
+
+Como no exemplo abaixo:
+
+<bean id="retryAdvice" class="org.springframework.batch.retry.interceptor.RetryOperationsInterceptor">
+	<property name="retryOperations">
+		<bean class="org.springframework.batch.retry.support.RetryTemplate">
+			<property name="retryPolicy">
+				<bean class="org.springframework.batch.retry.policy.SimpleRetryPolicy">
+					<property name="maxAttempts" value="3" />
+				</bean>
+			</property>
+		</bean>
+	</property>
+</bean>
+
+Com este bean configurado podemos definir o retry para qualquer método
+de um spring bean utilizando pointcut expressions, como no exemplo abaixo
+
+<aop:config>
+	<aop:pointcut id="retriedOperations" expression="execution(* com.manning.sbia.ch08.retry.DiscountService.*(..))" />
+	<aop:advisor pointcut-ref="retriedOperations" advice-ref="retryAdvice" />
+</aop:config>

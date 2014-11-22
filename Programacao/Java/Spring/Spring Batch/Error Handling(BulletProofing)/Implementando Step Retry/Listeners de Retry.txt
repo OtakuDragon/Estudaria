@@ -1,0 +1,59 @@
+Listeners de Retry
+
+O spring batch nos permite adicionar listeners
+para retries, cuja a principal função é logar erros
+que causam retries.
+
+Estes listeners são implementações da interface RetryListener
+e são inseridos a um chunk oriented tasklet através da tag <retry-listeners>
+que referencia a uma implementação de RetryListener.
+==================================================================
+Implementando RetryListener
+
+A interface RetryListener define três métodos:
+
+boolean open(RetryContext context, RetryCallback<T> callback); //Método de ciclo de vida chamando antes do primeiro retry
+
+void close(RetryContext context, RetryCallback<T> callback, Throwable throwable);//Método de ciclo de vida chamando após o ultimo retry, recebe como parametro a exceção que o causou 
+
+void onError(RetryContext context, RetryCallback<T> callback, Throwable throwable); //Método mais importante que é chamado sempre que um retry é triggered
+																					//e recebe como parametro do spring batch todas as informações sobre ele
+																					
+A interface RetryListener é simples é facil de ser implementada
+mas há outras opções, tambem é possivel definir um RetryListener
+extendendo da classe RetryListenerSupport que nos permite implementar
+apenas os métodos desejados e tambem através das anotações de método em
+um POJO @Open @Close e @OnError
+----------------------------------------------------------------
+ex:
+
+Implementação:
+
+public class Slf4jRetryListener extends RetryListenerSupport {
+	private static final Logger LOG = LoggerFactory.getLogger(Slf4jRetryListener.class);
+	
+	@Override
+	public <T> void onError(RetryContext context, RetryCallback<T> callback, Throwable throwable) {
+		LOG.error("retried operation",throwable);
+	}
+}
+
+Configuração:
+
+<bean id="retryListener" class="com.manning.sbia.ch08.retry.Slf4jRetryListener" />
+
+<job id="job" xmlns="http://www.springframework.org/schema/batch">
+	<step id="step">
+		<tasklet>
+			<chunk reader="reader" writer="writer" commit-interval="10" retry-limit="3">
+				<retryable-exception-classes>
+					<include class="org.springframework.dao.OptimisticLockingFailureException" />
+				</retryable-exception-classes>
+				<retry-listeners>
+					<listener ref="retryListener" />
+				</retry-listeners>
+			</chunk>
+		</tasklet>
+	</step>
+</job>
+

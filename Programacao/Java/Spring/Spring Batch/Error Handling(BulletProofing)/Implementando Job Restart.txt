@@ -1,0 +1,67 @@
+Implementando Job Restart
+
+Quando um job falha a sua execução o spring oferece a
+funcionalidade de restart para que na proxima execução
+daquela mesma instancia o job comece de aonde parou.
+
+Para que o job restart funcione corretamente é aconselhavel
+a utilização de um job repository fisico no banco de dados
+para que o spring possa manter os dados de execução dos jobs
+=================================================================
+O Comportamento Padrão
+
+Por padrão todos os jobs do spring batch seguem as seguintes
+regras com relação à restart:
+
+* O job só poderá reiniciar a execução apartir de uma instancia
+  de job que já foi executada anteriormente e falhou
+  
+* Todos os jobs tem como configuração padrão que eles podem ser
+  reiniciados, o que significa que sempre que uma instancia de job
+  for executada o spring batch checará se ela ja foi executada anterior-
+  mente sem sucesso, se sim efetuará um restart se não iniciará uma nova execução
+  
+* Um job reinicia a sua execução no step aonde a execução anterior
+  falhou
+  
+* Um job pode ser reiniciado Integer.MAX_VALUE vezes
+=============================================================
+Configurando Job Restart
+
+O spring batch nos oferece atributos para
+a configuração do comportamento padrão de restart
+do job, elas são:
+
+boolean restartable - Atributo de <batch:job> que define se ele pode ser reiniciado
+					  se uma execução anterior da mesma instancia falhou, ou se não
+					  e uma nova execução sempre será iniciada, default: true
+					  
+boolean allow-start-if-complete - Atributo de <batch:tasklet> que define se no eventual reinicio
+								  do job se este tasklet já foi completado com sucesso ele deve ser executado
+								  novamente(true) ou não ele deve ser pulado por que ja foi completo(false),
+								  default: false.
+								  
+int start-limit - Atributo de <batch:tasklet> que define quantas vezes aquele step pode ser reiniciado, 
+				  é uma limitação para o restart se este limite for atingido o spring batch iniciará uma nova execução,
+				  default: Integer.MAX_VALUE.
+				  
+
+ex:
+
+<job id="importProductsJob" restartable="true">
+	<step id="decompressStep" next="readWriteProductsStep">
+		<tasklet allow-start-if-complete="true" start-limit="3">
+		(...)
+		</tasklet>
+	<step>
+(...)
+</job>
+===============================================================
+Outros modos de configuração
+
+* Implementações de chunk oriented tasklets possuem configurações de restart
+  particulares descritas em suas documentações.
+  
+* É possivel configurar uma implementação propria de job restart implementando a interface
+  ItemStream e utilizando os métodos dela para manter informações entre execuções que podem
+  ser utilizadas para configurar restarts customizados.
