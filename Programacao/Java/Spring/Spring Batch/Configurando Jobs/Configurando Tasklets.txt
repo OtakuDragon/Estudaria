@@ -69,7 +69,8 @@ public class DecompressTasklet implements Tasklet {
 //Código...
 
 //O método execute deve retornar RepeatStatus.FINISHED ou RepeatStatus.CONTINUABLE
-//este parametro diz ao spring como agir caso o tasklet esteja configurado para repetição
+//este retorno diz ao spring se ele deve executar o método execute novamente na sequencia(continuable)
+//ou se deve finalizar a execução do step e seguir para o proximo step(finished).
 return RepeatStatus.FINISHED;
 
 }
