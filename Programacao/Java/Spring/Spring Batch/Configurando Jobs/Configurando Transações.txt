@@ -1,0 +1,113 @@
+Configurando transações
+
+No spring batch transações tem o escopo de step e
+comportamentos padrões para commit e rollback, dependendo
+do tipo de step(chunk ou tasklet), o spring batch tambem
+oferece a possibilidade de configurar este comportamento padrão
+
+IMPORTANTE: O spring batch possui um contexto transacional proprio
+			que envolve os steps do job, inserir contextos transacionais
+			manualmente dentro das classes do step (@Transactional), pode
+			causar comportamentos inesperados.
+=============================================================
+Comportamentos padrão
+-------------------------------------------------------------
+Tasklet
+
+Por padrão o spring batch sempre cria uma nova transação 
+antes do método execute(), e efetua roolback se qualquer 
+exceção acontecer ou commit se o método terminar a sua
+execução normalmente.
+-------------------------------------------------------------
+Chunk Oriented Tasklet
+
+Por padrão o spring batch sempre cria uma nova transação
+contento as fases de processamento e escrita para um chunk(commit-interval)
+a fase de leitura não é transacional por padrão e se efetuada com sucesso guarda
+os itens lidos em um cache.
+
+Se qualquer exceção acontecer durante as fases de processamento
+e escrita(antes de skip e retry) para um chunk, ocorre um rollback das duas fases
+e os itens são recuperados do cache do reader(não são lidos novamente),
+são processados e escritos novamente.
+
+Os atributos de transação de um chunk oriented tasklet por padrão são herdados
+do datasource de escrita.
+================================================================
+Configurando transações
+----------------------------------------------------------------
+Definindo atributos de transação para o step
+
+a tag <transaction-attributes> sub tag de <tasklet>,
+nos permite definir atributos de transação customizados
+para o step, os atributos de transação disponiveis são os
+da api de transações do spring.
+
+ex:
+
+<step id="step1">
+    <tasklet>
+        <chunk reader="itemReader" writer="itemWriter" commit-interval="2"/>
+        <transaction-attributes isolation="DEFAULT"
+                                propagation="REQUIRED"
+                                timeout="30"/>
+    </tasklet>
+</step>
+----------------------------------------------------------------------
+Transformando o reader do chunk em transacional
+
+Por padrão readers de chunk não fazem parte da transação
+do chunk e sempre guardam os itens lidos em um cache imune há
+rollback, nem sempre este é o comportamento desejado no caso de
+um reader jms, um erro no chunk não pode manter a mensagem em cache,
+deve retorna-la a fila.
+
+Isto é feito setando o atributo reader-transactional-queue do chunk
+para true, o padrão é false, neste caso o reader será transacional,
+e não manterá cache de itens lidos sempre efetuará a leitura novamente
+
+
+obs: tambem é possivel escolher se o processor é transacional ou não
+	 com o atributo processor-transactional que por padrão é true, se
+	 for false os itens não são processados em caso de rollback
+	 
+ex:
+
+<job id="importProductsJob">
+	<step id=" importProductsStep">
+		<tasklet>
+			<chunk reader="reader" writer="writer"
+			commit-interval="100" skip-limit="5"
+			reader-transactional-queue="true" processor-transactional="true">
+				<skippable-exception-classes>
+					<include class="org.springframework.dao.DeadlockLoserDataAccessException" />
+				</skippable-exception-classes>
+			</chunk>
+		</tasklet>
+	</step>
+</job>
+---------------------------------------------------------------------------
+Configurando exceções que causam Rollback
+
+Por padrão todas as exceçõs causam rollback, é possivel
+fazer com que algumas exceções não causem rollback, o que é
+uma escolha complicada já que quase todas as exceções podem
+afetar o processamento e escrita de dados tornando o resultado
+inconsistente e imprevisivel,
+
+ex:
+
+<job id="importProductsJob">
+	<step id="importProductsStep">
+		<tasklet>
+			<chunk reader="reader" writer="writer" commit-interval="100" skip-limit="5">
+				<skippable-exception-classes>
+					<include class="org.springframework.batch.item.validator.ValidationException" />
+				</skippable-exception-classes>
+			</chunk>
+			<no-rollback-exception-classes>
+				<include class="org.springframework.batch.item.validator.ValidationException"/>
+			</no-rollback-exception-classes>
+		</tasklet>
+	</step>
+</job>
