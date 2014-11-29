@@ -1,0 +1,63 @@
+Decidindo com um JobExecutionDecider
+
+O spring oferece componentes exclusivos para a decisão de fluxo de
+execução dos steps, estes componentes são chamados de deciders e são implementações
+da interface JobExecutionDecider, deciders tem como unica função o retorno de um
+ExitStatus gerado de acordo com informações nos contextos de execução do job e do step.
+
+Esta interface define apenas um método:
+
+public FlowExecutionStatus decide(JobExecution jobExecution,StepExecution stepExecution);
+
+Obs: o objeto FlowExecutionStatus funciona exatamente como um ExitStatus
+
+Deciders são definidos na sua propria tag <decision> ela é composta por uma referencia a
+um decider e possui como subtag tags <next> definindo para onde cada FlowExecutionStatus
+levará.
+
+Para que uma decisão aconteça o id da tag decision deve ser referenciado pelo step que
+causará a decisão no atributo next.
+==========================================================================================
+ex:
+
+Implementação de JobExecutionDecider:
+
+public class SkippedItemsDecider implements JobExecutionDecider {
+	@Override
+	public FlowExecutionStatus decide(JobExecution jobExecution, StepExecution stepExecution) {
+		if(!ExitStatus.FAILED.equals(stepExecution.getExitStatus()) && stepExecution.getSkipCount() > 0) {
+			return new FlowExecutionStatus("COMPLETED WITH SKIPS");
+		} else {
+			return new FlowExecutionStatus(stepExecution.getExitStatus().toString());
+		}
+	}
+}
+-------------------------------------------------------------------------------------------
+Configuração XML:
+
+<bean id="skippedItemsDecider" class="com.manning.sbia.ch10.decider.SkippedItemsDecider" />
+<job id="importProductsJob" xmlns="http://www.springframework.org/schema/batch">
+	(...)
+	<step id="readWriteStep" next="skippedItemsDecision">
+		<tasklet>
+			<chunk reader="reader" writer="writer" commit-interval="100" skip-limit="5">
+				<skippable-exception-classes>
+					<include class="org.springframework.batch.item.file.FlatFileParseException" />
+				</skippable-exception-classes>
+			</chunk>
+		</tasklet>
+	</step>
+	<!--Tag decision referenciando a uma implementação de JobExecutionDecider no atributo decider-->
+	<!--ficando fora dos steps ou seja diretamente dentro do job, e sendo referenciada no atributo next	-->
+	<!--do step anterior pelo seu id dizendo que após a execução do step readWriteStep haverá uma decisão no fluxo de execução-->
+	<decision id="skippedItemsDecision" decider="skippedItemsDecider">
+		<next on="COMPLETED WITH SKIPS" to="generateReportStep" />
+		<next on="*" to="cleanStep" />
+	</decision>
+	<step id="generateReportStep" next="cleanStep">
+		<tasklet>(...)</tasklet>
+	</step>
+	<step id="cleanStep">
+		<tasklet>(...)</tasklet>
+	</step>
+</job>

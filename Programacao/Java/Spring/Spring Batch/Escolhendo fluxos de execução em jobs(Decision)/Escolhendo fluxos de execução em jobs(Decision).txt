@@ -1,0 +1,24 @@
+Escolhendo fluxos de execução em jobs(Decision)
+
+Em muitos casos a escolha basica de execução de steps
+com o atributo next, não é suficiente e é necessário 
+decidir qual será o proximo step executado de acordo com
+o resultado da execução do step atual.
+
+O spring batch oferece a possibilidade de se decidir qual
+será o step seguinte na execução de um job de acordo com
+uma string de ExitStatus do step atual.
+
+Há duas maneiras de se fazer isso:
+
+*Com um StepExecutionListener e a tag <next> dentro do job
+
+*Com um JobExecutionDecider e a sua declaração em uma tag <decider>
+ com a subtag <next>
+ 
+Tambem é possivel decidir parar a execução do job com as
+tags <end>, <fail> e <stop>.
+===================================================================
+
+
+

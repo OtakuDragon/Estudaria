@@ -1,0 +1,43 @@
+A tag <next>
+
+Nos dois métodos de decisão esta tag é utilizada para
+decidir qual step será executado em seguida, ela possui
+uma sintaxe simples
+
+Sintaxe:
+
+<next on="String de ExitStatus" to="id do Step à ser executado se a string do exit status for retornada" />
+
+E uma decisão é composta por vários nexts cada um com uma
+String de exit status e o step á ser executado se ela for retornada.
+
+ex:
+
+<next on="*" to="clean" />
+<next on="FAILED" to="generateReport"/>
+
+=====================================================================================
+Wildcards de <next>
+
+O atributo on de <next> pode receber os seguintes wildcards:
+
+* - Qualquer string
+
+? - Um caractere
+
+E possui uma hierarquia que considera primeiro os nomes mais
+especificos e depois os generalizados com wildcard
+
+obs: a ordem em que os <next>'s aparecem na decisão não influencia em
+	 nada a sua prioridade de execução na hierarquia especifico-wildcard
+-----------------------------------------------------------------------------------------
+ex:
+
+<!--Representa qualquer string e só é escolhido se nenhum valor de on mais especifico for encontrado-->
+<next on="*" to="clean" />
+<!--Engloba FAILED_ + qualquer string e tem prioridade sobre wildcard * sozinho ex: FAILED_READ_ERROR FAILED_WRITE_ERROR-->
+<next on="FAILED_*" to="generateReport"/>
+<!--Engloba FAILED_ + qualquer caractere e tem prioridade sobre o string+*  ex: FAILED_A, FAILED_B, etc-->
+<next on="FAILED_?" to="generateReport"/>
+<!-- Engloba apenas o retorno de exitStatus "FAILED_NULL_ERROR" especificamente e tem prioridade de execução sobre os wildcards -->
+<next on="FAILED_NULL_ERROR" to="generateReport"/>

@@ -1,0 +1,33 @@
+Compartilhando dados entre Steps
+
+Em alguns casos é necessária a comunicação
+direta(transferencia de dados ou informações)
+entre um step e outro, esta comunicação deve
+ser evitada a todo custo já que remove uma
+caracteristica importante do step a sua indepêndencia
+de outros steps.
+
+Note que esta nesta comunicação direta não estão
+incluidos o tipo de transferencia de informação no
+qual um step escreve em um data source e outro lê
+deste data source as informações necessárias, esta
+é a maneira ideal de compartilhamento de dados.
+
+A comunicação direta(sem intermedio de data source)
+entre steps é possível no spring batch através de
+duas tecnicas:
+
+* A Utilização do JobExecutionContext
+
+* A utilização de objetos data holder
+======================================================
+JobExecutionContext VS DataHolder
+
+As duas tecnicas são diferentes mas cumprem
+o mesmo objetivo de forma similar a escolha
+depende de preferência, sendo que JobExecutionContext
+requer menos esforço já que não é necessária a criação
+de classes.
+
+
+

@@ -1,0 +1,27 @@
+JobExecutionDecider VS StepExecutionListener
+
+Os dois componentes tem a mesma função e à fazem
+de maneira semelhante, seguem as vantagens da escolha
+de um componente sobre o outro.
+====================================================
+JobExecutionDecider
+
+Vantagens:
+
+* Claridade no código, já que é mais facil notar um decider
+  do que identificar que o listener está efeutando decisões
+  
+* Separação de responsabilidades, deciders existem somente para
+  efetuar decisões de fluxo de execução, listeners podem efetuar
+  esta função se necessário
+================================================== 
+StepExecutionListener
+
+Vantagens:
+
+* O retorno do exit status de um StepExecutionListener
+  é refletido na metadata de execução do job, se ela for
+  persistida pode ser utilizada para controle.
+  
+  Note que é possivel persistir dados de decição dentro de
+  um decider escrevendo no banco de dados manualmente.

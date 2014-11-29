@@ -1,0 +1,182 @@
+Utilizando o JobExecutionContext
+
+O spring batch mantem dois tipos de execution contexts
+que nada mais são do que mapas <String,Object> para o
+trafego de informações, eles são o StepExecutionContext
+e o JobExecutionContext a diferença entre eles é o escopo,
+dados no  StepExecutionContext estão disponiveis dentro
+de um step e no JobExecutionContext durante toda a execução do job.
+
+Por isso é possivel se utilizar o JobExecutionContext
+para transferir informações entre steps.
+
+Quase todos os componentes de step(tasklets,listeners)
+possuem acesso ao JobExecutionContext, as exceções são
+ItemReader, ItemProcessor, ItemWriter é possivel dar acesso
+a estes componentes tambem implementando a interface ItemStream
+
+==================================================================
+Tipos de utilização
+
+Existem três maneiras de se utilizar o JobExecutionContext
+para compartilhar dados entre steps:
+
+* Diretamente
+* Através de  Listener Promoter
+* Utilizando SpEL
+===================================================================
+Diretamente
+
+No modo de utilização direta os dois steps envolvidos
+na comunicação manipulam diretamente o JobExecutionContext
+um inserindo dados, e outro recuperando dados.
+--------------------------------------------------------------------
+ex:
+
+Step emissor:
+
+public class VerifyStoreInJobContextTasklet implements Tasklet {
+
+	private String outputDirectory;
+	private BatchService batchService;
+	
+	@Override
+	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+	
+		batchService.verify(outputDirectory);
+		ImportMetadata importMetadata = batchService.extractMetadata(outputDirectory);
+		ExecutionContext jobExecutionContext = chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext();
+		jobExecutionContext.putString("importId",importMetadata.getImportId());
+		
+		return RepeatStatus.FINISHED;
+	}
+	(...)
+}
+
+Step Receptor:
+
+public class TrackImportFromJobContextTasklet implements Tasklet {
+
+	private BatchService batchService;
+	
+	@Override
+	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+		ExecutionContext jobExecutionContext = chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext();
+		String importId = jobExecutionContext.getString("importId");
+		batchService.track(importId);
+		return RepeatStatus.FINISHED;
+	}
+	(...)
+}
+
+OBS: Nenhuma configuração XML adicional é necessária
+===================================================================
+Listener Promoter
+
+O spring oferece um pattern no qual o step emissor
+do dado não manipula diretamente o job context, ele
+manipula o seu StepExecutionContext e configura um
+listener chamado ExecutionContextPromotionListener que
+passa as informações do StepExecutionContext para o 
+JobExecutionContext e o receptor as recebe acessando dire
+tamente o JobExecutionContext.
+--------------------------------------------------------------------
+ex:
+
+Step Emissor:
+
+//Praticamente igual ao emissor do modo direto, só que seta a informação no StepContext ao inves do JobContext
+public class VerifyStoreInStepContextTasklet implements Tasklet {
+	@Override
+	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+	
+		batchService.verify(outputDirectory);
+		ImportMetadata importMetadata = batchService.extractMetadata(outputDirectory);
+		ExecutionContext stepExecutionContext = chunkContext.getStepContext().getStepExecution().getExecutionContext();
+		stepExecutionContext.putString("importId",importMetadata.getImportId());
+		
+		return RepeatStatus.FINISHED;
+	}
+(...)
+}
+
+Step Receptor:
+
+MESMO QUE O DO MODO DIRETO
+
+Configuração XML:
+
+<!--Configuração do promoter listener-->
+<bean id="promotionListener" class="org.springframework.batch.core.listener.ExecutionContextPromotionListener">
+	<!--Recebe como propriedade um array de strings contendo as chaves das propriedades setadas no StepExecutionContext-->
+	<!--que devem ser passados para o JobExecutionContext-->
+	<property name="keys">
+        <array value-type="java.lang.String">
+            <value>importId</value>
+        </array>
+    </property>
+</bean>
+<job id="importProductsJob" xmlns="http://www.springframework.org/schema/batch">
+	(...)
+	<step id="verifyStep" next="readWriteStep">
+		<tasklet ref="verifyTasklet">
+			<!--Declaração do promotion listener-->
+			<listeners>
+				<listener ref="promotionListener" />
+			</listeners>
+		</tasklet>
+	</step>
+	(...)
+	<step id="trackImportStep" next="cleanStep">
+		<tasklet ref="trackImportTasklet" />
+	</step>
+	(...)
+</job>
+
+===============================================================
+Utilizando SpEL
+
+Neste modo apenas o step emissor da informação manipula
+diretamente o JobExecutionContext, o receptor é configurado
+no escopo step e recebe a informação diretamente no xml do
+JobExecutionContext através da SpEL
+
+--------------------------------------------------------------
+ex:
+
+Step Emissor:
+
+MESMO QUE O DO MODO DIRETO
+
+Step Receptor:
+
+public class TrackImportTasklet implements Tasklet {
+
+	private BatchService batchService;
+	//Declara a informação do step emissor como um atributo e define os seus gets e sets
+	//para que o spring possa injeta-lo
+	private String importId;
+	
+	@Override
+	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+		batchService.track(importId);
+		return RepeatStatus.FINISHED;
+	}
+	
+	public void setImportId(String importId) {
+	this.importId = importId;
+	}
+	
+	public void setBatchService(BatchService batchService) {
+	this.batchService = batchService;
+	}
+}
+
+Configuração XML:
+
+<!--Configuração do receptor que é a unica com alguma mudança, Definida no escopo Step para que seja possivel a injeção por SpEL-->
+<bean id="trackImportTasklet" class="com.manning.sbia.ch10.tasklet.TrackImportTasklet" scope="step">
+	<property name="batchService" ref="batchService" />
+	<!--A informação necessária é injetada na propriedade declarada utilizando SpEL-->
+	<property name="importId" value="#{jobExecutionContext['importId']}" />
+</bean>

@@ -1,0 +1,77 @@
+Decidindo com um StepExecutionListener
+
+O método afterStep do StepExecutionListener retorna
+um objeto ExitStatus e tem acesso ao contexto de execução do
+step.
+
+Apartir das informações no contexto do step é possivel decidir
+qual será a string do ExitStatus retornado, e então as tags next
+dentro do step associam esta string retornada a o proximo step
+a ser executado.
+
+Um step que decide qual será o proximo step através de um
+execution listener não precisa definir o atributo next.
+====================================================================
+A classe ExitStatus
+
+A classe ExitStatus retornada pelo afterStep nada mais é do
+que um wrapper para uma string que representa uma informação
+sobre o termino da execução do step.
+
+E então esta informação pode ser usada para decidir qual será
+o proximo step executado.
+
+ExitStatus possui um construtor que recebe uma string, com a
+informação de finalização da execução e tambem possui constantes
+de ExitStatus em si mesmo para os retornos padrões do spring batch
+informações de finalização de execução padrão como UNKNOWN, FAILED e COMPLETE.
+
+O ExitStatus que o step atribuiu a um step pode ser recuperado no
+método after step da seguinte maneira:
+
+stepExecution.getExitStatus();
+=====================================================================
+ex:
+
+Implementação de afterStep no listener:
+
+@Override
+public ExitStatus afterStep(StepExecution stepExecution) {
+	//Se o ExitStatus passado pelo spring sobre a execução do step for diferente de ExitStatus.FAILED
+	//ou seja o step foi completado e houveram skips, retorne o exit status customizado com a string COMPLETED WITH SKIPS
+	if(!ExitStatus.FAILED.equals(stepExecution.getExitStatus()) && stepExecution.getSkipCount() > 0) {
+		return new ExitStatus("COMPLETED WITH SKIPS");
+	//Se não retorno o exit status dado pelo spring batch para a execução do step.
+	} else {
+		return stepExecution.getExitStatus();
+	}
+}
+
+--------------------------------------------------------------------
+Configuração xml, do listener e da tag next
+
+<bean id="skippedItemsStepListener" class="com.manning.sbia.ch10.listener.SkippedItemsStepListener" />
+<job id="importProductsJob" xmlns="http://www.springframework.org/schema/batch">
+	<step id="readWriteStep">
+		<tasklet>
+			<chunk reader="reader" writer="writer" commit-interval="100" skip-limit="5">
+				<skippable-exception-classes>
+					<include class="org.springframework.batch.item.file.FlatFileParseException" />
+				</skippable-exception-classes>
+			</chunk>
+			<!--Inclusão do step execution listener -->
+			<listeners>
+				<listener ref="skippedItemsStepListener" />
+			</listeners>
+		</tasklet>
+		<!--Definição das tags <next> de decisão dentro do step-->
+		<next on="COMPLETED WITH SKIPS" to="generateReportStep" />
+		<next on="*" to="cleanStep" />
+	</step>
+	<step id="generateReportStep" next="cleanStep">
+		<tasklet>(...)</tasklet>
+	</step>
+	<step id="cleanStep">
+		<tasklet>(...)</tasklet>
+	</step>
+</job>

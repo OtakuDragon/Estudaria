@@ -1,0 +1,112 @@
+Utilizando Objetos DataHolder
+
+A utilização de objetos DataHolder exclui a necessidade
+da utilização de ExecutionContexts para o compartilhamento
+de informações entre steps mas adiciona a complexidade da
+criação de classes para a configuração desta comunicação.
+
+Objetos DataHolder são do que objetos POJO que tem como
+objetivo servir de veículo para a comunicação entre dois steps, 
+ele possui toda a definição dos dados, o step emissor preenche
+estes dados e o step receptor utiliza o DataHolder preenchido.
+
+O objeto DataHolder é inserido dentro dos steps através da
+injeção de dependencia do spring.
+================================================================
+ex:
+
+Implementação do DataHolder
+
+//Lembrando que o holder ele contem as informações ele não representa
+//as informações, outros objetos ou tipos primitivos dentro do holder
+//representam as informações
+public class ImportMetadataHolder {
+
+	//Informação transmitida entre steps
+	private ImportMetadata importMetadata;
+	
+	public ImportMetadata getImportMetadata() {
+		return importMetadata;
+	}
+	
+	public void setImportMetadata(ImportMetadata importMetadata) {
+		this.importMetadata = importMetadata;
+	}
+}
+---------------------------------------------------------------
+Step Emissor:
+
+public class VerifyTasklet implements Tasklet {
+
+	private String outputDirectory;
+	private BatchService batchService;
+	//Instancia do holder vazia que será injetada pelo spring
+	private ImportMetadataHolder importMetadataHolder;
+	
+	@Override
+	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+		batchService.verify(outputDirectory);
+		importMetadataHolder.set(batchService.extractMetadata(outputDirectory));
+		return RepeatStatus.FINISHED;
+	}
+	public void setBatchService(BatchService batchService) {
+	this.batchService = batchService;
+	}
+	public void setOutputDirectory(String outputDirectory) {
+	this.outputDirectory = outputDirectory;
+	}
+}
+----------------------------------------------------------------
+Step Receptor:
+
+public class TrackImportWithHolderTasklet implements Tasklet {
+
+	private BatchService batchService;
+	//Instancia do holder preenchida pelo emissor que será injetada pelo spring
+	private ImportMetadataHolder importMetadataHolder;
+	
+	@Override
+	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+		batchService.track(importMetadataHolder.get().getImportId());
+		return RepeatStatus.FINISHED;
+	}
+	public void setBatchService(BatchService batchService) {
+		this.batchService = batchService;
+	}
+	public void setImportMetadataHolder(ImportMetadataHolder importMetadataHolder) {
+		this.importMetadataHolder = importMetadataHolder;
+	}
+}
+----------------------------------------------------------------
+Configuração XML:
+
+<!--Configuração do dataholder como singleton-->
+<bean id="importMetadataHolder" class="com.manning.sbia.ch10.batch.ImportMetadataHolder" />
+
+<!--Configuração do tasklet do step emissor injetando o dataholder dentro da propriedade importMetadataHolder-->
+<bean id="verifyTasklet" class="com.manning.sbia.ch10.tasklet.VerifyTasklet">
+	<property name="batchService" ref="batchService" />
+	<property name="outputDirectory" value="/tmp/batch" />
+	<property name="importMetadataHolder" ref="importMetadataHolder" />
+</bean>
+
+<!--Configuração do tasklet do step receptor injetando o dataholder dentro da propriedade importMetadataHolder-->
+<bean id="trackImportTasklet" class="com.manning.sbia.ch10.tasklet.TrackImportWithHolderTasklet">
+	<property name="batchService" ref="batchService" />
+	<property name="importMetadataHolder" ref="importMetadataHolder" />
+</bean>
+=================================================================
+Lendo do Holder com SpEL
+
+Tambem há a possibilidade de remover o atributo holder do receptor
+e incluir apenas o dado desejado, e utilizar SpEL para recuperar
+o dado do holder.
+
+obs: o receptor deve estar no escopo de step
+----------------------------------------------------------------------
+ex:
+
+<bean id="trackImportTasklet" class="com.manning.sbia.ch10.tasklet.TrackImportTasklet" scope="step">
+<property name="batchService" ref="batchService" />
+<property name="importId" value="#{importMetadataHolder.get().getImportId()}" />
+</bean>

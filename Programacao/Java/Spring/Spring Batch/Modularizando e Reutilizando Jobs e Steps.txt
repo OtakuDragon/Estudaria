@@ -1,0 +1,74 @@
+Modularizando e Reutilizando Jobs e Steps
+
+A reutilização de código é um principio muito importante
+para as boas práticas da programação e o spring bartch 
+aplica este principio.
+
+Podem haver situações nas quais um conjunto de steps(flow)
+que façam uma tarefa generica que mais de um job pode precisar
+
+Ou que um job precisa executar um outro job completo como um
+de seus steps, estas duas situações são suportadas pelo spring
+batch
+==============================================================
+Criando Flows
+
+Flows são conjuntos de steps independentes de job que podem
+ser criados e então incluidos em vários jobs como um step
+
+ex:
+
+Declaração de flow:
+
+<flow id="prepareInputFileFlow">
+	<step id="downloadStep" next="decompressStep">
+		<tasklet ref="downloadTasklet" />
+	</step>
+	<step id="decompressStep" next="verifyStep">
+		<tasklet ref="decompressTasklet" />
+	</step>
+	<step id="verifyStep">
+		<tasklet ref="verifyTasklet" />
+	</step>
+</flow>
+
+Utilização de flow em jobs(funciona como um step)
+
+<job id="importProductsJob">
+	<!--O flow acima é inserido no job através da herança deste flow vazio que funciona como um step, e referencia o flow-pai pelo seu id-->
+	<flow parent="prepareInputFileFlow" id="importProducts.prepareInputFileFlow" next="readWriteStep" />
+	<step id="readWriteStep" next="trackImportStep">
+		<tasklet>(...)</tasklet>
+	</step>
+	(...)
+</job>
+=============================================================
+Job Inception
+
+O conteudo do step de um job pode alem de tasklets
+e chunk oriented tasklets ser outro job.
+
+Funciona como uma opção a declaração de flows, pode
+ser declarado um job normal e então referencia-lo dentro
+de um step.
+
+<job id="prepareInputFileJob">
+	<step id="downloadStep" next="decompressStep">
+		<tasklet ref="downloadTasklet" />
+	</step>
+	<step id="decompressStep" next="verifyStep">
+		<tasklet ref="decompressTasklet" />
+	</step>
+	<step id="verifyStep">
+		<tasklet ref="verifyTasklet" />
+	</step>
+</job>
+<job id="importProductsJob">
+	<step id="importProducts.prepareInputFileJob" next="readWriteStep">
+		<job ref="prepareInputFileJob" />
+	</step>
+		<step id="readWriteStep" next="trackImportStep">
+	<tasklet>(...)</tasklet>
+	</step>
+	(...)
+</job>

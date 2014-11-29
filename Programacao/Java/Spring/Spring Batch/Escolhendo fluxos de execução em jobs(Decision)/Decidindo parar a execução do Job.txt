@@ -1,0 +1,60 @@
+Decidindo parar a execução do Job
+
+Nem sempre o proximo passo de um step é o 
+proximo step alguns ExitStatuses podem requerir
+que o job finalize a sua execução.
+
+O spring batch oferece três tags que funcionam
+como o <next>, mas ao inves de continuar a execução
+para um proximo step, finalizam a execução do job e
+não executam nenhum dos proximos steps.
+
+Cada uma representa um tipo de finalização diferente
+que afeta a capacidade de se efetuar restart na execução do
+job.
+
+elas são:
+
+* <end>  - Finaliza a execução do job como se todos os steps tivessem completado com sucesso
+		   com o ExitStatus.COMPLETED, e não permite restart.
+
+* <fail> - Finaliza a execução do job como ExitStatus.FAILED o que significa
+		   que ocorreram erros não esperados e portanto a execução teve que ser finalizada 
+		   e torna a execução passível de restart.
+
+* <stop> - Finaliza a execução do job como se o código tivesse pedido para
+		   parar a execução programaticamente com a flag stepExecution.setTerminateOnly();
+		   com o ExitStatus.STOPPED e torna a execução passível de restart
+		   
+A escolha de como terminar o job depende do 
+ExitStatus gerado pelo step e da decisão do programador
+de como reagir a ele.
+
+Já que estas tags finalizam a execução elas só possuem
+o atributo on "que" recebe a string do ExitStatus ou uma
+representação com wildcards dela que causará aquele tipo
+de finalização.
+============================================================================
+ex:
+
+<job id="importProductsJob" xmlns="http://www.springframework.org/schema/batch">
+	<step id="downloadStep">
+			<tasklet ref="downloadTasklet">
+			<!--Listener que define o ExitStatus do step-->
+			<listeners>
+				<listener ref="fileExistsStepListener" />
+			</listeners>
+			</tasklet>
+		<!--Decisões de acordo com o ExitStatus-->
+		<!--Nenhum arquivo para processar finalize com sucesso(ExitStatus.COMPLETED)-->
+		<end on="NO FILE" />
+		<!--Achou o arquivo para processar, continue o processamento-->
+		<next on="FILE EXISTS" to="decompressStep"/>
+		<!--Qualquer outro ExitStatus finalize a execução como falha(ExitStatus.FAILED)-->
+		<fail on="*" />
+	</step>
+	<step id="decompressStep" next="verifyStep">
+		<tasklet ref="decompressTasklet" />
+	</step>
+	(...)
+</job>
