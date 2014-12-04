@@ -1,0 +1,52 @@
+Utilizando o JobExplorer
+
+A interface JobExplorer define métodos para a leitura
+das tabelas do job repository e retorna DTOs delas
+
+Estes objetos DTO possuem todas as informações necessárias
+para saber todos os detalhes da execução do job e dos seus steps
+quais erros, skips, retries e restarts aconteceram alem de exeções
+que falharam jobs.
+
+Os métodos são:
+
+List<String> getJobNames(); - Retorna o nome de todos os jobs que estão sendo executados ou já foram executados pelo menos uma vez.
+
+Set<JobExecution> findRunningJobExecutions(String jobName); -  Encontra todas as JobExecutions sendo executadas atualmente para um job pelo seu nome.
+
+List<JobInstance> getJobInstances( String jobName, int start, int count); - Retorna uma lista contando todas as job instances de um job pelo seu nome, e possui parametros
+																			para controle de paginação.
+																			
+List<JobExecution> getJobExecutions(JobInstance jobInstance); - Retorna todas as job executions para uma job instance(job execution = job instance + job parameters)
+
+JobExecution getJobExecution(Long executionId); - Recupera uma job execution pelo seu id.
+
+JobInstance getJobInstance(Long instanceId); - Recupera uma job instance pelo seu id.
+
+StepExecution getStepExecution(Long jobExecutionId, Long stepExecutionId); - Recupera uma step execution pelo id da job execution e da step execution, todas as steps executions
+																			 de um job execution podem ser recuperadas através de um objeto JobExecution.																	 
+
+==================================================================================
+Configurando a implementação padrão do JobExplorer
+
+Uma implementação do job explorer pode ser utilizada em muitas
+funções de monitoração de jobs e ela é implementada por padrão
+pelo spring bean org.springframework.batch.core.explore.support.JobExplorerFactoryBean
+
+Este bean requer duas propriedades:
+
+- dataSource - Uma referencia a um datasource jdbc para a conexão com o banco de dados
+			   aonde se encontram as tabelas do job repository
+			   
+- lobHandler - Large object handler que o JobExplorer utiliza internamente para salvar
+			   execution contexts, o spring oferece uma implementação padrão de lob handler
+			   
+-------------------------------------------------------------------------------------
+Configuração XML
+
+<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+	<property name="dataSource" ref="dataSource"/>
+	<property name="lobHandler" ref="lobHandler"/>
+</bean>
+<bean id="dataSource" class="(...)"> (...) </bean>
+<bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"/>

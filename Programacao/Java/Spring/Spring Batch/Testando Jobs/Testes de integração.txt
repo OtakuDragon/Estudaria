@@ -1,0 +1,67 @@
+Testes de integração
+
+Teste de integração são testes que juntam
+componentes e testam como estes componentes
+interagem.
+
+Estes testes ainda são feitos do Junit mas
+com alguns detalhes, é necessario um spring
+application context e isto é adicionado inserindo
+a classe de teste as anotações
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("caminho/context.xml")
+
+@ContextConfiguration recebe o caminho para o
+xml que define o application context do teste
+=============================================================
+ex:
+
+@ContextConfiguration
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, StepScopeTestExecutionListener.class })
+@RunWith(SpringJUnit4ClassRunner.class)
+public class CompositeItemProcessorTest {
+	@Autowired
+	private ItemProcessor<Product, Product> processor;
+	
+	public StepExecution getStepExecution() {
+		JobParameters jobParameters = new JobParametersBuilder()
+		.addDouble("maxPrice", "200.0")
+		.toJobParameters();
+		StepExecution execution = createStepExecution(jobParameters);
+		return execution;
+	}
+	@Test
+	@DirtiesContext
+	public void testProcessor() throws Exception {
+		Product p1 = new Product();
+		p1.setPrice(new BigDecimal("100.0"));
+		Product p2 = processor.process(p1);
+		assertNotNull(p2);
+	}
+	@Test
+	@DirtiesContext
+	public void testNegativePriceFailure() throws Exception {
+		Product p1 = new Product();
+		p1.setPrice(new BigDecimal("-800.0"));
+		Product p2 = processor.process(p1);
+		assertNull(p2);
+	}
+
+	@Test
+	@DirtiesContext
+	public void testZeroPriceFailure()  Exception {
+		Product p1 = new Product();
+		p1.setPrice(new BigDecimal("0.0"));
+		Product p2 = processor.process(p1);
+		assertNull(p2);
+	}
+	@Test
+	@DirtiesContext
+	public void testEmptyProductFailure() throws Exception {
+		Product p1 = new Product();
+		Product p2 = processor.process(p1);
+		assertNull(p2);
+	}
+}
+

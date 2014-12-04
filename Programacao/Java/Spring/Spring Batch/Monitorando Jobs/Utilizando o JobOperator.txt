@@ -1,0 +1,75 @@
+Utilizando o JobOperator
+
+A interface JobOperator oferece métodos focados 
+na recuperação de informação de execução e no controle
+de execução dos jobs, utilizando os serviços oferecidos
+por ela é possivel construir aplicações para execução e
+controle de jobs.
+
+A maioria dos métodos de JobOperator utiliza o driving
+query pattern ou seja retorna apenas listas de ids de objetos,
+o JobExplorer pode ser utilizado para buscar objetos DTO atraves
+destes ids.
+===========================================================================
+Os métodos oferecidos são:
+
+List<Long> getExecutions(long instanceId); - Recupera uma lista de ids de JobExecutions através do id de um JobInstance.
+
+List<Long> getJobInstances(String jobName, int start, int count); - Recupera uma lista de ids de JobInstance através de um nome de job e possui
+																	parametros para paginação.
+																	
+Set<String> getJobNames(); - Recupera o nome de jobs que podem ser iniciados através do método start()
+
+String getParameters(long executionId); - Recupera o id de um JobParameters através do id do JobExecution
+
+Set<Long> getRunningExecutions(String jobName); - Recupera uma lista de ids das JobExecutions sendo executadas pelo nome do job.
+
+Map<Long,String> getStepExecutionSummaries(long executionId); - Retorna um sumario com os dados da execução de cada step através do id
+															    de uma JobExecution em um mapa <id do StepExecution, Sumario no formato string>
+
+String getSummary(long executionId); - Retorna o sumario com os dados de execução do job através do JobExecution id
+
+Long start(String jobName, String parameters); - Executa um job(cria nova instancia) através do nome do job e os parametros de execução,
+												 e retorna o id da jobExecution iniciada.
+
+Long restart(long executionId); - Reinicia a execução de uma instancia de job que falhou ou foi parada anteriormente através do id da job execution
+								  e retorna o id da nova job execution iniciada.
+
+Long startNextInstance(String jobName); - Se o job tiver configurado uma JobParametersIncrementer inicia uma nova execução do job através do seu nome e recuperado os parametros
+									      de execução do incrementer.
+										  
+boolean stop(long executionId); - Seta o flag de parada para a execução de uma JobExecution pela sua JobExecution id.
+
+=========================================================================
+Configurando o JobOperator padrão
+
+O job operator precisa como propriedade referencias a 4 objetos
+da infraestrutura spring batch:
+
+- jobRepository - A implementação persistente do JobRepository
+- jobLauncher - Uma referencia a um launcher já que ele pode lançar e reiniciar jobs
+- jobRegistry - Elemento de infra estrutura auxiliar que permite a recuperação de objetos
+				Job, através dos seus nomes.
+- jobExplorer - Outro elemento de monitoração que lê o banco de dados do job repository persistente
+-----------------------------------------------------------------------------------------
+ex:
+
+<bean id="jobOperator" class="org.springframework.batch.core.launch.support.SimpleJobOperator">
+	<property name="jobRepository" ref="jobRepository"/>
+	<property name="jobLauncher" ref="jobLauncher" />
+	<property name="jobRegistry" ref="jobRegistry" />
+	<property name="jobExplorer" ref="jobExplorer" />
+</bean>
+<batch:job-repository id="jobRepository" data-source="dataSource" />
+	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+	<property name="jobRepository" ref="jobRepository" />
+</bean>
+<bean class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+	<property name="jobRegistry" ref="jobRegistry" />
+</bean>
+<bean id="jobRegistry"class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+	<property name="dataSource" ref="dataSource" />
+</bean
+
+ 

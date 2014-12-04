@@ -1,0 +1,31 @@
+Testes Unitarios
+
+Testes unitarios são testes de execução de métodos de um
+objeto especifico para assegurar-se de que os métodos possuem
+o comportamento correto.
+
+Testes unitarios no spring batch podem ser feitos como qualquer
+outro test no java utilizando Junit padrão e opcionalmente frame
+works de mocking que simulam a criação de objetos complexos.
+
+Para os objetos muito complexos do spring batch framework que
+mocking frameworks não conseguem criar, o spring batch oferece
+a classe MetaDataInstanceFactory que possui métodos estaticos
+para o retorno de objetos como JobExecution e StepExecution,
+necessários para a execução de algums métodos do framework
+como tasklets.
+=================================================================
+ex:
+
+//Testando um tasklet
+public class CleanTaskletTest {
+	@Test
+	public void clean() throws Exception {
+		StepExecution stepExecution = MetaDataInstanceFactory.createStepExecution();
+		StepContribution contrib    = new StepContribution(stepExecution);
+		ChunkContext context        = new ChunkContext(new StepContext(stepExecution));
+		CleanTasklet clean          = new CleanTasklet();
+		RepeatStatus status         = clean.execute(contrib, context);
+		assertEquals(RepeatStatus.FINISHED, status);
+	}
+}

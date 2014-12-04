@@ -1,0 +1,11 @@
+Outras soluções
+
+O spring batch tambem oferece a aplicação web
+spring batch admin e suporte a utilização de JobOperator
+através de JMX para a monitoração de jobs.
+
+Essas são maneiras alternativas de se utilizar as interfaces
+JobExplorer e JobOperator de uma maneira highlevel apartir
+de aplicações.
+
+

@@ -1,0 +1,56 @@
+Executando Steps paralelamente
+
+Por padrão o spring batch executa todo o job
+em apenas uma thread e os steps sequencialmente
+um após o outro.
+
+Muitas vezes steps podem ser executados paralelamente
+cada um em uma thread separada, o que pode melhorar
+a performance do job.
+
+Para a execução de steps paralelamente é necessário
+um task executor ,um elemento que executa threads
+o spring oferece alguma implementações de task executor
+uma delas sendo a de pool de threads.
+
+Ela é configurada como abaixo:
+
+<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+	<property name="corePoolSize" value="5"/>
+	<property name="maxPoolSize" value="10"/>
+	<property name="queueCapacity" value="25"/>
+</bean>
+
+O elemento que define a execução paralela de steps
+é o <split>, ele funciona como um composite de flows
+e cada flow pode conter um step todos os steps do <split>
+são executados paralelamente.
+
+O <split> se encaixa no job como um step e possui um id
+referido pelo step anterior no next e um next para definir
+o proximo step, a diferença é que ele tambem recebe uma
+referencia a um task executor(opcional ja que ele tem um task executor padrão)
+===================================================================
+ex:
+
+<batch:job id="importProductsJob">
+	<batch:step id="decompress" next="readWrite">
+		<batch:tasklet ref="decompressTasklet"/>
+	</batch:step>
+	<!--Os dois steps são executados paralelamente-->
+	<batch:split id="readWrite" taskExecutor="task-executor" next="moveProcessedFiles">
+		<batch:flow>
+			<batch:step id="readWriteBookProduct">
+			(...)
+			</batch:step>
+		</batch:flow>
+		<batch:flow>
+			<batch:step id="readWriteMobileProduct">
+			(...)
+			</batch:step>
+		</batch:flow>
+	</batch:split>
+	<batch:step id="moveProcessedFiles">
+		<batch:tasklet ref="moveProcessedFilesTasklet" />
+	</batch:step>
+</batch:job>

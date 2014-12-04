@@ -1,0 +1,21 @@
+Manipulando o Job repository persistente
+
+A maneira mais básica de se monitorar execuções de job é
+manter um job repository persistente e buscar informações
+dele através de duas interfaces que o spring batch oferece
+para isso, elas são:
+
+* JobExplorer - Possui métodos para a leitura do job repository persistente
+				utilizando como retorno dos seus métodos objetos DTO spring batch.
+
+* JobOperator - Possui métodos para a leitura do job repository persistente
+				utilizando como retorno dos seus métodos dados primitivos(long,String, etc.)
+				e tambem oferece métodos para iniciar, reiniciar e parar execuções de jobs.
+
+O spring batch utiliza jdbc para manter o job repository  e o manipula
+através da interface JobRepository, esta interface não deve ser utilizada
+diretamente já que ela é focada em inserir e atualizar metadata de execução
+				
+As duas interfaces descritas acima tem como função servirem de
+classes dao para a manipulação das entidades do jobRepository
+persistente, e o spring batch oferece implementações para elas.
