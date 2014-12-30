@@ -74,3 +74,16 @@ ex:
 			o parametro tem um nome e um valor
 ------------------------------------------------------------------------------------------------------------------------
 <ui:decorate>		Funciona como <ui:composition> mas não ignora o conteudo fora da tag.
+------------------------------------------------------------------------------------------------------------------------
+<ui:debug>		Se esta tag for incluida em uma pagina jsf, e um conjunto de teclas (ctrl+shift+hotkey) for pressionado
+			abre uma janela de debug mostrando a arvore de componentes e os seus valores.
+			
+			Atributos:
+			
+			hotkey - Define qual tecla deve ser apertada junto com ctrl+shift para abrir a janela de debug com as informações.
+			
+			rendered - Recebe um booleano que decide se a janela deve ser mostrada se o comando for pressionado ou não
+				   geralmente utilizada para controle de só abrir a janela de debug em ambiente de desenvolvimento.
+ex:
+
+<ui:debug rendered="#{initParam['javax.faces.PROJECT_STAGE'] eq 'Development'}" hotkey="a" />
