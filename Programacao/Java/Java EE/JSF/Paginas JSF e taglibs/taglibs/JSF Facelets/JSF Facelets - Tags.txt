@@ -1,20 +1,21 @@
-A taglib Facelets
+O Framework Facelets
 
-A taglib Facelets possui recursos poderosos para a reutilizaÁ„o
-de paginas de interface web
+O Framework Facelets possui recursos poderosos para a reutiliza√ß√£o
+de paginas de interface web, e √© a tecnologia recomendada para a cria√ß√£o
+de views para o JSF, atrav√©s de paginas no formato xHTML.
 
 =======================================================
-Tags			DescriÁ„o
+Tags			Descri√ß√£o
 
-<ui:remove>		Agrupa uma parte do cÛdigo que n„o deve ser exibida na pagina nem processada pelo jsf
+<ui:remove>		Agrupa uma parte do c√≥digo que n√£o deve ser exibida na pagina nem processada pelo jsf
 			semelhante a uma parte do codigo comentada (<!---->) com o detalhe de que tags comentadas
-			apesar de n„o serem mostradas na pagina ainda sim s„o processadas pelo JSF
+			apesar de n√£o serem mostradas na pagina ainda sim s√£o processadas pelo JSF
 
 ---------------------------------------------------------------------------------------------------------------------------------
-<ui:repeat> 		funciona como dataTable mas ela apenas itera sobre coleÁıes, toda a configuraÁ„o de exibiÁ„o
-			que em dataTable È no formato de uma tabela, È completamente definida pelo programador
-			Ela possui dois atributos obrigatÛrios: value e var. O atributo value deve ser associado a uma coleÁ„o de objetos e o atributo var deve 
-                        definir o nome da vari·vel.
+<ui:repeat> 		funciona como dataTable mas ela apenas itera sobre cole√ß√µes, toda a configura√ß√£o de exibi√ß√£o
+			que em dataTable √© no formato de uma tabela, √© completamente definida pelo programador
+			Ela possui dois atributos obrigat√≥rios: value e var. O atributo value deve ser associado a uma cole√ß√£o de objetos e o atributo var deve 
+                        definir o nome da vari√°vel.
 
 ex:
 
@@ -29,23 +30,25 @@ ex:
 HTML output:
 
 <ul>
- <li>K11 : OrientaÁ„o a Objetos em Java </li>
+ <li>K11 : Orienta√ß√£o a Objetos em Java </li>
  <li>K12 : Desenvolvimento Web com JSF2 e JPA2 </li>
- <li>K21 : PersistÍncia com JPA2 e Hibernate </li>
+ <li>K21 : Persist√™ncia com JPA2 e Hibernate </li>
  <li>K51 : Design Patterns em Java </li>
 </ul>
 
-*È possivel observer que a tag <li> È repetida com valores diferentes de acordo com a iteraÁ„o da coleÁ„o definida em value
+*√© possivel observer que a tag <li> √© repetida com valores diferentes de acordo com a itera√ß√£o da cole√ß√£o definida em value
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 <ui:insert>		Tag utilizada para inserir conteudo dinamico em um template ela possui um nome pelo qual ela
-			È indentificada na tag <ui:define> que define o conteudo.
+			√© indentificada na tag <ui:define> que define o conteudo.
 
 --------------------------------------------------------------------------------------------------------------------------------
 <ui:composition>	Tag que define partes dinamicas em um template deve ser a tag raiz em um arquivo xhtml e possui
-			a seguinte assinatura, o atributo template recebe o endereÁo da pagina de template que esta pagina usar·
-			seu codigo pode ser separado em <ui:define> ou ser um codigo puro que È importado para uma pagina qualquer
+			a seguinte assinatura, o atributo template recebe o endere√ßo da pagina de template que esta pagina usar√°
+			seu codigo pode ser separado em <ui:define> ou ser um codigo puro que √© importado para uma pagina qualquer
 			com a tag <ui:include>
+			
+			* Ignora tudo o que est√° fora da tag.
 ex:
 
 <ui:composition template ="/template.xhtml"
@@ -59,7 +62,7 @@ ex:
 ---------------------------------------------------------------------------------------------------------------------------
 <ui:define>		Tag utilizada dentro de uma <ui:composition> para definir o conteudo das partes dinamicas de um template
 			em seu atributo name recebe o nome da tag <ui:insert> que diz aonde inserir e dentro do seu corpo
-			È inserido o codigo da parte dinamica
+			√© inserido o codigo da parte dinamica
 
 ---------------------------------------------------------------------------------------------------------------------------
 <ui:include>		Importa o conteudo de um arquivo <ui:composition> para dentro de uma pagina qualquer
@@ -69,3 +72,5 @@ ex:
 ------------------------------------------------------------------------------------------------------------------------
 <ui:param>		Tag interna de <ui:include> para a passagem de parametros para o  <ui:composition>
 			o parametro tem um nome e um valor
+------------------------------------------------------------------------------------------------------------------------
+<ui:decorate>		Funciona como <ui:composition> mas n√£o ignora o conteudo fora da tag.
