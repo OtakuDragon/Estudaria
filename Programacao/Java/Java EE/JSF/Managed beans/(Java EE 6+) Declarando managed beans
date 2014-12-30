@@ -1,0 +1,27 @@
+(Java EE 6+) Declarando managed beans
+
+Apartir do java ee 6 a declaração de managed beans
+do jsf através da anotação @ManagedBean não é mais
+recomendada, a maneira padrão de se declarar managed
+beans deve ser como beans CDI @Named.
+
+E o escopo deve ser definido por anotações com o mesmo
+nome, mas com o pacote diferente do, do JSF "javax.enterprise.context"
+apartir do CDI 1.1(Java EE 7+) o arquivo beans.xml não
+é obrigatorio e pode ser omitido abaixo desta versão ele
+deve ser declarado mesmo que vazio.
+
+A razão para preferencia da utilização do CDI é que ele
+tem as mesmas funções de dependency injection que @ManagedBean supria
+de forma basica, e alem disto oferece um framework completo com muitas
+outras funcionalidades.
+
+*beans CDI sempre devem implementar Serializable.
+======================================================================================
+ex:
+
+//O value não é obrigatorio, e pode ser omitido como no atributo name de @ManagedBean
+@Named(value = "meuManagedBean")
+@SessionScoped
+public class MeuManagedBean implements Serializable{
+}
