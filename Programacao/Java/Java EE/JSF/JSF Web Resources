@@ -1,0 +1,99 @@
+JSF Web Resources
+
+  Web resources são arquivos extras necessários pelas páginas web de uma aplicação JSF para
+a sua correta exibição e funcionamento, dentre os exemplos mais comuns de web resources estão
+css, javascript e imagens.
+
+  O JSF facilita a referência a web resources definindo uma pasta padrão na aplicação web
+chamada resources(em um projeto maven webapp/resources) pastas dentro desta pasta são reconhecidas
+como libraries que são conjuntos de recursos, em uma library podem ser colocados varios resources
+e é possivel referencia-los em tags de inserção de resources nos atributos library e name
+
+<h:outputStylesheet library="css" name="default.css"/>
+
+O que referência o arquivo:
+
+webapp/resources/css/default.css
+
+Ou utilizando EL com a sintaxe:
+
+<h:graphicImage value="#{resource['images:minhaImagem.gif']}"/>
+
+referência o arquivo:
+
+webapp/resources/images/minhaImagem.gif
+====================================================================================================
+O atributo target
+
+Algumas tags de inserção de recurso como <h:outputStylesheet> possuem
+o atributo target, este atributo define aonde o web resource será inserido
+na pagina, se este atributo não for definido, o resource será inserido na posição
+aonde se encontra a tag.
+
+Alguns valores para target são:
+
+* head - insere o recurso na tag head da pagina.
+* body - insere o recurso na tag body da pagina.
+* form - insere o recurso em um form da pagina.
+
+ex:
+
+<!--Não importa aonde esta tag for definida o script css será inserido na tag head da pagina,
+    isto é util quando a tag head não está acessivel diretamente quando usamos um template facelets-->
+<h:outputStylesheet library="css" name="default.css" target="head"/>
+====================================================================================================
+Resource Library Contracts
+
+Definir libraries diretamente dentro da pasta resources é uma opção para a definição
+de web resources em paginas, a outra é por meio de contracts, contracts são pastas
+que contem recursos que são atribuidos a paginas que atenderem a uma certa url pattern
+
+é uma maneira facil de definir recursos diferentes para paginas utilizando o mesmo nome para estes
+recursos.
+
+Contracts são definidos dentro da pasta contracts em um projeto maven dentro de webapp, cada
+subpasta de contracts representa um contrato com o nome do nome da pasta que pode ser qualquer
+um.
+
+Contracts são mapeados a paginas no faces-config.xml, como abaixo:
+
+<resource-library-contracts>
+  <contract-mapping>
+    <!--url pattern a qual aquele contrato se aplica-->
+    <url-pattern>/reply/*</url-pattern>
+    <!--Nome da pasta dentro de contracts-->
+    <contracts>reply</contracts>
+  </contract-mapping>
+  <contract-mapping>
+    <url-pattern>*</url-pattern>
+    <contracts>hello</contracts>
+  </contract-mapping>
+</resource-library-contracts>
+
+ex com o mapeamento acima e a estrutura de contracts abaixo:
+
+src/main/webapp
+  WEB-INF/
+  contracts
+    reply
+      template.xhtml
+      style.css
+      myImg.gif
+      myJS.js
+    hello
+      template.xhtml
+      style.css
+      img.gif
+      JS.js
+  index.xhtml
+  reply
+    reply.xhtml
+    
+  A tag:
+  
+<h:outputStylesheet name="style.css"/>
+
+Na pagina index.xhtml referencia contracts/hello/style.css
+Na pagina reply/reply.xhtml referencia contracts/reply/style.css
+
+
