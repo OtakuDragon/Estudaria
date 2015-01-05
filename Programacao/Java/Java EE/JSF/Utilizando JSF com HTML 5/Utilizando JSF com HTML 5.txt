@@ -1,0 +1,55 @@
+Utilizando JSF com HTML 5
+
+Apartir do JSF 2.2 é possível utilizar não somente
+o formato xHTML, como tambem o formato html 5 para
+exibir paginas JSF, o html 5 oferece uma serie de
+componentes extras com relação ao xHTML.
+
+E o JSF suporta estes novos componentes "convertendo-os"
+implicitamente para UIComponents padrões do jsf desde
+que eles estejam marcados.
+
+Esta marcação é feita por meio dos namespaces abaixo.
+===============================================================================================
+xmlns:jsf="http://xmlns.jcp.org/jsf
+
+	marca atributos em elementos html 5, para defini-los como
+componentes JSF, atributos marcados com este namespace funcionam
+como atributos de componentes JSF.
+									  
+ex:
+
+<!--O atributo id, do input text abaixo diz ao JSF para considerar este campo html 5 como um h:inputText, e permite utiliza-lo como
+    o componente jsf até mesmo com EL, marcar um atributo de um elemento html 5 com o namespace jsf já é o suficiente para transforma-lo
+	em um componente JSF
+	
+	Dependendo do atributo marcado um mesmo elemento html 5 pode se tornar componentes JSF distintos de acordo com a tabela nesta pasta-->
+<input type="email" jsf:id="email" name="email" value="#{reservationBean.email}" required="required"/>
+=================================================================================================
+xmlns:p="http://xmlns.jcp.org/jsf/passthrough
+
+ marca atributos em elementos jsf dizendo à implementação jsf
+para ignora-los e deixa-los serem processados como atributos HTML 5.
+
+<!-- O namespace passthrough funciona de maneira similar ao namespace jsf, só que de uma maneira inversa, ele marca
+	 atributos de componentes JSF que serão ignorados pela implementação JSF, e intrepretados pelo browser como HTML 5 diretamente-->
+<h:inputText id="nights" p:type="number" value="#{bean.nights}" p:min="1" p:max="30" p:required="required" p:title="Enter a number between 1 and 30 inclusive.">
+-------------------------------------------------------------------------------------------------
+<f:passThroughAttribute> e <f:passThroughAttributes>
+
+Estas tags são uma maneira diferente de se utilizar a marcação passthrough,
+por meio da definição dos atributos separadamente no interior dos elementos.
+
+ex:
+<!--Um elemento pode ter um ou mais f:passThroughAttribute ou declarar um
+	f:passThroughAttributes que deve receber uma referencia a um mapa string, object
+	em um managed bean com os atributos que serão passthrough ->
+<h:inputText value="#{user.email}">
+	<f:passThroughAttribute name="type" value="email" />
+</h:inputText>
+
+Equivale há:
+
+<h:inputText value="#{user.email}" p:type="email">
+
+
