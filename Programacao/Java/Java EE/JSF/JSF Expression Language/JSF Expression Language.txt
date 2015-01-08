@@ -1,0 +1,10 @@
+JSF Expression Language
+
+Expression Language ou EL, é uma tecnologia java que possui uma especificação
+própria e pode ser aplicada em qualquer tecnologia, para a fácil referência
+de código em arquivos, a sua utilização é mais presente em páginas JSF e JSP
+para "cabear", elementos nas paginas web, há o código Java.
+
+No JSF a EL é um elemento essencial pois é ela que faz a ligação entre os
+componentes das páginas e os Managed beans.
+=============================================================================

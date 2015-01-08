@@ -1,0 +1,67 @@
+Tipos de expressão
+
+Expressões na Expression language se dividem em dois
+tipos:
+
+Value expressions - Referências à valores ou expressões de comparação entre dois ou mais valores
+
+Method Expressions - Referências à métodos, com ou sem parametros que serão executados quando a expressão for processada(evaluated)
+=============================================================================
+Value Expressions
+
+Value expressions se dividem em duas categorias:
+
+lvalue - Expressões que referênciam diretamente para leitura ou escrita um atributo
+		 de uma classe acessivel à expression language geralmente um managed bean.
+		 
+rvalue - Uma referencia read only a um atributo de uma classe acessivel à expression language
+		 que pode ser usada com operadores de comparações para gerar valores booleanos.
+		 
+--------------------------------------------------------------------------------
+Referenciando Atributos de atributos
+
+Em value expressions é possivel navegar em atributos de atributos
+com duas notações:
+
+A de "." ex: #{customer.name}, o objeto customer possui um atributo name
+
+Ou a de array ex: #{customer["name"]}, funciona da mesma maneira
+
+obs: as duas notações podem ser utilizadas em conjunto e não há limite
+     de navegação. ex: ${customer.address["street"]}
+	 
+-----------------------------------------------------------------------------
+Referenciando coleções
+
+Coleções tambem podem utilizar as duas notações de
+atributos de atributos, a notação de array, quando
+a coleção possuir um indice como um array, List ou Set
+e a notação de ponto(.) quando a coleção possuir chave
+como um mapa.
+
+ex:
+
+#{customer.products[0]}, Digamos que customer é uma classe que possui uma ArrayList chamada products
+						 o primeiro produto seria referenciado.
+						 
+#{customer.mapProducts.tv}, Digamos que customer é uma classe que possui um Map chamada mapProducts
+							o produto com a chave "tv" seria referenciado.
+===============================================================================
+Method Expressions
+
+Method expressions possuem menos detalhes, a unica resalva
+cabe aos parametros, se o método não receber nenhum parametro
+a referencia EL ao método pode ou não omitir os parentêses.
+
+Exemplos de lugares aonde se utilizam method expressions no JSF,
+os atributos validator, actionListener, valueChangeListener e action
+das tags JSF todos recebem MethodExpressions.
+-----------------------------------------------------------------------------
+ex:
+
+<!--Chama o método buy(String param) do managed bean trader-->
+<h:commandButton action="#{trader.buy('SOMESTOCK')}" value="buy"/>
+
+<!--Chama o método buy() do managed bean trader-->
+<h:commandButton action="#{trader.buy}" value="buy"/>		 
+

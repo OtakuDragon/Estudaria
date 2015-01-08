@@ -1,0 +1,20 @@
+Estilos de execução da Expression Language
+
+A EL tem dois estilos de execução:
+
+* Immediate representada por "${expressão}"
+
+	Expressões imediatas são processadas(evaluated), imediatamente quando a página
+	é carregada, são mais comuns na tecnologia JSP, por conta do estilo de processamento
+	das páginas, mas tambem pode aparecer no JSF para a exibição de dados que não precisam
+	passar pelo processo do ciclo de vida JSF.
+	
+* Deferred representada por "#{expressão}"
+
+	Uma expressão deferred só é precessada(evaluated) quando a aplicação que à processará
+	decidir que está na hora de processa-la, fica sobre criterio da aplicação, expressões
+	deffered são as mais usadas no JSF, por que diferentes expressões podem ser processadas
+	em diferentes momentos do ciclo de vida de uma requisição.
+	
+	Todas as referencias à métodos no JSF obrigatoriamente devem utilizar a sintaxe deferred
+	já que estas expressões só são processadas, na fase execute application e não imediatamente

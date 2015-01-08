@@ -1,0 +1,81 @@
+Operadores de comparação
+
+Uma das funções mais uteis da EL está em conseguir
+comparar value expressions para efetuar decisões sobre
+como montar a view das páginas.
+
+A expressions language por padrão aceita os operadores
+de comparação descritos abaixo.
+
+Obs: cuidado para não confundir as coisas e implementar lógica
+     de negocio utilizando EL, estas funcionalidades devem ser
+	 usadas estritamente para decisões de view.
+=======================================================
+Operadores aritmeticos
+
+- +            - Soma
+
+- '-'          - Subtração
+
+- *            - Multiplicação
+
+- '/' ou 'div' - Divisão
+
+- '%' ou 'mod' - Modulo
+
+- '-'          - Sinal de negativo em numeros(ex: -1)
+
+obs: Aspas simples(') utilizadas para separar operadores
+	 de texto de exibição quando necessário para evitar misturar
+	 as coisas, elas não fazem parte do operador
+========================================================
+Operadores String
+
+- += - Concatenação
+
+- empty - Utiliza a sintaxe [!]empty objeto e retorna true
+		  se o objeto for nulo ou vazio e false se não, ou 
+		  se a negação opcional for incluida possui o funcionamento inverso.
+		  
+		  obs: não se aplica apenas a String mas é mais utilizado com objetos String.
+=========================================================
+Operadores Logicos
+
+- 'and' ou '&&' - E
+
+- 'or' ou '||'  - OU
+
+- 'not' ou '!'  - Negação
+=========================================================
+Operadores de comparação
+
+- 'eq' ou '==' - Igualdade
+
+- 'ne' ou '!=' - Diferença
+
+- 'lt' ou '<'  - Menor que
+
+- 'gt' ou '>'  - Maior que
+
+- 'ge' ou '>=' - Maior ou igual
+
+- 'le' ou '<=' - Menor ou igual 
+=========================================================
+Outros
+
+- ? :  - Operador ternario.
+
+- '->' - Lambda
+
+- =    - Atribuição
+=========================================================
+Alguns Exemplos
+
+Expressão         Resultado
+
+${'a' > 'b'}      false
+${'hip' lt 'hit'} true
+${4> 3}           true
+${1.2E4 + 1.4}    12001.4
+${3 div 4}        0.75
+${10 mod 4}       2
