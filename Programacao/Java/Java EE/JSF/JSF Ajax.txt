@@ -1,37 +1,95 @@
 JSF Ajax
 
 O Ajax(Asynchronous Javascript And XML) utiliza o javascript
-para realizar varias requisi��es http em uma mesma pagina
+para realizar requisições http em uma mesma pagina, para o processamento
+de grupos de componentes ou apenas um componente, sem a necessidade
+de se atualizar a página.
 
-sendo possivel a altera��o de valores e processamento de dados
-sem que haja a mudan�a ou atualiza��o de pagina
+Isto torna possivel a alteração de valores e processamento de dados
+sem que haja a mudança ou atualização de pagina
 
 =========================================================
 A tag <f:ajax>
 
-Esta tag � a unica necessaria para realizar opera��es
+Esta tag é a unica necessaria para realizar operações
 com ajax.
  
 ela deve estar posicionada dentro da tag de
-input que disparara a requisi��o ajax ou para agrupar
-todas os inputs que diparar�o requisi��es ajax
+input que disparara a requisição ajax ou para agrupar
+todas os inputs que dipararão requisições ajax
 
 -------------------------------------------------------
 Atributos de <f:ajax>
 
-event	- recebe o nome do evento javascript naquele componente que executar�
-	  a requisi��o ajax, sem o prefixo on, (exemplo: evento javascript onclick
+event	- recebe o nome do evento javascript naquele componente que executará
+	  a requisição ajax, sem o prefixo on, (exemplo: evento javascript onclick
 	  valor para event click)
 
-execute - recebe o id dos componentes(separados por espa�o) de input aos quais enviar para o servidor
-	  no request
+execute - recebe o id dos componentes(separados por espaço) de input aos quais enviar para o servidor
+	  no request, estes componentes passarão pelo lifecycle JSF, exceto a fase render response controlada
+	  pelo atributo abaixo.
 
-render  - recebe o id dos componentes(separados por espa�o) aos quais atualizar ap�s a requisi��o ao
-	  servidor ter sido feita,usado para imprimir o resultado
+render  - recebe o id dos componentes(separados por espaço) aos quais atualizar após a requisição ao
+	  servidor ter sido feita,usado para imprimir o resultado.
 
-listener - recebe por uel um metodo de managed bean que retorna void e recebe como parametro um objeto
-	   AjaxBehaviorEvent, este metodo � executado sempre que a requisi��o daquela tag � executada
+listener - recebe por EL uma method expression de um método de assinatura public void qualquerNome(AjaxBehaviorEvent event)
+	   que será chamado uma vez durante a fase invoke applicaton causada pela requisição Ajax.
+	   
+============================================================
+Atributos para controle javascript
 
+Os atributos de <f:ajax> abaixo recebem referencias à funções javascript
+para o controle das requisições ajax do lado do cliente.
+
+onevent - Função importante para acompanhar o ciclo de vida da requisição
+	  ajax, ela é chamada uma vez por fase da requisição ajax(begin, complete e success)
+	  e nos permite saber quando uma requisição ajax começou e terminou para exibirmos loading gifs
+	  por exemplo.
+	  
+	  A função javascript referenciada pelo nome no atributo onevent recebe um parametro do JSF,
+	  um objeto contendo varias informações sobre a requisição ajax atraves de objetos internos
+	  sendo o mais importante o status, que mostra o nome da fase em que a requisição de encontra.
+	  
+	  Outros atributos mostram a resposta à requisição ajax(responseXML,responseText,responseCode) e
+	  fazem referencia à o elemento dom que disparou a requisição ajax(source)
+
+ex:
+	<!--Pagina-->
+	<img id="ajaxGif" src="../resources/img/ajax.gif" style="visibility:hidden"/>
+	<h:form>
+	<h:inputText>
+		<f:ajax event="click" onevent="processAjax" listener="#{ajaxTest.processAjax}"/>
+	</h:inputText>
+	</h:form>
+	
+	Função javascript
+	function processAjax(info){
+		if(info.status == "success"){
+			document.getElementById("ajaxGif").style.visibility = "hidden";
+		}else{
+			document.getElementById("ajaxGif").style.visibility = "visible";
+		}
+	}
+------------------------------------------------------------------
+
+onerror - O atributo on error recebe uma referencia a uma função javascript 
+	  que será chamada se houver qualquer erro na requisição ou resposta ajax,
+	  e tambem recebe do jsf um objeto com as informações:
+	  
+	  description - Descrição do erro
+	  errorName - nome do erro
+	  errorMessage - mensagem do erro
+
+	<h:form>
+	<h:inputText>
+		<f:ajax event="click" onerror="processAjaxError" listener="#{ajaxTest.processAjax}"/>
+	</h:inputText>
+	</h:form>
+	
+	Função javascript
+	function processAjaxError(info){
+		alert("Ocorreu erro " + info.errorName + "," + errorMessage + "na requisição, favor tentar novamente ou entrar em contato com o suporte");
+	}
 =================================================================
 Valores especiais
 
@@ -39,11 +97,11 @@ os atributos render e execute podem receber valores especiais
 
 @all  - refere-se a todos os componentes da tela.
 @none - refere-se a nenhum componente.
-@this - refere-se ao componente que disparou a requisi��o AJAX.
-@form - refere-se aos componentes do formul�rio que cont�m o componente que disparou a requisi��o
+@this - refere-se ao componente que disparou a requisição AJAX.
+@form - refere-se aos componentes do formulário que contém o componente que disparou a requisição
         AJAX.
 
-*recebem estas anota��es como string exemplo execute="@all"
+*recebem estas anotações como string exemplo execute="@all"
  envia todos os campos da pagina para o servidor
 
 ==================================================================
@@ -74,11 +132,11 @@ public void teste(AjaxBehaviorEvent event){
 
 //getters + setters
 
-Explica��o:
+Explicação:
 
-Este exemplo acima quando o campo inputText acima � clicado o seu valor � enviado para
-o servidor(managed bean) e o campo outputText � atualizado para mostrar o valor dele
-o metodo teste() tambem � executado
+Este exemplo acima quando o campo inputText acima é clicado o seu valor é enviado para
+o servidor(managed bean) e o campo outputText é atualizado para mostrar o valor dele
+o metodo teste() tambem é executado
 
 -----------------------------------------------------------------------
 ex:
@@ -95,9 +153,9 @@ ex:
 Uma tag ajax para diversos inputs
 
 <f:ajax event="mouseout">
-<h:inputText/>
-<h:inputSecret/>
-<h:commandButton value ="OK"/>
+	<h:inputText/>
+	<h:inputSecret/>
+	<h:commandButton value ="OK"/>
 </f:ajax>
 
 
