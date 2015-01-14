@@ -31,9 +31,9 @@ execute - recebe o id dos componentes(separados por espaço) de input aos quais 
 
 render  - recebe o id dos componentes(separados por espaço) aos quais atualizar após os componentes especificados
 	  no atributo execute terem sido processados, na pratica os atributos especificados em render passam pela fase
-	  render response do ciclo de vida jsf, atualizando os seus valores e atributos.
+	  render response do ciclo de vida jsf, atualizando os seus valores, atributos e elemento DOM na página.
 	  
-	  Para que um atributo seja espeficificado em render ele não necessariamente precisa estar especificado em execute,
+	  Para que um atributo seja especificado em render ele não necessariamente precisa estar especificado em execute,
 	  e se um componente que possuir tags internas(filhos) for inserido no render todas as tags-filhas tambem serão renderizadas.
 
 listener - recebe por EL uma method expression de um método de assinatura public void qualquerNome(AjaxBehaviorEvent event)
