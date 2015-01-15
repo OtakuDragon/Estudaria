@@ -1,7 +1,7 @@
-Referênciando atributos de managed beans em componentes(value e binding)
+ReferÃªnciando atributos de managed beans em componentes(value e binding)
 
 O JSF tem duas maneiras de associar valores
-de componentes à atributos de managed beans.
+de componentes Ã  atributos de managed beans.
 
 * Value binding
 
@@ -28,36 +28,40 @@ e poderosa de se recuperar o valor de um componente,
 ao inves de se referir a um atributo do managed bean
 que representa um dado.
 
-É feita uma referência ao proprio objeto do componente
-no managed bean,e ela é ligada ao managed bean através
+Ã‰ feita uma referÃªncia ao proprio objeto do componente
+no managed bean,e ela Ã© ligada ao managed bean atravÃ©s
 do atributo binding no componente, com o  objeto do 
-componente é possivel realizar uma serie de ações além
+componente Ã© possivel realizar uma serie de aÃ§Ãµes alÃ©m
 de se recuperar o seu valor, como setar o valor de rendered.
 
-Component binding é uma maneira mais poderosa de se
-controlar componentes das páginas mas ela vem com o custo
-de acoplar classes da implementação JSF dentro do seu
+Component binding Ã© uma maneira mais poderosa de se
+controlar componentes das pÃ¡ginas mas ela vem com o custo
+de acoplar classes da implementaÃ§Ã£o JSF dentro do seu
 managed bean, o que pode causar problemas de compatibilidade
-no futuro se a implementação JSF mudar drasticamente.
+no futuro se a implementaÃ§Ã£o JSF mudar drasticamente.
 
 O tipo do atributo que deve estar no managed bean
-para que o binding aconteça dependende do tipo de
-componente, eles devem ser do mesmo tipo, isto é identificado
-pelo começo do nome do componente.
+para que o binding aconteÃ§a dependende do tipo de
+componente, eles devem ser do mesmo tipo, isto Ã© identificado
+pelo comeÃ§o do nome do componente.
+
+Obs: Para evitar problemas de concorrÃªncia sempre que for necessÃ¡ria
+     a utilizaÃ§Ã£o de binding ela deve ser feita em managed beans com
+     escopo de request.
 
 Classe           Componentes
 ---------------  ---------------------------
-UIInput          começam com h:input
+UIInput          comeÃ§am com h:input
 
-UISelectItem     começam com h:selectItem
+UISelectItem     comeÃ§am com h:selectItem
 
-UISelectOne      começam com h:selectOne
+UISelectOne      comeÃ§am com h:selectOne
 
-UISelectBoolean  começam com h:selectBoolean
+UISelectBoolean  comeÃ§am com h:selectBoolean
 
-UISelectItems    começam com h:selectItems
+UISelectItems    comeÃ§am com h:selectItems
 
-UISelectMany	 começam com h:selectMany
+UISelectMany	 comeÃ§am com h:selectMany
 
 Etc..
 ----------------------------------------------------------------
