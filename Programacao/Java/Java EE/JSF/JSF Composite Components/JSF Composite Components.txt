@@ -1,0 +1,9 @@
+JSF Composite Components
+
+Composite component é uma funcionalidade oferecida
+pelo framework facelets para a o agrupamento de vários
+componentes em apenas um para facilitar a utilização e 
+re-utilização de grupos de componentes que se repetem
+comumente.
+==============================================================
+

@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:cc="http://java.sun.com/jsf/composite">
+	  
+		  <composite:interface>
+			<composite:attribute name="namePrompt" default="Name, word, or phrase: "/>
+			<composite:attribute name="calcButtonText" default="Calculate"/>
+			<composite:attribute name="calcAction" method-signature="java.lang.String action()"/>
+			<composite:attribute name="primeBean"/>
+			<composite:editableValueHolder name="nameVal" targets="form:name"/>
+		 </composite:interface>
+		 
+		 <composite:implementation>
+			<h:form id="form">
+				<h:outputStylesheet library="css" name="default.css" target="head"/>
+				<h:panelGrid columns="2" role="presentation">
+					<h:outputLabel for="name" value="#{cc.attrs.namePrompt}"/>
+					<h:inputText id="name" size="45" value="#{cc.attrs.primeBean.name}" required="true"/>
+				</h:panelGrid>
+				<p>
+					<h:commandButton id="calcButton" value="#{cc.attrs.calcButtonText}" action="#{cc.attrs.calcAction}">
+						<f:ajax execute="name" render="outputGroup"/>
+					</h:commandButton>
+				</p>
+				<h:panelGroup id="outputGroup" layout="block">
+					<p>
+						<h:outputText id="result" style="color:blue"
+						rendered="#{cc.attrs.primeBean.totalSum gt 0}"
+						value="Sum is #{cc.attrs.primeBean.totalSum}" />
+					</p>
+					<p>
+						<h:outputText id="response" style="color:blue" value="#{cc.attrs.primeBean.response}" rendered="#{!facesContext.validationFailed}"/>
+						<h:message id="errors1"
+						showSummary="true"
+						showDetail="false"
+						style="color: #d20005;
+						font-family: 'New Century Schoolbook', serif;
+						font-style: oblique;
+						text-decoration: overline"
+						for="name"/>
+					</p>
+				</h:panelGroup>
+			</h:form>
+		</composite:implementation>
+</html>

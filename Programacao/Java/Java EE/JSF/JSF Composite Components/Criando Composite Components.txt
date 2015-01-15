@@ -1,0 +1,110 @@
+Criando Composite Components
+
+Um composite component funciona como um template para
+a re-utilização de um conjunto de componentes JSF, eles
+devem ser declarados como recursos(dentro da pasta resources)
+e possuir o pathing como o seguinte:
+
+/webapp/resources/nomeDaBibliotecaDeCompositeComponents/NomeDoCompositeComponent.xhtml
+
+Composite components são declarados em arquivos xhtml, com
+a tag raiz <html> e a utilização da tag lib:
+
+xmlns:cc="http://java.sun.com/jsf/composite"
+
+Dentro da tag <html> são colocadas duas tags principais:
+
+<cc:interface> - Define a estrutura do componente e atributos adicionais,
+				 é opcional mas muito importante.
+
+<cc:implementation> - Implementa o composite componente realmente com tags de componentes JSF,
+					  e implementação da estrutura definida por <cc:interface>, se <cc:interface>
+					  aparecer no documento uma <cc:implementation> deve obrigatoriamente estar inserida no documento.
+					  
+========================================================================================
+Definindo a interface de um composite component(<cc:interface>)
+
+A tag <cc:interface> é composta por outras tags
+da taglib composite e compõe um esqueleto para o
+composite component, estas tags são:
+
+- cc:attribute - Tag mais comumente usada, define um atributo do componente que pode
+				 ser utilizado na implementação e atribuido na utilização, permite value e method expressions
+				 como valores, attribute tambem pode declarar listeners com o atributo targets.
+				 
+- cc:valueHolder - Representa campos não editaveis como labels e outputText.
+
+- cc:editableValueHolder - Representa campos de input de formulario
+
+- cc:actionSource - Representa botões ou links
+
+*Estes atributos são representações genericas de componentes, neles é possivel configurar atributos
+ comuns aos componentes que eles representam, e estas configurações se transferirão para a implementação
+ desde que o mesmo nome seja compartilhado entre interface e implementação.
+ 
+ex:
+
+<composite:interface>
+  <composite:editableValueHolder name="userid" required="true" />
+</composite:interface>
+ 
+<composite:implementation>
+	<h:form>
+		<h:inputText id="userid"/>
+	</h:form>	
+</composite:implementation>
+========================================================================================
+Implementando um composite component(<cc:implementation>)
+
+Composite components são implementados dentro da tag <cc:implementation>
+definindo componentes com os mesmo nome e tipos dos definidos na interface,
+um detalhe importante da implementação é a utilização de atributos da interface
+
+
+Atributos de interface sempre são referenciados de acordo com a sintaxe:
+
+#{cc.attrs.nomeDoAtributo[.objetosinternos...]}
+------------------------------------------------------------------------
+Por exemplo:
+
+A tag na implementação:
+
+<h:inputText id="name" size="45" value="#{cc.attrs.primeBean.name}" required="true"/>
+
+Se refere ao atributo da interface:
+
+<composite:attribute name="primeBean"/>
+
+Que na utilização foi definido como:
+
+<ez:PrimePanel primeBean="#{primeBean}" />
+
+A referencia à um objeto managed bean.
+
+A interface pode definir valores para os seus atributos, ou 
+o usuário do componente pode defini-los, a implementação apenas
+atribui estes valores aos lugares devidos.
+-------------------------------------------------------------------------
+Exemplo de implementação de atributo que define o método
+action de um botão:
+
+Na interface:
+
+<cc:interface>
+	<composite:attribute name="calcAction" method-signature="java.lang.String action()"/>
+</cc:interface>
+
+Na implementação:
+
+<cc:implementation>
+	<h:commandButton id="calcButton" action="#{cc.attrs.calcAction}">
+		<f:ajax execute="name" render="outputGroup"/>
+	</h:commandButton>
+</cc:implementation>
+
+Na utilização:
+
+<ez:PrimePanel calcAction="#{primeBean.calculate}"/>
+
+
+===============================================================

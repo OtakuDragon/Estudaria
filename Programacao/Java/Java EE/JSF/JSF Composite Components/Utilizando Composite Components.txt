@@ -1,0 +1,51 @@
+Utilizando Composite Components
+
+Composite components são inseridos em paginas
+xhtml através de uma taglib especifica, com um namespace
+baseado no nome da  pasta em resources que o componente
+se encontra e segue a seguinte nomeclatura:
+
+xmlns:namespaceDaCompLib="http://xmlns.jcp.org/jsf/nomeDaPastaEmResources"
+
+* namespaceDaCompLib - Escolhido pelo programador, será o prefixo das tags dos composite components
+					   de uma pasta.
+					   
+* nomeDaPastaEmResources - Nome da pasta em resources que contem os xhtmls dos composites componentes desta
+						   biblioteca de composite components(uma biblioteca pode conter um ou mais xhtmls de composite components)
+						   
+A utilização dos composite componentes na pagina é feita
+por meio de tags que seguem a sintaxe abaixo:
+
+<namespaceDaBibliotecaDeCompositeComponents:NomeDoCompositeComponent>
+
+Atributos definidos na interface do composite componente tornam
+se atributos da tag gerada, e podem ter os seus valores definidos
+pelo utilizados. 
+---------------------------------------------------------------------
+ex:
+<!-- um componente que implementa esta interface -->
+<composite:interface>
+	<composite:attribute name="calcAction" method-signature="java.lang.String action()"/>
+	<composite:attribute name="labelValue"/>
+</composite:interface>
+
+Poderá na sua utilização ter estes dois atributos definidos
+como atributos da tag customizada:
+
+<minhaCompLib:meuComponente calcAction="#{mb.calcular}" labelValue="Texto Que Aparece na Label">
+
+===========================================================================
+ex de namespace:
+
+Digamos que há um composite componente criado e localizado em:
+
+/webapp/resources/compositeCompLib/MeuCompositeComponent.xhtml
+
+Ele seria importado na página pelo namespace padrão para recursos
+composite component:
+
+xmlns:compLib="http://xmlns.jcp.org/jsf/compositeCompLib" 
+
+E seria utilizado atravês da tag:
+
+<compLib:MeuCompositeComponent />
