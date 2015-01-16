@@ -1,0 +1,37 @@
+JSF Resource Bundles
+
+O JSF oferece suporte à resource bundles para a internacionalização
+de textos utilizados na aplicação web, resource bundle são arquivos
+.properties no formato chave=valor, aonde chave é o identificador de
+uma mensagem e valor o valor desta mensagem.
+
+Deve existir um arquivo resource bundle para cada linguagem desejada,
+com o nome no formato <file-name>_<locale>(ex: mensagens_pt_BR, mensagens_en_US)
+estes arquivos devem ser colocados dentro da pasta resources da aplicação
+JSF e eles são referenciados no faces-config da seguinte maneira:
+
+<!--Configurações sobre linguagens suportadas e lingua padrão-->
+<locale-config>
+   <default-locale>en</default-locale>
+   <supported-locale>fr</supported-locale>
+   <supported-locale>pt</supported-locale>
+</locale-config>
+<!--Identificação de resource bundle-->
+<resource-bundle>
+    <!--Caminho do arquivo .properties navegado com dot notation apartir de resources-->
+    <!-o .properties abaixo se encontra em /resources/resourceBundles/messages.properties--->
+    <base-name>resourceBundles.messages</base-name>
+    <!--Variavel que poderá ser referenciada em EL para utilizar as mensagens do bundle na aplicação-->
+    <var>msg</var>
+  </resource-bundle>
+
+A escolha de qual arquivo usar é feita automaticamente pelo JSF, através do locale do browser do usuário.
+Obs: Todos os conceitos de Resource bundles do java se aplicam aos resource bundle do JSF, ver Internacionalização.txt para mais informações.
+========================================================================
+Ex do arquivo messages.properties:
+
+greeting=Hello World!
+========================================================================
+Ex de utilização de resource bundle:
+
+<h:outputText value="#{msg.greeting}" />
