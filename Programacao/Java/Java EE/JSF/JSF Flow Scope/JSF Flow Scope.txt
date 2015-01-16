@@ -1,0 +1,12 @@
+JSF Flow Scope
+
+O Flow Scope é um novo escopo para managed beans
+que surgiu no JSF 2.2 e permite o controle total
+do programador sobre o ciclo de vida do escopo.
+
+Funcionalidades como decidir quando o escopo começa,
+termina se ele encadeia chamadas para outros flows,
+controle de navegação e utilização de switch para
+decidir navegação estão presentes no Flow Scope.
+======================================================
+

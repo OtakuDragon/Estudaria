@@ -1,0 +1,102 @@
+Configurando Flow Scope
+
+Existem duas maneiras de se configurar um flow scope
+por XML, ou por anotações aqui está descrita a maneira
+por anotações.
+
+por xml é parecido mas a configuração é feita em um arquivo xml
+com os namespaces de um faces-config e o nome por padrão nome do 
+flow-flow.xml, e o xml deve aparecer na mesma pasta aonde se encontram
+as paginas xhtml do flow.
+
+O primeiro passo é criar se ainda não existir o arquivo beans.xml
+mesmo que vazio dentro da pasta WEB-INF da aplicação para que o CDI
+funcione corretamente.
+
+Depois definir uma classe pojo que definirá o flow por convenção esta
+classe tem o mesmo nome que o id do flow que será criado mas não há
+nenhuma obrigação quanto à isso.
+
+Este pojo deve implementar Serializable e possuir um método com a 
+exata assinatura definida abaixo:
+
+    @Produces
+	@FlowDefinition
+	public Flow defineFlow(@FlowBuilderParameter FlowBuilder flowBuilder) {
+		return flowBuilder.getFlow();
+	}
+	
+É dentro deste método e utilizando o objeto flowBuilder fornecido pelo JSF
+que montamos e configuramos o flow, este método sempre deverá retornar flowBuilder.getFlow().
+
+obs: Todos os métodos de flowBuilder aceitam Expression Language, para a configuração dinamica do flow.
+==============================================================================
+Definindo um Flow simples
+
+Um flow simples deve definir:
+
+* id - o nome identificador único que identificará o flow, e será referenciado
+       nos managed beans FlowScoped
+
+* view nodes + start node - View nodes são as páginas que fazem parte do flow, todo view node tem
+                            um id, utilizado para referenciar a navegação e uma referencia a página
+                            que o representa.
+                            
+                            Pelo menos um view node deve estar marcado com a flag markAsStartNode();
+                            indicando que quando uma requisição de fora do flow tiver como outcome o id
+                            do flow, o flow irá começar e a aplicação será redirecionada para a pagina do
+                            start node.
+
+* return node - O return node marca o fim do flow, ele é a página que cuja a navegação é direcionada após o flow ser terminado,
+                quando a pagina do return node é aberta o flow já não existe mais, referenciar o id do return node, em qualquer
+                ponto da navegação do flow como a proxima página finaliza a flow.
+                
+* lifecycle callbacks - Um flow receber referencia a duas method expressions de ciclo de vida uma que é chamada antes do inicio do flow
+                        (initializar) e uma que é chamada após a finalização/retorno do flow(finalizer)
+------------------------------------------------------------------------------                       
+ex:
+  
+public class TestFlow implements Serializable {
+	
+	private static final long serialVersionUID = -4607301540879287606L;
+	
+    @Produces
+	@FlowDefinition
+	public Flow defineFlow(@FlowBuilderParameter FlowBuilder flowBuilder) {
+	
+		//Definição do id do flow
+		String flowId = "testFlow";
+			
+		flowBuilder.id("", flowId);
+		
+		//Definição dos start/view e return nodes
+		flowBuilder.viewNode("startNode","/pages/testFlow/startTestFlow.xhtml").markAsStartNode();
+		flowBuilder.viewNode("page1","/pages/testFlow/testFlow1.xhtml");
+		flowBuilder.viewNode("page2","/pages/testFlow/testFlow2.xhtml");
+		flowBuilder.returnNode("returnNode").fromOutcome("returnTestFlow");
+	
+		//Callbacks
+		//flowScopedBean é um flow scoped managed bean normal
+		flowBuilder.initializer("#{flowScopedBean.initFlow}");
+		flowBuilder.finalizer("#{flowScopedBean.destroyFlow}");
+		
+		//Retorno do flow
+		return flowBuilder.getFlow();
+	}
+}
+	
+Com o flow acima, uma página fora do flow pode iniciar o flow com um link para:
+	
+	<h:commandLink action="testFlow" value="go!"/>
+	
+	obs: Navegar diretamente pelo browser para a pagina definida como o startNode NÃO INICIA O FLOW.
+		
+que é o id do flow iniciará o flow e redirecionará para a pagina /pages/testFlow/startTestFlow.xhtml
+dentro do flow toda a navegação é feita pelo id dos nodes e não pelo nome da página portanto se eu quiser
+ir para a pagina testFlow2.xhtml terei que clicar no link:
+	
+	<h:commandLink action="page2" value="Go!"/>
+	
+e se eu quiser finalizar o flow:
+	
+	<h:commandLink action="returnNode" value="Go!"/>

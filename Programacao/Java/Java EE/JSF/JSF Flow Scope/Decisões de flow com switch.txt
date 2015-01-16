@@ -1,0 +1,19 @@
+Decisões de flow com switch
+
+A flow scope api oferece o switch node que funciona como um
+view node, mas o seu outcome é decidido de acordo com condições
+booleanas passadas por EL ou como string de boolean.
+
+Ele basicamente funciona como o switch do java, como podemos
+observar no exemplo.
+================================================================
+ex:	
+	
+flowBuilder.switchNode("decidePage")  //Identificador do switch, deve ser único e é fazendo navegação à ele que a decisão é iniciada
+		   .defaultOutcome("page1")   //A primeira navegação definida deve ser à default caso nenhuma condição seja atendida, ele recebe o id de um viewNode ou o caminho completo de uma pagina do flow.
+		   .condition("#{mb.isSomething}").fromOutcome("page2") //Abaixo disso aparecem nenhuma ou muitas condições e o outcome(id de viewNode ou o caminho completo de uma pagina do flow), para se redirecionar caso a condição seja verdadeira.
+		   .condition("#{! mb.isSomething}").fromOutcome("returnTestFlow");
+		   
+Link que inicia o switch(após o inicio do flow(startNode)):
+
+	<h:commandLink action="decidePage" value="Go!"/>

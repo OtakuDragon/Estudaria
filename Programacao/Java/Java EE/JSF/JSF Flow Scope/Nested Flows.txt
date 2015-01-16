@@ -1,0 +1,50 @@
+Nested Flows
+
+Um flow pode iniciar outros flows, ou ser iniciado por outros flows
+e se comunicar com os seus callers e calees através de parametros,
+de execução.
+
+O método abaixo é utilizado para criar um node de chamada a um nested
+flow, ele define um id para o node que se referenciado como outcome de
+navegação durante o flow disparará a execução do nested flow definido
+pelo seu id em flowReference.
+
+flowBuilder.flowCallNode("idDaCall").flowReference("", "idDoFlow");
+ 
+* idDaCall - Qualquer nome que idenfique unicamente a chamada do neste flow,
+			 se for utilizado como uotcome de navegação do flow, irá realizar a execução
+			 do nested flow.
+			  
+* idDoFlow - Id de um outro Flow que será executado.
+ 
+========================================================================================
+Parametros para comunicação ente neste flows
+
+A comunicação entre nested flows é feita através de dois tipos de parametros:
+
+- outboundParameter(name,value) - Nenhum ou vários outbound parameters podem ser setados no contexto de parametros
+								  do flow no momento da chamada de um flowCallNode, estes parametros são pares de nomes
+								  e valores e ficam soltos, esperando que a execução iniciada pelo flowCallNode,
+								  os utilize como inboundParameters.(envio de valores)
+							
+- inboundParameters(name, value) - A função de inbound parameters é recuperar outboundParameters pelo nome, definir aonde
+								   o valor deles será setado e ficará disponivel para a utilização.(recebimento de valores)
+---------------------------------------------------------------------------------------------
+ex:
+
+Definição da chamada ao nested flow:
+
+flowBuilder.flowCallNode("callNestedFlow").flowReference("", "NestedFlow").outboundParameter("param1","#{firstFlowBean.name}")
+																          .outboundParameter("param2","#{firstFlowBean.city}");
+
+Recebimento dos parametros enviados:
+
+//O valor do atributo name do managed bean FirstFlowBean foi atribuido ao atributo param1Value do managed bean SecondFlowBean
+//e assim por diante.
+flowBuilder.inboundParameter("param1","#{secondFlowBean.param1Value}");
+flowBuilder.inboundParameter("param2","#{secondFlowBean.param2Value}");
+																		  
+																		  
+Link que disparará a execuçao do nested flow:
+
+<h:commandLink action="callNestedFlow" value="Go!"/>

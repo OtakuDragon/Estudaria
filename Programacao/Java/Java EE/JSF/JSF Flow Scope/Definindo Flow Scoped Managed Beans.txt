@@ -1,0 +1,19 @@
+Definindo FlowScoped Managed beans
+
+Um Flow Scoped Managed bean é instanciado quando o seu
+flow começa e destruido quando o seu flow termina e é
+definido como:
+
+@Named
+@FlowScoped("idDoFlow")
+public class MeuManagedBean{
+...
+}
+==========================================================
+ex:
+
+@Named
+@FlowScoped("testFlow")
+public class FlowScopedManagedBean{
+...
+}
