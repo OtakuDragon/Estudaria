@@ -1,54 +1,64 @@
 Criando um validador
 
 O JSF possui uma variedade de validadores mas as vezes
-uma valida��o diferente � necessaria para isso � possivel
-criar o seu proprio validaro
+uma validação diferente é necessaria para isso é possivel
+criar o seu proprio validador.
+
+Existem três maneiras de se definir uma validador:
+
+* Tag <validator> no faces-config.xml
+* Anotar uma implementação de javax.faces.validator.Validator com @FacesValidator
+* Definir um método de managed bean com a assinatura public void validate (FacesContext context, UIComponent component, Object value ) throws ValidatorException;
+  e referencia-lo por method expression no atributo validator, de um componente
 
 =================================================
-Definindo um validador
+Definindo um validador por anotação(@FacesValidator("IdDoValidador"))
 
-A implemental�ao de um validador � feita por meio de
-uma classe que implementa a interface javax.faces.validator.Validator
-e esteja anotada com a anota��o @FacesValidator("IdDoValidador")
+A implementaçao de um validador por meio de anotação é feita por uma classe
+que implementa a interface javax.faces.validator.Validator e esteja
+anotada com a anotação @FacesValidator("IdDoValidador").
 
-O id do validador � o nome pelo qual ele � incluido a um campo de input
-por meio da tag <f: validator validatorId ="IdDoValidador"
+O id do validador é o nome pelo qual ele é incluido a um campo de input
+por meio da tag <f: validator validatorId ="IdDoValidador"/>
 
 A interface validator especifica o metodo:
 
-public void validate (FacesContext context,UIComponent component,Object value);
+public void validate (FacesContext context, UIComponent component, Object value ) throws ValidatorException;
 
+Jogar uma ValidatorException, durante o método significa reprovar a validação.
+
+---------------------------------------------------------------
 ex:
 
 @FacesValidator ("ValidadorDeNumerosPrimos ")
 public class ValidadorDeNumerosPrimos implements Validator {
 
  @Override
- public void validate (FacesContext context,UIComponent component,Object value) {
+ public void validate (FacesContext context,UIComponent component,Object value) throws ValidatorException {
 
- long numero = (Long) value ;
- boolean isPrimo = false ;
+  long numero = (Long) value ;
+  boolean isPrimo = false ;
 
- if (numero>1) {
- double raizQuadrada = Math.sqrt((double) numero);
- isPrimo = true;
+  if (numero>1) {
+   double raizQuadrada = Math.sqrt((double) numero);
+   isPrimo = true;
 
- for (long i = 2; i <= raizQuadrada ; i ++) {
- if ( numero % i == 0) {
- isPrimo = false ;
- break ;
- }
- }
- }
+   for (long i = 2; i <= raizQuadrada ; i ++) {
+    if ( numero % i == 0) {
+     isPrimo = false ;
+     break ;
+    }
+   }
+  }
 
- if (! isPrimo ) {
- FacesMessage mensagem = new FacesMessage ("O n�mero " + numero + " n�o � primo ");
- mensagem . setSeverity ( FacesMessage . SEVERITY_ERROR );
- throw new ValidatorException ( mensagem );
- }
+  if (! isPrimo ) {
+   FacesMessage mensagem = new FacesMessage ("O número " + numero + " não é primo ");
+   mensagem . setSeverity ( FacesMessage . SEVERITY_ERROR );
+   throw new ValidatorException ( mensagem );
+  }
  }
 }
-
+--------------------------------------------------------------------------------
 Adicionando o validador a um campo de input
 
 <h:inputText value ="#{testeBean.numeroPrimo}"id="numero-primo">
@@ -58,7 +68,7 @@ Adicionando o validador a um campo de input
 ================================================================================
 Passando parametros para o validador
 
-tambem � possivel passar parametros pelo campo de input para o validador
+tambem é possivel passar parametros pelo campo de input para o validador
 com a tag f:attribute
 
 ex:
@@ -66,11 +76,11 @@ ex:
 Definindo atributos
 
 <h:inputText value ="#{ testeBean.data}" id="campo-data">
-<f:attribute name ="inicio" value="01/05/2014"/>
-<f:attribute name ="fim" value ="30/08/2014"/>
+ <f:validator validatorId ="ValidadorDeNumerosPrimos"/>
+ <f:attribute name ="inicio" value="01/05/2014"/>
+ <f:attribute name ="fim" value ="30/08/2014"/>
 </h:inputText>
-
-
+--------------------------------------------------------------------------------
 Recuperando estes atributos no validador
 
 public void validate(FacesContext context,UIComponent component,Object value){
@@ -78,3 +88,19 @@ public void validate(FacesContext context,UIComponent component,Object value){
 String inicio = (String) component.getAttributes().get("inicio");
 
 }
+=================================================================================
+Definindo um default validator
+
+Nos raros casos em que seja necessária a aplicação de um ou mais validators
+que se aplicarão à todos UIInputs de uma aplicação, isto pode ser feito através
+da declaração de um default-validator no faces-config.xml.
+
+ex:
+
+<faces-config>
+ <application>
+  <default-validators>
+   <validator-id>javax.faces.Bean</validator-id>
+  </default-validators>
+ <application/>
+</faces-config>
