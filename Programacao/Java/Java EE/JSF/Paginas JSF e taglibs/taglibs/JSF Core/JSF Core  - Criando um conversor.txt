@@ -1,69 +1,74 @@
 Criando um conversor
 
-O JSF possui varios conversores padr„o para os tipos de dado
-mais comuns em java, mas algumas vezes È necessario definir um conversor
-diferente para isso È possivel definir construtores.
+O JSF possui varios conversores padr√£o para os tipos de dado
+mais comuns em java, mas algumas vezes √© necessario definir um conversor
+diferente para isso √© possivel definir nossos proprios conversores.
 
 ==============================================================
 Definindo um conversor
 
-Um conversor È identificado por uma classe que implementa 
-a interface javax.faces.convert.Converter e È anotada com 
-a anotaÁ„o @FacesConverter(forClass=MinhaClasse.class)
+Um conversor √© identificado por uma classe que implementa 
+a interface javax.faces.convert.Converter e √© anotada com 
+a anota√ß√£o @FacesConverter(forClass=MinhaClasse.class), √©
+declarada pelo elemento <converter> no faces-config.xml,
+ou tem o id referenciado no atributo converter de um input.
 
-esta anotaÁ„o define sobre qual tipo de dado o conversor
+A anota√ß√£o define sobre qual tipo de dado o conversor
 deve atuar.
 
-a interface define dois metodos que devem ser implementados eles s„o:
+==============================================================
+Implementando javax.faces.convert.Converter
+
+A interface Converter define dois metodos que devem ser implementados eles s√£o:
 
 //Este metodo recebe o dado em String e deve retorna-lo como um objeto
-//ou seja deve montar o objeto da classe em quest„o atraves da string
+//ou seja deve montar o objeto da classe em quest√£o atraves da string
 public Object getAsObject(FacesContext context,UIComponent component,String value);
 
 e
 
 //Este metodo deve fazer o inverso do metodo acima ele recebe o objeto da classe
-//em quest„o e deve retorna-lo como string
+//em quest√£o e deve retorna-lo como string
 public String getAsString(FacesContext context,UIComponent component,Object value);
 
-os parametros s„o passados pelo JSF
+os parametros s√£o passados pelo JSF:
 
-context - possui o contexto da aplicaÁ„o È principalmente utilizado para inserir mensagens de erro
+context - possui o contexto da aplica√ß√£o √© principalmente utilizado para inserir mensagens de erro
 
 value - no primeiro metodo possui o valor em string que deve ser convertido para objeto
 	no segundo metodo possui o objeto que deve ser convertido para string
-
+-------------------------------------------------------------------------------------------------
 ex:
 
-@FacesConverter (forClass=Telefone.class)
+//O value da anota√ß√£o √© o id do converter, atrav√©s deste id ele pode ser referenciado no faces-config.xml
+//obs: S√≥ o atributo forClass √© obrigatorio
+@FacesConverter (value="conversorDeTelefone", forClass=Telefone.class)
 public class ConversorDeTelefone implements Converter{
 
-@Override
+ @Override
  public Object getAsObject (FacesContext context,UIComponent component,String value) {
 
- value = value.trim();
+    value = value.trim();
 
- if (! Pattern.matches("[0 -9]+\\ s +[0 -9]+\\ s+[0 -9 -]+",value)) {
- FacesMessage mensagem = new FacesMessage("N˙mero de telefone inv·lido");
- mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
- throw new ConverterException (mensagem);
- }
+    if (! Pattern.matches("[0 -9]+\\ s +[0 -9]+\\ s+[0 -9 -]+",value)) {
+      FacesMessage mensagem = new FacesMessage("N√∫mero de telefone inv√°lido");
+      mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
+      throw new ConverterException (mensagem);
+    }
 
- String campos[] = value.split("\\s+");
+    String campos[] = value.split("\\s+");
 
- String codigoDoPais = campos[0];
- String codigoDeArea = campos[1];
- String numeroLocal = campos[2].replaceAll("-","");
+    String codigoDoPais = campos[0];
+    String codigoDeArea = campos[1];
+    String numeroLocal = campos[2].replaceAll("-","");
 
- Telefone telefone = new Telefone (codigoDoPais,codigoDeArea,numeroLocal);
- return telefone;
+    Telefone telefone = new Telefone (codigoDoPais,codigoDeArea,numeroLocal);
+    
+    return telefone;
 }
 
-public String getAsString(FacesContext context,UIComponent component,Object value){
-Telefone telefone = (Telefone) value ;
- return telefone.getCodigoDoPais() + " " + telefone.getCodigoDeArea() + " " + telefone.getNumeroLocal();
-
-}
-
-
+  public String getAsString(FacesContext context,UIComponent component,Object value){
+    Telefone telefone = (Telefone) value;
+    return telefone.getCodigoDoPais() + " " + telefone.getCodigoDeArea() + " " + telefone.getNumeroLocal();
+  }
 }
