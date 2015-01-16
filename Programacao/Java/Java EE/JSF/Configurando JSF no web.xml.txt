@@ -1,12 +1,16 @@
-Configurando
+Configurando JSF no web.xml
 
-Ap�s importar todos os jars necessarios para
-a utiliza��o do jsf � necessario configurar um
-servlet no web.xml que receber� todas as requisi��es
-de paginas .jsf com o codigo abaixo
+A configuração do JavaServerFaces exige a configuração
+do servlet JSF , e de um mapeamento de url, que cubra todas
+as páginas que contem código JSF no web.xml.
+
+E nos oferece opcionalmente a possibilidade de configurar
+parametros de contexto para mudarmos comportamentos do JSF.
 
 ========================================================
-<!-- Cria o servlet que tratar� todas as requisi��es de extens�o .jsf --> 
+Configurando o Servlet JSF
+
+<!-- Cria o servlet que tratará todas as requisições de extensão .xhtml --> 
 <servlet>
   	<display-name>FacesServlet</display-name>
   	<servlet-name>FacesServlet</servlet-name>
@@ -15,20 +19,85 @@ de paginas .jsf com o codigo abaixo
 </servlet>
 <servlet-mapping>
   	<servlet-name>FacesServlet</servlet-name>
-	<!--Este valor pode ser .xhtml tambem para que todas as paginas xhtml sejam automaticamente processadas como jsf-->
-  	<url-pattern>*.jsf</url-pattern>
+  	<url-pattern>*.xhtml</url-pattern>
 </servlet-mapping>
+==========================================================
+Configurando context parameters
 
+Configuram comportamentos do JSF e são opcionais
+----------------------------------------------------------
+Parametro javax.faces.PROJECT_STAGE
 
-<!--Define em que estagio est� o projeto --> 
+O parametro javax.faces.PROJECT_STAGE diz para o JSF
+em que estagio do desenvolvimento o projeto se encontra
+com esta informação a implementação JSF pode agir de maneira
+diferente, como mostrando informações de debug em erros caso
+o projeto esteja em desenvolvimento.
+
+Os valores possiveis são:
+
+* Development
+
+* UnitTest
+
+* SystemTest
+
+* Production(Default utilizado se o parametro for não for definido)
+
+ex:
+
+<!--Define em que estagio está o projeto --> 
 <!-- o valor Development mostra mensagens de erro mais completas -->
-<!--  outros valores possiveis s�o :Production,UnitTest,SystemTest e Extension --> 
+<!--  outros valores possiveis são :Production,UnitTest,SystemTest e Extension --> 
 <context-param>
   	<param-name>javax.faces.PROJECT_STAGE</param-name>
   	<param-value>Development</param-value>
 </context-param>
+----------------------------------------------------------------------------------
+O parametro javax.faces.STATE_SAVING_METHOD
 
-<!--Permite que Express�es UEL executem metodos com se fosse linhas de codigo java --> 
+O parametro javax.faces.STATE_SAVING_METHOD diz ao JSF aonde
+devem ser guardados os dados da aplicação, como por exemplo
+os atributos de um session scoped managed bean enquanto a sessão
+durar.
+
+Os valores possiveis são:
+
+* server(default) - todos os dados são mantidos no servidor
+
+* client - todos os dados são mantidos no cliente no formato de campos hidden em formularios
+	   nas páginas o que pode deixar a aplicação mais lenta pois todos estes dados precisam
+	   trafegar entre cliente-servidor à cada requisição.
+	   
+ex:
+
+<context-param>
+  	<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+  	<param-value>client</param-value>
+</context-param>
+---------------------------------------------------------------------------------------
+O parametro javax.faces.CONFIG_FILES
+
+Uma aplicação JSF pode ter nenhum ou muitos arquivos de configuração
+geralmente chamados faces-config.xml por ser o nome padrão mas é possivel
+ter vários e com nomes variados com o inutuito de organização e separação.
+
+Este parametro define quais arquivos XML da aplicação devem ser processados
+como arquivos de configuração JSF, caso o parametro não seja definido, todos
+os arquivos com o nome faces-config.xml serão considerados.
+
+ex:
+
+<context-param>
+    <param-name>javax.faces.CONFIG_FILES</param-name>
+    <param-value>
+    	WEB-INF/common/manage-beans.xml,
+    	WEB-INF/common/navigation-rule.xml,
+    	WEB-INF/common/config.xml
+    </param-value>
+  </context-param>
+---------------------------------------------------------------------------------------
+<!--Permite que Expressões UEL executem metodos com se fosse linhas de codigo java --> 
 <context-param>
   	<param-name>com.sun.faces.expressionFactory</param-name>
   	<param-value>com.sun.el.ExpressionFactoryImpl</param-value>
