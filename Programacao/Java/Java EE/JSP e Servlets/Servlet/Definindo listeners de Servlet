@@ -1,0 +1,35 @@
+Definindo listeners de Servlet
+
+O framework Servlet oferece uma série de listeners
+para efetuar ações nos mais diversos eventos de uma
+aplicação servlet.
+
+para implementar e definir estes listeners basta implementar
+uma ou várias das interfaces descritas abaixo em uma ou mais
+classes e anotar(-las) com a anotação @WebListener
+=============================================================
+Interfaces listener de servlets
+
+javax.servlet.ServletContextListener - Eventos de inicialização e destruição da aplicação servlet
+
+javax.servlet.ServletContextAttributeListener - Eventos de adição remoção e substituição de atributos no ServletContext
+
+javax.servlet.http.HttpSessionListener - Eventos de criação e invalidação de sessões Http
+
+javax.servlet.http.HttpSessionActivationListener - Eventos de passivamento e ativação de sessões http.
+
+javax.servlet.http.HttpSessionAttributeListener -  Eventos de adição remoção e substituição de atributos de sessões Http
+
+javax.servlet.ServletRequestListener - Eventos de inicialização e destruição de requests
+
+javax.servlet.ServletRequestAttributeListener -  Eventos de adição remoção e substituição de atributos de requests
+
+*obs: estes não são todos os listeners
+*obs1: os métodos definidos pelas intefaces recebem como parametro objetos Event, com informações sobre o que causou a ação ouvida pelo listener.
+==============================================================
+ex:
+
+@WebListener
+public class SimpleServletListener implements ServletContextListener, ServletContextAttributeListener {
+...
+}
