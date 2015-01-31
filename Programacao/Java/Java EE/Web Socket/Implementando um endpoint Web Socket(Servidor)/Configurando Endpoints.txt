@@ -1,0 +1,35 @@
+Configurando Endpoints
+
+É possivel definir configurações e inicializar
+dados em um web socket endpoint declarando o atributo
+configurator de @ServerEndpoint, este atrubuto recebe
+como valor o .class de uma classe que extenda ServerEndpointConfig.Configurator
+
+O método mais importante desta classe para ser sobrescrito
+é o :
+
+public void modifyHandshake(ServerEndpointConfig conf, HandshakeRequest req, HandshakeResponse resp)
+
+Nele é possivel editar o ServerEndpointConfig e a request e response
+de handshake, em um pedido de conexão.
+===============================================================================
+ex:
+
+Declaração:
+
+@ServerEndpoint(
+value = "/myendpoint",
+configurator = MeuConfigurator.class
+)
+public class MyEndpoint {}
+
+Implementação:
+
+public class CustomConfigurator extends ServerEndpointConfig.Configurator {
+	@Override
+	public void modifyHandshake(ServerEndpointConfig conf, HandshakeRequest req, HandshakeResponse resp) {
+		conf.getUserProperties().put("handshakereq", req);
+	}
+}
+
+obs: O configurator pode conversar com o endpoint através da utilização do mapa em conf.getUserProperties()

@@ -1,0 +1,131 @@
+Implementando um cliente Web Socket
+
+Clientes web socket são scripts javascript em
+uma pagina web, responsaveis por abrir a conexão
+com o endpoint web socket declarado no servidor.
+
+Com a conexão aberta é possivel utilizar o objeto
+socket dela para enviar mensagens ao servidor, e
+ouvir eventos de comunicação com o servidor.
+=================================================
+Abrindo a conexão
+
+O objeto javascript que representa um web socket
+é o WebSocket e uma conexão com o web socket no
+servidor é feita instanciando um novo objeto WebSocket
+passando no seu contrutor a string url, na qual o web
+socket está configurado.
+
+obs: a url deve declarar o protocolo com ws ou wss, os
+     prototolos de web socket(ws = normal, wss = seguro),
+	 a requisição http pede um upgrade de protocolo para o servidor
+
+-----------------------------------------------------------
+Ex instânciando WebSocket/abrindo conexão:
+
+var socket;
+
+window.onload = function(){
+	if(socket == null){
+		socket = new WebSocket("ws://localhost:8080/appName/webSocket");
+	}
+...
+}
+
+//O exemplo acima abre uma conexão com o web socket declarado na aplicação web appName
+/ anotado com @ServerEndpoint("/webSocket")
+-------------------------------------------------------------
+Fechando a conexão
+
+O socket tambem possui o método close(Number code, String reason) 
+para o fechamento da conexão com o web socket, os parametros são informações
+sobre o motivo do fechamento que o servidor terá acesso.
+
+ex:
+
+socket.close(1,"Redirecionamento requisitado");
+===============================================================
+Enviando mensagens
+
+Mensagens podem ser enviadas através do objeto WebSocket
+instanciado, mensagens podem ser de dois tipos:
+
+* texto
+* binario
+
+os dois tipos são enviados pelo mesmo método:
+
+socket.send(Object data);
+
+Sendo o objeto data do tipo string para mensagens textuais e Blob
+ou ArrayBuffer para tipos binarios.
+
+ex:
+
+function sendMessage(message){
+	socket.send(message);
+}
+================================================================
+Listeners de comunicação com o servidor
+
+A arquitetura Web socket define três métodos listeners
+que são chamados quando um dos seus eventos acontecem,
+eles devem ser recuperados através do objeto socket e
+funções devem ser atribuidas a eles.
+
+Os métodos listeners são:
+
+socket.onopen - Chamado sempre que uma conexão com o web socket for aberta
+
+socket.onerror - Chamado sempre que um erro ocorrer na comunicação, a função atribuida a ele
+				 deve receber um parametro, este parametro possui as informações sobre o erro.
+
+socket.onmessage - Chamado sempre que o servidor enviar uma mensagem, a função atribuida a ele
+				   deve receber um parametro este parametro representa a mensagem e o conteudo da
+				   mensagem pode ser recuperado pelo atributo data.
+				   
+ex:
+
+	socket.onopen = function () {
+		console.log('Conexão aberta');
+	};
+
+	socket.onerror = function (error) {
+		console.log('WebSocket Error ' + error);
+	};
+
+	socket.onmessage = function (e) {
+		console.log('Server: ' + e.data);
+		document.getElementById("dado").innerHTML = e.data;
+	};
+				   
+=========================================================================
+Ex completo:
+
+var socket;
+
+window.onload = function(){
+	if(socket == null){
+		socket = new WebSocket("ws://localhost:8080/bibliorium/webSocket");
+	}
+	
+	socket.onopen = function () {};
+
+	// Log errors
+	socket.onerror = function (error) {
+		console.log('WebSocket Error ' + error);
+	};
+
+	// Log messages from the server
+	socket.onmessage = function (e) {
+		console.log('Server: ' + e.data);
+		document.getElementById("dado").innerHTML = e.data;
+	};
+	
+};
+
+function sendMessage(message){
+	socket.send(message);
+}				   
+				   
+	

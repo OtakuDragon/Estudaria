@@ -1,0 +1,38 @@
+Anotando métodos de evento de comunicação
+
+Os eventos descritos abaixo podem ser ouvidos
+por um web socket endpoint se ele possuir métodos
+anotados, e com a assinatura corresnpodente
+
+Anotação		Assinatura		                                                       Evento
+
+@OnOpen			public void *(Session session, EndpointConfig conf)					  Chamado sempre que uma conexão é aberta por um cliente
+
+@OnMessage      public void *(Session session, String/ByteBuffer/PongMessage msg)     Chamado sempre que uma mensagem é enviada pelo cliente, existem três assinaturas
+																					  nas qual a unica variação é o tipo da mensagem já que um cliente pode enviar três
+																					  tipos de mensagem
+																					  
+@OnError		public void *(Session session, Throwable error)						  Chamado sempre que houver um erro com a conexão
+
+@OnClose        public void *(Session session, CloseReason reason)                    Chamado no momento em que a conexão com o cliente é fechada				  
+
+Legenda: * = qualquer nome para o método
+
+============================================================================================
+ex:
+
+@ServerEndpoint("/webSocket")
+public class WebSocket {
+	
+	@OnOpen
+	public void open(Session session) throws Exception {
+		System.out.println("Conexão web socket aberta:" + session.getRequestURI());
+	}
+	
+	@OnMessage
+	public void message(Session session, String msg) {
+		System.out.println("Mensagem Recebida:"+ msg);
+	}
+	
+
+}

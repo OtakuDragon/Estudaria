@@ -1,0 +1,22 @@
+Armazenando dados no Endpoint
+
+Porque uma instancia de endpoint pertence a apenas um cliente
+é possivel seguramente criar atributos na classe e guardar dados neles,
+uma opção a esta tecnica é usar o mapa disponivel em javax.websocket.Session
+recuperado pelo método session.getUserProperties().
+
+Este é um mapa String,Object que estará disponivel e manterá o seu
+estado durante a duração da conexão.
+=============================================================================
+ex:
+
+@OnMessage
+public void message(Session session, String msg) {
+	String prev = (String) session.getUserProperties().get("previousMsg");
+	session.getUserProperties().put("previousMsg", msg);
+	
+	try {
+		session.getBasicRemote().sendText(prev);
+	} catch (IOException e) { ... }
+}
+

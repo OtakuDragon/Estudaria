@@ -1,0 +1,80 @@
+A anotação @ServerEndpoint
+
+A anotação @ServerEndpoint declara um pojo como um
+web socket endpoint e tem como atributo obrigatorio
+o value que recebe uma string com o local aonde o web
+socket estará disponivel para a conexão dos clientes.
+
+O caminho deste local é relativo a url apartir do nome
+da aplicação.
+====================================================================
+ex:
+
+//Digamos que a classe abaixo pertença a aplicação web com
+//o nome no contexto web de minhaAplicacao, rodando em localhost porta 8080
+
+@ServerEndpoint("/meuWebSocket")
+public class WebSocket {
+...
+}
+
+//O web socket estaria disponivel para clientes
+//através da url
+
+ws://localhost:8080/minhaAplicacao/meuWebSocket
+
+======================================================================
+Path parameter
+
+O value da anotação @ServerEndpoint pode receber
+parametros definidos pelo cliente no momento da conexão
+estes parametros são conhecidos como path parameters,
+eles tornam possivel o acesso de vários clientes a um
+mesmo endpoint com urls "slightly" modificadas
+
+Eles são definidos no value como {nomeDoParam}
+
+* um value de @ServerEndpoint pode ter varios parametros
+
+ex:
+
+@ServerEndpoint("/meuWebSocket/{parametro}")
+public class EndPointParam {}
+
+Com este value clientes conseguem acessar o endpoint
+através de urls como:
+
+* supondo que uma aplicação de nome paramApp no servidor localhost:8080
+
+ws://localhost:8080/paramApp/meuWebSocket/primeiraEntrada
+
+ws://localhost:8080/paramApp/meuWebSocket/segundaEntrada
+
+e assim por diante o valor que aparece após meuWebSocket/ pode
+ser qualquer valor valido em uma url.
+
+-------------------------------------------------------
+Recuperando Path parameters
+
+O cliente acessar por meio de varias urls, não 
+faz diferença, se o servidor não souber disso,
+por isso é possivel recuperar o valor destes parametros
+com a anotação:
+
+@PathParam("nomeDoParam")
+
+acompanhada de um parametro String para o método @OnOpen,
+quando uma conexão for aberta o valor do parametro será passado
+para o endpoint
+
+ex:
+
+@ServerEndpoint("/chatrooms/{room-name}")
+public class ChatEndpoint {
+
+	//Outros parametros adicionariam parametros @PathParam() String à assinatura de open()
+	@OnOpen
+	public void open(Session session, EndpointConfig c, @PathParam("room-name") String roomName) {
+		executarOperacoesDeAcordoComParam(roomName);
+	}
+}

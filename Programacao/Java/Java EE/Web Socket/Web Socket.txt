@@ -1,0 +1,15 @@
+Web Socket
+
+Web Socket é uma nova tecnologia web que permite uma conexão
+continua e bidirecional entre um cliente http(página web no browser)
+e um servidor http(servidor de aplicação).
+
+Ela torna possivel o envio de dados do servidor para o cliente sem que
+o cliente faça nenhuma requisição, deste que a conexão esteja aberta, o que
+pode ser chamado de ajax reverso.
+
+*obs: o cliente tambem pode mandar dados para o servidor por web socket, mas
+	  isto já pode ser feito por meio de uma requisição normal http ou ajax,
+	  então o ponto forte do web socket esta na comunicação continua sentido
+	  servidor -> cliente
+

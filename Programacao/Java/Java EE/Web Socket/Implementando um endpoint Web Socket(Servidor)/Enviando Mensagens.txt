@@ -1,0 +1,53 @@
+Enviando mensagens
+
+Mensagens são enviadas através de uma refêrencia ao cliente
+chamado de "Remote", esta referencia é recuperada através da
+javax.websocket.Session, que é passada para todos os métodos
+de evento descritos em Métodos de evento de comunicação.
+
+O indicado é manter uma variavel de classe no endpoint e guardar
+uma referêncida de Session nela no método @OnOpen, para que ela
+esteja disponivel, isto é seguro já que cada instancia do endpoint
+se refere apenas a um cliente.
+=====================================================================
+Tipos de cliente
+
+Através do objeto é possivel se recuperar dois tipos de cliente(Remote):
+
+RemoteEndpoint.Basic cliente = session.getBasicRemote(); - Cliente sincrono, a thread do endpoint tem que interromper a sua execução para enviar mensagens,
+														   só se torna um problema no caso do envio de mensagens muito longas que podem parar o endpoint por muito tempo.
+																		   
+RemoteEndpoint.Async cliente = session.getAsyncRemote(); - Cliente assincrono, envia mensagens em uma thread separada não interrompendo a execução da thread do endpoint.
+
+======================================================================
+Métodos de envio
+
+Os métodos de envio de mensagens são identicos para os dois clientes,
+a diferença está apenas no estilo de envio, estes métodos são:
+
+cliente.sendBinary(BinaryBuffer data); - Envia dados binarios.
+
+cliente.sendText(String text); - Envia dados textuais
+
+cliente.sendObject(Object data); - Envia objetos java, para os tipos wrapper o encoding é automatico,
+								   tipos customizados devem implementar um encoder que transforma o objeto,
+								   em string ou bytes.
+								   
+obs: tambem é possivel enviar mensagens de ping, e pong para checar conexão.
+
+==================================================================================================
+ex:
+
+//Enviando uma mensagem para todos os clientes conectados
+//a um web socket
+
+@OnMessage
+public void onMessage(Session session, String msg) {
+	try {
+		//getOpenSessions() da acesso a uma instancia de endpoint a todas as conexões abertas atualmente com o endpoint
+		for (Session sess : session.getOpenSessions()) {
+			if (sess.isOpen())
+				sess.getBasicRemote().sendText(msg);
+		}
+	} catch (IOException e) { ... }
+}

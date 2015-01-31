@@ -1,0 +1,149 @@
+Encoders
+
+Encoders são classes que implementam sub interfaces
+da interface Encoder e tem como objetivo transformar 
+um objeto T, em uma mensagem capaz de ser transmitida
+via web socket(texto ou binario).
+
+Para que seja possivel a utilização do método de envio
+client.sendObject(T instance);
+
+elas são: 
+
+* Encoder.Text<T> - Conversão Objeto T para String
+
+* Decoder.Binary<T> - Conversão Objeto T para ByteBuffer
+
+Os métodos definidos por estas interfaces são os mesmos
+a unica diferença sendo o tipo de retorno do método encode()
+
+Métodos:
+
+public void init(EndpointConfig config); - Método de inicialização do encoder para a abertura de recursos
+
+public void destroy(); - Método de finalização do encoder para o fechamento de recursos.
+
+public String/ByteBuffer encode(T object) throws EncodeException  - Método que realmente faz a conversão T, para um dos tipos
+																	transmissiveis por web socket, ele recebe o objeto e retorna
+																	a mensagem.
+-----------------------------------------------------------------------------------
+ex:
+
+public class MessageATextEncoder implements Encoder.Text<MessageA>{
+
+	public void init(EndpointConfig config){}
+
+	public void destroy(){}
+
+	public String encode(MessageA object) throws EncodeException{
+
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append(object.getMessageName());
+		builder.append("@");
+		builder.append(object.getMessageContent());
+		
+		return builder.toString();
+	}
+
+}
+																	
+-------------------------------------------------------------------------------------
+Declarando um encoder
+
+Não basta apenas implementar encoders eles devem ser declarados
+no @ServerEndpoint atributo encoders para que funcionem, o atributo
+recebe um array de .classe de encoders, o que significa que um endpoint
+pode possuir vários encoders.
+
+ex:
+
+
+@ServerEndpoint(
+value = "/myendpoint",
+encoders = { MessageATextEncoder.class, MessageBTextEncoder.class }
+)
+public class EncEndpoint { ... }
+
+A declaração acima declara dois encoders, para os tipos de dado MessageA, e MessageB
+o que torna possivel o envio de mensagens como:
+
+MessageA msgA = new MessageA(...);
+MessageB msgB = new MessageB(...);
+session.getBasicRemote.sendObject(msgA);
+session.getBasicRemote.sendObject(msgB);
+
+=====================================================================================
+Decoders
+
+Decoders são o inverso de encoders no sentido de que
+eles recebem uma mensagem web socket texto ou binario
+de acordo com a sub interface e à transformam em um objeto T
+
+com o detalhe de que um web socket endpoint pode declarar
+apenas um decoder o que não impede que um decoder converta
+mensagens para mais do que um tipo objeto desde que eles possuam
+um supertipo ou interface em comum 'T'.
+
+Decoders tornam possivel que o método @OnMessage receba objetos
+customizados.
+-------------------------------------------------------------------------------------
+As sub-interfaces são:
+
+Decoder.Text<T> - Mensagem String para objeto T
+
+Decoder.Binary<T> - Mensagem ByteBuffer para objeto T
+-------------------------------------------------------------------------------------------
+E elas definem os métodos:
+
+public void init(EndpointConfig config); - Método de inicialização do decoder para a abertura de recursos
+
+public void destroy(); - Método de finalização do decoder para o fechamento de recursos.
+
+public boolean willDecode(String/ByteBuffer mensagem); - Método de validação chamado antes de decode que decide se uma mensagem
+													  web socket pode ou não ser decodificada por este decoder.
+
+public T decode(String/ByteBuffer mensagem) throws DecodeException  - Método que realmente faz de uma mensagem web socket para um objeto T.
+------------------------------------------------------------------------------------------
+Declarando um decoder
+
+Decoders são declarados no atributo decoders de @ServerEndpoint
+que recebe um array de .class de decoders, o endpoint irá utilizar
+APENAS O PRIMEIRO decoder que retornar true no método willDecode().
+
+@ServerEndpoint(
+value = "/myendpoint",
+encoders = { MessageATextEncoder.class, MessageBTextEncoder.class },
+decoders = { MessageTextDecoder.class }
+)
+public class EncDecEndpoint { ... }
+------------------------------------------------------------------------------------------
+ex:
+
+
+public class MessageATextDecoder implements Decoder.Text<MessageA>{
+
+	public void init(EndpointConfig config){}
+
+	public void destroy(){}
+
+	//Verifica se a mensagem seque o padrão nome@conteudo, definido no encoder
+	public boolean willDecode(String mensagem){
+		return mensagem.split("@").length == 2;
+	}
+
+	public MessageA decode(String mensagem) throws DecodeException
+		MessageA retorno = new MessageA();
+		
+		String[] dadosString = mensagem.split("@");
+		
+		retorno.setMessageName(dadosString[0]);
+		retorno.setMessageContent(dadosString[1]);
+		
+		return retorno;
+		
+	}
+	
+}
+
+

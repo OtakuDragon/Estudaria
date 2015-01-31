@@ -1,0 +1,12 @@
+Implementando um endpoint Web Socket(Servidor)
+
+Web socket endpoints, o lado servidor do web service,
+são pojos anotados com anotações que declaram, aonde 
+o web socket estará disponivel e os métodos de eventos
+de comunicação.
+
+Cada conexão aberta pelo cliente faz com que uma instancia
+do endpoint, seja criada e utilizada naquela conexão.
+
+
+
