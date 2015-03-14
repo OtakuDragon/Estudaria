@@ -1,0 +1,65 @@
+Atribuindo interceptors
+
+Interceptors são Atribuidos atraves da anotação
+@Interceptors, ela recebe o simple name da classe
+que implementa o interceptor ou uma lista de simple
+names das classes dos interceptors caso deseje-se
+adicionar multiplos
+--------------------------------------------------------------------------------------------------------------------------------
+Interceptors podem ser atribuidos em 3 niveis:
+
+* Default - definido no web.xml(deployment descriptor) intercepta todos os metodos de todos os EJBs
+
+* Classe  - Um interceptor em nivel de classe interceptará todos os metodos publicos do EJB
+
+* Metodo  - O nivel mais baixo atribui o interceptor diretamente ao qual ele deve interceptar
+
+obs: No caso de varios niveis interceptarem o mesmo metodo o maior nivel será executado primeiro
+     seguido dos outros em ordem decrescente
+
+obs2:No caso de haver mais de um interceptor em um mesmo nivel será executado primeiro o que foi
+     definido primeiro seja na anotação ou no web.xml
+	 
+@Interceptors(MeuInterceptor.class)
+public class MinhaClasse{
+..
+}
+
+@Interceptors({MeuInterceptor.class,OutroInterceptor.class})
+public void meuMetodo (){
+..
+}
+==============================================================================
+Anulando interceptores 
+
+há tambem casos nos quais nos não desejamos executar
+o interceptor apenas para um metodo da classe ou desejamos
+anular o interceptor default para uma classe nesses casos 
+nós utilizamos as anotações:
+
+@ExcludeDefaultInterceptors - Para interceptor padrão
+@ExcludeClassInterceptors   - Para interceptor de classe
+
+ex:
+
+@Interceptors(MeuInterceptor.class)
+@ExcludeDefaultInterceptors
+@ExcludeClassInterceptors
+public void meuMetodo (){
+..
+}
+==============================================================================
+Definindo o default interceptor
+
+no ejb-jar.xml:
+
+<assembly-descriptor>
+	<interceptor-binding>
+		<!--Asterisco significando todos os EJBs-->
+		<ejb-name>*</ejb-name>
+		<!--Full qualified name da classe do interceptor-->
+		<interceptor-class>
+			meusPacotes.MinhaClasse
+		</interceptor-class>
+	</interceptor-binding>
+</assembly-descriptor>

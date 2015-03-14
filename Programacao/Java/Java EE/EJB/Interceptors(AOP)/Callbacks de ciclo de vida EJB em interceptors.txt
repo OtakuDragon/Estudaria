@@ -1,0 +1,35 @@
+Callbacks de ciclo de vida EJB em interceptors
+
+O metodo anotado com @AroundInvoke é executado
+sempre que um metodo é interceptado mas está não
+é o unico metodo que um interceptor pode ter
+
+ele tambem pode ter metodos anotados com 4 outras 
+anotações, os 4 lifecycle callbacks dos ejbs:
+
+*@PostConstruct
+*@PrePassivate
+*@PostActivate 
+*@PreDestroy
+
+Se o interceptor estiver definido em nivel de classe em uma
+classe que representa um bean EJB ele executará os metodos anotados
+com as anotações de callback do ciclo de vida ejb quando
+as mudanças de estado acontecerem da mesma maneira que
+aconteceria se os metodos estivessem na classe do ejb
+
+isto não impede que a classe tenha metodos de callback
+ou varios interceptores tenham metodos de callback, todos
+eles serão executados.
+=========================================================
+ex:
+
+@PostConstruct
+public void initialize (InvocationContext context) {//neste caso o metodo não joga exceção como no @AroundInvoke
+...
+
+//O proceed tambem precisa acontecer aqui para que
+//qualquer outro callback abaixo da hierarquia tambem
+//seja executado
+context.proceed();
+}

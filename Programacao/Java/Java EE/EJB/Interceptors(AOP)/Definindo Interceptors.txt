@@ -1,0 +1,66 @@
+Definindo interceptors
+
+Interceptors são POJOs que possuem no minimo um metodo
+anotado com a anotação @AroundInvoke este metodo
+deve possuir a seguinte assinatura:
+
+public Object NomeDoMetodo(InvocationContext context) throws Exception;
+----------------------------------------------------------------------------------------------------
+ex:
+
+@AroundInvoke
+public Object NomeDoMetodo(InvocationContext context) throws Exception{
+
+//Se o metodo não retornar proceed() qualquer outro interceptor abaixo
+//na hierarquia e o metodo interceptado não serão executados, isto abre
+//a possibilidade de verificação de segurança e impedimento de execução como em
+//um filtro http.
+return context.proceed();
+}
+
+*obs: a Exception pode ser tratada dentro do metodo o throws não é obrigatorio
+----------------------------------------------------------------------------------------------------
+Este metodo será chamado pelo container sempre que um 
+metodo de ejb que possuir o interceptor atribuido a ele for executado.
+
+Para executar codigo após a execução do metodo basta inserir o codigo em um finally
+ex:
+
+@AroundInvoke
+public Object log(InvocationContext ic) throws Exception {
+  //Antes de execução
+  logEntry();
+  try {
+    return ic.proceed();
+  } finally {
+    //Após a execução
+    logExit();
+  }
+}
+========================================================================
+O Parametro InvocationContext
+
+Quando o metodo anotado com @AroundInvoke é executado
+o container passa para ele um objeto que implementa InvocationContext
+contendo todas as informações sobre a execução do metodo
+
+Metodos de InvocationContext
+
+context.getTarget() - Recupera a instancia do bean que executará
+                               o metodo de negocio como um Object
+
+context.getMethod()  - Recupera o objeto de reflexão Method que possui
+                                  todas as informações do metodo que será executado
+
+context.getParameters()- Retorna um array de Object com os parametros sendo passados
+                                      para o metodo.
+
+context.setParameters() - Recebe um array de Object e substitui os parametros sendo passados para
+                                       o metodo pelos itens deste array
+
+context.getContextData()- Retorna a referencia a um mapa<String,Object> que estará disponivel para todos
+                                       os proximos interceptors, dados colocados nele(put) poderão ser recuperados nos proximos
+                                       interceptors da corrente é utilizado como uma maneira de comunicação entre interceptors
+
+context.proceed()     - Retorna um Object que diz ao container para continuar o fluxo de execução do metodo		
+========================================================================

@@ -1,0 +1,16 @@
+﻿Interceptors(AOP)
+
+Interceptors são os elementos do EJB
+responsaveis por "interceptar" chamadas
+de metodos e executar codigo antes,durante
+ou depois delas.
+
+São basicamente uma versão mais simples
+dos advices do spring
+==================================================
+
+
+
+
+
+	 

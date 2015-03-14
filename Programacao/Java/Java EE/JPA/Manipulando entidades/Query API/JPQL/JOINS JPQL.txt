@@ -31,7 +31,7 @@ como FK na outra entidade.
 	
 ex:
 
-SELECT u FROM User u INNER JOIN u.Category c WHERE u.userId LIKE ?1
+SELECT u FROM User u INNER JOIN u.category c WHERE u.userId LIKE ?1
 
 obs: note que no lado direito do join a entidade é recuperada atraves do identificador
        do lado direito (u.Category)
@@ -46,9 +46,9 @@ que combinarem PK e FK mas todos eles
 
 ex:
 
-SELECT u FROM User u LEFT OUTER JOIN u.Category c WHERE u.userId like ?1
+SELECT u FROM User u LEFT OUTER JOIN u.category c WHERE u.userId like ?1
 
-SELECT u FROM User u RIGHT OUTER JOIN u.Category c WHERE u.userId like ?1
+SELECT u FROM User u RIGHT OUTER JOIN u.category c WHERE u.userId like ?1
 
 obs: note que no lado direito do join a entidade é recuperada atraves do identificador
        do lado direito (u.Category)
