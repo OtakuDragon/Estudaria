@@ -1,110 +1,145 @@
 Criando Composite Components
 
 Um composite component funciona como um template para
-a re-utilizaÁ„o de um conjunto de componentes JSF, eles
+a re-utiliza√ß√£o de um conjunto de componentes JSF, eles
 devem ser declarados como recursos(dentro da pasta resources)
 e possuir o pathing como o seguinte:
 
 /webapp/resources/nomeDaBibliotecaDeCompositeComponents/NomeDoCompositeComponent.xhtml
 
-Composite components s„o declarados em arquivos xhtml, com
-a tag raiz <html> e a utilizaÁ„o da tag lib:
+Composite components s√£o declarados em arquivos xhtml, com
+a tag raiz <html> e a utiliza√ß√£o da tag lib:
 
 xmlns:cc="http://java.sun.com/jsf/composite"
 
-Dentro da tag <html> s„o colocadas duas tags principais:
+Dentro da tag <html> s√£o colocadas duas tags principais:
 
 <cc:interface> - Define a estrutura do componente e atributos adicionais,
-				 È opcional mas muito importante.
+				 √© opcional mas muito importante.
 
 <cc:implementation> - Implementa o composite componente realmente com tags de componentes JSF,
-					  e implementaÁ„o da estrutura definida por <cc:interface>, se <cc:interface>
+					  e implementa√ß√£o da estrutura definida por <cc:interface>, se <cc:interface>
 					  aparecer no documento uma <cc:implementation> deve obrigatoriamente estar inserida no documento.
 					  
 ========================================================================================
 Definindo a interface de um composite component(<cc:interface>)
 
-A tag <cc:interface> È composta por outras tags
-da taglib composite e compıe um esqueleto para o
-composite component, estas tags s„o:
+A tag <cc:interface> √© composta por outras tags
+da taglib composite e comp√µe um esqueleto para o
+composite component, estas tags s√£o:
 
 - cc:attribute - Tag mais comumente usada, define um atributo do componente que pode
-				 ser utilizado na implementaÁ„o e atribuido na utilizaÁ„o, permite value e method expressions
+				 ser utilizado na implementa√ß√£o e atribuido na utiliza√ß√£o, permite value e method expressions
 				 como valores, attribute tambem pode declarar listeners com o atributo targets.
 				 
-- cc:valueHolder - Representa campos n„o editaveis como labels e outputText.
+- cc:valueHolder - Representa campos n√£o editaveis como labels e outputText.
 
 - cc:editableValueHolder - Representa campos de input de formulario
 
-- cc:actionSource - Representa botıes ou links
+- cc:actionSource - Representa bot√µes ou links
 
-*Estes atributos s„o representaÁıes genericas de componentes, neles È possivel configurar atributos
- comuns aos componentes que eles representam, e estas configuraÁıes se transferir„o para a implementaÁ„o
- desde que o mesmo nome seja compartilhado entre interface e implementaÁ„o.
+*Estes atributos s√£o representa√ß√µes genericas de componentes, neles √© possivel configurar atributos
+ comuns aos componentes que eles representam, e estas configura√ß√µes se transferir√£o para a implementa√ß√£o
+ desde que o mesmo nome seja compartilhado entre interface e implementa√ß√£o.
  
 ex:
 
-<composite:interface>
-  <composite:editableValueHolder name="userid" required="true" />
-</composite:interface>
+<cc:interface>
+  <cc:editableValueHolder name="userid" required="true" />
+</cc:interface>
  
-<composite:implementation>
+<cc:implementation>
 	<h:form>
 		<h:inputText id="userid"/>
 	</h:form>	
-</composite:implementation>
+</cc:implementation>
 ========================================================================================
 Implementando um composite component(<cc:implementation>)
 
-Composite components s„o implementados dentro da tag <cc:implementation>
+Composite components s√£o implementados dentro da tag <cc:implementation>
 definindo componentes com os mesmo nome e tipos dos definidos na interface,
-um detalhe importante da implementaÁ„o È a utilizaÁ„o de atributos da interface
+um detalhe importante da implementa√ß√£o √© a utiliza√ß√£o de atributos da interface
 
 
-Atributos de interface sempre s„o referenciados de acordo com a sintaxe:
+Atributos de interface sempre s√£o referenciados de acordo com a sintaxe:
 
 #{cc.attrs.nomeDoAtributo[.objetosinternos...]}
 ------------------------------------------------------------------------
 Por exemplo:
 
-A tag na implementaÁ„o:
+A tag na implementa√ß√£o:
 
 <h:inputText id="name" size="45" value="#{cc.attrs.primeBean.name}" required="true"/>
 
 Se refere ao atributo da interface:
 
-<composite:attribute name="primeBean"/>
+<cc:attribute name="primeBean"/>
 
-Que na utilizaÁ„o foi definido como:
+Que na utiliza√ß√£o foi definido como:
 
 <ez:PrimePanel primeBean="#{primeBean}" />
 
-A referencia ‡ um objeto managed bean.
+A referencia √† um objeto managed bean.
 
 A interface pode definir valores para os seus atributos, ou 
-o usu·rio do componente pode defini-los, a implementaÁ„o apenas
+o usu√°rio do componente pode defini-los, a implementa√ß√£o apenas
 atribui estes valores aos lugares devidos.
 -------------------------------------------------------------------------
-Exemplo de implementaÁ„o de atributo que define o mÈtodo
-action de um bot„o:
+Exemplo de implementa√ß√£o de atributo que define o m√©todo
+action de um bot√£o:
 
 Na interface:
 
 <cc:interface>
-	<composite:attribute name="calcAction" method-signature="java.lang.String action()"/>
+	<cc:attribute name="calcAction" method-signature="java.lang.String action()"/>
 </cc:interface>
 
-Na implementaÁ„o:
+Na implementa√ß√£o:
 
 <cc:implementation>
-	<h:commandButton id="calcButton" action="#{cc.attrs.calcAction}">
-		<f:ajax execute="name" render="outputGroup"/>
-	</h:commandButton>
+	<h:form>
+		<h:commandButton id="calcButton" action="#{cc.attrs.calcAction}">
+			<f:ajax render="@form"/>
+		</h:commandButton>
+	</h:form>
 </cc:implementation>
 
-Na utilizaÁ„o:
+Na utiliza√ß√£o:
 
 <ez:PrimePanel calcAction="#{primeBean.calculate}"/>
+--------------------------------------------------------------
+A tag <cc:insertChildren>
 
+A tag <cc:insertChildren> pode ser utilizada na implementa√ß√£o de componentes
+para atribuir um posicionamento ao conteudo inserido dentro do componente no
+momento da sua utiliza√ß√£o.
 
+ex:
+
+Utilizando o exemplo anterior mudando apenas a implementa√ß√£o para:
+<cc:implementation>
+	<h:form>
+		<h:commandButton id="calcButton" action="#{cc.attrs.calcAction}">
+			<f:ajax render="@form"/>
+		</h:commandButton>
+		<div class="outputPanel">
+			<cc:insertChildren/>	
+		</div>
+	</form>
+</cc:implementation>
+
+Significa que se utilizarmos o componente como abaixo:
+
+<ez:PrimePanel calcAction="#{primeBean.calculate}">
+	<span>Conteudo para a div outputPanel</span>
+</ez:PrimePanel>
+
+O componente ser√° gerado com a tag <cc:insertChildren/> substituida pelo conteudo
+interno no componente no caso uma <span> com um texto ser√° inserido na div.
+
+Obs: Qualquer conteudo html e jsf pode substituir a tag <cc:insertChildren/> inclusive
+outros composite components.
+
+Obs: A tag <cc:insertChildren/>	deve aparecer somente uma vez por implementa√ß√£o, a menos que o objetivo
+seja repetir o conteudo interno em varios lugares esta repeti√ß√£o pode causar conflitos de ids.
 ===============================================================
