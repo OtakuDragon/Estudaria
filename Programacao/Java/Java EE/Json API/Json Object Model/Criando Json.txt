@@ -1,0 +1,60 @@
+Criando Json
+
+A Json API oferece a possibilidade de criação de objetos que representam
+documentos Json de forma simples, para criar estes objetos são utilizdos
+builders oferecidos estaticamente pela classe Json.
+
+Para a criação de um objeto Json é necessário o JsonObjecBuilder
+recuperado da seguinte forma:
+
+JsonObjectBuilder builder = Json.createObjectBuilder();
+
+Este builder oferece os seguintes métodos:
+
+JsonObjectBuilder add(String name, BigDecimal value);
+JsonObjectBuilder add(String name, BigInteger value);
+JsonObjectBuilder add(String name, boolean value);
+JsonObjectBuilder add(String name, double value);
+JsonObjectBuilder add(String name, int value);
+JsonObjectBuilder add(String name, JsonArrayBuilder builder);
+JsonObjectBuilder add(String name, JsonObjectBuilder builder);
+JsonObjectBuilder add(String name, JsonValue value);
+JsonObjectBuilder add(String name, long value);
+JsonObjectBuilder add(String name, String value);
+JsonObjectBuilder addNull(String name);
+
+perceba que estes métodos possibilitam a construção de um objeto
+Json através do encadeamento de chamadas ao método add ou addNull,
+que podem receber dados simples, objetos ou arrays que são representados
+pelos seus respectivos builders.
+
+para finalizar a construção e recuperar o objeto final basta chamar
+o método:
+
+JsonObject build();
+===========================================================================
+ex:
+
+JsonObject model = Json.createObjectBuilder()
+.add("firstName", "Duke")
+.add("lastName", "Java")
+.add("age", 18)
+.add("streetAddress", "100 Internet Dr")
+.add("city", "JavaTown")
+.add("state", "JA")
+.add("postalCode", "12345")
+.add("phoneNumbers", Json.createArrayBuilder()
+.add(Json.createObjectBuilder()
+.add("type", "mobile")
+.add("number", "111-111-1111"))
+.add(Json.createObjectBuilder()
+.add("type", "home")
+.add("number", "222-222-2222")))
+.build();
+
+Outro ex:
+//Cria o documento {"Meu documento Json":{"conteudo":[1,2,3,4]}}
+Json.createObjectBuilder()
+.add("Meu documento Json criado no java", Json.createObjectBuilder()
+.add("conteudo", Json.createArrayBuilder()
+.add(1).add(2).add(3).add(4))).build();

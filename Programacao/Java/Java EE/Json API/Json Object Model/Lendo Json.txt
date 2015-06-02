@@ -1,0 +1,58 @@
+Lendo Json
+
+Para se realizar a leitura de um documento Json para
+um objeto java com a Json API é necessário ter acesso
+a um objeto JsonReader, este objeto é recuperado apartir
+da classe Json, através de dois métodos:
+
+//Através de um InputStream
+JsonReader jsonReader = Json.createReader(InputStream is);
+//Ou através de um reader
+JsonReader jsonReader = Json.createReader(Reader reader);
+
+*obs: JsonReader é um closeable e deve ser fechado após o uso.
+
+O conteudo lido pode vir de qualquer maneira que suporte
+estas duas interfaces de leitura e deve representar um
+documento JSON.
+
+Para realizar a leitura de fato é necessário chamar o
+método:
+
+JsonStructure jsonRoot = jsonReader.read();
+
+Se o conteúdo lido for um documento JSON válido
+Este método retorna o root do documento, o root
+de um documento JSON pode ser um JsonObject ou um
+JsonArray, estas duas interfaces são subinterfaces
+de JsonStructure.
+
+para descobrir qual o tipo do root, se o documento
+possuir uma estrutura desconhecida a interface JsonStructure
+oferece o método
+
+ValueType getValueType();
+
+Que retorna uma enum com o tipo de dado Json do objeto.
+===============================================================================================
+ex:
+
+try(FileInputStream fis = new FileInputStream("C:/Users/gilson.lopes/Desktop/meuJson.txt");
+	JsonReader jsonReader = Json.createReader(fis)){
+			
+	//read() pode retornar JsonObject ou JsonArray, duas subinterfaces de JsonStructure
+	JsonStructure jsonRoot = jsonReader.read();
+	
+	if(jsonRoot.getValueType == ValueType.OBJECT){
+		JsonObject jsonObject = (JsonObject)jsonRoot;
+		
+		//Navega no documento assumindo a sintaxe: {"Meu documento Json":{"conteudo":[1,2,3,4]}}
+		System.out.println(jsonObject.getJsonObject("Meu documento Json").getJsonArray("conteudo").get(0));
+	}else{
+		System.out.println("O root deste documento não pode ser um array");
+	}	
+
+}catch(IOException e){
+	System.out.println("lel kek");
+}
+

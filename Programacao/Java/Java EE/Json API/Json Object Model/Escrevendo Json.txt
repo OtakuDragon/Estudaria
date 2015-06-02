@@ -1,0 +1,38 @@
+Escrevendo Json
+
+A Json Api oferece o JsonWriter, que pode ser
+utilizado para escrever um documento JSON este
+objeto pode ser recuperado estaticamente através
+da classe Json por dois métodos:
+
+//Através de um outputstream
+JsonWriter jsonWriter = Json.createWriter(OutputStream os);
+//Através de um writer
+JsonWriter jsonWriter = Json.createWriter(Writer writer);
+
+O documento JSON pode ser escrito em qualquer meio
+que suporte uma das duas interfaces de escrita acima.
+
+A interface JsonWriter oferece quatro métodos:
+
+* void writeArray(JsonArray array);    //Escreve um array Json
+* void writeObject(JsonObject object); //Escreve um objeto Json
+* void write(JsonStructure value);     //Escreve um objeto ou array Json, este método encapsula os dois métodos
+									   //acima, verificando o tipo da JsonStructure e chamando o método que se aplica ao tipo
+* void close(); //Fecha os recursos
+
+Obs: Apenas um método de escrita pode ser chamado por writer criado, não é possivel escrever duas coisas
+     diferentes através de um mesmo writer.
+Obs¹: O writer deve ser fechado após a utilização.
+============================================================================
+ex:
+
+try (FileOutputStream fos = new FileOutputStream("C:/Users/gilson.lopes/Desktop/meuJson.txt");
+	 JsonWriter jsonWriter = Json.createWriter(fos)) {
+	 
+	jsonWriter.write(getObjetoJson());
+	
+} catch (IOException e) {
+	e.printStackTrace();
+}
+ 

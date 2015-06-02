@@ -1,0 +1,19 @@
+Json API
+
+O Java EE 7 oferece uma API completa para a leitura,
+processamento e escrita de dados no formato JSON um
+formato leve simples e muito utilizado em comunicação
+entre sistemas.
+
+Esta API similarmente a API de XML do Java se divide
+em dois métodos:
+
+* Object model - O conteúdo JSON é lido e carregado em memória por inteiro,
+				 util quando se lê documentos pequenos ou há a necessidade de
+				 se analisar o documentos inteiro de uma vez, ao custo do alto
+				 consumo de memória.
+				 
+* Streaming model - O conteúdo JSON é lido elemento à elemento enquanto dispara
+					eventos para cada elemento lido para que o programa possa decidir
+					se ele que recuperar este elemento ou seguir em frente, aconselha-vel
+					para a leitura de documentos muito pesados.
