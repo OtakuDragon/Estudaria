@@ -1,8 +1,8 @@
 Aplicando constraints
 
 Constraints são anotações que definem regras em
-um membro de classe que devem ser atendidas que
-seja o membro seja válido.
+um membro de classe que devem ser atendidas para
+que o membro seja válido.
 
 Constraints podem ser aplicadas aos seguintes
 membros de uma classe:
