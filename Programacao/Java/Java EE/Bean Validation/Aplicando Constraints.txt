@@ -1,0 +1,89 @@
+Aplicando constraints
+
+Constraints são anotações que definem regras em
+um membro de classe que devem ser atendidas que
+seja o membro seja válido.
+
+Constraints podem ser aplicadas aos seguintes
+membros de uma classe:
+
+* Variáveis em escopo de classe
+* Métodos
+* Construtores
+
+Um membro pode possuir várias constraints
+todas elas devem ser atendiadas para que o
+membro seja válido
+
+Obs: não é possível adicionar constraints a membros
+	 estáticos, o framework não suporta isso.
+======================================================
+Adicionando constraints a variaveis em escopo de classe
+
+A maneira mais simples de se adicionar constraints é
+adicionando-as a váriaveis do objeto.
+
+ex:
+
+@NotNull
+@Size(min=1, max=16)
+private String firstname;
+
+@NotNull
+@Size(min=1, max=16)
+private String lastname; 	 
+=======================================================
+Adicionando constraints a métodos
+
+Duas coisas podem ser validadas em um método:
+
+* Os parametros
+* O  retorno
+--------------------------------------------------------
+Constraints de parâmetro
+
+Constraints de parâmetro são adicionadas diretamente
+as declarações de variaveis locais dentro dos parênteses:
+
+public void setSalary(
+@NotNull
+@Digits(integer=6, fraction=2) BigDecimal salary,
+@NotNull
+@ValidCurrency
+String currencyType) {
+...
+}
+
+Caso as mesmas constraints se apliquem a todos os
+parametros elas podem ser definidas a nivel de método
+com o atributo validationAppliesTo=ConstraintTarget.PARAMETERS
+
+@Manager(validationAppliesTo=ConstraintTarget.PARAMETERS)
+public Employee getManager(Employee employee) { ... }
+
+--------------------------------------------------------
+Constraints de retorno
+
+Constraints de retorno são adicionadas ao método e
+devem ter o atributo validationAppliesTo=ConstraintTarget.RETURN_VALUE
+
+@ManagerReturn(validationAppliesTo=ConstraintTarget.RETURN_VALUE)
+public Employee getManager(Employee employee) { ... }
+---------------------------------------------------------
+Adicionando constraints ao construtor
+
+Em um construtor as mesmas regras de constraint de parametro
+se aplicam, no caso do construtor o return value é o objeto
+sendo construido.
+
+@ConsistentPhone(validationAppliesTo=ConstraintTarget.RETURN_VALUE)
+@NotNull
+public Employee (String name, String officePhone, String mobilePhone) {
+...
+}
+----------------------------------------------------------
+Atenção 
+
+Se o atributo validationAppliesTo não for definido a
+constraint irá se aplicar a todos os itens suportados
+por ela.

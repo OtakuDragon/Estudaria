@@ -1,0 +1,168 @@
+Lendo JSON
+
+A leitura de documentos JSON através do Streaming model
+é baseada em eventos, nenhum objeto é criado em memória
+para representar  o documento, o que torna a leitura mais
+rapida e leve.
+
+O documento é lido item-a-item(item = chave ou valor) e com
+base em eventos de leitura o programa decide se ele quer recupera
+o conteudo do item sendo lido ou não.
+
+Apenas chaves ou valores são recuperados, não sendo possivel a
+recuperação de estruturas como objetos ou arrays internos, somente
+um atributo do objeto ou um item do array de cada vez uma caracteristica
+que limita a capacidade de analise de partes inteiras do documento.
+
+===========================================================================
+JsonParser
+
+A leitura de documentos JSON no Streaming model é
+feita pelo objeto JsonParser, que pode ser recuperado
+estaticamente apartir da clase Json através de dois 
+métodos:
+
+JsonParser jsonParser = Json.createParser(InputStream is); 
+JsonParser jsonParser = Json.createParser(Reader reader);
+
+A leitura de documentos pode ser feita apartir de
+qualquer fonte que suporte uma destas duas interfaces
+de leitura.
+
+Obs: Após a utilização o método close deve ser chamado do parser
+para que ele encerre o recurso de leitura passado na sua criação.
+===========================================================================
+Eventos de leitura
+
+O JsonParser funciona como um ponteiro(iterator) de
+leitura que navega entre eventos de leitura do documento
+e preenche o parser com os dados do elementos sendo lido
+atualmente.
+
+Estes eventos de leitura estão presentes da sub enum Event
+dentro de JsonParser, os eventos são:
+
+START_OBJECT - Inicio da leitura de um objeto("{" encontrado)
+END_OBJECT   - Fim da leitura de um objeto("}" encontrado)
+START_ARRAY  - Inicio da leitura de um array("[" encontrado) 
+END_ARRAY    - Inicio da leitura de um array("]" encontrado)
+KEY_NAME     - chave encontrada
+VALUE_STRING - Valor String encontrado
+VALUE_NUMBER - Valor Númerico encontrado
+VALUE_TRUE   - Valor booleano true encontrado
+VALUE_FALSE  - Valor booleano false encontrado
+VALUE_NULL   - Valor null encontrado
+
+===========================================================================
+Percorrendo um documento com JsonParser
+
+Um documento é percorrido navegando entre os eventos
+gerados, em um while com os métodos hasNext() e next()
+do parser
+-----------------------------------------------------------------------------
+ex:
+
+	JsonParser parser = Json.createParser(new StringReader("{\"nome\":\"Gilson\", \"idade\":21}"));
+	while (parser.hasNext()) {
+		//Recupera o proximo evento de leitura
+		JsonParser.Event event = parser.next();
+		
+		//Case que define a ação executada para cada tipo de evento.
+		switch(event) {
+			case START_ARRAY:
+			case END_ARRAY:
+			case START_OBJECT:
+			case END_OBJECT:
+			case VALUE_FALSE:
+			case VALUE_NULL:
+			case VALUE_TRUE:
+				System.out.println(event.toString());
+				break;
+			case KEY_NAME:
+				System.out.print(event.toString() + " " + parser.getString() + " - ");
+				break;
+			case VALUE_STRING:
+			case VALUE_NUMBER:
+				System.out.println(event.toString() + " " + parser.getString());
+				break;
+		}
+	}
+=====================================================================================
+Recuperando valores
+
+Quando o método parser.next() é chamado ele retorna o
+evento de leitura atual e se o evento não for um que indique
+inicio ou fim de estrutura(START_ ou END_) ele preenche o parser
+com o dado do item.
+
+Este valor pode ser recuperado através de getters no parser
+que devem ser chamados de acordo com o tipo de dado gerado
+pelo evento.
+
+Para os eventos KEY_NAME e VALUE_STRING aonde o dado sempre será
+do tipo String o dado pode ser recuperado através de parser.getString();
+este getter tambem pode ser utilizado para retornar versões string dos
+numeros para o evento VALUE_NUMBER.
+
+O JsonParser tambem oferece métodos para recuperar dados do evento VALUE_NUMBER
+no formato numérico, eles são:
+
+* JsonParser.isIntegralNumber() - Check que diz se o numéro pode ser retornado como int/long ou não
+* JsonParser.getInt()           - Retorna o valor do evento VALUE_NUMBER como int
+* JsonParser.getLong()          - Retorna o valor do evento VALUE_NUMBER como long
+* JsonParser.getBigDecimal()    - Retorna o valor do evento VALUE_NUMBER como BigDecimal maneira mais flexivel que permite ponto flutuante.
+
+Para os tipos booleanos e null não há getters, a maneira como os valores são
+recuperados é apartir do proprio evento, os eventos para estes tipos de dado
+já indicam o valor do item.
+
+* VALUE_TRUE  - Valor booleano true
+* VALUE_FALSE - Valor booleano false
+* VALUE_NULL  - valor null
+------------------------------------------------------------------
+ex:
+
+while (parser.hasNext()) {
+	//Recupera o proximo evento de leitura
+	JsonParser.Event event = parser.next();
+	
+	//Case que define a ação executada para cada tipo de evento.
+	switch(event) {
+		case VALUE_TRUE:
+			System.out.println("Valor:"+ Boolean.TRUE);
+			break;
+		case VALUE_FALSE:
+			System.out.println("Valor:"+ Boolean.FALSE);
+			break;
+		case VALUE_NULL:
+			System.out.println("Valor:"+ null);
+			break;
+		case KEY_NAME:
+		case VALUE_STRING:
+			System.out.println("Valor:"+ parser.getString());
+		case VALUE_NUMBER:
+			System.out.println("Valor numérico como String:"+ parser.getString());
+			if(parser.isIntegralNumber){
+				System.out.println("Valor numérico como int:"+ parser.getInt());
+				System.out.println("Valor numérico como long:"+ parser.getLong());
+			}
+			System.out.println("Valor numérico como BigDecimal:"+ parser.getBigDecimal());
+			break;
+	}
+}
+================================================================
+JsonParser location
+
+O JsonParser tambem oferece apartir do método
+JsonParser.getLocation() um objeto JsonLocation
+que possui informações sobre o ponto atual da
+leitura no momento da chamada através dos métodos:
+
+long getLineNumber();   - Retorna a linha atual do documento sendo lido
+long getColumnNumber(); - Retorna a coluna atual do documento sendo lido
+long getStreamOffset(); - Retorna um numero que representa o quanto do inputStream ja foi lido,
+						  no caso de um ByteInputStream retorna a quantidade de bytes lidos até
+						  o momento.
+						  
+Uma funcionalidade util para debugging ou logging
+da leitura do documento. 

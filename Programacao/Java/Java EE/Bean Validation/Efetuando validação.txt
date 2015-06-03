@@ -1,0 +1,47 @@
+Efetuando validação
+
+Constraints são apenas anotações, anotações que precisam
+ser lidas para que algo aconteça o framework Bean Validation
+não especifica que a validação de constraints deve ser feita
+automaticamente cabe ao desenvolvedor utilizar um framework que
+faça a validação automatica ou fazer a validação manualmente.
+
+A validação do framework BeanValidation é feita apartir de
+um objeto Validator que pode ser recuperado da seguinte forma:
+
+ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+Validator validator = factory.getValidator();
+======================================================================
+Validando variáveis de classe
+
+O validator possui o método validate() que recebe um objeto
+que possua constraints e retorna um Set com ConstraintViolations
+o Set será retornado vazio se o objeto for valido.
+
+ex:
+
+Set<ConstraintViolation<Bean>> erros = validator.validate(new Bean());
+
+if(!erros.isEmpty()){
+	throw new IllegalArgumentException();
+}
+
+=======================================================================
+Validando métodos e construtores
+
+Apartir do Validator é possivel se recuperar um
+objeto ExecutablesValidator da seguinte forma:
+
+ExecutableValidator validator = factory.getValidator().forExecutables();
+
+O objeto ExecutableValidator possui 4 métodos de validação:
+
+validator.validateConstructorParameters(Constructor c, Object[] parametros)
+validator.validateConstructorReturnValue(Constructor c, Object[] parametros)
+
+validator.validateParameters(Object instance, Method m, Object[] parametros)
+validator.validateReturnValue(Object instance,Method m, Object[] parametros)
+
+Os dois primeiros para a validação de construtor e os dois ultimos
+para metodos, todos eles retornam um Set com ConstraintViolations
+indicando os erros de validação.

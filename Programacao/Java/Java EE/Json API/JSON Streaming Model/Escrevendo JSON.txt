@@ -1,0 +1,72 @@
+Escrevendo JSON
+
+A escrita de JSON utilizando o Streaming Model
+funciona através da escrita item-a-item para um
+output source, o documento é gerado e escrito ao
+mesmo tempo.
+
+O objeto utilizado para efetuar este tipo de escrita
+é o JsonGenerator que pode ser recuperado estaticamente
+apartir da classe Json através de dois métodos:
+
+JsonGenerator jsonGenerator = Json.createGenerator(OutputStream os);
+JsonGenerator jsonGenerator = Json.createGenerator(Writer writer);
+
+A escrita pode ser feita em qualquer output source
+que suporte uma destas duas interfaces de escrita.
+
+Para o inicio da escrita é necessário iniciar a escrita
+de um objeto com o método:
+
+jsonGenerator.writeStartObject()
+
+este método funciona como a escrita de um "{" no documento
+apartir dele é possivel encadear outros métodos write para
+continuar escrevendo e quando o objeto estiver terminado basta
+chamar writeEnd() para finalizar a escrita.
+
+As duas estruturas JSON tem métodos start especficos:
+
+jsonGenerator.writeStartObject()
+
+e
+
+jsonGenerator.writeStartArray("chaveArray")
+
+Mas são finalizados com o mesmo método writeEnd()(representa "}" ou "]")
+
+Os dados são escritos apartir das várias assinaturas
+do método write().
+
+Obs: Após a utilização o jsonGenerator deve ser fechado com 
+o método close().
+
+===================================================================
+ex:
+
+FileWriter writer = new FileWriter("test.txt");
+JsonGenerator jsonGenerator = Json.createGenerator(writer);
+
+Métodos de JsonGenerator                        Significado JSON
+
+jsonGenerator.writeStartObject()                //{
+	.write("firstName", "Duke")                 //"firstName":"Duke",
+	.write("lastName", "Java")                  //"lastName":"Java",
+	.write("age", 18)			                //"age":18,
+	.write("streetAddress", "100 Internet Dr")  //"streetAddress":"100 Internet Dr",
+	.write("city", "JavaTown")                  //"city":"JavaTown",
+	.write("state", "JA")                       //"state":"JA",
+	.write("postalCode", "12345")               //"postalCode":"12345",
+		.writeStartArray("phoneNumbers")	    //"phoneNumbers": [
+			.writeStartObject()	   			    	//{
+				.write("type", "mobile")				//"type":"mobile",
+				.write("number", "111-111-1111")		//"number":"111-111-1111"
+				.writeEnd()							//}
+			.writeStartObject()						//{
+				.write("type", "home")					//"type":"home",
+				.write("number", "222-222-2222")		//"number":"222-222-2222"
+				.writeEnd()							//}
+		.writeEnd()								//]
+	.writeEnd();								//}
+jsonGenerator.close();
+
