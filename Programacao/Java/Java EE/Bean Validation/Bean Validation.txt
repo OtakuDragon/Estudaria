@@ -1,8 +1,9 @@
 Bean Validation
 
-Bean Validation é um framework de validação oferecido
-pelo Java EE que tem como função facilitar a validação
-de dados em objetos que seguem o padrão JavaBean.
+Bean Validation é um framework de validação de dados
+oferecido pelo Java EE, e como função facilitar, centralizar
+e padronizar a validação de dados em objetos que seguem
+o padrão JavaBean.
 
 Com este framework é possivel validar o conteudo de
 membros não estaticos do objeto: váriaveis em escopo
@@ -15,7 +16,24 @@ validado e como.
 O framework oferece várias contraints prontas(built-in) e
 tambem permite com que o desenvolvedor crie contraints customizadas.
 
-A validação das constraints não acontece de forma automatica
-ao menos que algum framework defina a validação por AOP, por
-padrão anotar as classes apenas as torna legivel para o validador
-do framework que precisa ser invocado para que efetue a validação. 
+A validação das constraints não acontece de forma global como parte
+do container Java EE ela depende da integração com outros frameworks,
+o Bean Validation oferece as ferramentas para validação de constraints
+e os frameworks as utilizam aonde acham necessário.
+
+Alguns exemplos destas integrações presentes no Java EE são:
+
+Integração com o JPA - Constraints são definidas em entidades JPA e validadas
+                       antes de qualquer CRUD seja efetuado.
+Integração com o JSF - Dados que vem de formulários JSF diretamente para Java Beans com
+                       constraints tem estas constraints validadas no momento do envio do formulario.
+Integração com CDI   - Injeção de dependencia de validator em classes para a validação manual.
+
+Tambem é possivel utilizar a api de validação diretamente para uma validação
+manual de beans.
+
+Todas as integrações exemplificadas acima se aplicam a validação
+de variáveis de classe do Bean, validações de métodos e construtores
+dependem de frameworks de interceptação(CDI, String, AOP) para que sejam
+aplicadas automaticamente.
+
