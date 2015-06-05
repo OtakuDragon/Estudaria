@@ -1,0 +1,18 @@
+Regras de Override de métodos com constraints
+
+Caso as constraints sejam definidas em interfaces
+ou superclasses existem algumas regras que devem
+ser seguidas para subclasses ou implementações que
+irão sobre escrever os métodos com constraints para
+se manter a integridade da validação elas são:
+
+* Um método sobreescrito não pode adicionar mais validações
+  do que o método que ele está sobreescrevendo possui.
+  
+* O retorno de um método sobreescrito não pode possuir menos
+  validações do que o retorno do método que está sendo sobre
+  escrito.
+  
+Estas regras mantem integra a chamada de métodos com constraints
+por polimorfismo, e caso sejam descumpridas a exceção ConstraintDeclarationException
+será jogada.

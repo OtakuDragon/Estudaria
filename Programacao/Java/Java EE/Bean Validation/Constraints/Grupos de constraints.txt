@@ -1,0 +1,44 @@
+Grupos de constraints
+
+Grupos são a maneira que o Bean Validation oferece
+para nós permitir controlar a validação parcial de
+constraints.
+
+Grupos para Bean Validation nada mais são do que
+interfaces de marcação que podem ou não se relacionar
+hierarquicamente, uma constraint que pertence a um subgrupo
+tambem pertence ao grupo pai.
+
+Toda anotação de constraint possui o atributo groups
+este atributo recebe um array de Class com os grupos
+da constraint, por padrão todas as constraints pertencem
+apenas ao grupo Default.class.
+
+Modificando o valor deste atributo podemos atribuir
+um ou mais grupos à uma constraint.
+
+No momento em que os métodos de validação do validator
+são chamados é possivel passar como ultimo parametro em
+todos eles, um varargs com um Class[] que representam os
+grupos que devem ser validados se nenhum grupo for passado
+o grupo Default.class será validado.
+
+A definição de grupos só tem algum efeito se no momento da
+validação eles forem considerados.
+
+============================================================
+ex:
+
+public interface Employee {}
+public interface Contractor {}
+
+@NotNull(groups={Employee.class})
+private String address;
+
+@NotNull(groups={ Employee.class, Contractor.class })
+private Phone workPhone;
+
+O exemplo acima define que o campo address e workPhone são
+not null para o grupo Employee e apenas workPhone é not null
+para o grupo Contractor o que significa que uma validação que 
+valida apenas o grupo Contractor aceitará a propriedade address nula.

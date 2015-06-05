@@ -1,0 +1,22 @@
+Validação recursiva @Valid
+
+A anotação @Valid é uma built-in constraint
+que diz ao validator que o elemento anotado
+é um java bean que possui constraints proprias
+e que ele tambem deve ser validado.
+
+==================================================
+ex:
+
+public class Car {
+
+    @NotNull
+    @Valid
+    private Person driver;
+    
+    public Car(Person driver) {
+        this.driver = driver;
+    }
+
+    //getters and setters ...
+}

@@ -1,0 +1,179 @@
+Criando custom constraints 
+
+Nem sempre as constraints prontas oferecidas
+pelo Bean Validation são suficientes para efetuar
+as validações necessárias, nestas situações cabe
+ao desenvolvedor criar suas proprias constraints
+
+A criação de uma nova constraint é dividida em
+dois passos:
+
+* A criação da anotação que representa a contraint.
+* A implementação de um ou mais ConstraintValidators que serão
+  invocados pelo framework no momento da validação, 
+  quando a anotação da constraint for encontrada.
+  
+======================================================
+Criando a anotação da constraint
+
+Uma anotação de constraint deve possuir três
+atributos obrigatorios:
+
+String message - Mensagem que será retornada caso a validação falhe, deve receber
+				 como default o valor de uma string no formato "{chave da mensagem}"
+				 esta mensagem deve estar definida no arquivo ValidationMessages.properties
+				 na raiz do classpath da aplicação.
+				 
+Class<?>[] groups - Grupos de validação que se aplicam a constraint, deve possuir o valor padrão
+					de um array vazio({}) caso a contraint pertença ao grupo Default.class, o que
+					é recomenendado, grupos devem ser parametrizados a nivel de anotação.
+					
+Class<? extends Payload>[] payload - Array de interfaces que herdam de Payload, este array pode ser utilizado
+									 para passar informações extras ao validator que efetuará a validação não
+									 é utilizado pelo framework.
+
+Além dos atributos obrigatorios quaisquer outros atributos podem
+ser incluidos a anotação para receberem as informações necessárias
+à validação.
+									 
+A retention da anotação deve ser RetentionPolicy.RUNTIME já que
+o framework utiliza reflexão.
+
+E o @Target na anotação vai depender do objetivo da anotação
+em quais lugares ela poderá ser utilizada, uma boa pratica é
+manter entre os targets ElementType.ANNOTATION_TYPE caso a anotação
+tenha que ser agrupada com outras.
+
+O outro detalhe importante é que a anotação deve declarar quais são
+as implementações de ConstraintValidator que efetivamente realizam as
+validações da constraint, estas implementações são declaradas através
+da anotação:
+
+@Constraint(validatedBy= Class<? extends ConstraintValidator<?,?>>[])
+									 
+É necessaria uma implementação de ConstaintValidator para cada tipo
+de dado validado pela constraint
+--------------------------------------------------------------------------
+ex:
+
+@Constraint(validatedBy={KappaStringValidator.class})
+@Target({ METHOD, FIELD, TYPE, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+@Retention(RUNTIME)
+public @interface Kappa {
+	//Atributos obrigatorios
+	String message() default "{com.otk.msg.erro.kappa}";
+	Class<?>[] groups() default {};
+	Class<? extends Payload>[] payload() default {};
+	//Outros atributos
+	String value()
+	//...
+}
+===========================================================================
+Implementando ConstraintValidators
+
+A anotação da constraint necessita de constraint validators
+para realizar a suas validações, mais especificamente uma
+implementação de constraint validator por tipo de dado suportado
+pela anotação.
+
+A interface ConstraintValidator é definida como abaixo:
+
+public interface ConstraintValidator<A extends Annotation, T> 
+
+Aonde o primeiro tipo parametrizado representa o tipo da anotação
+da constraint, e o segundo o tipo de dado que o Validator suporta
+para validação.
+
+Esta interface define dois métodos:
+
+void initialize(A constraintAnnotation);//Método chamado antes de toda validação, e recebe como parametro a
+										//instância da anotação sobre a qual a validação será efetuada, este método
+										//é utilizado para a extração de dados da anotação para utilização na validação.
+										
+boolean isValid(T value, ConstraintValidatorContext context);//Este método recebe o valor à ser validado e um contexto de validação
+															 //que pode ser opcionalmente utilizado para adicionar constraint violations
+															 //customizadas quando houver falha na validação, e deve retornar true se o
+															 //valor for válido ou false se o valor for inválido
+------------------------------------------------------------------------------													 
+ex:
+
+//ConstraintValidator para a constraint Kappa e o tipo de dado String
+public class KappaStringValidator implements ConstraintValidator<Kappa, String> {
+
+	@Override
+	public void initialize(Kappa constraint) {
+		
+	}
+
+	@Override
+	public boolean isValid(String valor, ConstraintValidatorContext constraintValidatorContext) {
+		if(valor == null){
+			return Boolean.TRUE;
+		}
+		
+		if(valor.equalsIgnoreCase("Kappa")){
+			return Boolean.TRUE;
+		}else{
+			//opcional
+			constraintValidatorContext.buildConstraintViolationWithTemplate("No Kappa, No Deal").addConstraintViolation()
+			
+			return Boolean.FALSE;
+		}
+	}
+
+}
+================================================================================
+Criando constraints compostas
+
+Podem surgir situações aonde o mesmo conjunto de constraints
+aparece em vários lugares ou um elemento precisa possuir 10
+constraints, para diminuir a repetição e facilitar a leitura
+do código é possivel criar constraints compostas que são constraints
+cujo a única função é agrupar uma série de constraints.
+
+Para que uma constraint possa fazer parte de uma constraint composta
+é necessário que ela declare o @Target ElementType.ANNOTATION_TYPE.
+
+A constraint composta deve possuir uma mensagem única,
+e ser declarada como uma constraint normal só que anotada
+com outras constraints e não deve possuir a declaração de validators
+--------------------------------------------------------------------------------
+ex:
+
+@NotNull
+@Size(min = 2, max = 14)
+@CheckCase(CaseMode.UPPER)
+@Target( { METHOD, FIELD, ANNOTATION_TYPE })
+@Retention(RUNTIME)
+@Constraint(validatedBy = {})
+@Documented
+public @interface ValidLicensePlate {
+
+    String message() default "{com.mycompany.constraints.validlicenseplate}";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
+
+}
+
+No exemplo a cima a constraint composta ValidLicensePlate
+agrupa as constraints:
+
+@NotNull
+@Size(min = 2, max = 14)
+@CheckCase(CaseMode.UPPER)
+
+O que significa que as aplicações:
+
+@NotNull
+@Size(min = 2, max = 14)
+@CheckCase(CaseMode.UPPER)
+private String licensePlate;
+
+e
+
+@ValidLicensePlate
+private String licensePlate;
+
+Efetuam exatamente a mesma validação
+mas a utilização da constraint composta
+gera apenas uma mensagem de erro ao invés de três.
