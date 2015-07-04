@@ -1,0 +1,42 @@
+Injetando Beans
+
+O CDI pode ser utilizado para injetar qualquer bean
+CDI ou recurso Java EE em instâncias de classes gerenciadas
+pelo container Java EE(Outros beans CDI, EJB, etc...) e isto
+é feito de maneira simples declarando pontos de injeção com
+a anotação @Inject.
+
+Pontos de injeção podem ser declarados em atributos não
+estáticos de classes, eles podem possuir qualquer visibilidade
+e não precisam ter getter nem setter.
+
+O que é injetado em um ponto de injeção é definido pelos
+qualifiers declarados nele.
+-----------------------------------------------------------------
+ex:
+//JSF Managed bean
+@Named
+@RequestScoped
+public class Injetada{
+
+	//ponto de injeção
+	@Inject
+	private MyBean bean;
+	
+	
+}
+
+
+//Bean CDI
+@Dependent
+public class MyBean{
+	...
+}
+==================================================================
+Injetando Recursos Java EE
+
+O CDI pode ser utilizado para injetar recursos java EE
+como persistence unit e ejb, mas ele não substitui as
+funcionalidades originais, cada tipo de injeção de recurso
+java EE possui particularidades que devem ser observadas
+antes de utiliza-las com @Inject

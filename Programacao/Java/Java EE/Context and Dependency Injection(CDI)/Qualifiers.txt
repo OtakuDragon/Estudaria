@@ -1,0 +1,177 @@
+Qualifiers
+
+Uma das principais vantagens da utilização de
+dependency injection é possibilitar a atribuição
+de implementações de forma dinâmica a pontos de
+injeção que referênciam interfaces.
+
+Mas e quando uma interface possui mais de uma 
+implementação? como o container sabe qual implementação
+deve ser injetada?
+
+Para isto existe o conceito de Qualifiers no CDI
+qualifiers são anotações que marcam implementações
+dando significados extras que identião deve ser injetada.
+
+Por padrão todos os beans e pontos de injeção possuem
+o qualifier @Default assumido implicitamente pelo container.
+
+Qualifiers podem ser inseridos em beans, métodos producer e
+pontos de injeção(@Inject).
+---------------------------------------------------------
+Exemplo:
+
+//Interface
+public interface Animal{
+...
+}
+
+//Implementações
+@Dependent
+public class Bear implements Animal{
+...
+}
+
+@Dependent
+public class Snake implements Animal{
+...
+}
+
+//Ponto de injeção
+public class AnimalKeeper{
+
+	@Inject
+	private Animal animal;
+
+}
+
+-----------------------------------------------------------
+O que o container entende:
+
+//Implementações
+@Default
+@Dependent
+public class Snake implements Animal{
+...
+}
+
+@Default
+@Dependent
+public class Bear implements Animal{
+...
+}
+
+//Ponto de injeção
+public class AnimalKeeper{
+
+	@Inject
+	@Default//Container me dê a implementação @Default da interface Animal
+	private Animal animal;
+
+}
+-------------------------------------------------------------
+Uma exceção de ambiguidade é jogada porque o container não tem
+como saber qual das implementações atribuir aquele ponto de injeção,
+porque as duas possuem o mesmo Qualifier.
+
+Para resolver este problema é necessário criar um novo Qualifier
+e atribui-lo a uma destas implementações para que seja possivel
+identificar cada implementação de forma única.
+===============================================================
+Declarando um Qualifier
+
+Qualifiers são anotações simples de retenção RUNTIME anotadas
+com a anotação @Qualifier.
+-------------------------------------------------------------
+ex:
+
+@Target({TYPE, METHOD, PARAMETER, FIELD})
+@Retention(RUNTIME)
+@Qualifier
+public @interface Reptile {
+	
+}
+
+//Implementação
+@Reptile
+@Dependent
+public class Snake implements Animal{
+...
+}
+
+//No ponto de injeção 
+@Inject
+@Reptile//Agora a injeção ocorrerá com sucesso e uma instancia de Snake será atribuida.
+private Animal animal;
+==================================================================
+Declarando atributos no qualifier
+
+Anotações qualifier podem não conter atributos, se
+elas conterem atributos o valor dos atributos tambem diferenciam
+o qualifier.
+
+ex:
+
+Digamos que o qualifier @Reptile possui um atribuito value do tipo String
+os pontos de injeção:
+
+@Inject
+@Reptile("Reptile1") //pede pelo bean qualificado como @Reptile("Reptile1")
+private Animal animal;
+
+@Inject
+@Reptile("Reptile2") //pede pelo bean qualificado como @Reptile("Reptile2")
+private Animal animal;
+
+Os qualifiers acima são diferentes e pedem por implementações diferentes.
+
+Por mais que isto seja considerado não é uma boa prática pois incentiva a
+declaração de qualifiers genericos e a idetificação de implementações por
+meio de primitivos como String ou Integer o que pode se tornar misturado e confuso.
+
+Portanto somente deve ser utilizado em casos muito especificos.
+
+Um dos principios do CDI é ser type safe cada implementação representa um tipo
+e este tipo deve poder ser identificado únicamente pelo container, isto é feito
+por meio de qualifiers que em sua essência são tipos auxiliares que ajudam a dar
+uma identidade única a um tipo.
+
+Identificar um tipo por meio de dados(String, Integer, etc) e não um conjunto de tipos(Classe e anotações)
+foge ao paradigma do CDI.
+=========================================================================
+Built-in Qualifiers
+
+O CDI possui alguns qualifiers prontos que tem funções
+especiais:
+
+@Default - Qualifier padrão atribuido implicitamente a todos os beans
+		   e pontos de injeção que não possuem qualifier, pode ser declarado
+		   explicitamente mas não ha necessidade.
+
+
+@Any - Todo bean, evento, producer e paramêtro CDI possuem o qualificador @Any implicitamente
+	   ele serve como um agrupador de todos os beans para um tipo, em alguma situações como aonde
+	   o @Any é utilizado em um ponto de injeção.
+		   
+@Named - Declara e configura o nome do bean para a utilização em expression languages(EL)
+		 esta anotação é especialmente util para a utilização de beans CDI como Managed beans JSF,
+		 mas não é especifica para esta tecnologia e funciona para diversos tipos de EL.
+		 
+		 A declaração de @Named sem parametros declara o nome do bean como o nome da classe com a 
+		 primeira letra minuscula, o nome pode ser definido explicitamente no atributo value da tag @Named
+		 
+ex:
+
+//Declara o bean com o nome "myBean"
+@Named
+@RequestScoped
+public class MyBean{
+
+}
+
+//Declara o bean com o nome "feijao" ps: eu sei que bean é de Coffee bean
+@Named("feijao")
+@RequestScoped
+public class MyBean{
+
+}

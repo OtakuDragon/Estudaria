@@ -1,0 +1,155 @@
+Construtores
+
+Há situações aonde é necessário escolher qual construtor
+deve ser utilizado para construir um bean para a injeção
+para escolher este construtor é necessário anota-lo com
+@Inject.
+
+Um bean CDI pode ter somente um dos seus construtores anotados
+com @Inject, por padrão o construtor default ou um construtor
+declarado sem parametros é utilizado para construir os beans
+(é anotado com @Inject impicitamente).
+
+Se um construtor com parametros for declarado, um construtor sem
+parametros deve ser declarado explicitamente ou um dos construtores
+deve ser anotado com @Inject para que o bean seja válido.
+
+Mas quem passa os parâmetros para um construtor com parametros se
+é o CDI que cria o bean? o próprio CDI, todos os parametros de um
+construtor com parametros devem ser de tipos injetaveis(beans CDI
+ou tipos produzidos por producer methods).
+ 
+--------------------------------------------------------------------
+Ex:
+//Bean inválido
+//Nenhum construtor sem parametros nem anotado com @Inject
+@Dependent
+public class MyBean{
+
+	public MyBean(OtherBean bean){
+		...
+	}
+
+}
+
+//Bean válido
+//Construtor default anotado implicitamente com @Inject e
+//utilizado para criar instâncias
+@Dependent
+public class MyBean{
+
+}
+
+//Bean válido
+//Construtor que recebe como parametro outro bean CDI escolhido
+//para criar instâncias, no exemplo é possivel notar que os parametros
+//do construtor são pontos de injeção portanto podem ser qualificados.
+@Dependent
+public class MyBean{
+
+	public MyBean(){}
+
+	@Inject
+	public MyBean(@Default OtherBean bean){
+		...
+	}
+
+}
+=========================================================================
+Producers
+
+O CDI oferece a possibilidade de injetar o retorno
+de métodos em pontos de injeção, o que é muito util
+pois torna possivel a injeção de qualquer tipo de dado
+como String e Array.
+
+Além de permitir a inicialização e configuração da instância
+antes de retorna-la em um método, ao invés de um construtor.
+
+Métodos que produzem estes retornos injetaveis são chamados
+de Producers e são identificados através da anotação @Produces
+
+Producers podem ser qualificados da mesma maneira que beans
+e apartir do momento que um producer é criado para um tipo
+de dado nenhum outro producer ou bean pode ser criado para
+aquele tipo com os mesmos qualifiers, pois haverá ambiguidade.
+
+Um producer sem qualifier recebe o qualificador padrão @Default.
+
+Producers devem declarar escopo caso queiram criar instâncias
+com escopo diferente do padrão(@Dependent)
+
+Uma vez que um producer é declarado ele é visivel para o container
+CDI da mesma maneira que um bean e pode ter o seu retorno injetado
+em qualquer ponto de injeção da aplicação, ou seja, ele não está limitado
+a classe em que o método producer foi declarado.
+
+----------------------------------------------------------------------------
+ex:
+
+//Dois métodos produtores do tipo String foram declarados
+//mas o ponto de injeção quer o qualificado com @MyQualifier
+//portanto o retorno do segundo método será injetado.
+
+//O escopo definido para os producers foi @Dependent o padrão
+//caso nenhum escopo fosse declarado apenas para frisar que producers
+//levam em consideração o escopo declarado para produzir instâncias.
+@Inject
+@MyQualifier
+private String myString
+
+
+@Produces
+@Dependent
+private String metodo1(){
+	return "string1"
+}
+
+@Produces
+@Dependent
+@MyQualifier
+private String metodo2(){
+	return "string2"
+}
+-----------------------------------------------------------------------------
+Producer Attribute
+
+Em algumas situações um producer method é um metodo getter que só retorna
+um objeto injetado ou construido anteriormente, nestas situações ao invés
+de anotar o getter com @Produces é possivel anotar diretamente o atributo
+com @Produces.
+
+O exemplo mais comum desta situação é o EntityManager injetado pelo Java
+EE em um ponto de injeção anotado com @PersistenceContext.
+
+Este atributo pode ser anotado com @Produces para torna-lo um recurso
+injetavel pelo CDI, há porem a necessidade de qualifica-lo por padrão
+já que um servidor pode possuir várias persistence units que geram 
+@PersistenceContext's diferentes.
+
+Outros exemplos de injection points aonde producer attribute pode ser utilizado
+são os pontos anotados com @Resource, @EJB e @WebServiceRef.
+
+ex:
+
+  //Producer
+  @Produces
+  @UserDatabase 
+  @PersistenceContext
+  private EntityManager em;
+  
+  //é equivalente a:
+  @Produces
+  @UserDatabase 
+  public EntityManager getEntityManager(){
+	return em;
+  }
+
+  
+  //Ponto de injeção em outra classe
+  @Inject
+  @UserDatabase 
+  private EntityManager em;
+
+
+

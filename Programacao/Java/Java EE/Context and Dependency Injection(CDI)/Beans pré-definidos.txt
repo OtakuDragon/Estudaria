@@ -1,0 +1,50 @@
+Beans pré-definidos
+
+O container CDI possui alguns beans por padrão
+estes beans possuem o escopo @Dependent e qualifier
+@Default.
+
+O que significa que a declaração de producers que produzem
+estes tipos com estas mesmas caracteristicas causarão
+erro de ambiguidade.
+================================================================
+Os beans pré definidos são:
+
+* UserTransaction    - Transação JTA. 
+* Principal          - Principal(Credencial) do cliente que está utilizando o bean no momento.
+* Validator          - Instância de bean validator, utilizado para efetuar validações do framework bean validation.
+* ValidatorFactory   - Fabrica de validators do framework bean validation.
+* HttpServletRequest - Referência a HttpRequest que está ativa em um contexto Web.
+* HttpSession        - Referência a HttpSession que está ativa em um contexto Web.
+* ServletContext     - Referência ao ServletContext que está ativo em um contexto Web.
+---------------------------------------------------------------
+ex:
+
+//Todos os atributos do managed bean abaixo serão injetados pois eles são
+//beans pré-definidos pelo CDI.
+@Named
+@RequestScoped
+public class MyBean{
+
+ @Inject
+ private UserTransaction userTransaction;   
+
+ @Inject
+ private Principal principal;
+
+ @Inject 
+ private Validator validator;
+
+ @Inject 
+ private ValidatorFactory validatorFactory;
+
+ @Inject 
+ private HttpServletRequest request; 
+ 
+ @Inject
+ private HttpSession session;        
+
+ @Inject
+ private ServletContext servletContext;     
+
+}

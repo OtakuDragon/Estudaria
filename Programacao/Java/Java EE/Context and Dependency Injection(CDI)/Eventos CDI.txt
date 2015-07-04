@@ -1,0 +1,149 @@
+Eventos CDI
+
+O CDI oferece uma funcionalidade generica de eventos
+que torna simples o lançamento de eventos e a criação
+de listeners para estes eventos, sem a necessidade de
+extender ou implementar nada, apenas com POJOs.
+==========================================================
+Declarando um evento
+
+Um evento é um objeto do tipo Event<T> aonde T é um pojo
+que contém informações sobre o evento, ele é jogado pelo
+método que dispara o evento e recebido pelo listener.
+
+Um evento é declarado injetando um atributo Event<T> em
+uma classe com @Inject.
+
+Um evento é qualificado no momento da sua declaração a
+qualificação do evento define qual listener tratará o evento
+quando ele acontecer.
+----------------------------------------------------------------
+ex:
+
+//Objeto que contém informações sobre o evento pode ser qualquer
+//pojo.
+public class MyEventInfo{
+	public String eventInfo;
+	
+	public MyEventInfo(String info){
+		eventInfo = info;
+	}
+}
+
+@Named
+@RequestScoped
+public class MyManagedBean{
+	
+	//Declaração do evento em um bean pode receber um ou mais qualifiers.
+	@Inject
+	//@Qualifier1
+	Event<MyEventInfo> evento;
+
+
+}
+============================================================
+Disparando um evento
+
+A interface Event<T> possui o método fire(T event) este é o método
+utilizado para disparar eventos CDI. O parâmetro que ele recebe é a
+instância do pojo de evento que contem as informações, esta mesma
+instância será passada para o listener.
+
+----------------------------------------------------------------
+ex:
+
+@Named
+@RequestScoped
+public class MyManagedBean{
+	
+	@Inject
+	Event<MyEventInfo> evento;
+	
+	public void action(){
+		evento.fire(new MyEventInfo("Important event information"));
+	}
+
+}
+================================================================
+Observando um evento(Declarando listeners)
+
+Uma das grandes qualidades da funcionalidade de eventos do
+CDI é a facilidade de se declarar listeners, um listener para
+um evento:
+
+Event<T> event;
+
+é um método anotado como:
+
+void myMethod(@Observes T event){
+	...
+}
+
+O listener pode ser declarado em qualquer classe independente
+de aonde o evento será lançado, um tipo de evento com os mesmos
+qualifiers pode possuir vários listeners mas a ordem de execução
+não pode ser garantida.
+
+O listener deve conter como primeiro parâmetro o tipo do evento e pode possuir
+parametros adicionais desde que o CDI consiga injeta-los(pontos de injeção).
+
+O listener receberá eventos que correspondam ao tipo de evento e
+aos qualifiers do evento declarados após a anotação @Observers.
+---------------------------------------------------------------
+ex:
+
+@Inject
+Event<EventInfo> event1;
+
+@Inject
+@QualifiedEvent
+Event<EventInfo> event2;
+
+
+public void action(){
+	event1.fire(new EventInfo("event1"));
+	event2.fire(new EventInfo("event2"));
+}
+
+//Irá receber o objeto jogado por event1.fire() e uma instância de string produzida pelo
+//método producer abaixo
+private void listener(@Observes EventInfo event, String injectedString){
+	System.out.println(event.getInfo());
+}
+
+//Irá receber o objeto jogado por event2.fire()
+private void qualifiedListener(@Observes @QualifiedEvent EventInfo event){
+	System.out.println(event.getInfo());
+}
+
+
+@Produces
+private String stringProducer(){
+	return "producedString";
+}
+=================================================================
+Configurando o listener(atributos de @Observes)
+
+A anotação @Observes possui dois atributos:
+
+* notifyObserver - Recebe uma enum que diz se o listener só deve ser chamado
+				   se existir uma instância do bean que contem o método, por padrão
+				   o listener sempre é chamado independente de uma instância ja existir ou não
+				   os valores possiveis são: 
+				 
+				   @Observes(notifyObserver=IF_EXISTS) ou @Observes(notifyObserver=ALWAYS)(Padrão) 
+				   
+* during - Este atributo recebe uma enum e serve para determinar em que ponto da transação o método
+		   listener será chamado se o evento for disparado(event.fire()) em um método transacional
+		   como em um EJB, os valores possíveis são:
+
+			@Observes(during=BEFORE_COMPLETION) - Antes da transação terminar, nesta fase se for possivel
+												  acessar a transação o listener é capaz de causar rollback programaticamente(setRollbackOnly()).
+			@Observes(during=AFTER_COMPLETION)  - Após a transação terminar
+			@Observes(during=AFTER_SUCCESS)     - Após o commit
+			@Observes(during=AFTER_FAILURE)     - Após o rollback
+			
+			ou o padrão:
+			
+			@Observes(during=IN_PROGRESS) - Executa o listener da mesma maneira que executaria para um evento fora de uma transação.
+

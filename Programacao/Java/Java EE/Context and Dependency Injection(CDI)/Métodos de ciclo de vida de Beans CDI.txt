@@ -1,0 +1,26 @@
+Métodos de ciclo de vida de Beans CDI
+
+Assim como vários frameworks java EE o CDI suporta
+métodos de ciclo de vida executados após a construção
+e antes da destruição dos beans, com as anotações:
+
+@PostConstruct - Executado após a contrução e injeção de dependências no bean.
+
+e
+
+@PreDestroy - Executado antes de o bean ser destruido.
+---------------------------------------------------------
+Ex:
+@Dependent
+public class MyBean{
+
+	@PostConstruct
+	public void init(){
+	 //...
+	}
+	
+	@PreDestroy
+	public void destroy(){
+	 //...
+	}
+}

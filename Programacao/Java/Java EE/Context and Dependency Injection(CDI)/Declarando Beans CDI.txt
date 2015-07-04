@@ -1,0 +1,97 @@
+Declarando Beans CDI
+
+Um componente que pode conter beans CDI e é gerenciado
+pelo container CDI é chamado de bean archive, todo os
+componentes Java EE(jar, ejb-jar, war) apartir do Java EE 6
+são implicitamente bean archives.
+
+Isso significa que o container CDI estará no modo de bean discovery
+padrão(bean-discovery-mode="annotated") e considerará como beans CDI
+todas as classes do componente que:
+
+* Possuirem alguma anotação de definição de escopo CDI
+  (@RequestScoped, @SessionScoped, @ApplicationScoped, @ConversationScoped, @Dependent)
+  
+Ou
+
+* Possuirem alguma anotação de declaração de componente CDI(@Interceptor ou @Decorator)
+
+Atenção: Beans CDI devem possuir o construtor default ou declarar um construtor sem parâmetros
+		 porque é este o construtor utilizado pelo container para criar insatancias do bean, se
+		 apenas declarado constutores com parâmetros a classe não será considerada como bean CDI.
+-------------------------------------------------------------------------------------
+ex:
+
+//Declarando um bean CDI em um bean archive implicito
+@Dependent
+public class MyBean{
+...
+}
+=====================================================================================
+Tornando um bean archive explicito
+
+Para tornar um componente java EE em um bean archive explicito
+é necessário adicionar o arquivo beans.xml a pasta de meta dados
+do componente.
+
+No caso de wars na pasta WEB-INF, para os outros componentes na pasta META-INF
+
+Em um bean archive explicito o modo de bean discovery pode ser configurado
+no atributo obrigatorio(apartir do CDI 1.1) bean-discovery-mode da tag root
+do beans.xml(<beans>) os valores possíveis são:
+
+bean-discovery-mode="all" -- Todas as classes do componente serão consideradas como beans CDI
+							 o mais prático pois remove a necessidade da declaração de anotações
+							 com valores padrões apenas para transformar uma classe em bean CDI,
+							 estas anotações são inseridas pelo container implicitamente,
+							 recomendado apenas se todas as classes do componente forem ser utilizadas
+							 como beans CDI.
+							 
+							 Classes anotadas com @Vetoed não serão consideradas como beans.
+							 
+bean-discovery-mode="annotated" -- Modo padrão utilizado por bean archives implicitos e recomendado
+								   por questões de performance, já que na maioria das situações apenas
+								   algumas classes precisarão ter suas instâncias injetadas, somente classes
+								   anotadas com declarações de escopo ou componentes CDI(Interceptor ou Decorator) 
+								   serão consideradas como beans CDI.
+								   
+bean-discovery-mode="none" -- Desativa o escaneamento por anotações CDI em todas as classes do componente é uma
+							  maneira de desativar o CDI.
+-------------------------------------------------------------------------------------
+ex:
+
+//Declarando um bean CDI em um bean archive explicito
+//com bean discovery "all"
+//Nenhuma anotação é necessária
+//O escopo padrão @Dependent é assumido implicitamente.
+public class MyBean{
+...
+}
+=========================================================================================
+O arquivo beans.xml
+
+O arquivo beans.xml do CDI tem como função mais importante tornar
+um componente Java EE um bean archive explicito e permitir a configuração
+do modo de escaneamento de beans CDI.
+
+Algumas outras configurações podem ser feitas neste arquivo mas
+ele não funciona como o do spring, não é possivel declarar um bean
+no arquivo beans.xml, apenas configurar componentes como Interceptors
+entre outros que possuem configurações tambem por meio de anotações.
+
+A especificação CDI tenta ao maximo não utilizar declarações XML e
+fazer tudo por meio de anotações, mas algumas coisas só são possiveis
+através do beans.xml.
+-------------------------------------------------------------------------------------
+ex:
+
+<!--Exemplo de beans.xml vazio para o cdi versão 1.1 -->
+<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"  
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+        http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
+       bean-discovery-mode="all">
+</beans> 
+
+
+  

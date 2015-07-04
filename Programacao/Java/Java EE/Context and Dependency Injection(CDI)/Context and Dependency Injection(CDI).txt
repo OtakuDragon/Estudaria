@@ -1,0 +1,22 @@
+Context and Dependency Injection(CDI)
+
+CDI é uma especificação java EE que tem como objetivo
+definir e padronizar a utilização de Dependency Injection
+para toda a plataforma Java EE, ela oferece uma API simples,
+poderosa e flexivel baseada em anotações.
+
+Com a utilização do CDI é possível tornar qualquer objeto java
+em um bean CDI que tem o ciclo de vida gerenciado pelo container
+e pode ser injetado em pontos de injeção(@Inject) em outros beans
+CDIs ou qualquer outro componente gerenciado pelo container java EE.
+
+O CDI oferece uma solução completa para Dependency Injection, uma
+funcionalidade de eventos simples e flexivel e uma funcionalidade
+de interceptors para o desenvolvimento de AOP que evolui e simplifica
+os interceptors definidos pela especificação EJB.
+
+Apartir do Java EE 6 o CDI é a maneira recomendada para se realizar
+dependency injection em todas as especificações java EE anotações como
+@Resource e @EJB do EJB são substituidas por @Inject do CDI e a anotação
+@ManagedBean do JSF não deve ser mais utilizada, managed beans do JSF
+devem ser declarados como beans CDI(ver (Java EE 6+) Declarando managed beans)   

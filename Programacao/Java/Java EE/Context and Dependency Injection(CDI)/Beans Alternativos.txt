@@ -1,0 +1,57 @@
+Beans Alternativos
+
+É possivel possuir multiplas implementações de
+um bean com os mesmo qualifiers desde que todas
+elas ou todas menos uma estejam anotadas com @Alternative.
+
+Se todas estiverem anotadas com @Alternative é obrigatoria
+a escolha de uma implementação se uma delas não estiver ela
+será a implementação escolhida se não houver escolha.
+
+A implementação que será injetada pode ser definida
+de duas maneiras:
+
+* Definindo o elemento <alternatives> com a classe
+  escolhida como uma <alternative>.
+  
+* Definir a anotação @Priority(int priority) a implementação
+  que possuir a maior prioridade será injetada.
+  
+=============================================================
+ex:
+
+@Dependent
+public class MyBean implements MyType{
+...
+}
+
+@Alternative
+@Dependent
+public class MyOtherBean implements MyType{
+...
+}
+
+No beans.xml:
+
+<beans ...>
+	<alternatives>
+		<!--Nome simples da classe escolhida para injeção-->
+		<class>com.exemplo.MyOtherBean</class>
+	</alternatives>
+</beans>
+
+Com a anotação @Priority
+
+//MyOther bean será injetado pois possui maior prioridade
+@Dependent
+@Priority(5)
+public class MyBean implements MyType{
+...
+}
+
+@Alternative
+@Dependent
+@Priority(6)
+public class MyOtherBean implements MyType{
+...
+}

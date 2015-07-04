@@ -1,0 +1,138 @@
+Escopos CDI
+
+Todo bean CDI possui um escopo, o escopo dos beans
+definem o seu ciclo de vida, mais especificamente 
+definem quando os beans são instânciados, quando
+e aonde as instâncias do bean estão disponiveis e
+quando os beans são destruidos.
+
+O container CDI controla a ciclo de vida dos beans
+de acordo com a definição de escopo de forma automatica,
+sem que seja necessário ou possivel qualquer controle manual
+por parte do programador(Com exceção do @ConversationScope)
+
+Obs: A especificação CDI permite a implementação de escopos
+customizados, porém isto requer uma implementação complexa
+que só é necessária para o desenvolvimento de frameworks que
+extendam a especificação CDI.
+----------------------------------------------------------------------
+Os escopos do CDI são:
+
+- @Dependent - (Padrão) Similiar ao escopo prototype do spring
+			   sempre que uma injeção é necessária uma nova instância
+			   é criada e injetada.
+			   
+- @RequestScoped - O bean é criado no inicio de uma requisição e
+				   só existe até o fim da requisição(Http, EJB, WS, JMS).
+				   
+- @SessionScoped - O bean é criado no momento em que é utilizado pela primeira vez
+				   e é atribuido a HttpSession do cliente, o bean só é visivel para
+				   aquele cliente e existe enquanto a HttpSession existir.
+
+- @ApplicationScoped - O bean é criado quando é utilizado pela primeira vez e possui apenas uma instância
+					   em toda aplicação, que é acessivel à todos os clientes.
+					   
+- @ConversationScoped - Escopo criado para substituir o @ViewScoped do JSF, nele é possivel
+						controlar programaticamente através de um objeto Conversation,
+						o inicio e o fim do ciclo de vida do bean.
+
+						O escopo @ConversationScoped utiliza a HttpSession para manter o seu
+						estado portanto ele é limitado a o cliente como o @SessionScoped, a
+						mesma instância do bean existirá até o momento em que o método Conversation.end()
+						for chamado, caso ocorra um timeout por inatividade do bean na sessão
+						ou se a sessão deixar de existir. 
+						
+Obs: Os escopos @SessionScoped e @ConversationScoped só tem utilidade em um contexto
+de aplicação Web aonde há interação com uma sessão HTTP, eles devem anotar beans serializaveis
+que possuem membros serializaveis já que os beans são serializados na sessão HTTP qualquer dado
+não serializavel pode ser perdido.
+
+Para declarar um bean com um dos escopos acima, basta anotar a classe do
+bean com uma das anotações, escopos tambem podem ser definidos à nivel de
+ponto de injeção.
+
+ex:
+
+@RequestScoped
+public class MyBean {
+...
+} 
+===============================================================================
+Exemplo @ConversationScoped
+
+O escopo @ConversationScoped por ter como caracteristica
+o controle programatico do escopo requer uma explicação mais
+detalhada.
+
+o escopo possui dois estados:
+
+* Transient - Estado de inatividade, quando o escopo se encontra
+			  neste estado ao fim da proxima requisição a instância do bean
+			  será destruida.
+			  
+			  Ele tambem é o estado inicial do escopo antes do método Conversation.begin()
+			  ser chamado.
+			  
+* Long-running - Estado ativo do escopo, enquanto o escopo estiver neste estado
+				 a instância do bean será mantida.
+				 
+Obs: Chamar Conversation.begin() torna o escopo Long-running chamar Conversation.end()
+	 torna o escopo Transient
+
+-------------------------------------------------------------------------------------
+ex:
+
+@Named(value="cdiConversationScopedBean")
+@ConversationScoped //Declaração de escopo.
+public class CDIConversationScopedBean implements Serializable {
+
+	private static final long serialVersionUID = -6541718762358561835L;
+
+	//Declaração do ponto de injeção para o objeto Conversation que irá conter métodos para
+	//o controle do ciclo de vida do objeto, nenhuma configuração extra é necessária para que a injeção ocorra.
+	@Inject
+    private Conversation conversation;
+	
+	private String message;
+	
+	private String[] words = {"Hello!!","Have a nice day!!","Goodbye..","Hi!","Goodmorning!","Bye..","Good evening.."};	
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public Conversation getConversation() {
+		return conversation;
+	}
+
+	@PostConstruct
+	public void init(){
+		message = "Hello from the JavaCodeGeeks..";
+		//Declara o inicio do ciclo de vida da instância, deve
+		//ser chamado antes que o bean seja utilizado ou uma exceção
+		//ContextNotActiveException será jogada.
+		conversation.begin();
+	}
+	
+	public void sendMessage(){
+		message = words[new Random().nextInt(7)];
+	}
+	
+	public String next(){
+		return "secondpage?faces-redirect=true";
+	}
+	
+	public String endConversation(){
+		if(!conversation.isTransient()){
+			//Torna o escopo transient dizendo ao container que o bean já pode
+			//ser descartado.
+			conversation.end();
+		}
+		return "firstpage?faces-redirect=true";
+	}
+	
+}
