@@ -1,0 +1,39 @@
+Agrupando anotações(@Stereotype)
+
+O CDI define muitas anotações e ainda requer a utilização
+de várias anotações customizadas como qualifiers, repetir
+um grupo de 5 ou 6 anotações em vários lugares do código
+pode se tornar feio e confuso.
+
+Para resolver este problema é possivel agrupar anotações
+transformando uma marcação feita com várias anotações em
+uma com apenas uma anotação que funciona da mesma maneira.
+
+Isto é feito declarando uma nova anotação anotada com @Stereotype
+que é anotada com todas as anotações que ela deve agrupar.
+============================================================
+ex:
+
+//Declaração original
+@Named
+@RequestScoped
+@Logged
+public class MyBean{
+}
+
+//Agrupamento das anotações
+@Named
+@RequestScoped
+@Logged
+@Stereotype
+@Retention(RUNTIME)
+@Target({METHOD, FIELD, PARAMETER, TYPE})
+public @interface LoggedManagedBean {
+
+}
+
+//Declaração utilizando stereotype que possui a mesma funcionalidade
+//do que a declaração original.
+@LoggedManagedBean
+public class MyBean{
+}

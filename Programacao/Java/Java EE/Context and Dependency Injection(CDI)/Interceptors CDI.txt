@@ -1,0 +1,112 @@
+Interceptors CDI
+
+O CDI oferece uma funcionalidade de interceptors
+que evolui sobre os interceptors da especificação
+EJB, definindo interceptors que podem ser aplicados
+a qualquer método de componentes java EE.
+
+========================================================================
+Criando um interceptor binding
+
+O primeiro passo na criação de um interceptor é definir
+uma anotação que fará a ligação entre a classe do interceptor
+e os métodos que ela intercepta.
+
+Esta anotação anotará a classe do interceptor e as classes que
+o interceptor intercepta, à nivel de classe para a interceptação
+de todos os métodos ou à nivel de métodos para definir quais métodos
+serão interceptados individualmente.
+
+E ela é definida como abaixo:
+
+@Inherited
+@InterceptorBinding
+@Retention(RUNTIME)
+@Target({METHOD, TYPE})
+public @interface Intercepted {
+}
+
+Obviamente o nome da anotação pode ser qualquer nome desejado,
+cabe notar as anotações @Inherited que significa que o interceptor
+binding pode ser herdado para subclasses e @InterceptorBinding que
+declara a anotação como um interceptor binding.
+===========================================================================
+Criando um interceptor
+ 
+Um interceptor é um pojo anotado com:
+
+- @Interceptor                   - Declara o pojo como interceptor
+- Um interceptor binding         - Faz a ligação entre o interceptor e os métodos
+						           que ele intercepta.
+- Uma prioridade(@Priority(int)) - Define a ordem de execução de multiplos interceptors
+								   que agem sobre um mesmo método, quanto maior o valor definido
+								   mais cedo o interceptor será executado.
+
+Um interceptor do CDI tem a capacidade de interceptar 5 tipos de
+eventos:
+
+* @AroundInvoke  - Intercepta a execução de um método anotado com o interceptor binding.
+* @AroundTimeout - Intercepta a execução de um método @Schedule da especificação EJB anotado com o interceptor binding.
+//Eventos de ciclo de vida: interceptor bindings para interceptação de ventos de ciclo de vida
+//devem possuir @Target como apenas TYPE, ou seja só devem poder ser aplicados a nivel de classe.
+* @PrePassivate  - Método executado antes de um stateful session bean ser serializado
+* @PostActivate  - Método executado antes de um stateful session bean ser recuperado da serialização
+* @PostConstruct - Método executado após a instanciação e injeção de dependência. 
+* @PreDestroy    - Método executado antes de o objeto ser coletado pelo GC.
+
+O evento mais importante e mais utilizado é o @AroundInvoke que
+intercepta a execução de métodos. Um método dentro do interceptor
+para ser marcado com @AroundInvoke deve ter a seguinte assinatura:
+
+@AroundInvoke
+public Object myInterceptorMethod(InvocationContext invocationContext) throws Exception;
+
+O throws é opcional, o método deve retornar o resultado de invocationContext.proceed()
+para continuar com a execução,dentro do método interceptador tudo o que ocorrer antes de
+invocationContext.proceed() acontece antes da invocação do método e tudo que acontecer
+depois acontece após a execução do método.
+
+Atenção:
+
+* Um interceptor não pode possuir dois métodos que interceptem o mesmo evento(ex: dois métodos anotados com @AroundInvoke em um interceptor).
+
+* Um método pode ser interceptado por vários interceptors que serão executados na ordem definida pela @Priority ou se desejado a definição de
+  @Priority pode ser subistituida pela definição dos interceptors em ordem de prioridade no beans.xml, um dos dois é necessário para que o interceptor
+  seja reconhecido.
+----------------------------------------------------------------------------------------------
+ex:
+
+@Logged
+@Interceptor
+@Priority(0)
+public class LoggedInterceptor implements Serializable {
+
+	@AroundInvoke
+	public Object logMethodEntry(InvocationContext invocationContext) throws Exception {
+		 System.out.println("Entering method: "
+					+ invocationContext.getMethod().getName() + " in class "
+					+ invocationContext.getMethod().getDeclaringClass().getName());
+			
+			Object obj =  invocationContext.proceed();
+				
+			System.out.println("Leaving method: "
+						 + invocationContext.getMethod().getName() + " in class "
+						 + invocationContext.getMethod().getDeclaringClass().getName());
+			
+			return obj;
+	}
+}
+
+@Named
+@RequestScoped
+public class MyBean {
+	@Logged
+	public void interceptedMethod(){
+		//stuff
+	}
+	
+	public void notInterceptedMethod(){
+		//stuff
+	}
+
+}

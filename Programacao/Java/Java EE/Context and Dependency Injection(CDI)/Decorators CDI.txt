@@ -1,0 +1,60 @@
+Decorators CDI
+
+Decorators interceptam chamadas de métodos para um determinado
+tipo e adicionam funcionalidade ao método, um decorator é uma
+classe anotada com @Decorator e uma prioridade de execução
+@Priority definida.
+
+O decorator deve implementar a interface do tipo que ele deseja
+decorar e pode ou não ser abstrato dependendo da necessidade de
+decorar todos os métodos ou apenas alguns.
+
+Como o decorator sabe quais instâncias decorar? para definir quais
+instâncias serão decoradas o decorator deve possuir um ponto de
+injeção do tipo qualificado que ele deseja decorar, este ponto deve
+estar anotado com @Delegate.
+
+é atraves deste ponto de injeção que o decorator recebe a instância
+que ele irá decorar, para que o decorator se aplique a todas as intâncias
+de um tipo basta qualificar o ponto de injeção como @Any.
+
+Obs: em alterativa a definir @Priority os decorators podem ser definidos
+no beans.xml em ordem de prioridade.
+
+======================================================================
+ex:
+
+@Decorator
+@Priority(0)
+public abstract class CoderDecorator implements Coder {
+    
+	//Se aplica a todas as intâncias de Coder, o @Any deve ser trocado por qualifiers
+	//para especificar implementações especificas que devem ser decoradas.
+    @Inject
+    @Delegate
+    @Any 
+    Coder coder;
+    
+	//Todas as vezes que uma instância de Coder chamar o método com esta assinatura
+	//ele será interceptado por este decorator e o decorator pode executar o que ele
+	//quiser, mas geralmente se executa o método da instância original e adiciona mais alguma funcionalidade a isto.
+    @Override
+    public String codeString(String s, int tval) {
+        int len = s.length();
+ 
+        return "\"" + s + "\" becomes " + "\"" + coder.codeString(s, tval) 
+                + "\", " + len + " characters in length";
+    }
+}
+
+=====================================================================
+Decorator vs Interceptor
+
+Interceptors tem como função executar tarefas externas que não
+tem a ver com a lógica de execução do método como logging.
+
+Decorators tem como função inserir funcionalidade a execução
+do método sem alterar o método original.
+
+A ordem de execução é sempre interceptors primeiro e decorators
+depois, ou seja, não é possivel interceptar um decorator.  
