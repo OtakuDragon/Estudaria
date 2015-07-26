@@ -1,0 +1,2 @@
+Arquivos ".book", são nomes de livros ou apostilas
+guardados em outro repositorio, para uso pessoal.
