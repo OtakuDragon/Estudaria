@@ -1,0 +1,79 @@
+Respondendo requisições REST
+
+Operações REST sempre retornam uma resposta HTTP,
+é comum a prática de retornar de operações apenas
+o conteúdo da resposta(como um objeto de modelo), mas
+neste caso a reposta HTTP é criada utilizando valores
+padrões e não é possivel customiza-la.
+
+Para que seja possivel editar a resposta HTTP retornada
+é necessário encapsular o conteudo da resposta em um modelo
+de resposta HTTP que nos permite configurar coisas como
+código de status, headers e cookies retornados.
+
+O JAX-RS oferece a classe Response que serve como este modelo
+de reposta HTTP através dos métodos contidos nesta classe através
+da pattern builder é possivel construir e configurar a reposta
+HTTP que mais cabe ao retorno da operação.
+
+* É uma boa prática sempre retornar Response das operações
+  trazendo para a propria operação o controle da sua resposta ao
+  inves de delegar isso ao framework.
+==============================================================
+Como utilizar Response
+
+A classe Response utiliza o design pattern builder o que
+significa que a construção de uma nova Response é iniciada através
+de um método estático, Response possui métodos estaticos para os
+tipos mais comuns de resposta como por exemplo:
+
+* Response.ok();
+* Response.accepted();
+* Response.serverError();
+
+
+Alguns deste métodos estáticos recebem o conteudo da reposta
+como um Object como por exemplo:
+
+Response.accepted(Object entity);
+
+E para a iniciação da construção de um tipo de reposta não tão comum
+e que não possui um método especifico se utiliza:
+
+Response.status(Status status);
+
+ex:
+
+Response.status(Status.BAD_GATEWAY);
+
+* Status é uma enumeração que modela todos os códigos de resposta HTTP
+
+Após a inicialização com um dos métodos estaticos, o que
+se tem é um objeto ResponseBuilder através do qual é possivel
+configurar aspectos da resposta, alguns métodos disponiveis
+são:
+
+Response.status(status).cookie(NewCookie... cookies); - Seta cookie na resposta
+Response.status(status).entity(Object entity); - Adiciona conteudo no corpo da reposta
+Response.status(status).header(String name, Object value); - Adiciona um header à reposta.
+
+*Todos os métodos de ResponseBuilder retornam ResponseBuilder ou seja
+ podem ser chamados em cadeia.
+ 
+Ao fim quando a reposta estiver configurada basta chamar .build() que o objeto
+Response estará pronto para ser retornado.
+------------------------------------------------------------------------------
+ex:
+
+@POST
+public Response addMessage(Message message, @Context UriInfo uriInfo) {
+	Message newMessage = messageService.addMessage(message);
+	String newId = String.valueOf(newMessage.getId());
+	URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
+	//Constroi uma resposta com o código de status 201 e um header location com
+	//o valor da URI passada, então adiciona o objeto newMessage como o conteudo
+	//da reposta e finaliza a construção.
+	return Response.created(uri)
+			.entity(newMessage)
+			.build();
+}

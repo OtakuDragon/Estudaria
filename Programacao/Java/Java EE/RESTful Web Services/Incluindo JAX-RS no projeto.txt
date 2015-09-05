@@ -1,0 +1,42 @@
+Incluindo JAX-RS no projeto
+
+O componente java EE que empacota serviços RESTful  é o war,
+mas somente declarar recursos(@Path) em um war não é o suficiente
+para fazer com que o servidor exponha eles como serviços REST.
+
+É necessário primeiro configurar o container JAX-RS declarando
+um contexto para os recursos, uma aplicação dentro da aplicação
+do war, que serve como URL base para todos os recursos.
+==================================================================
+Existem duas maneiras de fazer isso:
+
+- No web.xml:
+
+	Declarando o servlet abaixo no web.xml
+	
+	<!--{contexto} pode ser qualquer nome desejado para o contexto JAX-RS-->
+	<servlet-mapping>
+		<servlet-name>javax.ws.rs.core.Application</servlet-name>
+		<url-pattern>/{contexto}/*</url-pattern>
+	</servlet-mapping>
+	
+	ex:
+		Se o nome da aplicação do war fosse MyWebApp e o contexto JAX-RS fosse definido como services,
+		um serviço definido com @Path("users") seria acessado através da URL: localhost:8080/MyWebApp/services/users/
+		<servlet-mapping>
+			<servlet-name>javax.ws.rs.core.Application</servlet-name>
+			<url-pattern>/services/*</url-pattern>
+		</servlet-mapping>
+--------------------------------------------------------------------
+- Extendendo Application
+
+	Outra maneira é declarar uma classe que extenda de javax.ws.rs.core.Application,
+	e anota-la com @ApplicationPath("{contexto}"), utilizar esta maneira é aconhelhavel
+	quando se deseja customizar configurações do contexto sobreescrevendo métodos de Application.
+	
+	ex:
+	
+	@ApplicationPath("/webapi")
+	public class MyApplication extends Application { ... }
+	
+A declaração no xml sobreescreve a declaração por herança de Application.

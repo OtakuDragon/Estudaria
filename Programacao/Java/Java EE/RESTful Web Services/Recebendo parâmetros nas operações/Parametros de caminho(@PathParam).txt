@@ -1,0 +1,29 @@
+Parametros de caminho(@PathParam)
+
+Parametros de caminho são valores de parametros incluidos na URI
+entre barras, como se cada valor de parametros fosse uma pasta no
+servidor e devem ser usados para parametrizar localização e identificação
+de recursos.
+
+Para declarar parametros de caminho é necessário declarar um @Path
+na operação, este @Path pode possuir um ou vários parametros de caminho
+que possuem a notação {nomeDoPathParam}.
+
+E a injeção destes parametros da URI para o método é feita através da
+declaração de argumentos no método que são equivalentes aos parametros
+esperados como parametros de caminho e anotando-os com @PathParam("nomeDoPathParam").
+
+O tipo de dado que o @PathParam será recuperado originalmente será String
+mas os argumentos do método podem possuir qualquer tipo primitivo/wrapper, isto fará
+com que o JAX-RS tente fazer a conversão automatica de String para o tipo de
+dado do argumento, se não conseguir ele retorará 404 - NOT FOUND
+============================================================================
+ex:
+
+//URI: GET ->  http://localhost:8080/MyWebApp/MyRestContext/messages/1
+@GET
+@Path("{messageId}")
+@Produces(MediaType.APPLICATION_XML) 
+public Message getMessage(@PathParam("messageId") long id){
+	return messageService.getMessage(id);
+}

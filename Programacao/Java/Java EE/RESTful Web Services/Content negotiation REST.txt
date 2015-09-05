@@ -1,0 +1,62 @@
+Content negotiation REST
+
+Content negotiation se refere a capacidade de um cliente
+HTTP decidir qual é o tipo de dado que ele quer receber e/ou
+enviar para o servidor.
+
+Do lado do cliente estes valores são controlados por
+dois campos no header da requisição:
+
+* Accept - Define o tipo de dado que o cliente espera receber
+		   do servidor.
+		   
+* Content-Type - No caso de requisições com corpo(POST, PUT, etc..)
+				 define qual é o tipo de dado sendo enviado no corpo na requisição.
+				 
+Do lado do servidor o JAX-RS suporta content negotiation por
+meio de duas anotações:
+
+- @Produces(String[] value) - Define quais tipos de dado uma operação retorna(Contra-partida do Accept)
+
+- @Consumes(String[] value) - Define quais tipos de dado uma operação pode receber do corpo
+							  da requisição(Contra-partida do Content-Type).
+
+Content negotiation é a comunicação de tipos suportados pelo servidor e requisitados
+pelo cliente, é possivel se identificar operações por meio de content negotiation ou
+seja duas operações que respondem a uma mesma URI para o protocolo GET uma produz XML
+e outra JSON, o método executado vai ser escolhido de acordo com o header Accept definido
+na requisição.
+
+Tanto os headers do cliente quanto as anotações no servidor podem receber
+listas de media types, estas listas são por ordem de prioridade, ou seja, se
+eu puder utilizar o primeiro tipo utilizarei se não tentarei utilizar o segundo
+tipo e assim por diante.
+=============================================================================================
+ex:
+
+	@GET
+	@Produces(MediaType.TEXT_XML)
+	public List<Message> getMessagesAsXml() {
+		return messageService.getAllMessages();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Message> getMessagesAsJson() {
+		return messageService.getAllMessages();
+	}
+				
+
+Uma requisição:
+
+GET-> ...contextoRest/messages
+
+Com o header    - Accept = text/xml irá chamar o método getMessagesAsXml()
+
+Já com o header - Accept = application/json irá chamar o método getMessagesAsJson()
+
+*Obs: Levando em consideração que a aplicação suporta os dois tipos de conversão.
+
+Para que a identificação de operação por content negotiation funcione é obrigatoria
+a passagem de um tipo no header Accept, caso o valor padrao wildcard(*/*) seja passado
+o servidor irá retornar 415 Unsupported Media Type.

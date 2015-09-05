@@ -1,0 +1,73 @@
+Implementando sub-recursos(Subresources)
+
+É um caso comum ter recursos que dependam de outros por meio de
+relacionamentos 1..1, 1..n como por exemplo pesquisar todas as
+transações de um cartão, ou todas as notas para um aluno.
+
+Em serviços REST por convenção estes relacionamentos possuem
+URI's como:
+
+...contextoREST/nomeDaEntidade1/identificadorEntidade1/nomeEntidade2/identificadorEntidade2
+------------------------------------------------------------------------
+ex:
+
+//URI para buscar todas as notas do aluno 1
+...contextoREST/alunos/1/notas
+========================================================================
+Como implementar este tipo de relacionamento com o JAX-RS
+
+Um recurso que depende de outro por causa de um relacionamento
+é chamado de subrecurso, subrecursos são declarados em seus recursos
+pai como métodos de operação com o seguinte formato:
+
+//Dentro do recurso pai
+@Path("/{identificadorDoRecursoPai}/nomeDoRecursoFilho")
+public SubResource getSubResource() {
+	return new SubResource();
+}
+
+No qual o nome do método pode ser qualquer nome e o tipo
+SubResource representa o tipo da classe do recurso filho
+que declara as suas proprias operações, e não necessita
+declarar um path proprio já que isso já acontece nesta operação.
+
+Cabe-se tambem notar que se o relacionamento for declarado
+como acima, todas as operações do recurso filho terão como
+url base:
+
+...contextoREST/entidadePai/{identificadorDoRecursoPai}/nomeDoRecursoFilho/
+
+O que inclui o path param identificadorDoRecursoPai isto significa
+que todas as operações do recurso filho tem acesso ao id do recurso pai
+pela injeção de @PathParam("identificadorDoRecursoPai")
+--------------------------------------------------------------------------
+ex:
+//Relacionamento entre uma mensagem que possui vários comentarios,
+//como no facebook.
+
+//Recurso-pai
+@Path("/messages")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public class MessageResource {
+	...
+
+	@Path("/{messageId}/comments")
+	public CommentResource getCommentResource() {
+		return new CommentResource();
+	}
+}
+//Recurso filho que não declara @Path, pois funciona sobre o @Path declarado na operação do recurso-pai
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class CommentResource {
+	...
+	
+	@GET
+	public List<Comment> getAllComments(@PathParam("messageId") long messageId) {
+		return commentService.getAllComments(messageId);
+	}
+}
+
+//URI para buscar todas os comentarios para a mensagem 1
+GET -> ...contextoREST/messages/1/comments

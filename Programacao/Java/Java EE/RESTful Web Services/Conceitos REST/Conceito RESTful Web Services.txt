@@ -1,0 +1,34 @@
+Conceito RESTful Web Services
+
+RESTful é uma forma de desenvolver web services que é
+baseada na arquitetura REST(Representational state transfer),
+a mesma arquitetura utilizada pelo protocolo HTTP para comunicação
+através de mensagens pela web.
+
+Ela é mais simples e flexivel comparada com a outra forma de desen-
+volvimento de web services o SOAP, e tem um funcionamento muito parecido
+e baseado no funcionamento da comunicação entre um browser e um servidor
+por http.
+
+Só que no caso de serviços RESTful o cliente ao inves de requisitar
+páginas html para serem processadas por um browser ele requisita dados puros
+para serem lidos por uma aplicação.
+
+Serviços RESTful no java são implementados através da API JAX-RS.
+====================================================================
+Caracteristicas:
+
+* Localização e execução de serviços(recursos) através de URL's unicas(URI's).
+
+* Não possui um protocolo padrão para a comunicação como o protocolo
+  SOAP nos web services SOAP, o corpo da mensagem pode possuir qualquer
+  conteudo, identificado apenas por metadata no header das mensagens.
+  
+* Não necessita de uma linguagem de definição de operações como o WSDL para
+  descrever como o serviço funciona para os clientes, uma linguagem até existe a WADL
+  mas não é obrigatoria nem popular, geralmente se define o que o serviço
+  recebe e retorna na documentação.
+  
+* Dependendo do método http utilizado para fazer a requisição ao serviço
+  o serviço pode realizar operações diferentes como por exemplo uma consulta
+  caso o método seja GET, e um insert caso o método seja PUT.

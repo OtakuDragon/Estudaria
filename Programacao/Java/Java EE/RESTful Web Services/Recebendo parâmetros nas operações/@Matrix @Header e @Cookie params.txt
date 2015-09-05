@@ -1,0 +1,20 @@
+@Matrix @Header e @Cookie params
+
+Existem 3 outros tipos de parametros que uma requisição pode
+passar para uma operação, eles são:
+
+* @MatrixParam: Similiar ao @QueryParam só que com a diferença sintatica de utilizar ":" no lugar do "?"
+* @HeaderParam: Parâmetro passado como um conjunto de chave e valor customizado no header da requisição
+* @CookieParam: Cookie passado na requisição
+
+Todos eles são recuperados de forma semelhante a @PathParam e @QueryParam por meio
+de uma anotação em um argumento da operação que identifica o nome do parâmetro em
+questão.
+=====================================================================================
+ex:
+	@GET
+	public String getParamsUsingAnnotations(@MatrixParam("param") String matrixParam,
+											@HeaderParam("authSessionID") String header,
+											@CookieParam("name") String cookie) {
+		return "Matrix param: " + matrixParam + " Header param: " + header + " Cookie param: " + cookie;
+	}

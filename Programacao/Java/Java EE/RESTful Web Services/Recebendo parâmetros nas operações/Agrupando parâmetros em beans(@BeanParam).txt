@@ -1,0 +1,51 @@
+Agrupando parâmetros em beans(@BeanParam)
+
+Conforme a quantidade de parâmetros em uma operação cresce
+a sua lista de argumentos se torna confusa e dificil de ler
+com várias anotações.
+
+Existe uma maneira de se agrupar todos os parâmetros de uma
+operação em um bean que possui as anotações em seus membros
+e então fazer com que a operação receba apenas este bean acompanhado
+da anotação @BeanParam.
+========================================================================
+ex:
+
+A declaração da operação com bean param abaixo:
+
+	@GET
+	public List<Message> getMessages(@BeanParam MessageFilterBean filterBean) {
+		if (filterBean.getYear() > 0) {
+			return messageService.getAllMessagesForYear(filterBean.getYear());
+		}
+		if (filterBean.getStart() >= 0 && filterBean.getSize() > 0) {
+			return messageService.getAllMessagesPaginated(filterBean.getStart(), filterBean.getSize());
+		}
+		return messageService.getAllMessages();
+	}
+	
+	//Bean
+
+	public class MessageFilterBean {
+
+		 private @QueryParam("year") int year;
+		 private @QueryParam("start") int start;
+		 private @QueryParam("size") int size;
+			
+		 //getters e setters
+	}
+-----------------------------------------------------------------------
+Equivale a declaração de operação sem bean param abaixo:
+
+@GET
+public List<Message> getMessages(@QueryParam("year") int year,
+								 @QueryParam("start") int start,
+								 @QueryParam("size") int size) {
+	if (year > 0) {
+		return messageService.getAllMessagesForYear(year);
+	}
+	if (start >= 0 && size > 0) {
+		return messageService.getAllMessagesPaginated(start, size);
+	}
+	return messageService.getAllMessages();
+}

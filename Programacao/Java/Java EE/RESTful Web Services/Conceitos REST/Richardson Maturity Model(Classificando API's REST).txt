@@ -1,0 +1,23 @@
+Richardson Maturity Model(Classificando API's REST)
+
+API's REST podem ser classificadas em 4 niveis de RESTfulness,
+definidos na escala de Richarson:
+
+Nivel 0(Não REST): Web service não restful que faz todas as requests para uma única
+				   URI através do método POST e possui todas as informações sobre o 
+				   que fazer e os dados no conteudo da request(ex: ws SOAP)
+				 
+Nível 1: Uma REST API é considerada nivel 1 se ela separar recursos por URI,
+		 ter várias URI de acesso e não apenas uma.
+		 
+Nivel 2: Uma REST API é considerada nivel 2 se alem de ser nivel 1, ela fazer bom
+	     uso do protocolo HTTP, definindo operações por métodos HTTP e utilizando
+		 códigos de status HTTP corretamente.
+		 
+Nivel 3: Uma REST API é considerada nivel 3 se alem de ser nivel 2, ela fizer uso de
+		 HATEOAS(Hypermedia as the Engine of Application State), ou seja, oferecer links
+		 para outros recursos nas suas respostas.
+		 
+Esta escala serve como guideline para o desenvolvimento de REST API's tendo-se como
+boa prática atingir o maior level possível e necessário de RESTfulness e tambem para
+a classificação de REST API's existentes.

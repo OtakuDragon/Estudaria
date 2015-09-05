@@ -1,0 +1,55 @@
+Recebendo dados do corpo da requisição
+
+Com a exceção do método GET todos os outros métodos HTTP aceitam dados no
+corpo da requisição, estes dados podem ser rececbidos como argumento em uma
+operação.
+
+Uma operação que recebe o conteudo do corpo de uma requisição deve estar
+anotada com @Consumes declarando o tipo de dado esperado e deve receber
+um argumento sem nenhuma declaração especial, o JAX-RS tentará converter o corpo
+da requisição que está no formato declarado em @Consumes para o tipo de dado
+do argumento do método.
+
+Para alguns tipos de dados são necessarias configurações para dizer ao JAX-RS
+como converter tipos de dados(ex: Anotar o tipo com JAX-B para XML, declarar dependencia de conversão para JSON).
+======================================================================================
+ex:
+
+//Exemplo de método que segue as convenções e utiliza o método POST na URI de coleção para efetuar inserts
+//Necessita da dependência jersey-media-moxy para a conversão automatica entre Message e JSON e vice-versa.
+@POST
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON) 
+public Message addMessage(Message message){
+	return messageService.addMessage(message);
+}
+	
+Uma requisição:
+POST -> http://localhost:8080/myWebApp/myRestContext/messages
+
+Com o conteúdo:
+
+header:
+Content-Type:application/json
+body:
+{
+	"author":"Gilson",
+	"content":"Hello World"
+}
+
+Supondo estes dois atributos String na classe Message
+efetuaria um insert da mensagem e retornaria a mesma mensagem
+só que com um id gerado por  supondo que o método addMessage()
+possui-se este comportamento:
+
+Response:
+Status 201 - Created
+
+header:
+Content-Type:application/json
+body:
+{
+	"id":2,
+	"author":"Gilson",
+	"content":"Hello World"
+}

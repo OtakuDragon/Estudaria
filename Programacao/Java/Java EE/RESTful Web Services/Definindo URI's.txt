@@ -1,0 +1,48 @@
+Definindo URI's
+
+Uma das tarefas mais importantes na definição
+de um serviços rest é definir qual serão as URI que
+serão utilizadas para acessa-los.
+
+Não há regras explicitas para isto mas sim algumas boas práticas
+elas são:
+
+* As entidades do sistema são considerados recursos, deve ser declarada
+  uma classe para cada recurso que será exposto com serviços rest, que acessem aquele
+  recurso, e o nome do path desta classe deve ser o plural do nome do recurso(entidade)
+  
+* Todos os métodos que acessam o recurso possuem o mesmo path(definido em nivel de classe)
+  e são diferenciados pelo método http e parametros da requisição do cliente.
+  
+* Existem dois tipos de uri, uri de instância(passam o id como path parameter e retornam uma instância)
+  e de uri coleção(retornam uma coleção de recursos que são opcionalmente filtradas por query parameters).
+  
+  
+* No caso de entidades que tem relacionamento com outras:
+
+	1..n - Adicionar o path da entidade 1 antes do path da entidade n(ex: 1 - category, n - product : /categories/{categoryId}/products/{productId})
+===================================================================================
+Ex:
+
+Para o recurso Estabelecimento
+
+@Path("/estabelecimentos")
+public class EstabelecimentoRestImpl {
+
+	//Collection uri chamada como: /estabelecimentos?limit=100 retorna os 100 primeiros.
+	@GET
+	@Path("{limit}")
+	@Produces("application/json")
+	public List<VoEstabelecimento> consultar(@QueryParam("limit") Long limit) {
+		return getService().(limit);
+	}
+
+	//Instance uri chamada como /estabelecimentos/5 retorna o estabelecimento 5.
+	@GET
+	@Path("{id}")
+	@Produces("application/json")
+	public VoEstabelecimento consultarPorId(@PathParam("id") Long id) {
+		return getService().consultarPorId(id);
+	}
+	
+}

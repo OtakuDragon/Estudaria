@@ -1,0 +1,57 @@
+Definindo operações por métodos HTTP
+
+A URI de acesso à serviços REST devem apenas indicar recursos,
+o que significa que a URI para buscar um usuário seria:
+
+/usuarios/{id}
+
+e uma uri para deletar um usuário tambem seria:
+
+/usuarios/{id}
+
+o que diferencia as operações realizadas nos recursos é o método
+http utilizado na requisição, as operações de CRUD se relacionam
+com os métodos http da seguinte maneira:
+
+- GET - Busca de dados.
+
+- PUT - Atualização de dados, aonde o dado que substituirá
+		o dado já existente segue no corpo da requisição.
+		
+- POST - Inserção de dados aonde o dado que será inserido segue
+		 no corpo da requisição, e a requisição retorna o id do
+		 registro inserido.
+		 
+		 O insert é feito com uma requisição para a URI de coleção
+		 do recurso.
+		 
+- DELETE - Remoção de dados.
+
+==========================================================================
+ex:
+
+GET -> /usuarios - retorna todos os usuários
+GET -> /usuarios/1 - retorna o usuário 1
+PUT -> /usuarios/1 - atualiza o usuário 1 com os dados contidos no
+					 corpo da requisição.
+POST -> /usuarios - Cadastra o usuário contido no corpo da requisição e retorna
+					o seu id na response.
+DELETE -> /usuarios - Deleta todos os usuários
+DELETE -> /usuarios/1 - Deleta o usuário 1.
+==========================================================================
+Http Method Idempotence
+
+Porque utilizar POST para realizar inserts e não PUT?
+porque a especificação HTTP diz que requisições através
+dos métodos GET, PUT e DELETE são idempotent.
+
+O que significa que várias requisições repetidas feitas
+com estes métodos, devem efetivamente efetuar alterações
+no servidor apenas na primeira chamada, todas as outras
+apenas repetem o que já foi feito não causando nenhum impacto.
+
+POST por sua vez foi especificado como um método non-idempotent
+o que significa que várias requisições repetidas tem a capacidade
+de alterar o servidor várias vezes, que é o que acontece no caso
+de um insert com generated id em que cada requisição gera um novo
+registro com um id incrementado.  

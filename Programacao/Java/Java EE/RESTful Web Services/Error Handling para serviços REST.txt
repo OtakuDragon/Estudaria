@@ -1,0 +1,119 @@
+Error Handling para serviços REST
+
+Existem duas maneiras oferecidas pelo JAX-RS
+para o tratamento de erro elas são:
+
+- WebApplicationException - Uma familia de exceções que representam os códigos de
+							erro HTTP e que são convertidas automaticamente para respostas
+							HTTP pelo JAX-RS
+							
+- ExceptionMappers - Componente que intercepta exceções de um determinado tipo e através da
+					 instância de exceção monta uma resposta para o cliente.
+
+===============================================================================
+WebApplicationException
+
+WebApplicationException é uma familia de exceções que representam
+os códigos de status de erro HTTP e servem como uma maneira de traduzir
+facilmente exceções capturadas em try-catch em respostas HTTP.
+
+WebApplicationExceptions possuem construtores que recebem parametros como
+a Reponse para retornar ao cliente ou a exception original para que o proprio
+JAX-RS monte uma resposta padrão.
+
+Quando uma WebApplicationException que é uma runtime exception é jogada de
+uma operação, sem que nenhuma configuração extra seja necessária o JAX-RS
+irá converter a exceção de acordo com o seu tipo e o parametro passado no
+seu construtor para uma reposta para o cliente, geralmente no formato que
+foi pedido na requisição(content/type)
+
+---------------------------------------------------------
+Ex error handling com WebApplicationException:
+
+@PUT
+@Path("/{commentId}")
+public Comment updateComment(@PathParam("messageId") long messageId, @PathParam("commentId") long id, Comment comment) {
+	comment.setId(id);
+	
+	try{
+		commentService.updateComment(messageId, comment);
+	}catch(CommentNotFoundException e){
+		//WebApplicationException que representa o status 404, construida com a resposta que deve ser retornada
+		//para o cliente.
+		throw new NotFoundException(Response.serverError().entity(e).build());
+	}
+	
+	return Responde.ok().build();
+}
+
+==========================================================
+ExceptionMappers
+
+Mas e quando uma runtime exception acontece? 
+
+Para tratar runtime exceptions o JAX-RS oferece a funcionalidade de
+ExceptionMappers que são classes que interceptam exceções de um certo
+tipo e às convertem em objetos Response que só então são retornados ao cliente.
+
+Toda aplicação REST deve ter um ExceptionMapper generico que intercepta
+o tipo Throwable o que impede que o cliente receba a página html de erro
+do servidor independentemente do tipo de exceção jogado.
+
+Pode-se tambem definir ExceptionMappers mais especificos para qualquer tipo
+de exceção(runtime ou checked) caso se deseje criar respostas especificas
+para uma determinada exceção que for jogada por uma operação.
+
+* ExceptionMappers mais especificos tem prioridade sobre os mais genericos.
+
+Exception mappers são declarados da seguinte forma:
+
+//A anotação @Provider registra a classe na lista de ExceptionMappers do JAX-RS
+@Provider
+//Implementa a interface ExceptionMapper com o tipo parametrizado da exceção interceptada.
+public class MyExceptionMapper implements ExceptionMapper<T>{
+	//Esta interface define um método toResponse() que transforma a exceção de tipo T em um objeto Response que
+    //será retornado para o cliente.
+	@Override
+	public Response toResponse(T ex){
+		Response response = //Código para montar response apartir da exceção.
+	
+		return response;
+	}
+
+}
+--------------------------------------------------------------------------
+ex:
+
+@Provider
+public class GenericExceptionMapper implements ExceptionMapper<Throwable>{
+
+	@Override
+	public Response toResponse(Throwable t){
+		//Um objeto de modelo criado para representar as informações da exceção
+		ErrorMessage errorMessage = new ErrorMessage(t);
+		
+		//Retorna status 500 e o objeto de modelo customizado preenchido com as informações
+		//da exceção, pelo o que eu entendi o content/type da resposta considera o content/type
+		//da requisição, se o cliente pediu JSON ele receberá o objeto com informações
+		//da exceção no formato JSON.
+		return Response.serverError().entity(errorMessage).build();
+	}
+
+}
+
+//Exemplo de um ExceptionMapper mais especifico que será chamado se uma NPE for jogado ao invés
+//do mapper generico acima.
+@Provider
+public class NullPointerExceptionMapper implements ExceptionMapper<NullPointerException>{
+
+	@Override
+	public Response toResponse(NullPointerException e){
+
+		ErrorMessage errorMessage = new ErrorMessage(e);
+
+		return Response.serverError().entity(errorMessage).build();
+	}
+
+}
+
+

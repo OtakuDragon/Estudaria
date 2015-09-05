@@ -1,0 +1,126 @@
+HATEOAS(Hypermedia as the Engine of Application State)
+
+HATEOAS é uma técnica utilizada em aplicações rest
+que facilita a utilização dos serviços pelo cliente
+removendo a necessidade do cliente conhecer profundamente
+a estrutura de recursos e montar as requests.
+
+Ela é baseada na inclusão de links como atributos
+nos objetos de resposta que indicam quais os caminhos
+que o cliente precisará utilizar para encontrar certos
+recursos relacionados aquela resposta.
+
+Funciona como links em uma página da web que mostram as
+ações possiveis para o usuário de forma mais intuitiva
+só que no mundo dos web services rest.
+==============================================================
+ex:
+
+/* Objeto de usuário que possui o atributo href que é a
+sua URI(caminho) caso o cliente deseje efetuar ações de CRUD*/
+{
+  "id": "1",
+  "content": "Hello World!",
+  "author": "koushik",
+  "postedDate": "03-01-2014",
+  "href": "/messages/1"
+}
+
+/* Objeto de mensagem que possui links para todos os recursos relacionados
+com aquela mensagem incluindo ela mesma em um array de objetos aonde a chave
+é o nome do recurso, e o valor a URI do recurso.
+*/
+{
+  "id": "1",
+  "content": "Hello World!",
+  "author": "koushik",
+  "postedDate": "03-01-2014",
+   "links" : [
+                {  
+                    "self" : "/messages/1",
+                     
+                },
+                {  
+                    "comments" : "/messages/1/comments",
+                    
+                },
+                {  
+                   "likes" : "/messages/1/likes",
+                     
+                },
+                {  
+                   "shares" : "/messages/1/shares",
+                     
+                },
+                {  
+                  "author" : "/profiles/koushik",
+
+                }
+            ]
+}
+=============================================================================
+Implementando HATEOAS com JAX-RS
+
+O JAX-RS não oferece nenhuma funcionaldade especifica para a facilitação
+de inclusão de links para recursos em respostas, este trabalho deve ser
+feito manualmente incluindo, atributos em objetos de modelos que representam
+links e então criando estes links através de UriInfo e dos métodos em UriBuilder
+
+* Algumas dicas:
+
+- Utilize UriInfo.getBaseUriBuilder() para começar a construir a URI pois ele te
+  da um objeto URI preenchido até o contexto REST.
+  
+- UriBuilder.path(Class<?> clazz) adiciona ao path da URI o conteudo da anotação @Path
+  da classe passada.
+  
+- UriBuilder.path(Class<?> clazz, String methodName) adiciona ao path da URI o conteudo da anotação @Path
+  do método da classe passada, util para incluir subresources.
+  
+- UriBuilder.resolveTemplate(String key, Object value) resolve expressões de parametros(como @PathParam) na URI
+  atribuindo valores através do nome.
+  
+- A maneira como o cliente utiliza esses links ou a forma como estes links estão definidos na reposta depende do
+  acordo feito com o cliente.
+---------------------------------------------------------------------------
+ex:
+
+	@GET
+	@Path("/{messageId}")
+	public Message getMessage(@PathParam("messageId") long id, @Context UriInfo uriInfo) {
+		Message message = messageService.getMessage(id);
+		message.addLink(getUriForSelf(uriInfo, message), "self");
+		message.addLink(getUriForProfile(uriInfo, message), "profile");
+		message.addLink(getUriForComments(uriInfo, message), "comments");
+		
+		return message;
+		
+	}
+	
+	
+	private String getUriForComments(UriInfo uriInfo, Message message) {
+		URI uri = uriInfo.getBaseUriBuilder()
+				.path(MessageResource.class)
+	       		.path(MessageResource.class, "getCommentResource")
+	       		.path(CommentResource.class)
+	       		.resolveTemplate("messageId", message.getId())
+	            .build();
+	    return uri.toString();
+	}
+	
+		private String getUriForProfile(UriInfo uriInfo, Message message) {
+		URI uri = uriInfo.getBaseUriBuilder()
+       		 .path(ProfileResource.class)
+       		 .path(message.getAuthor())
+             .build();
+        return uri.toString();
+	}
+
+	private String getUriForSelf(UriInfo uriInfo, Message message) {
+		String uri = uriInfo.getBaseUriBuilder()
+		 .path(MessageResource.class)
+		 .path(Long.toString(message.getId()))
+		 .build()
+		 .toString();
+		return uri;
+	}

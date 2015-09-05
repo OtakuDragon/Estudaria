@@ -1,0 +1,25 @@
+Declarando Recursos
+
+Recursos REST no java são classes que oferecem métodos(serviços REST)
+para a realização de operações sobre uma determinada entidade, recursos
+são acessados da seguinte forma:
+
+{localização do servidor}/{contexto da aplicação web}/{contexto rest}/{nome do recurso}/{parametros para a operação}...
+
+O nome de um recurso é declarado na anotação @Path em nivel de classe com um,
+valor String que não necessita de "/" no inicio nem no final, a declaração de
+nome de recurso torna a classe um recurso para o contexto REST.
+
+Este nome por convenção deve ser o nome da entidade manipulada no plural
+
+========================================================================================
+ex:
+
+//O recurso para a manipulação da entidade Usuário
+@Path("usuarios")
+public class UsuarioRest{
+	...
+}
+
+//Seria acessado como
+http://localhost:8080/myWebApp/myRestContext/usuarios/...

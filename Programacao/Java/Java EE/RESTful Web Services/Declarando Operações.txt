@@ -1,0 +1,135 @@
+Declarando Operações
+
+Operações REST são métodos dentro de recursos REST chamados quando URI's 
+do recurso são acessadas.
+
+Por convenção deve ser evitar a definição de nome para operações com
+a anotação @Path como se faz com o recurso, as URI devem apenas localizar
+o recurso e passar parametros, o método HTTP pelo qual a requisição é feita
+deve decidir a operação deve ser chamada.
+
+=============================================================================
+Configurando operações
+
+Existem algumas configurações utilizadas para ligar as requisições
+HTTP as operações, elas são:
+
+- Declaração do método HTTP tratado pelo método(@GET,@POST,@PUT,@DELETE)
+
+	É possivel definir qual operação executar baseado no método HTTP
+	utilizado na requisição para definir a qual método HTTP a operação
+	trata é necessário anotar a operação com uma das anotações de método HTTP.
+
+- Declaração do tipo de dado que o método retorna(@Produces(String contentType))
+
+  Define o content-type da resposta HTTP retornada pela operação
+  tambem é utilizada pelo JAX-RS para fazer conversões entre o
+  objeto retornado pelo método e a sua representação que será retornada
+  na resposta HTTP.
+
+- Declaração do tipo de dado que o método recebe do corpo de uma requisição(@Consumes(String contentType))
+
+  Define o content-type do conteudo do corpo da requisição HTTP recebida pela operação,
+  tambem é utilizada pelo JAX-RS para fazer conversões entre o corpo da requisição e o
+  objeto que a operação espera como argumento.
+  
+ Obs: O JAX-RS oferece a classe de suporte MediaType que funciona como uma enum para os valores
+	  de content-type para que não seja necessária a declaração de content-types diretamente como
+	  String.
+	  
+ Obs: As anotações @Produces e @Consumes podem ser definidas em nivel de classe para definir
+	  um padrão para todos os métodos que pode ser sobreescrito individualmente em cada método
+	  se necessário, isto evita a repetição da declaração do mesmo tipo de dado várias vezes
+==============================================================================
+Retornando xml de uma operação:
+
+	//Operação que responde a requisições GET e retorna uma lista do objeto Message
+	//no formato XML.
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	public List<Message> getMessages() {
+		return messageService.getAllMessages();
+	}
+	
+	
+	Mas como o JAX-RS sabe como converter um Objeto Java em um xml?
+	Ele não sabe, o JAX-B é utilizado para fazer esta conversão portanto,
+	um objeto que precisa ser retornado por uma operação REST no formato XML
+	deve possuir anotações JAX-B indicando como a conversão deve ser feita.
+	
+	Como valores padrões são aplicados a única anotação obrigatorio seria @XmlRootElement
+	a nivel de classe.
+	
+	@XmlRootElement
+	public class Message {
+	...
+	}
+==============================================================================
+Retornando JSON de uma operação:
+
+	//Operação que responde a requisições GET e retorna uma lista do objeto Message
+	//no formato JSON.
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Message> getMessages() {
+		return messageService.getAllMessages();
+	}
+	
+	Para que o JAX-RS saiba como converter um objeto Java em JSON não
+	é necessário nenhuma configuração no objeto, apenas a adição da dependencia
+	maven do artefato jersey que efetua esta conversão implementando um MessageBodyWriter ela é:
+	
+	<dependency>
+		<groupId>org.glassfish.jersey.media</groupId>
+		<artifactId>jersey-media-moxy</artifactId>
+		<version>2.21</version>
+	</dependency>
+================================================================================
+Lazy Loading objetos para resposta
+
+É possivel dizer aos conversores de JSON/XML para ignorar membros de
+uma classe no momento da conversão basta anotar o membro com @XmlTransient.
+
+Isto é util para implementar lazy loading em relacionamentos 1..n aonde
+se tem um objeto com uma lista de objetos relacionados a ele que não devem
+ser retornados diretamente, apenas quando eles forem requisitados especificamente.
+----------------------------------------------------------------------------------
+ex:
+
+/*Para uma mensagem que possui um mapa de comentarios
+  se este mapa estiver preenchido e uma requisição for
+  feita para a busca de uma mensagem, por padrão o mapa
+  de cometarios inteiro tambem será convertido e inserido
+ na resposta.
+
+  Utilizar @XmlTransient significa que se o cliente quiser
+  ver os comentarios para a mensagem ele terá que acessar
+  uma URL especifica de cometarios para busca-los eles não virão
+ junto com as mensagens aos quais eles pertencem.*/
+@XmlTransient
+public Map<Long, Comment> getComments() {
+	return comments;
+}
+================================================================================
+Exemplos de update e delete
+
+//Exemplo de método de update que recebe um path param com o id da mensagem
+//que será atualizada e recebe do corpo da requisição(@Consumes) a mensagem
+//como JSON, e antes de efetuar o update seta o id passado como path param na
+//mensagem passada.
+@PUT
+@Path("/{messageId}")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public Message updateMessage(@PathParam("messageId") long id, Message message) {
+	message.setId(id);
+	return messageService.updateMessage(message);
+}
+
+//Exemplo de método de delete que recebe como path param
+//o id da mensagem a ser deletada e não retorna nada.
+@DELETE
+@Path("/{messageId}")
+public void deleteMessage(@PathParam("messageId") long id) {
+	messageService.removeMessage(id);
+}

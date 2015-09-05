@@ -1,0 +1,35 @@
+Parametros de URI(@QueryParam)
+
+Parametros de URI são os parametros passados no formato:
+
+URI?nome=valor&nome=valor
+
+Eles tem como função passar informações adicionais para operações
+que não estão relacionadas com a identificação do recurso, diferentemente
+dos parametros de caminho parâmetros de URI não identificam uma operação,
+como por exemplo filtragem ou paginação de dados.
+
+O que significa que para uma URI e um método de acesso se está URI receber 1, 5
+ou 10 parametros de URI todos eles terão que ser recebidos em uma mesma operação,
+e um check if null deve ser feito para decidir qual ação tomar, pois não é possivel
+diferenciar operações apenas com base dos parametros de URI.
+======================================================================================
+ex:
+
+//Exemplo de método que recebe dois sets de parametros de URI, um para filtragem
+//por ano e outro para paginação, e decide quais utilizar checando se o parametro
+//foi passado.
+@GET
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public List<Message> getMessages(@QueryParam("year") int year,
+								 @QueryParam("start") int start,
+								 @QueryParam("size") int size) {
+	if (year > 0) {
+		return messageService.getAllMessagesForYear(year);
+	}
+	if (start > 0 && size > 0) {
+		return messageService.getAllMessagesPaginated(start, size);
+	}
+	return messageService.getAllMessages();
+}

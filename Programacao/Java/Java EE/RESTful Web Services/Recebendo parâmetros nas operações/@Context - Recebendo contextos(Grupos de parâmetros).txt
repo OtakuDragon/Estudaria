@@ -1,0 +1,30 @@
+@Context - Recebendo contextos(Grupos de parâmetros)
+
+ As anotações @*Param oferecem maneiras de se recuperar parâmetros
+individualmente pelo nome, mas há situações em que é necessário recuperar
+todos os parâmetros enviados na forma de um mapa, isto é possivel
+através da injeção de contextos na operação.
+
+* Dois contextos importantes são:
+
+ - UriInfo - Através deste contexto é possivel recuperar várias informações sobre
+			 a URI e grupos de parametros de uri como @QueryParam e @PathParam, com
+			 métodos como: MultivaluedMap<String,String> getPathParameters()
+			 
+ - HttpHeaders - Através deste contexto é possivel recuperar informações de metadata
+				 da requisição parametros como, os headers http e cookies passados.
+				 
+Contextos são injetados em operações rest através da anotação @Context
+em um parâmetro da operação com o tipo do contexto desejado.
+===============================================================================
+ex:
+
+	@GET
+	@Path("context")
+	public String getParamsUsingContext(@Context UriInfo uriInfo, @Context HttpHeaders headersContext) {
+		
+		MultivaluedMap<String, String> pathParameters = uriInfo.getPathParameters();
+		MultivaluedMap<String, String> headers        = headersContext.getRequestHeaders();
+		
+		return action(pathParameters.get("param1"), headers.get("customHeader"));
+	}
