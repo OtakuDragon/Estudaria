@@ -1,0 +1,30 @@
+Client API Async
+
+A Client API oferece a possibilidade de efetuar requisições
+de forma assincrona apartir do Invocation.Builder que por padrão
+é sincrono se chamando o modificador async()
+
+A chamada deste método finaliza a construção do Invoker
+e o transforma em um  AsyncInvoker apartir do qual é possivel
+se executar requisições para qualquer método HTTP de forma
+assincrona.
+
+O AsyncInvoker possui os mesmo métodos que o Invoker, um para
+cada método HTTP com a diferença de que ao inves de retornar
+a resposta diretamente eles retornam um objeto Future<tipoDaReposta>
+apartir do qual é possivel checar futuramente se a resposta
+chegou e então recupera-la.
+=============================================================
+ex:
+
+Client client = ClientBuilder.newClient();
+WebTarget myResource = client.target("http://example.com/webapi/read");
+Future<String> response = myResource.request(MediaType.TEXT_PLAIN)
+									.async()
+									.get(String.class);
+									
+...some stuff happens
+
+if(response.isDone()){
+	String response = response.get();
+}

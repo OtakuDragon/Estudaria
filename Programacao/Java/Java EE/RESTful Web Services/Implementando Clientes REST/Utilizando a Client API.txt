@@ -1,0 +1,95 @@
+Utilizando a Client API
+--------------------------------------------------------------------
+Instânciando o cliente(Client)
+
+O primeiro passo para se utilizar a Client API é conseguir
+uma instância de Client que é o objeto apartir do qual requisições
+são feitas para recursos REST, uma instância de client pode ser conseguida
+da seguinte maneira:
+
+Client client = ClientBuilder.newClient();
+
+Se o projeto possuir como depêndencia uma implementação Client
+do JAX-RS, a construção de um novo cliente será efetuada com sucesso.
+
+Obs: A construção de clientes deve ser feita apenas quantas vezes forem
+necessárias porque é uma operação lenta e que consume muita memoria.
+
+Obs: Client é um recurso Closeable, após quando ele não for mais necessário
+	 deve ser fechado através do método client.close();
+=====================================================================
+Configurando a URI(WebTarget)
+
+Com o cliente em mãos se define o WebTarget para a requisição, que representa,
+a URI do recurso REST:
+
+WebTarget messageResource = client.target("http://localhost:8080/messenger/webapi/messages/");
+
+Apartir do target é possivel configurar a URI:
+
+* Adicionar novos caminhos(webTarget.path("caminho"))
+* Adicionar path params(webTarget.path("{parametro}"))
+* Substituir path params(webTarget.resolveTemplate("nomeParametro", valor))
+* Adicionar query params(webTarget.queryParam("nomeParametro", valores...))
+* Adicionar matrix params(webTarget.matrixParam("nomeParametro", valores...))
+
+Todos estes métodos podem ser chamados em cadeia para adicionar diversas
+configurações, para finalizar a construção do WebTarget após a sua configuração
+é necessário configurar o header Accept da requisição com a chamada do método:
+
+Invocation.Builder builder = webTarget.request();
+=========================================================================
+Configurando a requisição(Invocation.Builder)
+
+O método request() tem três assinaturas:
+
+* webTarget.request() - configura o Accept para wildcard */*
+* webTarget.request(MediaType... acceptedResponseTypes) - Define os tipos aceitos como resposta seja com constantes MediaType
+* webTarget.request(String... acceptedResponseTypes)    - ou Strings.
+
+A chamada de request() transforma o objeto WebTarget em um objeto Invocation.Builder
+através do qual é possivel configurar a requisição http que será feita nele é possivel
+configurar:
+
+* Os tipos aceitos na reposta se a configuração já foi feita em request
+  o objeto já é inicializado com os valores(builder.accept(MediaType ou String ... type)).
+  
+* Inserir cookies na requisição (builder.cookie(String name, String value) ou builder.cookie(Cookie cookie))
+
+* Inserir headers na requisição (builder.header(String name, Object value) ou builder.headers(MultivaluedMap<String,Object> headers))
+-------------------------------------------------------------------------
+Efetuando a requisição
+
+Apartir do Invocation.Builder tambem é possivel finalizar a
+construção de um objeto Invocation através do qual a requisição
+pode ser feita ou efetuar a requisição diretamente com os métodos:
+
+- Invocation builder.build{Nome do método http}() - Finaliza a construção e retorna o objeto Invocation para que a requisição
+													possa ser feita apartir dele
+												  
+- Response builder.{Nome do método http}() - Finaliza a construção e já invoca a requisição, retornando a reposta
+	
+Para preencher o conteudo do corpo da requisição todos os métodos
+menos get() e buildGet(), possuem assinaturas vazias e assinaturas
+que recebem um objeto Entity<?> que é uma classe utilizada para encapsular
+um tipo qualquer e relaciona-lo com um tipo do HTTP.
+	
+=============================================================================
+ex:
+
+//Instanciando novo cliente
+Client client = ClientBuilder.newClient();
+//Definindo target base
+WebTarget messageResource = client.target("http://localhost:8080/messenger/webapi/messages/");
+
+//Construindo uma URI com configurações especificas apartir do target base
+Invocation.Builder builder = messageResource.path("{userId}")
+											.resolveTemplate("userId", "1")
+											.queryParam("token", "ds4f7a14asf4")
+											.request(MediaType.APPLICATION_JSON);
+//Configurando a requisição e fazendo uma requisição PUT que atualiza o usuário passado no corpo da requisição
+//que é a Entity passada como parametro para o método PUT.
+Response response = builder.header("myCustomHeader", "lol")
+						   .cookie("MyCookie", "Delicious")
+						   .put(Entity.entity(modifiedUser, MediaType.APPLICATION_JSON));
+

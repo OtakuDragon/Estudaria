@@ -1,0 +1,43 @@
+Implementando Clientes REST
+
+Existem duas estrategias para se consumir serviços
+REST com Java:
+
+* Consumo através da API de conexões HTTP nativa do java(HttpUrlConnection)
+* Consumo através da Client API do JAX-RS
+
+O consumo através da API nativa tem a vantagem de não
+necessitar de bibliotecas extras mas tem como destantagem
+a complexidade já que ela não faz parte do JAX-RS tudo
+tem que ser feito manualmente.
+
+Coisas como inclusão de corpo de requisição tem que ser
+feito através de outputstream leitura da resposta através
+de inputstream e adição de parametros na query através de
+manipulação de String.
+
+Já a client API do JAX-RS é simples e intuitiva de se utilizar
+mas trás a depêndencia de implementação do cliente do JAX-RS que
+geralmente já vem incluida nas bibliotecas do servidor, para uma
+aplicação Java EE, mas para uma aplicação Java SE é necessário
+adicionar as depêndencias para que a API funcione.
+====================================================================
+Exemplos de depêndencias de implementações da Client API
+
+<!--Jersey-->
+<dependency>
+	<groupId>org.glassfish.jersey.core</groupId>
+	<artifactId>jersey-client</artifactId>
+	<version>2.21</version>
+</dependency>
+
+<!--Rest easy-->
+<dependency>	
+ <groupId>org.jboss.resteasy</groupId>
+  <artifactId>resteasy-client</artifactId>
+	<version>3.0.2.Final</version>
+ <scope>test</scope>
+</dependency> 	
+
+
+

@@ -1,0 +1,92 @@
+Client API Filters
+
+A client API do JAX-RS oferece a possibilidade
+de registrar filtros de requisição e resposta para
+interceptar a comunicação entre o cliente e o
+servidor REST.
+
+Uma funcionalidade muito util para validar dados,
+autenticar usuários, interceptar e formatar respostas.
+
+==============================================================
+Criando um filtro
+
+Filtros são classes anotadas com @Provider que implementam as interfaces:
+
+* ClientRequestFilter - Para filtros de requisição.
+* ClientResponseFilter - Para filtros de response.
+* Ambas as interfaces acima - Para interceptar requests e responses.
+
+As interfaces ClientRequestFilter e ClientResponseFilter possuem
+apenas um método cada filter() que recebe como parametro do JAX-RS
+contextos da ação realizada que são:
+
+* ClientRequestContext  - Possui informações da requisição(ambas as interfaces)
+* ClientResponseContext - Possui informações da resposta(apenas ClientResponseFilter)
+
+Através destes contextos é possivel ler todas as informações sobre
+a requisição e/ou resposta e até mesmo modificar ou incluir dados.
+
+----------------------------------------------------------------
+ex:
+
+//Filtro de requisição e resposta
+@Provider
+public class MyRestClientFilter implements ClientRequestFilter, ClientResponseFilter {
+
+	@Override
+	public void filter(ClientRequestContext requestContext) throws IOException {
+		System.out.println(requestContext.getUri());
+	}
+
+	@Override
+	public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) throws IOException {
+		System.out.println(responseContext.getStatus());
+	}
+}
+=====================================================================
+Utilizando filtros
+
+Filtros devem ser registrados no cliente através da 
+utilização do método register(Class<?> filterClass),
+é possivel registrar filtros em dois niveis:
+
+* Em nível de Client - O filtro irá afetar todas as requisições do cliente.
+* Em nivel de WebTarget - O filtro irá afetar apenas requisições para aquela URI.
+
+Nos dois niveis a declaração é feita da mesma maneira com
+o método register().
+
+Obs: Em qualquer um dos niveis é possivel se registrar vários filtros que serão
+	 chamados em ordem de declaração.
+---------------------------------------------------------------------
+ex:
+
+Invocation.Builder builder = messageResource.path("{userId}")
+											.resolveTemplate("userId", "1")
+											.queryParam("token", "ds4f7a14asf4")
+											.register(MyRestClientFilter.class) //Registrando um filter ao WebTarget
+											.request(MediaType.APPLICATION_JSON);
+
+=====================================================================
+Interceptando uma resposta
+
+Através dos filtros tambem é possivel impedir que uma requisição
+vá ao servidor ou que a resposta do servidor chegue ao cliente
+estar interceptação é feita setando uma nova resposta no método:
+
+clientRequestContext.abortWith(Response response)
+
+e retornando no método filtro.
+
+IMPORTANTE: Nos meus testes eu não consegui fazer funcionar mas
+			aparentemente é assim.
+----------------------------------------------------------------------
+ex:
+
+@Override
+public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) throws IOException {
+	//Ignora a resposta original e retorna ao cliente a resposta customizada.
+	requestContext.abortWith(Response.status(420).build());
+	return;
+}
