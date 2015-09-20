@@ -1,0 +1,33 @@
+Macros em C++
+
+Macros são declarações processadas anterior
+a compilação que substituem simbolos por valores
+e possuem a seguinte sintaxe:
+
+#define simbolo valorDeSubstituição
+
+por exemplo se  um arquivo cpp for declarado com
+o macro #define Integer int
+
+é possivel criar uma variavel da seguinte maneira:
+
+Integer a;
+
+Porque antes da compilação o macro será processado
+e o simbolo Integer será substituido por int.
+
+Macros podem substituir até mesmo funções como por
+exemplo no macro abaixo:
+
+#define println(X) cout << X << endl;
+
+ele substitui um código:
+
+println("a");
+
+por:
+
+cout << "a" << endl;
+
+Macros devem ser usados com cuidado pois podem criar
+código confuso.

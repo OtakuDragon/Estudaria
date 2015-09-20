@@ -1,0 +1,38 @@
+Variaveis em C++
+
+Variaveis em C++ são declaradas da seguinte maneira:
+
+TipoDaVariavel nomeDaVariavel;
+
+ex:
+
+string a;
+
+=============================================================
+Escopo de variaveis
+
+Variaveis possuem o escopo do bloco de código que elas
+estão, uma variavel declarada fora do método main, ou seja,
+diretamente no arquivo é chamada de uma variavel global porque
+ela está acessivel a todas as funções do arquivo.
+
+Fora isso, uma variavel local declarada dentro de uma função 
+é valida dentro de toda a função, uma declarada dentro de um
+bloco como if, while só é valida dentro do bloco.
+
+-----------------------------------------------------------------------------------------------------
+Modificador de escopo static
+
+- static - O modificador static em uma variavel local a transforma em uma
+			   variavel global, ou seja ela funciona como se tivesse sido declarada
+			   fora do bloco aonde ela está localizada, diretamente no arquivo.
+			   
+			   void testFunc() {
+				   //Esta declaração funciona como se tivesse sido feita fora do método
+				   //inclusive a atribuição de inicialização, só acontece uma vez.
+					static int runCount = 0; 
+					cout << "Ran this function " << ++runCount << " times" << endl;
+				}
+				
+				Quando este método terminado de ser executado o valor de runCount
+				será 1, na proxima vez q ele terminar de ser executado será 2.

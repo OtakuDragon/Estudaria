@@ -1,9 +1,13 @@
 Objeto String em C++
 
-O objeto String possui varios metodos 
-para a manipulação de texto
+Strings em c++ são objetos, para a utilização de
+strings o arquivo deve incluir:
 
-e é criado quando uma variavel string é criada
+#include <string>
+using namespace std;
+
+A classe string possui varios metodos 
+para a manipulação de texto.
 
 ex:
 

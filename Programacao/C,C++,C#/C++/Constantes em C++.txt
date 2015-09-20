@@ -1,27 +1,10 @@
 Constantes em C++
 
-Existem 3 maneiras de se declarar
+Existem 2 maneiras de se declarar
 constantes em C++
 
 =====================================
-1º #define
-
-#define cria uma constante com apenas
-nome e valor e não define um tipo por isso
-não é aconselhavel o uso desta declaração
-
-sintaxe:
-
-#define nomeDaConstante valor
-
-ex:
-
-//sem ;
-
-#define HORAS_DIA 24
-
-=====================================
-2º const
+1º const
 
 const cria uma constante com um tipo
 definido e é a declaração mais indicada
@@ -32,7 +15,7 @@ sintaxe:
 const float PI = 3.1415;
 
 =====================================
-3º enum
+2º enum
 
 Uma enumeração se trata de um conjunto
 de constantes identificadas por um indice inteiro

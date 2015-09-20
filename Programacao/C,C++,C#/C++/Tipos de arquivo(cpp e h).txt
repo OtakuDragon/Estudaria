@@ -1,0 +1,73 @@
+Tipos de arquivo(cpp e h)
+
+O C++ tem dois tipos de arquivos .cpp e .h, os
+arquivos .h são chamados headers e são um tipo
+especial de arquivo utilizados para a declaração de
+definições externas de funções e membros.
+
+Definições externas são como declarações abstratas
+da orientação a objeto.
+
+Declarações externas de funções são os prototipos de
+funções, que podem ou não utilizar o modificador se não
+declarado ele é implicito.
+
+Definições externas de membros são declarações de variaveis
+sem atribuição de valor e com o modificador extern.
+
+Arquivos .cpp podem ser implementações de headers se eles
+incluirem o header e implementarem os prototipos e variaveis
+extern, membros ou funções externas só podem possuir uma
+implementação ou um erro de compilação ocorrera.
+
+Para que um arquivo .cpp utilize a funcionalidade descrita por um
+header ele não precisa importar a sua implementação, apenas 
+importar o header é o suficiente, se o membro externo utilizado
+possuir uma implementação declarada ela será chamada, senão
+um erro ocorrerá.
+=======================================================
+ex:
+
+//Header
+
+#include <iostream>
+using namespace std;
+
+//Declaração de variavel externa
+extern int digit;
+//Declaração de prototipo, a palavra extern é opcional para prototipos.
+extern int sum(int i3, int i2);
+//Fim do header
+--------------------------------------------------------------------------------------------
+//Implementação do header
+
+//Importa o header
+#include "Header.h"
+//Declara a variavel externa
+int digit = 1;
+//Implementa o prototipo do header
+int sum(int i1, int i2){
+	return i1 + i2;
+}
+//Fim da implementação do header
+--------------------------------------------------------------------------------------------------
+//Utilização do header
+//Importa apenas o header
+#include "Header.h"
+
+int main(){
+	//Chama a função e variavel externa sem conhecer a implementação.
+	cout << sum(1, 3) << name << endl;
+
+	getchar();
+
+
+	return 0;
+	
+}
+
+
+
+
+
+ 

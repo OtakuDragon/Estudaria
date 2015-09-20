@@ -24,6 +24,24 @@ void - representa nada
 
 obs: range de dados baseados no SO windows
 
+
+========================================================
+Inicialização de variaveis
+
+Simplesmente declarar uma variavel em C++ não inicaliza o seu valor,
+uma posição de memoria é alocada para a variavel com o valor que possuia
+anteriormente(escrita pelo programa que a utilizou por ultimo), ou seja
+declarar:
+
+int x;
+
+O valor de x será quaisquer valor deixado naquela posição de memoria
+anteriormente o que pode causar erros no programa por isso variaveis
+sempre devem ser inicalizadas com o valor desejado
+
+ex:
+
+int x = 0;
 =======================================================
 Modificador unsigned
 

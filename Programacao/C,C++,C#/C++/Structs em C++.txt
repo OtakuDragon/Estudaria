@@ -1,27 +1,63 @@
 Structs em C++
 
-Uma struct em C++ significa um conjunto de dados
-de tipos diferentes ou iguais todos acessiveis apartir
-de uma unica variavel
-
-funciona como um objeto java que pode somente conter atributos
+Uma struct em C++ significa um conjunto de atributos
+e funções acessiveis apartir de uma unica variavel
+e é um tipo de objeto.
 
 ex:
 
-struct funcionario
-{
-char nome[32];
-int numMeses;
-float salarioHora;
+struct Funcionario{
+	char nome[32];
+	int numMeses;
+	float salarioHora;
+
+	int getNumMeses(){
+		return this->numMeses;
+	}
 };
 
-main(){
 
-struct funcionario jose;//cria o funcionario
+int main(){
+	//cria o funcionario
+	Funcionario jose = { "jose", 5, 40 };
+	//imprime o numero de meses
+	cout << jose.getNumMeses() << endl;
 
-//preenche seus dados
-strcpy(jose.nome, "Jose da Silva"); 
-jose.numMeses = 36;
-jose.salarioHora = 25.59;
+	getchar();
+	return 0;
+	
+}
+=========================================================
+A palavra chave this
 
+Dentro das funções de uma struct é possivel se acessar
+os atributos da struct e isto pode ser feito de duas formas
+utilizando o nome do atributo diretamente.
+
+Ou atraves da palavra chave this que é um ponteiro padrão
+que representa o objeto em questão.
+
+ex:
+
+	int getNumMeses(){
+		return this->numMeses;
+	}
+
+=========================================================
+Inicializando uma struct
+
+Structs podem ser inicializadas/atribuidas com valores utilizando da
+sintaxe:
+
+StructType myStructVar = { valor do atributos em ordem de declaração}
+
+ex:
+
+struct Vector{
+	float x, y, z;
+};
+
+
+int main(){
+	Vector myVector = { 1.0, 2.0, 3.0 };
 }

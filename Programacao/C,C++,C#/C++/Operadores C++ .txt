@@ -8,7 +8,35 @@ Operadores Aritmeticos
 % módulo
 ++ Incremento
 -- Decremento
+============================================
+Operadores de incrementação e atribuição
 
+- QualquerOperadorAritimetico=
+
+ex:
+
+- Soma e atribuição: x+=5;
+============================================
+Operadores de comparação
+
+* == - Igualdade
+* >   - Maior que
+* >= - Maior ou igual que
+* <   - Menor que
+* <= - Menor ou igual que
+* !=  - Diferente
+
+Obs: Comparações em C++ retornam bool que é um tipo
+          de dado que considera:
+				* 1 - true
+				* 0 - false
+				
+		Para fazer com que um tipo bool seja impresso como true ou false
+		no cout deve se usar o modificador booleanalpha
+		
+		ex:
+		
+		cout << "Is x equal to y? C++ says: " << boolalpha << (x == y) << endl;
 ============================================
 Caracteres de escape
 

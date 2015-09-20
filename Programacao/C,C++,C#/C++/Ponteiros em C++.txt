@@ -1,0 +1,185 @@
+Ponteiros em C++
+
+Ponteiros são variaveis que representam posições de
+memória que outras variaveis ocupam, toda variavel possui
+uma posição de memória que pode ser recuperada através
+do operador &, é esta posição de memoria que é atribuida a um ponteiro.
+
+Através do ponteiro é possivel se referenciar e alterar a
+variavel original.
+
+Um ponteiro é declarado da seguinte forma:
+
+tipoDoPonteiro* nomeDoPonteiro;
+
+Aonde tipoDoPonteiro define tipo de dado que  o ponteiro referenciar. 
+==========================================================
+Recuperando a posição de memoria de uma variavel(Operador &)
+
+Valores atribuidos a ponteiros são posições de memoria ocupadas
+por variaveis que podem ser recuperadas da seguinte maneira:
+
+char myChar = 'b';
+
+cout >> &myChar >> endl;
+
+O código acima imprime um numero hexadecimal que representa
+a posição de memória da variavel myChar. 
+
+==========================================================
+Declarando um ponteiro
+
+//Declara um ponteiro para o tipo de dado int e o inicializa como nullPointer
+int* myIntPointer = 0;
+//Declara uma variavel do tipo inteiro
+int myInt = 54;
+
+//Atribui ao ponteiro a posição de memoria da varaivel inteira.
+myIntPointer = &myInt;
+==========================================================
+Alterando valores por referencia
+
+O principal objetivo de um ponteiro é permitir que o valor
+da variavel a qual ele aponta possa ser alterado através
+da referência, existem duas maneiras de se fazer isto.
+-----------------------------------------------------------------------------------------------
+Dereferencing
+
+Para acesso direto(tipos primitivos, ou alterar o valor de
+um objeto como um todo) existe o método de dereferencing
+que transforma o ponteiro em uma representação da
+variavel que ele aponta e possui a notação:
+
+*ponteiro = novoValor
+
+ex:
+	//Declara a variavel e o pointeiro e atribui a referenciar
+	//da posição de a ao pointeiro.
+	int a = 5;
+	int* pointerToA = &a;
+
+	//Faz uma dereferencing no ponteiro para mudar o valor de a,
+	//chamar *a=5 funciona da mesma maneira que chamar b=5,
+	//o compilador irá seguir a referencia do ponteiro encontrar a
+	//variavel referenciada  e mudar o valor.
+	*a = 5;
+-----------------------------------------------------------------------------------------------
+Apontando para variaveis internas
+
+Muitas vezes não desejamos alterar o valor de uma variavel inteira
+apenas uma parte dela como um membro de uma struct para isso existe
+uma notação especial para referenciar membros de um objeto de forma que
+seja possivel alterar o valor deste membro.
+
+Na verdade existem duas pois o mesmo tambem é possivel por dereferencing
+
+(*myPointer).membro = novoValor //irá alterar o valor
+ 
+ Mas existe uma maneira mais bonita de se fazer o mesmo utilizando o pointeiro
+ como um objeto só que ao inves de utilizar o operador . se utiliza o operador ->
+ 
+ myPointer->membro = novoValor
+
+==========================================================
+NullPointer
+
+Um ponteiro sempre deve ser inicializado com um valor,
+senão uma posição de memória de variavel, o valor 0 um
+ponteiro que aponta para a posição 0 é conhecido como um
+nullpointer.
+
+Já que a posição de memoria 0 é reservada pelo sistema operacional,
+se um null pointer for utilizado um erro ocorrerá, o que ja não é garantido
+para um ponteiro sem valor definido, ele pode apontar para qualquer posição
+de memória.
+
+ex declarando um nullPointer:
+
+int* myIntPointer = 0;
+==============================================================
+Ponteiro de ponteiro
+
+Ponteiros tambem são variaveis portanto tambem
+possuem posições de memoria, que podem ser atribuidas
+a outros ponteiros, para realizar uma referencia à uma referencia.
+
+ex:
+//Declara uma variavel a do tipo inteiro
+int a = 5;
+
+//Declara um ponteiro pointerToA para um tipo inteiro
+//e atribui a posição de "a" a ele
+int* pointerToA = &a;
+
+//Declara um ponteiro pointerToPointerToA para um tipo ponteiro
+//para tipo inteiro(int*) e atribui a posição de memoria do ponteiro "pointerToA"
+//a ele.
+int** pointerToPointerToA = &pointerToA;
+
+//e assim em diante
+===============================================================
+Pointeiro de array
+
+Uma caracteristica do array é que um ponteiro de
+array pode apontar para apenas um elemento do array
+porque a declaração:
+
+*int a[10];
+
+é interpretada como um array de int* ao inves de um ponteiro
+para int[10], ou seja um ponteiro para um array de ints seria declarado
+como:
+
+*int arrayPointer;
+
+A outra caracteristica de arrays na memoria explica porque isto
+é possivel, na memoria os elementos de array estão alocados em
+sequencia.
+
+O que significa que com uma referencia para apenas o
+primeiro elemento uma chamada para o proximo bloco de memoria
+é o suficiente para recuperar  o proximo elemento .
+
+Isto nos deixa com duas duvidas:
+
+* Como recuperar a posição de memoria do primeiro elemento do array
+* Como dizer ao C++ buscar o proximo bloco de memoria na sequencia,
+   para recuperar o proximo elemento.
+
+Primeiro precisamos saber como fazer com que um ponteiro aponte
+para a primeira posição de um array, existem duas maneiras:
+
+int myArray[5];
+
+*int arrayPointer =&myArray; // A posição de memoria do array em si aponta 
+												 // para a posição de memoria do primeiro elemento do array
+												 
+ou
+
+*int arrayPointer = &myArray[0];
+
+Para iterar sobre os elementos do array, ou seja, percorrer as posições de memoria
+com o ponteiro basta incrementar o ponteiro.
+
+arrayPointer     //Ponteiro para o elemento na posição 0 do array.
+arrayPointer+1//Ponteiro para o elemento na posição 1 do array.
+arrayPointer+2//Ponteiro para o elemento na posição 2 do array.
+------------------------------------------------------------------------------------------------------------------
+ex:
+
+// Declara um array de int.
+int intArray[] = {10, 15, 296, 3, 18};
+int main(){
+	// Declara um ponteiro para o array int.
+	int *arrPont;
+
+	// Atribui ao ponteiro o endereço do primeiro elemento do array.
+	arrPont = &intArray;
+	// Exibe os elementos do array, acessando-os via ponteiro(dereferencing).
+	for(int i = 0; i < 5; i++){
+		cout << "intArray["<< i<< "] = "<< *arrPont<< "\n";
+		// Incrementa o ponteiro em 1.
+		arrPont++;
+	} 
+	return 0;
+} 

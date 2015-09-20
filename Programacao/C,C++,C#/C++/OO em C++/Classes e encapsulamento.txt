@@ -1,0 +1,71 @@
+Classes e encapsulamento
+
+O C++ oferece duas maneiras de se encapsular variaveis
+e métodos dentro de um tipo(objeto), structs e classes a unica
+diferença entre estes dois tipos é a visibilidade padrão:
+
+* Variaveis e funções declaradas em uma struct são public
+   por padrão.
+   
+* Variaveis e funções declaradas em uma class são private
+   por padrão.
+   
+O C++ tambem permite configurar a visibilidade das variaveis
+e funções com as palavras chaves private e public utilizadas
+como labels.
+
+As visibilidades funcionam da seguinte maneira:
+
+* private - acessivel/visivel apenas dentro da class/struct
+* public  - acessivel/visivel apartir do objeto para qualquer métodos 
+                 que utilizar uma instância 
+
+====================================================
+ex:
+//Struct padrão
+struct Funcionario{
+	char nome[32];//Membro publico
+	int numMeses;//Membro publico
+	float salarioHora;//Membro publico
+
+	int getNumMeses(){//Membro publico
+		return this->numMeses;
+	}
+};
+//Struct configurado
+struct Funcionario{
+//Todas as declarações abaixo até a flag public: aparecer ou a struct acabar serão private
+private: 
+	char nome[32];//Membro privado
+	int numMeses;//Membro privado
+	float salarioHora;//Membro privado
+//Todas as declarações abaixo até a flag private: aparecer ou a struct acabar serão public
+public:
+	int getNumMeses(){//Membro publico
+		return this->numMeses;
+	}
+};
+------------------------------------------------------------------------------------------
+//Classe padrão
+class Funcionario{
+	char nome[32];//Membro privado
+	int numMeses;//Membro privado
+	float salarioHora;//Membro privado
+
+	int getNumMeses(){//Membro privado
+		return this->numMeses;
+	}
+};
+
+class Funcionario{
+	char nome[32];//Membro privado
+	int numMeses;//Membro privado
+	float salarioHora;//Membro privado
+	public:
+	int getNumMeses(){//Membro publico
+		return this->numMeses;
+	}
+};
+
+   
+
