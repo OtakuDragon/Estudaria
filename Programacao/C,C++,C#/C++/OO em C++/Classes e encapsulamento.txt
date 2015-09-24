@@ -66,6 +66,21 @@ class Funcionario{
 		return this->numMeses;
 	}
 };
+==========================================================
+Getters e setters
 
+Para o acesso aos atributos privados de uma
+classe ou struct no C++ tambem é uma pratica
+a utilização de métodos getters e setters publicos.
+
+ex:
+
+public: int getNumMeses(){
+		return this->numMeses;
+	}
+	
+	public: int setNumMeses(int meses){
+		return this->numMeses = meses;
+	}
    
 

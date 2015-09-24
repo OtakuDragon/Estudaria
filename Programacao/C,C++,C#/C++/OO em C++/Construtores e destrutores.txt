@@ -1,0 +1,117 @@
+Construtores e destrutores
+
+O C++ possui construtores e destrutores para objetos(class/struct)
+os construtores são chamados no momento da criação do objeto e
+utilizados para a inicialização de valores.
+
+Os destrutores quando o objeto sai do seu escopo e passa a não 
+existir mais. Como por exemplo quando um objeto é criado dentro
+de um método no momento em que o método finaliza a sua execução
+o objeto é destruido e se ele possuir um destrutor, ele será chamado.
+
+Abaixo estão os detalhes sobre construtores e destrutores.
+
+=======================================================
+Construtores
+
+Construtores possuem a seguinte sintaxe:
+
+NomeDoTipo(){
+	//codigo
+} 
+
+Construtores são chamados ou quando um objeto é
+declarado, ou quando um construtor é invocado diretamente
+com a sintaxe:
+
+NomeDoTipo nomeVar = {parametros}
+-----------------------------------------------------------------------------------------
+Caracteristicas dos construtores:
+
+* Construtores podem receber parametros.
+
+* Uma class/struct pode possuir nenhum, um, ou vários 
+   construtores desde que os parametros recebidos sejam diferentes.
+
+* Se uma class/struct não possuir construtor um construtor padrão
+   é incluido a ela implicitamente, este construtor não recebe nenhum
+   parametro e não faz nada.
+  
+* Se a class/struct possuir pelo menos um construtor que recebe parametros
+   o construtor padrão implicito passa a não existir mais e a class/struct só poderá ser
+   construida com os parametros necessários.
+ ----------------------------------------------------------------------------------------
+ ex:
+ 
+ 
+struct Funcionario{
+
+	char nome[32];
+	int numMeses;
+	float salarioHora;
+
+	Funcionario(){
+		this->numMeses = 0;
+	}
+	
+	Funcionario(int numMeses){
+		this->numMeses = numMeses;
+	}
+
+public: int getNumMeses(){
+		return this->numMeses;
+	}
+};
+
+int main(){
+	//o objeto joao é construido através do construtor sem parametros
+	//a linha abaixo poderia ser reescrita invocando o construtor explicitamente
+	//como : Funcionario joao = {}; e funcionaria da mesma forma, inicializando numMeses
+	//com o valor 0.
+	Funcionario joao;
+	
+	//O objeto jose é construido com o construtor que recebe um inteiro que inicializa
+	//o numero de meses com o inteiro passado na invocação do construtor({}).
+	Funcionario jose = {5};
+
+	cout << jose.getNumMeses() << endl;
+
+	getchar();
+
+
+	return 0;
+	
+}
+========================================================
+Destrutores
+
+Destrutores possuem a seguinte sintaxe:
+
+~NomeDoTipo(){
+	//codigo
+}
+
+-------------------------------------------------------------------------------------------
+Caracteristicas dos destrutores
+
+* Uma classe/struct pode ter apenas um destrutor.
+
+* Um destrutor não pode receber parametros
+--------------------------------------------------------------------------------------------
+ex:
+
+struct Funcionario{
+
+	char nome[32];
+	int numMeses;
+	float salarioHora;
+	
+	//Destrutor
+	~Funcionario(){
+		cout << "destroyed" << endl;
+	}
+
+public: int getNumMeses(){
+		return this->numMeses;
+	}
+};
