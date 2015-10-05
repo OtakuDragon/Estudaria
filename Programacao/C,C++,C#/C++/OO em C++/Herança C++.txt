@@ -1,0 +1,105 @@
+Herança C++
+
+Uma classe/struct pode herdar os membros e
+métodos de uma ou várias classes/structs, o
+c++ suporta herança multipla desde que não haja
+ambiguidade nos membros, neste caso o código
+não irá compilar.
+
+Herança em c++ possui a seguinte sintaxe:
+
+class/struct nomeDoTipo : private/public tipoPai1, private/public tipoPai2, ...{}
+
+ex:
+
+class Dog : public Animal{
+//codigo
+}
+
+============================================================
+Herança publica e  privada
+
+Uma caracteristica importante da herança do c++ é que
+a herança pode ser private ou public.
+--------------------------------------------------------------------------------------------------
+Herança publica
+
+Uma herança publica significa que os usuários do objeto
+sabem da herança, ou seja um método que usa um objeto
+Dog sabe que ele é um Animal e pode utilizar de polimorfismo
+com ponteiros.
+
+ex:
+
+Dog myDog;
+
+//Uma referencia a animal pode receber um objeto Dog se a herança for publica
+Animal* dogPolimorficReference = &myDog;
+-----------------------------------------------------------------------------------------------------
+Herança privada
+
+Na herança privada o relacionamento de herança é
+um segredo, apenas a class/struct sabe que ela herda
+do tipo pai, o que torna impossivel a utilização de polimorfismo.
+
+É uma funcionalidade pouco utilizada, pois sua única função é
+proibir o polimorfismo.
+==============================================================
+Métodos virtuais(abstratos)
+
+Classes/structs pai podem ter métodos virtuais
+que são declarações de métodos que devem ser
+implementados pelas subclasses.
+
+Se uma classe/struct possuir pelo menos um método
+virtual ela se torna uma classe abstrata e não pode ser
+instânciada.
+
+Um método virtual é um método com a seguinte
+sintaxe:
+
+virtual tipoRetorno nomeDoMétodo(parametros) = 0; 
+
+ex:
+//Classe abstrata animal
+class Animal{
+protected:
+	string name;
+	//método virtual
+	virtual void walk() = 0;
+};
+==============================================================
+Sobreescrevendo métodos
+
+Para personalizar funcionalidades definidas em superclasses
+nas subclasses é possivel sobre escrever métodos apenas
+redeclarando o método com a mesma assinatura da superclasse
+e dando uma implementação diferente.
+
+Métodos virtuais devem obrigatoriamente ser sobreescritos.
+
+ O C++ tambem possui o modificador de método override utilizado
+para indicar que o método é uma sobreescrita de um método da
+superclasse a utilização desta palavra chave não é obrigatoria.
+
+Funciona como a anotação @Override no java ajudando a garantir 
+que o método realmente esta sobre escrevendo se ele não estiver
+ sobreescrevendo e possuir a palavra override o código
+não compilará.
+----------------------------------------------------------------------------------------------------
+ex:
+
+class Animal{
+public:
+	void walk(){
+		cout << "walking" << endl;
+	}
+};
+
+
+struct Dog : public Animal {
+public:
+	void walk() override {
+			cout << "walking 2" << endl;
+	}
+};

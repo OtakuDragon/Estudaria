@@ -19,6 +19,8 @@ As visibilidades funcionam da seguinte maneira:
 * private - acessivel/visivel apenas dentro da class/struct
 * public  - acessivel/visivel apartir do objeto para qualquer métodos 
                  que utilizar uma instância 
+* protected  - acessivel/visivel dentro da class/struct e dentro das suas
+					   subclasses.
 
 ====================================================
 ex:
@@ -83,4 +85,31 @@ public: int getNumMeses(){
 		return this->numMeses = meses;
 	}
    
+=========================================================
+Funções constantes
 
+O C++ permite modificar funções para que nela nelas 
+não seja possivel alterar o estado do objeto, ou seja,
+o valor dos seus membros com o modificador const
+este modificador possui a seguinte sintaxe:
+
+tipoRetorno nomeFuncao(parametros) const{
+//codigo.
+} 
+
+Funções constantes tem objetivo garantir que a sua
+chamada não fará nenhuma alteração no objeto ao qual
+elas pertencem.
+
+ex:
+
+class MyClass {
+
+		int a;
+
+		//Causa um erro de compilação porque não é possivel alterar
+		//o valor de nenhum membro em uma função constante.
+		void alterarValor() const{
+			this->a = 5;
+		}
+};

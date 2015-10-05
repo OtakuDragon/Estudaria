@@ -1,0 +1,88 @@
+Alocação dinâmica de memória C++
+
+Quando variaveis de tipos primitivos ou objetos
+são declarados em um código C++  a alocação de
+memória ocorre no momento da compilação e os
+objetos são criados no momento da declaração e
+destruidos quando o escopo no qual estão inseridos
+acaba.
+
+Esta é a chamada alocação estatica de memoria, existem
+situações nas quais a alocação estatica não é suficiente
+como por exemplo:
+
+* Uma váriavel não deve ser destruida no momento em que
+   o seu escopo acaba e sim em um momento futuro.
+   
+* O tamanho de um array deve ser definido em tempo de execução
+
+Para cada uma destas situações existe um tipo de alocação
+dinâmica.
+
+Observações:
+
+* Alocações dinamicas de memoria  sempre retornam ponteiros
+  para a memória alocada, para acessar o objeto em si deve se usar
+  dereferencing.
+  
+* Toda memoria alocada dinamicamente deve ser liberada ou o
+   programa ficará com aquela memoria para sempre.
+
+======================================================
+Alocação dinamica de variaveis
+
+A alocação dinamica de variavel é feita utilizando
+a paravra new para conseguir a referencia ao espaço
+na memoria alocado para a variavel.
+
+Obs: tipos primitivos e objetos podem ser alocados dinamicamente
+
+ex:
+
+//Alocando dinamicamente um objeto da classe/struct Player
+//note que o que é retornado é um ponteiro para a memória alocada
+//e que o código após new é a invocação do construtor, neste caso
+//um construtor sem parametros.
+Player *player = new Player();
+
+//Exemplo de alocação dinamica de tipo primitivo
+int *myInt = new int();
+
+//Utilizando dereferencing para definir o valor da variavel alocada dinamicamente.
+(*myInt) = 45;   
+
+----------------------------------------------------------------------------------------
+Liberando(desalocando) memória de variaveis
+
+Uma váriavel alocada dinamicamente não será destruida quando
+o seu escopo terminar, ela deve ser liberada através da keyword
+delete.
+
+ex:
+
+//Desalocando as variaveis declaradas acima com a sintaxe: delete ponteiro;
+delete player;
+delete myInt;
+=======================================================
+Alocação dinamica de arrays
+
+A alocação dinamica de arrays é muito similar a de variaveis
+com a diferença que o tamanho do array é definido dinamicamente
+por meio de uma variavel int.
+
+ex:
+
+//Aonde size é um numero definido em tempo de execução
+//como um parametro passado para um método.
+int *array = new int[ size ];
+
+-----------------------------------------------------------------------------------------
+Liberando(desalocando) memória de arrays
+
+Para desalocar a memoria de um array a palavra chave
+é delete[] e funciona da mesma forma que delete recebendo
+o pontiero e liberando a memoria.
+
+ex:
+
+delete[] array; 

@@ -25,10 +25,13 @@ header ele não precisa importar a sua implementação, apenas
 importar o header é o suficiente, se o membro externo utilizado
 possuir uma implementação declarada ela será chamada, senão
 um erro ocorrerá.
+
 =======================================================
 ex:
 
 //Header
+
+#pragma once
 
 #include <iostream>
 using namespace std;
@@ -65,8 +68,66 @@ int main(){
 	return 0;
 	
 }
+===========================================================
+Organização de classes/struct
 
+Por convenção a declaração da classe/struct deve ser separada
+com a definição da classe/struct em um header e a implementação da classe
+em um arquivo cpp, e para utilizar a classe apenas a importação do header
+é feita.
 
+ex:
+//Definição dos membros construtores destrutores e funções da classe
+// Mammal.h
+#pragma once
+class Mammal{
+	protected:
+	int hp;
+	double speed;
+	public:
+	Mammal();
+	~Mammal();
+	void breathe();
+	virtual void talk();
+	// pure virtual function,
+	virtual void walk() = 0;
+};
+//Implementação dos membros construtores destrutores e funções da classe
+// Mammal.cpp
+#include <iostream>
+using namespace std;
+#include "Mammal.h"
+Mammal::Mammal() // Notice use of :: (scope resolution operator) {
+	hp = 100;
+	speed = 1.0;
+	cout << "A mammal is created!" << endl;
+}
+Mammal::~Mammal(){
+	cout << "A mammal has fallen!" << endl;
+}
+void Mammal::breathe(){
+	cout << "Breathe in.. breathe out" << endl;
+}
+void Mammal::talk(){
+cout << "Mammal talk.. override this function!" << endl;
+}
+============================================================
+Macro pragma once
+
+Uma coisa comum que pode acontecer quando um arquivo
+importa(include) vários headers é que um mesmo header pode
+ser importado mais de uma vez em arquivos diferentes.
+
+Como por exemplo quando várias classes extendem uma superclasse
+e mais de uma superclasse é incluida no arquivo o header da superclasse
+é incluido duas vezes.
+
+Quando isto acontece um erro de compilação acontece porque
+o compilador não sabe qual header dos incluidos utilizar, para
+resolver este problema é uma boa pratica adicionar o macro
+pragma once na primeira linha de todos os headers isto impede
+que o header seja importado mais que uma vez mesmo que ele seja
+declarado multiplas vezes, a primeira será utilizada.
 
 
 
