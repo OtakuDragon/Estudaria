@@ -1,0 +1,59 @@
+Métodos Assíncronos EJB
+
+É possivel configurar métodos de session beans para
+serem executados de forma assíncrona desde que o método
+não seja um web service.
+
+A declaração de um método assíncrono é feita através da
+adição da anotação @Asynchronous ao método, um método
+assincrono deve retornar void ou algum tipo de dado wrapped
+no tipo Future<T>, se o método não retornar nada, ele não pode
+declarar que joga checked exceptions e nem ter a sua execução
+cancelada.
+
+No caso de um método que retorna algum dado encapsulado no tipo
+Future<T>, para a criação deste retorno se utiliza o construtor
+new AsyncResult<T>(T dado); que encapsula qualquer tipo de dado
+em Future<T>.
+
+Através do objeto Future retornado é possível checar se a execução
+já concluiu, cancelar a execução, recuperar o resultado.
+
+---------------------------------------------------------------
+ex:
+
+@Asynchronous
+public Future<String> processPayment(Order order) throws PaymentException {
+	String retorno = null;
+	...
+	return new AsyncResult<String>(retorno);
+}
+
+=================================================================
+Cancelando uma execução assíncrona
+
+Para checar na execução do método se o cliente requisitou
+o cancelamento da execução o método pode utilizar:
+
+SessionContext.wasCancelled();
+
+que retorna true se o cliente cancelou o método através da
+uma chamada a future.cancel(true);
+---------------------------------------------------------------------
+ex:
+
+//Pedido de cancelamento
+Future<String> result = ejb.processPayment(order);
+result.cancel(true);
+
+//Implementação do método
+@Asynchronous
+public Future<String> processPayment(Order order) throws PaymentException {
+...
+if (SessionContext.wasCancelled()) {
+// clean up
+} else {
+// process the payment
+}
+...
+}
