@@ -20,7 +20,7 @@ NomeDoTipo(){
 	//codigo
 } 
 
-Construtores são chamados ou quando um objeto é
+Construtores são chamados quando um objeto é
 declarado, ou quando um construtor é invocado diretamente
 com a sintaxe:
 
@@ -40,7 +40,31 @@ Caracteristicas dos construtores:
 * Se a class/struct possuir pelo menos um construtor que recebe parametros
    o construtor padrão implicito passa a não existir mais e a class/struct só poderá ser
    construida com os parametros necessários.
- ----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+Lista de inicialização 
+
+O C++ possui uma estrutura nos construtores utilizada para definir
+valores padrões de membros com facilidade esta estrutura é chamada
+de lista de inicialização.
+
+Ela possui a sintaxe:
+
+Construtor(): membro1(valorPadraoDoMembro1), membro2(valorPadraoDoMembro2), ..., membroN(valorPadraoDoMembroN){
+	//codigo do construtor
+}
+
+ex:
+
+class MinhaClasse {
+	int i1;
+	int i2;
+
+	public:MinhaClasse():i1(100),i2(200){
+		//codigo do construtor
+	}
+}
+
+----------------------------------------------------------------------------------------
  ex:
  
  
