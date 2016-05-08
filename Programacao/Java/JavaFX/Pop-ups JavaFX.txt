@@ -1,0 +1,36 @@
+Pop-ups JavaFX
+
+O JavaFX oferece janelas pop-up prontas
+através da classe Alert.
+
+Ela é construida com o tipo de pop-up
+
+Alert alert = new Alert(AlertType.CONFIRMATION);
+
+é possivel definir o titulo da janela, 
+o conteudo da janela que é dividido em headerText
+e contentText, alem de definir event handlers entre
+outras coisas menos comuns.
+
+Para mostrar a janela de forma modal como geralmente
+se espera de pop-ups se mostra com o método showAndWait()
+este método espera pelo clique de um botão antes de
+prosseguir com a execução do programa e retorna o botão
+clicado.
+
+O método show() apenas exibe a pop-up continua a execução
+do programa e não retorna nada.
+
+=======================================================
+ex:
+
+Button button = new Button("Fechar");
+
+Alert alert = new Alert(AlertType.CONFIRMATION);
+
+alert.setTitle("Fechar a janela");
+alert.setHeaderText("Tem certeza?");
+alert.setContentText("Absoluta?");
+
+button.setOnAction( System.out.println(alert.showAndWait().get() == ButtonType.OK));
+

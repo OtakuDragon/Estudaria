@@ -1,0 +1,58 @@
+﻿JavaFX
+
+Permite criar aplicações graficas portavéis utilizando uma API moderna.
+
+- JavaFX 2.0 faz parte de JDK 1.8+(Não é uma biblioteca externa)
+
+- Toda classe principal do javaFX deve extender a classe Application
+
+- A clase principal deve chamar launch(String...) no método main que
+  inicializa todo o framework.
+  
+- E implementar o método start que é o ponto de inicio da aplicação java FX,
+  este método recebe como parametro o primary stage que é a janela inicial,
+  através dela é possivel se montar a interface seguindo a estrutura abaixo:
+  
+  Stage -> Scene -> Layout -> Componentes(controles)
+
+  Um Stage possui uma Scene que possui um Layout, um layout pode possuir vários layouts
+  e componentes graficos chamados de controles(botões, menus, etc.).
+  
+- Para exibir um Stage é necessário invocar o método show()
+
+=================================================================================
+Terminologia(em ordem hierarquica):
+
+- Stage - A janela da aplicação como um todo até os controles de fechar
+		  maximizar, etc.
+		  
+- Scene - O conteúdo interno do stage, dentro da "borda" do sistema operacional
+
+- Layout - Define o posicionamento de componentes dentro de uma scene, um layout
+		   pode conter em si outros layouts somo subdivisões ou elementos de UI como botões.
+
+- Controles - Componentes gráficos com os quais o usuário interage.
+		   
+==================================================================================
+Exemplo básico de javaFX
+
+public class Main extends Application {
+	public static void main(String[] args) {
+		launch();
+	}
+	
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		primaryStage.setTitle("Minha aplicação");
+		
+		Button button = new Button("Botão fodástico");
+		
+		StackPane layout = new StackPane(button);
+		
+		Scene scene = new Scene(layout, 300, 250);
+		
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		
+	}
+}
