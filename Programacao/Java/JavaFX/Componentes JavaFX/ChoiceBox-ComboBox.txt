@@ -1,0 +1,12 @@
+ChoiceBox e ComboBox
+
+Equivalentes ao selectOneMenu do primefaces,
+ComboBox possui mais funcionalidades e possui
+a lista melhor posicionada abaixo do campo do
+que ChoiceBox.
+
+==============================================
+ex:
+
+CheckBox<String> selectOneMenu = new CheckBox<>(listaDeItens);
+ChoiceBox<String> selectOneMenu = new ChoiceBox<>(listaDeItens);

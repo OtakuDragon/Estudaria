@@ -1,0 +1,8 @@
+Label
+
+Componente utilizado para exibir texto
+estático.
+=============================================
+ex:
+
+Label label = new Label("Exemplo");

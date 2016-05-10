@@ -1,0 +1,15 @@
+Checkbox
+
+Equivalente ao input type checkbox do HTML.
+
+==============================================
+ex:
+
+//Cria a checkbox com uma label padrão(opcional) que aparece
+//à direita.
+Checkbox checkbox = new Checkbox("Opção 1");
+
+//Verifica se a checkbox está selecionada ou não.
+checkbox.isSelected();
+//Marca a checkbox no código.
+checkbox.setSelected(true);

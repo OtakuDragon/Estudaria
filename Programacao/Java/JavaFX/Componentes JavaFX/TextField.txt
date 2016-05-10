@@ -1,0 +1,15 @@
+TextField
+
+Equivalente ao input type text do HTML.
+
+=============================================
+ex:
+
+TextField nome = new TextField();
+
+//Texto cinza que explica o que o campo espera,
+//e desaparece quando o usuário clica no campo.
+nome.setPromptText("Nome do usuário");
+
+//Recupera o conteúdo do campo.
+String nomeUsuario = nome.getText();

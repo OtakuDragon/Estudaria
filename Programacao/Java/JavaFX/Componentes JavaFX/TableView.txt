@@ -1,0 +1,205 @@
+TableView
+
+TableView é o componente de tabela do
+JavaFX.
+
+Uma TableView deve possuir pelo menos uma
+coluna, colunas são representadas por objetos
+TableColumn que possuem dois tipos genericos:
+
+TableColumn<TipoDeDadoDaTabela, TipoDeDadoDaColuna>
+
+O TipoDeDadoDaTabela geralmente é um objeto VO
+que possui os dados exibidos na tabela e o TipoDeDadoDaColuna
+é o tipo do atributo do VO que será mostrado na coluna.
+
+O construtor de TableColumn recebe como parametro
+o nome do header da coluna.
+-----------------------------------------------------
+ex:
+
+TableColumn<Product, String> nameColumn = new TableColumn<>("Name");
+======================================================
+CellValueFactory
+
+Alem disso é preciso setar a CellValueFactory da coluna
+que diz ao TableColumn como buscar o valor da coluna no 
+objeto da tabela, o mais simples CellValueFactory é o 
+PropertyValueFactory que recebe como uma String o nome do
+atributo no bean que é o conteúdo da coluna.
+------------------------------------------------------
+ex:
+
+TableColumn<Product, String> nameColumn = new TableColumn<>("Name");
+nameColumn.setMinWidth(200);
+
+//A classe Product possui um atributo String privado com getters e setters
+//e com o nome 'name' que será exibido na coluna nameColumn.
+nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+=======================================================
+Preenchendo a tabela
+
+Para preencher o objeto TableView é preciso
+inserir da tabela os dados ou seja a lista de
+VOs que possuem os dados das colunas.
+
+E as colunas em si, configuradas como acima que
+descrevem os headers e a estrategia de recuperação 
+dos dados dos VOs para as colunas.
+--------------------------------------------------------
+ex:
+
+TableView table = new TableView<>();
+//Inclui os VOs na tabela.
+table.setItems(getProduct());
+//Inclui as colunas na tabela.
+table.getColumns().addAll(nameColumn, priceColumn, quantityColumn);
+========================================================
+Exemplo Completo
+
+//VO mostrado na tabela.
+public class Product {
+
+    private String name;
+    private double price;
+    private int quantity;
+
+    public Product(){
+        this.name = "";
+        this.price = 0;
+        this.quantity = 0;
+    }
+
+    public Product(String name, double price, int quantity){
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+}
+
+//Aplicação
+public class Main extends Application {
+
+    Stage window;
+    TableView<Product> table;
+    TextField nameInput, priceInput, quantityInput;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        window = primaryStage;
+        window.setTitle("thenewboston - JavaFX");
+
+        //Name column
+        TableColumn<Product, String> nameColumn = new TableColumn<>("Name");
+        nameColumn.setMinWidth(200);
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        //Price column
+        TableColumn<Product, Double> priceColumn = new TableColumn<>("Price");
+        priceColumn.setMinWidth(100);
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        //Quantity column
+        TableColumn<Product, String> quantityColumn = new TableColumn<>("Quantity");
+        quantityColumn.setMinWidth(100);
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
+        //Name input
+        nameInput = new TextField();
+        nameInput.setPromptText("Name");
+        nameInput.setMinWidth(100);
+
+        //Price input
+        priceInput = new TextField();
+        priceInput.setPromptText("Price");
+
+        //Quantity input
+        quantityInput = new TextField();
+        quantityInput.setPromptText("Quantity");
+
+        //Button
+        Button addButton = new Button("Add");
+        addButton.setOnAction(e -> addButtonClicked());
+        Button deleteButton = new Button("Delete");
+        deleteButton.setOnAction(e -> deleteButtonClicked());
+
+        HBox hBox = new HBox();
+        hBox.setPadding(new Insets(10,10,10,10));
+        hBox.setSpacing(10);
+        hBox.getChildren().addAll(nameInput, priceInput, quantityInput, addButton, deleteButton);
+
+        table = new TableView<>();
+        table.setItems(getProduct());
+        table.getColumns().addAll(nameColumn, priceColumn, quantityColumn);
+
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(table, hBox);
+
+        Scene scene = new Scene(vBox);
+        window.setScene(scene);
+        window.show();
+    }
+
+    //Add button clicked
+    public void addButtonClicked(){
+        Product product = new Product();
+        product.setName(nameInput.getText());
+        product.setPrice(Double.parseDouble(priceInput.getText()));
+        product.setQuantity(Integer.parseInt(quantityInput.getText()));
+        table.getItems().add(product);
+        nameInput.clear();
+        priceInput.clear();
+        quantityInput.clear();
+    }
+
+    //Delete button clicked
+    public void deleteButtonClicked(){
+        ObservableList<Product> productSelected, allProducts;
+        allProducts = table.getItems();
+        productSelected = table.getSelectionModel().getSelectedItems();
+
+        productSelected.forEach(allProducts::remove);
+    }
+
+    //Get all of the products
+    public ObservableList<Product> getProduct(){
+        ObservableList<Product> products = FXCollections.observableArrayList();
+        products.add(new Product("Laptop", 859.00, 20));
+        products.add(new Product("Bouncy Ball", 2.49, 198));
+        products.add(new Product("Toilet", 99.00, 74));
+        products.add(new Product("The Notebook DVD", 19.99, 12));
+        products.add(new Product("Corn", 1.49, 856));
+        return products;
+    }
+
+
+}  

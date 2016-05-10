@@ -1,0 +1,6 @@
+﻿Propriedade SelectionModel
+
+Todos os componentes JavaFX possuem um uma propriedade chamada
+SelectionModel acessada através do método getSelectionModel()
+utilizada para configurar o modo de seleção do elemento e em
+alguns casos inserir event listeners de seleção de valores.

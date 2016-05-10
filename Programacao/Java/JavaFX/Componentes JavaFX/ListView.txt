@@ -1,0 +1,14 @@
+ListView
+
+Equivalente ao selectManyMenu do primefaces, mas por padrão possui
+o selection mode como SINGLE.
+
+==============================================
+ex:
+
+ListView<String> listView = new ListView<>();
+listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+listView.getItems().add("A");
+listView.getItems().add("B");
+listView.setMaxHeight(300);
