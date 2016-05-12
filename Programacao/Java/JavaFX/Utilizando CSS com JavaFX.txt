@@ -1,0 +1,107 @@
+﻿Utilizando CSS com JavaFX
+
+O JavaFX permite a utilização de CSS para editar
+o look-and-feel dos componentes, a linguagem css
+do JavaFX é similar ao CSS normal com a adição do
+prefixo "-fx-" em todos os atributos.
+
+Obs: O plugin e(fx)clipse oferece o auto complete com os
+	 atributos CSS do JavaFX, mas apenas após incluir a JavaFX SDK
+	 como biblioteca do projeto no build path.
+
+Como na web existem diferentes maneiras para a aplicação
+do CSS nos elementos:
+===========================================================
+Aplicação Inline
+
+Através do método setStyle(String css) no componente.
+
+-----------------------------------------------------------
+ex:
+
+TextField passInput = new TextField();
+passInput.setStyle("-fx-font-weight: bold;");
+===========================================================			
+Arquivos CSS
+
+É possível incluir um arquivo CSS na aplicação e
+em algum pacote presente no classPath e incluir
+o CSS na Scene como no exemplo.
+
+Os componentes presentes nesta Scene poderão ser
+selecionados por ID ou Classe CSS no script CSS para
+alterar suas propriedades.
+-----------------------------------------------------------
+ex:
+
+//Inclui um arquivo css contido em uma pasta css no classpath do
+//projeto no mesmo nivel de src, ou seja Projeto/src/... e Projeto/css/Viper.css ,
+//o nome da pasta não precisa der CSS ele somente deve estar presente no classpath.
+Scene scene = new Scene(grid, 300, 200);
+scene.getStylesheets().add("/Viper.css");
+window.setScene(scene);
+============================================================
+Aplicação por Classe CSS
+
+Todos os componentes JavaFX possuem classes CSS padrões
+que podem ser sobreescritas para alterar as suas aparências,
+por convenção o nome da classe CSS padrão do componente é o nome
+da sua classe com todas as letras minusculas.
+
+A classe root afeta todos os componentes da Scene.
+
+E classes customizadas são adicionadas a o componentes através do
+método componente.getStyleClass().add("nome-classe");
+----------------------------------------------------------------
+ex:
+
+//Viper.css
+//Se aplica a todos os componentes
+.root{
+    -fx-background-color: #383838;
+}
+//Se aplica a todos os componentes do tipo Label
+.label{
+    -fx-text-fill: #e8e8e8;
+}
+//Se aplica a todos os componentes do tipo Button
+.button{
+    -fx-background-color: #AB4642;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 4;
+}
+//Exemplo de classe customizada que pode ser inserida no elemento.
+.button-blue{
+    -fx-background-color: #7cafc2;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 4;
+}
+===================================================================
+Aplicação por ID
+
+Tambem é possivel definir um id no arquivo CSS e 
+aplica-lo em um componente na aplicação.
+-------------------------------------------------------------------
+ex:
+
+//Viper.css
+#bold-label{
+    -fx-font-weight: bold;
+}
+//Aplicação JavaFX
+Label nameLabel = new Label("Username:");
+nameLabel.setId("bold-label");
+====================================================================
+Sobreescrevendo o look-and-feel padrão
+
+Por padrão o look-and-feel de todos os componentes é
+definido pelo arquivo modena.css, a customização de CSS
+apenas sobreescreve o que for definido nos scripts CSS
+e não o estilo modena.css como um todo.
+
+O java oferece a possibilidade de alterar o look-and-feel
+padrão através do método:
+
+//Aonde a URL é a localização do arquivo CSS que define o look-and-feel
+//do JavaFX inteiro.
+scene.setUserAgentStylesheet(url);
