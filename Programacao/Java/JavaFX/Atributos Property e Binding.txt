@@ -1,0 +1,100 @@
+Atributos Property e Binding
+
+Como todos os frameworks de GUI o JavaFX
+faz a utilização do design pattern Observer
+em várias partes do framework, principalmente
+para recuperar o input dos usuários dos
+componentes das telas.
+
+O JavaFX cede ferramentas para que o desenvolvedor
+crie as suas proprias implementações do padrão Observer,
+estas ferramentas são os tipos de dado que implementam Property.
+
+Property é uma interface que funciona como um wrapper
+de atributos que guardam dados, algumas extensões
+desta interface que o JavaFX oferece são:
+
+StringProperty, DoubleProperty, uma para cada wrapper
+de tipo primitivo.
+---------------------------------------------------------
+ex:
+
+//Declaração de atributo String "wrapped" em Property, o construtor
+//recebe 3 parametros, o bean ao qual o atributo pertence, o nome do
+//atributo como uma String e o valor inicial do atributo
+private StringProperty firstName = new SimpleStringProperty(this, "firstName", "");
+
+//Acessors de um atributo Property, além dos getters e setters que
+//acessam o valor da propriedade tambem se pode oferecer um getter para
+//o objeto Property com o nome seguindo a convenção abaixo.
+public StringProperty firstNameProperty() {
+	return firstName;
+}
+
+
+public String getFirstName() {
+	return firstName.get();
+}
+
+//Set the firstName value
+public void setFirstName(String firstName) {
+	this.firstName.set(firstName);
+}
+==================================================================
+Binding
+
+A funcionalidade que um atributo normal wrapped em
+um tipo Property ganha é o binding, ou seja, a possibilidade
+de ser "bound" a outra propriedade.
+
+O  que isso significa é que se você tem uma propriedade1 que é
+bound a uma propriedade2 ou em código:
+
+property1.bind(property2);
+
+todas as vezes que o valor de property2 mudar o valor de property1
+irá tambem mudar para o novo valor de property2, criando o padrão
+Observer.
+
+Na interface Property tambem existem métodos para definir binding
+bidiredicional, unbinding e unbinding bidiredicional.
+===================================================================
+Exemplo completo:
+
+public class Main extends Application {
+
+    Stage window;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        window = primaryStage;
+        window.setTitle("thenewboston");
+
+        //Input and labels
+        TextField userInput = new TextField();
+        userInput.setMaxWidth(200);
+        Label firstLabel = new Label("Welcome to the site ");
+        Label secondLabel = new Label();
+
+        HBox bottomText = new HBox(firstLabel, secondLabel);
+        bottomText.setAlignment(Pos.CENTER);
+        VBox vBox = new VBox(10, userInput, bottomText);
+        vBox.setAlignment(Pos.CENTER);
+
+		//Adiciona o binding do componente TextField user input a o valor de uma Label exibida na tela,
+		//sempre que o valor do TextField muda o valor da Label tambem muda.
+        secondLabel.textProperty().bind(userInput.textProperty());
+
+        Scene scene = new Scene(vBox, 300, 200);
+        window.setScene(scene);
+        window.show();
+    }
+
+
+}
+
+
