@@ -1,0 +1,20 @@
+Definindo o controller de um FXML
+
+Existem duas maneiras de definir qual é
+o controller de um FXML:
+
+- Na tag root do FXML através do atributo fx:controller
+  que deve ter o valor no fully qualified name da classe
+  do controller.
+  
+- Na instancia do FXMLLoader caso o arquivo FXML seja carregado como
+  um FXMLLoader, através do método fxml.setController(Object controller);
+===========================================================
+ex:
+
+//FXML
+<GridPane fx:controller="controller.LoginController" ...>
+
+//Código
+FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("meuFXML.fxml"));
+fxmlLoader.setController(this);

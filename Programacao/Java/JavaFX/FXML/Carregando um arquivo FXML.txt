@@ -1,0 +1,30 @@
+Carregando um arquivo FXML
+
+Um arquivo FXML contém o conteúdo de uma Scene,
+a tag root de um arquivo FXML sempre* será uma
+subclasse de Pane ou seja um layout, o layout raiz da Scene.
+  
+A importação de um arquivo FXML é feita apartir da
+classe FXMLLoader, através do método estático FXMLLoader.load(URL)
+esta URL é a localização do arquivo FXML no classpath.
+
+* Existem casos aonde a tag root de um arquivo FXML
+  não é uma subclasse de Pane, neste caso, o arquivos FXML
+  é um "sub-arquivo" ou seja eles são importados em arquivos
+  FXML que realmente descrevem uma Scene inteira, para permitir
+  modularização.
+=========================================================
+ex:
+
+//Carregando um arquivo fxml dentro de um pacote do projeto
+//localização: /src/fxml/LoginScreen.fxml
+
+//Recupera a localização através do ClassLoader
+URL fxmlLocation = ClassLoader.getSystemClassLoader().getResource("fxml/LoginScreen.fxml");
+
+//Carrega o arquivo FXML para um objeto do tipo Pane
+//que é a root da Scene.
+Pane root = FXMLLoader.load(fxmlLocation);
+//Cria uma nova Scene com o conteudo do Pane e atribui ela ao Stage.
+primaryStage.setScene(new Scene(root, 235, 180));
+primaryStage.show();

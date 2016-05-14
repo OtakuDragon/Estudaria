@@ -1,0 +1,52 @@
+FXML Controllers
+
+Uma das principais razões para se usar
+FXML é separar o código da visão da logica
+do programa.
+
+O JavaFX implementa o modelo MVC aonde, o
+FXML representa a view, e cada FXML pode ser
+atribuido um(e apenas um).
+
+O controller que é uma classe(POJO), que relaciona
+o FXML(view) com a lógica do programa(model).
+=====================================================
+ex:
+
+//Controller
+public class LoginController implements Initializable{
+	@FXML
+	private TextField usuarioField;
+	@FXML
+	private PasswordField senhaField;
+	
+	private LoginService loginService;
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		loginService = new LoginService();
+	}
+	
+	public void logIn(){
+		LoginBean loginBean = new LoginBean(usuarioField.getText(), senhaField.getText());
+		System.out.println(loginService.logIn(loginBean));
+	}
+		
+}
+
+//FXML
+<GridPane fx:controller="controller.LoginController">
+   <columnConstraints>
+	...   
+   </columnConstraints>
+   <rowConstraints>
+	...   
+   </rowConstraints>
+   <children>
+      <Label text="Usuário:"/>
+      <Label text="Senha:" />
+      <TextField fx:id="usuarioField" />
+      <PasswordField fx:id="senhaField"/>
+      <Button onAction="#logIn" text="Entrar" />
+   </children>
+</GridPane>

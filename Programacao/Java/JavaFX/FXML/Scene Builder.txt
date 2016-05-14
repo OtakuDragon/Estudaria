@@ -1,0 +1,50 @@
+Scene Builder
+
+Scene Builder é uma ferramenta originalmente criada
+pela Oracle e agora suportada pela empresa Gluon para
+criar documentos FXML visualmente, através de drag
+and drop.
+
+Com o Scene Builder como o nome diz é possível criar
+uma o conteudo de uma Scene, posicionando os elementos
+configurando suas propriedades e conectando métodos do
+controler aos componentes.
+
+=============================================================
+Instalando o Scene Builder
+
+Como a oracle não está mais mantendo o projeto,
+é necessário ir para o site da Gluon para baixar
+o instalador e instalar ele em uma pasta como
+qualquer outro programa.
+
+http://gluonhq.com/open-source/scene-builder/
+
+==============================================================
+Utilizando o Scene Builder com o eclipse
+
+Com o plugin e(fx)clipse instalado, é possível
+dizer ao plugin aonde o executavel do Scene Builder
+está no menu:
+
+Preferences -> JavaFx
+
+Após essa configuração feita dentro de um projeto
+JavaFx é possível clicar com o botão direito em um
+arquivo FXML e abrir com o Scene Builder para edita-lo
+visualemente.
+===============================================================
+Atalhos importantes do Scene Builder
+
+Modify - Use Computed Sizes transforma o tamanho
+dos containers em tamanhos dinâmicos, que se adaptam,
+conforme os componentes contidos neles ou o tamanho
+da janela, por padrão os tamanhos dos containers são
+estaticos definidos em quantidade de pixels.
+
+Preview -> Show Preview In Window - Compila o fxml e
+mostra a Scene em uma janela real.
+
+View -> Show Sample Data - Preenche o componente com
+valores padrões(lorem ipsum) apenas para uma melhor visualização de
+componentes como TreeView ou TableView

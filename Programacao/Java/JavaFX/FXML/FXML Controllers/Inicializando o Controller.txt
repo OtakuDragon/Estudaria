@@ -1,0 +1,38 @@
+﻿Inicializando o Controller
+
+Muitas vezes é necessário inicializar
+o controller antes que a tela seja mostrada
+para o usuário.
+
+Para que isso seja possível o Controller deve implementar a
+interface Initializable, que possui um método:
+
+//Método de incialização que recebe a localização do FXML e
+//o ResourceBundle com o qual o FXML está sendo carregado.
+void initialize(URL location, ResourceBundle resources)
+
+Este método é chamado logo após o carregamento
+do FXML, o que significa que todos os elementos
+já foram carregados e os elementos que deviam ser
+injetados no controller já foram injetados.
+
+=============================================================
+ex:
+
+public class LoginController implements Initializable{
+	@FXML
+	private TextField usuarioField;
+	@FXML
+	private PasswordField senhaField;
+	
+	private LoginService loginService;
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		usuarioField.setPromptText("Nome do usuário");
+		loginService = new LoginService();
+	}
+...
+}
+	
+	

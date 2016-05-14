@@ -1,0 +1,20 @@
+Injetando componentes do FXML no Controller
+
+O objetivo do Controller é manipular os componentes
+da tela e ele consegue referencia para estes componentes
+através do id do componente(fx:id).
+
+Caso o Controller possua um atributo marcado com @FXML
+com o mesmo tipo de um componente e o nome do atributo
+seja o mesmo do id do componente no FXML, quando o arquivo
+de FXML é carregado a instancia do componente é injetada no
+controller.
+================================================================
+ex:
+
+//Componente no FXML
+<TextField fx:id="usuarioField">
+
+//Atributo no controller
+@FXML
+private TextField usuarioField;

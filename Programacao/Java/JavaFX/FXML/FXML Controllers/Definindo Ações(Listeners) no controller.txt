@@ -1,0 +1,31 @@
+Definindo Ações(Listeners) no controller
+
+Os componentes FXML possuem atributos onNomeDoEvento
+aos quais podem ser atribuidas ações.
+
+Uma das maneiras de se atribuir estas ações é atribuir
+um método do controller como o listener do evento, através
+da sintaxe:
+
+#nomeDoMetodo
+
+O método no controller deve retornar void e receber o tipo
+de evento como parametro ou nenhum parametro.
+============================================================
+ex:
+
+//FXML
+<Button onAction="#logIn" text="Entrar" />
+
+//Listener no controller
+public void logIn(ActionEvent e){
+	LoginBean loginBean = new LoginBean(usuarioField.getText(), senhaField.getText());
+	System.out.println(loginService.logIn(loginBean));
+}
+
+//Ou
+
+public void logIn(){
+	LoginBean loginBean = new LoginBean(usuarioField.getText(), senhaField.getText());
+	System.out.println(loginService.logIn(loginBean));
+}
