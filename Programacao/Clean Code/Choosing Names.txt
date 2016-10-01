@@ -1,6 +1,7 @@
 Choosing Names
 
 If you have to read the code or read a comment to
+understand a name, it has failed to express its intent
 
 Methods: Verbs
 Classes, Variables: Nouns
