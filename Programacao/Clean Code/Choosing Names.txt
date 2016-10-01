@@ -1,0 +1,21 @@
+Choosing Names
+
+If you have to read the code or read a comment to
+
+Methods: Verbs
+Classes, Variables: Nouns
+Boolean Variables: Predicates(is*)
+======================================================
+Name length relation
+
+Variables
+
+Short scope = Short name
+Long scope = Long name
+
+Classes, Methods
+
+Short scope = Long name
+Long scope = Short name(Quanto maior o escopo mais
+						prático o nome deve ser)
+
