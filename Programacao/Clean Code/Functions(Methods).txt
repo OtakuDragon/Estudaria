@@ -1,0 +1,75 @@
+Functions
+
+Functions should me small(ideally 4-ish lines long with one level of identation) and well named.
+
+Classes hide in long functions.
+
+Functions should do one thing and the only way you know that your
+function does one thing is when you can't extract any other functions from it:
+
+Extract until you drop!
+
+Braces are a sign that you probably could extract one more function.
+=========================================================================================
+Function Structure
+-----------------------------------------------------------------------------------------
+Arguments 
+
+Functions or constructors should have at maximum 3 arguments,
+to be easy to understand.
+
+Group sets of variables that correlate to each other into objects.
+
+In the case of constructors you could also use the Builder Pattern
+and set the parameters with setter methods.
+
+* Don't pass boolean as an argument, that's assuming that the function does two things.
+* Don't pass null as an argument, in that case the method also does two things one for null and one for not null.
+* No output parameters.
+-----------------------------------------------------------------------------------------
+Switch statements
+
+Switch statements are the antithesis of the dependency inversion principle
+they spread dependency on the source code, and should be avoided and replaced
+with polymorphism where the switch happens only once and hands out an interface
+that does what needs to be done.
+-----------------------------------------------------------------------------------------
+Command query separation
+
+A separação de métodos em dois tipos:
+
+* Command - Altera o estado do sistema e retorna void
+* Query - Consulta o estado do sistema e o retorna, nunca altera o estado do sistema.
+
+Essa separação é útil para melhorar o entendimento de 
+side-effects(alterações no estado do sistema), se espera
+que um método do tipo commando altere o estado do sistema
+e que uma query não altere.
+----------------------------------------------------------------------------------------
+Tell! Don't Ask
+
+Métodos de query podem sair do controle, métodos devem
+seguir a lei de demeter e mandar outros objetos executar ações(ommands)
+e não perguntar a eles o valor de suas váriaveis para executar
+ações por eles.
+-----------------------------------------------------------------------------------------
+Temporal Coupling
+
+Métodos que devem ser chamados em uma ordem
+especifica ou não funcionarão.
+
+Pode ser resolvido criando tornando estes métodos
+privados e criando um novo método publico que chama 
+os métodos na ordem esperada, com os parametros para que a ação seja executada.
+
+---------------------------------------------------------------------------------------
+Error Handling
+
+Error Handling is one thing.
+
+It must be thought through before the implementation.
+
+Exceptions should always be not checked because checked exceptions
+break the dependency inversion principle.
+
+Exceptions should be scoped within the class that throws them.

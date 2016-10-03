@@ -1,0 +1,11 @@
+Characterization Test(Testing when you don't have tests YET)
+
+1. Execute the module and persist the output someway, maybe in a file.
+2. Create a test that compares this output you saved to another output.
+3. As you refactor keep running this test to make sure that the output
+   you are getting is still the same.
+
+This kind of testing is not safe, you could still introduce bugs and have
+the output be the same, it's just something quick you can do to try to protect
+yourself from breaking a module that doesn't have unit tests and you need to refactor
+and add the unit tests.

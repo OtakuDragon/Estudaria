@@ -1,0 +1,7 @@
+Comments
+
+Comments are failures to express intent through code, they should be rare and
+have important information.
+
+The only exception is when you are building a public API that is going to be shipped
+to anyone in that case you will need to document it, by commenting all the public methods.

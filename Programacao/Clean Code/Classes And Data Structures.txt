@@ -1,0 +1,13 @@
+Classes And Data Structures
+
+The OO world is divided in to kinds of components:
+
+Classes: Offer behavior and not state(tell don't ask)
+	 has public methods and private attributes(no getters and setters),
+	 is polymorphic wich means it's easy to add new types and difficult
+	 to add behavior or change signatures.
+
+
+Data Structures: Offer state and not behavior has very few non-cohesive methods and
+		 public attributes(or getters and setters), is structured and may contain
+		 switches, it's hard to add new types but easy to add behavior.

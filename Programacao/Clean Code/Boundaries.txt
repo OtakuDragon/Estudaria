@@ -1,0 +1,25 @@
+Boundaries
+
+Aplicações possuem boundaries com frameworks e APIs como dois
+exemplos comuns podemos citar bancos de dados e views, classes
+que lidam diretamente com esses frameworks são concretamente relacionadas
+a eles.
+
+A aplicação deve se comunicar apenas com interfaces que essas classes
+concretas implementam para manter a independencia e a abstração(dependency inversion).
+
+A boundary deve depender da aplicação a aplicação nunca deve depender da
+boundary.
+========================================================================================
+ORM Boundary
+
+No caso especifico das ORM as entidades são Data Structures classes que
+representam dados e não possuem comportamento.
+
+A aplicação deve lidar com bussiness objects que são Classes com comportamento
+e que não oferecem os seus dados(getters e setters, tell don't ask).
+
+A camada que lida diretamente com o ORM deve converter essas entidades nos bussiness
+objects de forma transparente para a aplicação.
+
+

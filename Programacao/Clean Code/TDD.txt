@@ -1,0 +1,41 @@
+TDD
+
+The Three Laws
+
+1. Write NO production code except to pass a failing test.
+2. Write only ENOUGH  of a test to demonstrate a failure(not compiling is a failure).
+3. Write only ENOUGH production code do pass the test.
+
+==========================================================================================
+Vantagens
+
+1. Less Debugging(Much Less!)
+2. Tests become the systems low level and reliable documentation
+3. Decoupling, you can't test coupled things,
+   by writing tests first you design your implementation
+   in a decoupled way.
+4. No fear of cleaning the code.
+
+=========================================================================================
+Tips
+
+1. Write the simplest test you possibly can first then move on to
+   more complicated cases
+2. Start by writing tests just to write the code you need to write
+   and then later remove them if they don't apply anymore.
+3. Don't write test that you know are going to pass.
+
+=========================================================================================
+Testing Databases
+
+The application use of the database should be mocked to test only the
+application.
+
+The actual queries and schema of the database should be tested separately with
+an embedded testing instance of the database.
+
+==========================================================================================
+Testing UI
+
+You don't test the UI you test the code that makes the UI 
+work.
