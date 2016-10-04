@@ -1,0 +1,33 @@
+Architecture
+
+Architecture is not a set of tools and frameworks used to build a system
+these are just tools, a good Architecture focus on the application use cases
+as the core of the design and alows you to deffer as many choices to use tools,
+frameworks, databases as possible, and if necessary use them as plug-ins that depend
+only on the aplication.
+
+How?
+
+focus on the use cases, any tool should be a plugin to them and depend on them
+decouple tools from the use cases.  
+
+Usecases should describe behavior input and output independent of delivery  mechanism
+
+=======================================================================================
+Use Case Driven Architecture
+
+Entities - Bussiness objects, have application independent business rules(common to all applications that use it)
+
+Interactors - Use case objects, have application specific business rules,
+	      implement use cases, and manage data acess trhough abstract interfaces to data sources(IF NECESSARY).
+
+Boundaries - User interface objects, interfaces implementadas pelos interactors para oferecerem dados
+	     para os delivery mechanisms
+
+INPUT
+
+Delivery Mechanism -> Boundary -> Interactors -> Entities
+
+OUTPUT
+
+Delivery Mechanism <- Boundary <- Interactors <- Entities
