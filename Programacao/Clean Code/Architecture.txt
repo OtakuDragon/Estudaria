@@ -8,10 +8,16 @@ only on the aplication.
 
 How?
 
-focus on the use cases, any tool should be a plugin to them and depend on them
+Focus on the use cases, any tool should be a plugin to them and depend on them
 decouple tools from the use cases.  
 
+dependency on frameworks, databases and UI, the application depends on abstractions that
+those PLUG-INS implement.
+
+
 Usecases should describe behavior input and output independent of delivery  mechanism
+
+
 
 =======================================================================================
 Use Case Driven Architecture
