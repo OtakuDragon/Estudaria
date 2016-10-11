@@ -1,0 +1,4 @@
+Value of Software
+
+Primary value: Flexibility of the system, how easy it is to change and add functionality
+Secondary value: Attend the current needs of the users

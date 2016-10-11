@@ -1,0 +1,18 @@
+Open Closed Principle
+
+Open for extension closed for modification
+
+Adding new functionality shoud result in adding new coode
+not in changing old code.
+
+Basicaly depending on abstractions and adding new implementations
+to those abstractions.
+
+You can only abstratc things you know about, if a change is
+required and is not part of the abstractions you will have to
+change old code and change the abstractions.
+
+Abstractions should be built iteratively, according to what
+changes are requested by the clients, when you get a change
+you plan to protect yourself from that change the next time
+it happens with good abstractions.

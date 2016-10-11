@@ -1,0 +1,9 @@
+Single Resposability Principle
+
+Responsability = reason to change.
+
+Keep things that change for the same reasons together and separate
+things that change for different reasons.
+
+Methods, classes, packages, components should have only one responsability
+each for it's own scope.

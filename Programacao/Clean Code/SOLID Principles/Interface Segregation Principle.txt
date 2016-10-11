@@ -1,0 +1,11 @@
+Interface Segregation Principle
+
+* Don't depend on what you don't need;
+* Don't give more knowledge to your object than
+  what it needs;
+* Don't inherit methods/attributes you aren't going to use;
+
+Breaking this principle couples your code to
+code you don't need and might change and that
+change will cause you to recompile.
+

@@ -1,0 +1,15 @@
+Main and App Partitions
+
+Every application should be divided in two partions:
+
+* App: Where the use cases and the bussiness rules 
+       are implemented, depending on abstractions for boundaries.
+
+* Main: Where the implementations of the abstractions used
+	in the app are, also the factories, switches anything
+	that depends directly on implementations.
+
+ALL the dependencies should flow in a single direction in
+the boundary between App and Main, they should go from Main
+to App, App never depends on Main only on abstractions that
+main implements(DIP).

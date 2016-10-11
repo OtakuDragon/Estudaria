@@ -1,0 +1,22 @@
+Liskov Substitution Principle
+
+A subtype should always be able to fully replace
+it's parent type's behaviour, with no side effects
+or unexpected behaviour.
+
+This is a consistency principle things should do what
+you expect them to do, or it becomes really hard to 
+figure out where a behaviour is coming from and why.
+
+========================================================
+Indications that a subtype breaks the
+Liskov Substitution Principle
+
+* Empty implementations of methods.
+
+* Implementations of methods that only
+  throw an exception.
+
+* Typecases(if else instanceof)
+
+

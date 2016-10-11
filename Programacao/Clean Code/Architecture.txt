@@ -11,6 +11,7 @@ How?
 Focus on the use cases, any tool should be a plugin to them and depend on them
 decouple tools from the use cases.  
 
+Other way to look at it is that a pure application architecture never has any source code
 dependency on frameworks, databases and UI, the application depends on abstractions that
 those PLUG-INS implement.
 
