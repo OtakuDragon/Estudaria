@@ -1,0 +1,25 @@
+Dependency Inversion Principle
+
+"Low level policies should depend on high level policies
+and not the other way around."
+
+Low level implementation details should be treated as plugins.
+
+Example of things that should be treated
+as plugins:
+
+* Frameworks
+* Database
+* UI
+* Main partition
+* Basicaly anything that isn't the implementation
+  of the use cases of the application.
+
+This inversion of dependency is applied by identifying
+boundaries to a plugin, and turning all the source code
+dependencies on that plugin into interfaces that the plugin
+implements, that way both the application and the plugin 
+depend on the interface.
+
+Applying this principle cause applications to be decoupled
+from frameworks, independently developable and deployable.
