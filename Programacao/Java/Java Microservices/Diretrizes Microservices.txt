@@ -1,0 +1,57 @@
+Diretrizes Microservices
+-------------------------------------------
+Principios de um microservice
+
+O microservice deve ser o unico responsavel por manipular
+os dados do dominio que o pertence, estruturas de dados não
+devem ser compartilhadas entre microservices.
+
+-------------------------------------------
+Como Decompor um sistema em microservices
+
+Analise a descrição do que o sistema faz,
+quais problemas de negócio ele atende e fique
+atento aos seguintes pontos:
+
+1. Substantivos utilizados, cada um deles ou um
+   grupo deles pode vir a ser um microservice.
+
+2. Verbos utilizados, pois eles representam
+   interações entre serviços ou entre o usuário
+   e os serviços.
+   
+3. Procure por coesão de dados, se em algum microservice
+   planejado exista alguma entidade de negócio que é muito
+   diferente das demais talvez ela seja um microservice separado.
+   
+---------------------------------------------
+Como definir uma boa granularidade para uma arquitetura
+de microservices
+
+1. É melhor começar a arquitetura com poucos serviços
+   e uma granularidade pequena e refatora-la para serviços
+   menores com o tempo.
+   
+2. Tenha foco em como os serviços vão interagir entre si,
+   defina as principais interfaces de interação entre eles,
+   de uma forma logica, não crie micro serviços só por criar.
+   
+3. As responsabilidades dos serviços vão crescer com o tempo
+   e o seu conhecimento do negocio vai aumentar, portanto evoluir
+   para uma menor granularidade no futuro é melhor do que começar
+   com muitos microserviços
+------------------------------------------------
+Como identificar problemas na granularidade de microservices
+
+1. Microservices podem ser muito pequenos quando controlam apenas
+   uma estrutura de dados e servem apenas como um CRUD basico, um 
+   microservice deve ser uma expressão de regra de negócio e não
+   uma abstração de CRUD.
+   
+2. Microservices podem ser muito grandes quando controlam mais do que 
+   cinco estruturas de dados, possuem uma quantidade enorme de casos de teste
+   unitário, ou em resumo tem muitas responsabilidades(Single responsability principle)
+
+   
+ 
+   
