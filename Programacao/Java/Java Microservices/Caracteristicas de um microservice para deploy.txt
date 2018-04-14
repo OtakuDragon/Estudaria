@@ -1,0 +1,9 @@
+Caracteristicas de um microservice para deploy
+
+- Self-contained and independently deployable
+- Configuravel por variaveis de ambiente, parametros de 
+  linha de comando ou configuration repository, sem intervenção humana.
+- Localização transparente aos clientes, localizavel através
+  de um service discovery(Eureka), nada de ips fixos.
+- Deve comunicar sua saude(health) de tempos em tempos ao
+  service discovery

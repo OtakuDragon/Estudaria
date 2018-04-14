@@ -1,11 +1,49 @@
 Diretrizes Microservices
 -------------------------------------------
+Quando NÃO usar microservices
+
+A arquitetura de microservices é uma arquitetura distribuida
+indicada para aplicações que precisam ser muito resilientes(não cair) e escalaveis,
+e incorre em um grande custo operacional para gerenciamento
+(controle, monitoração e automação) de dezenas ou centenas de servidores
+de aplicação diferentes.
+
+Portanto, aplicações pequenas ou com poucos usuários,
+que não precisam ter uma disponibilidade extremamente alta
+não são indicadas para essa arquitetura já que os custos 
+operacionais serão altos demais para mante-la comparada
+a opção monolitica(PS: da pra ter uma aplicação monolitica 
+modularizada apenas dentro de um mesmo pacote mas com módulos
+bem definidos ou seja não distribuida).
+
+Outro exemplo de aplicação que não se encaixa em uma arquitetura
+distribuida de microservices são aplicações aonde o contexto transacional,
+a consistencia dos dados e a performance são centrais ao negócio,
+não existe um padrão tranacional para microservices, ele deve ser implementado
+para cada aplicação o que dependendo da tolerância à inconsistencia pode se
+tornar muito caro, em tempo de desenvolvimento e performance para valer a pena.
+
+O ultimo exemplo de aplicação aonde microservices não se encaixa
+é uma aplicação que faz consultas de agregação complexas entre multiplas
+estruturas de dados o que vai trazer problemas de complexidade na
+comunicação entre microservices por sua natureza distribuida o que
+causará dificuldade no desenvolvimento e problemas de performance.
+
+-------------------------------------------
 Principios de um microservice
+
+Um microservice deve ser completamente independentes
+evite construir frameworks de microservices porque isso
+pode ter um grande impacto nos custo de manutenção do sistema
 
 O microservice deve ser o unico responsavel por manipular
 os dados do dominio que o pertence, estruturas de dados não
 devem ser compartilhadas entre microservices.
 
+A interface de um microservice deve ser simples e intuitiva
+para isso utilizar os padrão REST para definição de endpoints
+definindo endpoints intuitivos e dentro do padrão HTTP e utilizar
+JSON como protocolo.
 -------------------------------------------
 Como Decompor um sistema em microservices
 

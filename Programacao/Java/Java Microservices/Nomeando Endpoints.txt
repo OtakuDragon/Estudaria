@@ -1,0 +1,17 @@
+Nomeando Endpoints
+
+Seja consistente, use os padrões rest de
+resources e subresources.
+
+ex:
+
+.../resources/subresources
+
+Defina um prefixo de versionamento é uma boa
+pratica prefixar todos os endpoints com uma versão
+caso deva haver uma mudança drastica nas interfaces
+da API.
+
+Caso um recurso tenha muitos subrecursos que tem
+muitos subrecursos talvez seu microservice tem muitas
+responsabilidades e está na hora de quebrar ele em outros.

@@ -1,0 +1,7 @@
+Opções de protocolo
+
+XML e SOAP: verbose.
+JSON: Bom por simplicidade, facil leitura e integração
+      com o MEAN stack(Mongo, ExpressJS, AngularJS, NodeJS)
+Apacha Avro: Para alta performance, dados serializados de forma
+             binaria para comunicação entre cliente e servidor.
