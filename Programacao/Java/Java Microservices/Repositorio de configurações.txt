@@ -1,0 +1,20 @@
+Repositorio de configurações
+
+Configurações de microservices devem ser variaveis de ambiente,
+parametros de linha de comando na inicialização ou devem ser carregadas
+de um repositório de configurações separado, não devem ficar juntas
+ao código e devem ter as alterações controladas por git.
+
+Existem algumas opções de ferrametnas para implementar um  
+repositório de configurações:
+
+- Etcd
+- Eureka
+- Consul
+- Spring Cloud Configuration
+
+Spring cloud configuration é o melhor para spring boot porque
+ele se integra facilmente aos serviços spring, é o unico que
+tem suporte nativo ao Git e suporta Eureka e Consul como seu back end.
+
+----------------------------------------------------------------------
