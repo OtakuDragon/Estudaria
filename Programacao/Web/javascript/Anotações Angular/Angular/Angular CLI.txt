@@ -1,0 +1,24 @@
+Angular CLI
+
+Gerar novo projeto comando: ng new nomeProjeto
+cria um novo projeto angular na pasta em que o comando é rodado
+
+Executar projeto, na pasta do projeto executar o comando: ng serve
+
+======================================================
+Criar um componente no projeto automaticamente
+
+Dentro da pasta do projeto executar o comando:
+
+ng generate component nomeDoComponente
+
+ou
+
+ng g c nomeDoComponente
+
+o angular cli cria o compoente seguindo todos os padrões de nomenclatura do angular.
+
+Criar um subcomponente
+
+ng g c componentePai/nomeDoComponente
+

@@ -1,0 +1,23 @@
+Build
+
+O build de uma aplicação angular é feito atraves do comando:
+
+ng build
+
+do Angular CLI, esse comando pode receber o parametro do tipo
+de build, por padrão é --dev, mas pode ser passado --prod, uma versão
+de dev gera códigos indentados e faceis de debugar e a versão de produção
+gera códigos minificados e ofuscados dificeis de debugar.
+
+A build seja ela prod ou dev é gerada no diretorio dist dentro da pasta
+do projeto.
+
+Ex:
+
+ng build --prod
+
+===========================================
+Deploy
+
+Basta pegar a pasta gerada dentro do diretorio dist
+e colocar em um servidor http no diretório de publicação.

@@ -1,0 +1,9 @@
+Modificadores de visibilidade
+
+O compilador typescript suporta modificadores de visibilidade de
+métodos e atributos apesar de o javascript ES 6 não possuir essa
+funcionalidade, os modificadores de visibilidade suportados são
+public, private e protected. 
+
+Quando o modificador é omitido o typescript assume o modificador
+public.

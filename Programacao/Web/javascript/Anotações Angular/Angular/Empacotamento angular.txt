@@ -1,0 +1,10 @@
+Empacotamento Angular
+
+O angular empacota uma aplicação em 5 bundles
+atraves da ferramenta web pack, eles são:
+
+- polyfills.bundle - Contém ferramentas para utilizar recursos novos em browsers antigos
+- main.bundle - Contém a aplicação angular em si
+- styles.bundle - Contém os CSSs da aplicação
+- vendor.bundle - Contém as bibliotecas angular
+- inline.bundle - Contém bibliotecas para o bootstrap, inicialização da aplicação.

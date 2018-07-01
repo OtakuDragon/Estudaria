@@ -1,0 +1,9 @@
+Generics
+
+Operador <> como no java
+==================================
+Ex:
+
+export class Dao<T> implements DaoInterface<T>{...}
+let dao: Dao<Concessionaria> = new Dao<Concessionaria>();
+dao.inserir(concessionaria)

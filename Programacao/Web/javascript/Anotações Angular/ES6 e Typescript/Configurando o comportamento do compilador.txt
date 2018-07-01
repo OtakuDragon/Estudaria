@@ -1,0 +1,10 @@
+Configurando o comportamento do compilador
+
+Executar o comando tsc -init em uma pasta gera o arquivo tsconfig.json
+com todas as configurações possiveis do compilador typescript escritas
+e a maioria comentada e explicada no arquivo.
+===========================
+Watchmode
+
+O comando tsc -w inicia o watch mode que fica olhando por alterações em arquivos typescript
+para recompila-los automaticamente.

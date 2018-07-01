@@ -1,0 +1,61 @@
+Comunicação entre componentes
+
+Existem duas formas de transmitir dados entre componentes angular,
+de pai pra filho(input) ou de filho pra pai(output), sendo pai e filho uma tag
+dentro de outra.
+=================== ============================
+Comunicação entre componentes pai e filho(@Input())
+
+É possivel associar o valor de um atributo de um componente pai 
+a um componente filho da seguinte forma:
+
+1. No componente filho anotar o atributo com @Input()
+2. Na declaração do componente filho no html do componente pai fazer uma property binding com o seguinte formato: [nomeDoAtributoNoFilho]="nomeDoAtributoNoPai"
+3. Se os nomes dos atributos não forem iguais a tag @Input deve receber como parametro o nomeDoAtributoNoFilho para que o angular consiga fazer a ligação
+4. Pronto, com os atributos ligados, toda vez que o valor do atributo for mudado no pai, a mudança será transmitida para o atributo no filho.
+---------------------------------------------------------------------------------------------
+Ex:
+
+//Na classe do componente filho
+  @Input("progressoFilho")//Se os nomes dos atributos forem iguais não é necessário parametro
+  public progressoFilho: number = 0
+
+//No html do componente pai
+<div class="col-sm-6">
+      <app-progresso [progressoFilho]="progresso"></app-progresso>
+ </div>
+
+Todas as vezes que o valor de um atributo @Input muda no componente pai
+o angular chama o método de ciclo de vida ngOnChanges() nos filhos caso eles implementem
+a interface OnChanges
+===============================================
+Comunicação entre componentes filho e pai(@Output())
+
+Com um atributo do tipo EventEmitter na classe do componente filho declarado
+e anotado com @Output é possivel que um componente filho chame um método 
+no componente pai.
+
+Basta declarar um método no componente pai com o mesmo nome
+do atributo event emitter e que receba um parametro do tipo generico
+do event emitter e que seja feito o seguinte event binding no html do componente
+pai na tag do componente filho
+
+HTML
+<app-painel (encerrarJogo)="encerrarJogo($event)"></app-painel>
+
+Classe Filho
+@Output()
+ public encerrarJogo: EventEmitter<string> = new EventEmitter<string>()
+...
+...
+ this.encerrarJogo.emit("Vitoria")
+
+Classe Pai
+
+  public encerrarJogo(tipo: string): void{
+    console.log(tipo)
+  }
+
+Com a configuração acima todas as vezes que o filho chamar emit(string) no emitter
+o método do componente pai é chamado com o parametro passado.
+

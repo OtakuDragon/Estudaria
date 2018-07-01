@@ -1,0 +1,58 @@
+Fluxo Bootstrap angular
+
+Por padrão conforme configurado no arquivo angular-cli.json
+o angular irá procurar o arquivo main.ts para fazer o bootstrap
+da aplicação por padrão ele contem a seguinte linha:
+
+platformBrowserDynamic().bootstrapModule(AppModule)
+
+Indicando por qual módulo iniciar o sistema, um módulo é uma classe
+typescript com a anotação @NgModule que representa um conjunto de
+componentes, conforme abaixo:
+
+@NgModule({
+  declarations: [ // componentes
+    AppComponent
+  ],
+  imports: [
+    BrowserModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent] //Componente para bootstrap 
+})
+export class AppModule { }
+
+Um componente é uma classe typescript com a anotação @Component
+conforme abaixo:
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent { //serve como o managed bean
+  title = 'app';
+}
+
+Nele é possivel indicar aonde fica o html e os estilos do componente assim
+como um seletor que é a tag na pagina de index.html na qual será inserida o 
+componente, a pagina index.html é a tela de bootstrap padrão e tem o seguinte conteudo:
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>App1</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>
+
+
+Aonde app-root será substituido pelo conteudo app.component.html para este componente
+

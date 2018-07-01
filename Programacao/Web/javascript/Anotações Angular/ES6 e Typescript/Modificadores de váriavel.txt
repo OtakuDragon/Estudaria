@@ -1,0 +1,17 @@
+Modificadores de variavel
+
+var - padrão
+let - assume o contexto de aonde está inserida, bloco, global ou function
+const - assume o contexto de aonde está inserida, bloco, global ou function e é read only,
+	       funciona como final no java.
+
+O modificador let foi criado porque na situação abaixo:
+
+if(true){
+   var serie = 'Game Of Thrones'
+}
+console.log(serie)
+
+O modificador var promove a variavel serie para uma variável global por causa de sua
+utilização fora do bloco, se o modificador da variavel for alterado de var para let
+o código não compilaria, a variavel serie não existiria no contexto global.

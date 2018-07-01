@@ -1,0 +1,192 @@
+Rotas Angular(Navegação)
+
+Rotas no angular são o recurso que permite a navegação entre
+componentes na aplicação, elas funcionam como um mapeamento
+entre o caminho da url da aplicação e um componente.
+
+========================================================
+Configurar rotas
+
+Para configurar rotas em uma aplicação Angular é preciso:
+
+1. Criar as rotas em uma classe ou módulo como um objeto do tipo 
+     Routes que é um array de Route que tem como principais atributos
+     o path que é o caminho da url e o componente associado aquele caminho.
+
+export const ROUTES: Routes = [
+                                {path: '', component: HomeComponent},
+                                {path: 'restaurantes', component: RestaurantesComponent},
+                                {path: 'diversao', component: DiversaoComponent}
+                            ];
+
+2. Importar o módulo RouterModule na anotação @NgModule
+    chamando o método forRoot que recebe um objeto Routes.
+
+@NgModule({
+  ...
+  imports: [
+    ...,
+    RouterModule.forRoot(ROUTES)
+  ],
+  ...
+})
+export class AppModule { }
+
+3. Definir em algum dos componentes da aplicação a diretiva de tag <router-outlet>
+     essa diretiva indica aonde o componente da caminho acessado na url deve ser renderizado
+    na tela.
+
+<pu-topo></pu-topo>
+<router-outlet></router-outlet><!-- O componente da rota acessada será exibido aqui -->
+<pu-rodape></pu-rodape>
+==========================================================
+Router Link
+
+routerLink é um atributo que pode ser inserido em uma tag de link(<a>) para
+indicar qual rota aquele link direciona com a seguinte sintaxe.
+
+<a routerLink="/caminhoDaRota"><a/>
+
+O valor "" para o atributo routerLink significa direcionar para a url base da aplicação
+
+Ex:
+
+ <li class="nav-item">
+          <a class="nav-link active" routerLink="/restaurantes">Restaurantes</a><!-- direciona para a rota /restaurantes-->
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/diversao">Diversão</a>
+        </li>
+-----------------------------------------------------------------------------------------------------------------------
+Router Link Active
+
+O atributo routerLinkActive permite a definição de uma classe css especifica para
+o link cujo a rota esteja ativa no momento com o sintaxe
+
+<a routerLink="/caminhoDaRota" routerLinkActive="classeCssDoLinkAtivo"><a/>
+
+Ex:
+
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/restaurantes">Restaurantes</a>
+        </li>
+===============================================================
+Rotas parametrizadas
+
+Na definição da rota é possivel definir parametros para a rota 
+cada um com um alias.
+
+Com a seguinte sintaxe:
+	  ...
+          {path: 'caminho/:param1/:param2/:param3/.../paramN', component: RestaurantesComponent},
+	 ...
+
+Nesse caso a rota só irá direcionar para o componente caso todos os parametros
+definidos.
+
+Ex:
+
+export const ROUTES: Routes = [
+                                {path: 'oferta/:id', component: OfertaComponent}
+                            ];
+
+O exemplo acima define a rota contexto/oferta/1 por exemplo aonde 1 é o parametro
+com alias id e valor 1.
+
+-------------------------------------------------------------------------------------------------------------------------------
+Referenciando rotas parametrizadas em botões e links
+
+Para passar parametros para o atributo routerLink é
+preciso usar a notação especial abaixo:
+
+[routerLink]="['rota', param1, param2, ...]"
+
+Ex:
+
+<!-- oferta é objeto atributo do componente -->
+<a [routerLink]="['/oferta', oferta.id]" class="btn btn-outline-primary">Ver oferta</a>
+-------------------------------------------------------------------------------------------------------------------------------
+Recuperando parametros de rotas na aplicação
+
+Existem duas estrategias para recuperação de parâmetros em rotas
+da aplicação snapshot e subscribe.
+
+Snapshot
+
+1.  Declarar no construtor o atributo ActivatedRoute que será injetado
+     pelo Angular na classe.
+2. Utilizar esse objeto injetado com a sintaxe activatedRoute.snapshot.params.alias
+
+Ex:
+
+export class OfertaComponent implements OnInit {
+
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    console.log(this.route.snapshot.params.id) //Recupera o parametro id da rota.
+  }
+
+}
+
+Subscribe
+
+Programação reativa
+
+1.  Declarar no construtor o atributo ActivatedRoute que será injetado
+     pelo Angular na classe.
+2. Registrar uma função de Callback para ser chamada sempre que a rota mudar
+     em activatedRoute.snapshot.params.subscribe(callback)
+
+Ex:
+
+export class OfertaComponent implements OnInit {
+
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    this.route.params.subscribe((parametro: any) => console.log(parametro))
+  }
+
+}
+
+}
+
+========================================================================
+Subrotas
+
+É possivel definir rotas filhas de uma rota para navegação dentro de um
+componente que possui componentes filhos.
+
+1. Na declaração da rota:
+
+{path: 'oferta/:id',
+                                 component: OfertaComponent,
+                                 children: [{path: '', component: ComoUsarComponent},
+                                            {path: 'como-usar', component: ComoUsarComponent},
+                                            {path: 'onde-fica', component: OndeFicaComponent}]
+                                }
+
+2. Definir um ponto <router-outlet></router-outlet> dentro do componente pai
+para renderização dos componentes das subrotas
+
+3. Em um router link, utilizar a referencia relativa sem / para o nome do componente
+
+<a class="nav-link" data-toggle="tab" routerLink="onde-fica" role="tab">Onde fica?</a>
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+Acessando parametros da rota pai
+
+Da mesma forma que em uma rota normal injetando no construtor
+um objeto ActivatedRoute mas acessando o atributo route.parent
+
+Ex:
+
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    this.route.parent.snapshot.params.id
+  }
+
+

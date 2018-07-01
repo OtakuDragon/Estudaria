@@ -1,0 +1,66 @@
+Services Angular
+
+Angular possui o conceito de service como uma classe que busca recursos
+e tem uma função bem definida.
+
+Uma classe de componente tem a função de definir a lógica de view e um service
+tem a função de buscar e transformar dados para as classes dos componentes.
+
+Existe também de em um service a possibilidade de injeção de outros services.
+
+======================================
+Padrão de nomenclatura
+ 
+nomeDoService.service.ts
+======================================
+Declaração de service
+
+Um service é uma classe typescript comum, sem necessidade
+de notações especiais.
+
+Ex:
+//ofertas.service.ts
+export class OfertasService{
+    public getOfertas(): Array<string>{
+        let ofertas = ['Oferta1', 'Oferta2', 'Oferta3']
+        return ofertas
+    }
+}
+======================================
+Injeção de service
+
+Um service pode ser injetado em outro service,
+em um componente ou em um módulo.
+
+Se ele for injetado em um componente ele estará 
+acessivel para todos os filhos do componente.
+
+Se ele for injetado em um modulo ele estará acessivel
+para todos os componentes do módulo.
+
+-----------------------------------------------------------------------------
+Injeção em componente
+
+A anotação @Component possui um atributo
+chamado providers, que recebe uma lista de tipos,
+esses tipos são os services do componente.
+
+Basta declarar o tipo do service no atributo providers
+e recebe-lo como um parametro de construtor, o Angular
+irá instanciar o service e passa-lo para o componente.
+
+Ex:
+
+@Component({
+  ...
+  providers: [OfertasService] //Providers
+})
+export class HomeComponent implements OnInit {
+
+  constructor(private ofertasService: OfertasService) { } //Parametro de construtor
+
+  ngOnInit() {
+    console.log(this.ofertasService.getOfertas())
+  }
+
+}

@@ -1,0 +1,37 @@
+Import e export de código
+
+No typescript e ES6 é possivel separar o código em vários arquivos e
+juntalos com as funcionalidades de import e export.
+
+export
+
+Em um arquivo fonte é possivel exportar classes, métodos, constantes,
+qualquer membro, basta utilizar a palavra export antes da declaração
+
+Ex:
+
+export const a = 'A'
+export class Teste{}
+
+export default
+
+Um arquivo fonte pode ter vários exports mas apenas um export default,
+um export default é importado de forma diferente de exports comuns
+
+import
+
+Em um arquivo que precisa de um membro declarado em outro arquivo
+é possivel importar o recurso seguindo a seguinte  sintaxe:
+
+import defaultExport { export1, export2, export3 } from "./caminhoDoArquivo ,js";
+============================================
+Ex:
+//em um arquivo
+export default class Carro{}
+//em outro arquivo
+import Carro from "./Carro"
+
+//em um arquivo
+export class Carro{}
+//em outro arquivo
+import {Carro} from "./Carro"

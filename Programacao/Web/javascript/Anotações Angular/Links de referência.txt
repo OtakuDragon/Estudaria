@@ -1,0 +1,21 @@
+Links de referência:
+
+Node JS:
+https://nodejs.org/en/
+
+NPM:
+https://www.npmjs.com/
+
+Angular CLI:
+https://cli.angular.io/
+https://github.com/angular/angular-cli/wiki
+
+Typescript:
+https://www.typescriptlang.org/
+
+Bootstrap:
+https://getbootstrap.com/docs/4.1/
+
+Programação Reativa
+https://www.reactivemanifesto.org/pt-BR
+http://reactivex.io/

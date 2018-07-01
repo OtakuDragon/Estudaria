@@ -1,0 +1,17 @@
+LifeCycle Hooks
+
+Listeners de ciclo de vida, são interfaces e métodos de componentes
+do angular chamados pelo angular em momentos do ciclo de vida dos
+componentes, para implementa-los basta implementar a interface,
+cada método possui uma interface.
+--------------------------------------------------------------
+Ex:
+
+ngOnInit //Executado  após a construção e injeção de propriedades do componente
+
+export class TentativasComponent implements OnInit {
+
+	  ngOnInit() {
+		alert("Listener de OnInit")
+	  }
+}

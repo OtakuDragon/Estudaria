@@ -1,0 +1,55 @@
+Diretivas estruturais
+
+Em Angular diretivas são todas as notações no template html que 
+afetam a apresentação da tela, como tags de componentes ou expressões
+de data binding.
+
+Um dos tipos de diretiva são as diretivas estruturais, que servem para
+geração dinamica do template.
+==============================
+Diretiva estrutural  ngFor
+
+A diretiva estrutural ngFor serve para realizar um loop em cima de um trecho
+do template para repiti-lo de forma dinamica, de acordo com um array.
+
+Possui a seguinte sintaxe:
+
+*ngFor="let variavelDeIteração of nomeAtributoArrayNaClasseDoComponente"
+------------------------------------------------------------
+Ex:
+
+<img *ngFor="let coracao of coracoes" [src]="coracao.exibeCoracao()"/>
+==============================
+Diretiva estrutural  ngIf
+
+A diretiva estrutural ngIf exibe o conteudo dentro da tag que ela foi inserida
+se o resultado da expressão for true, se for false ela não exibe e no caso de componentes
+no seu interior eles são destruidos(ngOnDestroy).
+
+Possui a seguinte sintaxe:
+
+*ngIf="expressão javascript que retorne boolean"
+
+
+------------------------------------------------------------
+Ex:
+
+<div *ngIf="isJogoEmAndamento">
+    <app-painel (encerrarJogo)="encerrarJogo($event)"></app-painel>
+</div>
+------------------------------------------------------------
+Else
+
+A diretiva ngIf também suporta um else que aponta para o nome de
+um template para que o seu conteudo se torne aquele template.
+
+Ex:
+
+<div *ngIf="isJogoEmAndamento; else fimDeJogo">
+    <app-painel (encerrarJogo)="encerrarJogo($event)"></app-painel>
+</div>
+<ng-template #fimDeJogo>
+    <div class="container" style="margin-top: 50px">
+	Fim de jogo
+    </div>
+</ng-template>

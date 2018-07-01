@@ -1,0 +1,6 @@
+Typescript
+
+Wrapper da linguagem javascript na versão ECMA Script 6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+com tipos estáticos e funcionalidades de orientação a objetos.
+É escrito em arquivos com a extensão .ts que quando compilados
+pela ferrameta typescript geram scripts .js na versão ECMA Script 5.

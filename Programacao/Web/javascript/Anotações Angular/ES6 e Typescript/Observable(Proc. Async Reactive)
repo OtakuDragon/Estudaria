@@ -1,0 +1,41 @@
+Observable
+
+Observable é uma funcionalidade de processamento assincrono assim
+como Promise mas implementado pela biblioteca rxjs para programação
+reativa e funciona da seguinte forma.
+
+Um observable é criado, a implementação de um Observable é um callback
+que recebe um Observer e o manipula com os métodos next(), error() ou complete()
+next() envia um novo evento aos observers que tem um tipo definido por generic
+error() envia um sinal de erro para os observers e interrompe o stream e complete()
+finaliza o stream com sucesso
+
+Um Observer por sua vez é cadastrado em uma instancia de Observable com o método
+observable.subscribe(callbackNext,callbackError,callbackComplete) que define 3 callbacks
+um para processar cada tipo de ação do Observable. 
+
+Ex:
+  //Observable
+   let meuObservable = Observable.create((observer: Observer<string>) => {
+      observer.next("evento1")
+      observer.next("evento2")
+      observer.error("erro")//A partir do momento que error é chamado não é possivel emitir outros eventos ele finaliza o stream.
+      observer.complete()//No caso esse complete não acontece para os observers porque o stream ja foi finalizado pelo erro
+    })
+   //Observer
+    let subscription: Subscription = meuObservable.subscribe((evento: string) =>{console.log(evento)},
+                           													      (erro:string)=> {console.log(erro)},
+                           													     ()=>{console.log("Stream finalizado")}
+=====================================================================================
+Unsubscribe
+
+Observables são streams que podem ou não ser inifinitos, uma subscription em
+um observable significa receber os eventos daquele observable enquanto ele existir.
+
+A chamada do método subscribe() retorna um objeto do tipo Subscription apartir
+dele é possivel chamar o método subscription.unsubscribe() para parar de escutar
+eventos do observable, é uma boa prática fazer isso para todos os observables em um
+componente no método ngOnDestroy(), para evitar memory leaks.
+
+Uma subscription é como um recurso aberto  que quando não for mais necessário
+deve ser fechado(unsubscribe()).

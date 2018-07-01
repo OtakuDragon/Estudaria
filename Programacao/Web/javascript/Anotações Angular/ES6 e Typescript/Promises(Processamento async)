@@ -1,0 +1,45 @@
+Promise
+
+Promises são a forma do javascript executar funções assincronamente de
+forma estruturada.
+
+Uma função assincrona deixa de retornar o seu tipo de retorno para retornar
+uma Promise<tipo de retorno>, a implementação de promise consiste em implementar
+dois métodos de callback resolve e reject.
+
+resolve é chamado na implementação quando a execução assincrona terminou com sucesso
+e reject quando terminou com falha, esses métodos recebem como parametro o tipo de retorno
+ou o contexto do erro respectivamente.
+
+Do lado de quem chama o método assincrono em um objeto promise o que esse objeto oferece é
+o método then() que recebe como parametro a função para tratar  o parametro de resolve
+caso resolve seja chamado. Caso reject seja chamado é preciso implementar a função como parametro
+do método catch() chamado após o then().
+
+Os métodos then() e catch() retornam um objeto promisse possibilitando o encadeamento de processamentos
+assincronos.
+=======================================================
+Ex implementação de método com retorno promise:
+
+public getOfertasAsync(): Promise<OfertaModel[]>{
+        return new Promise((resolve, reject) => {
+            let deu_certo: boolean = false
+            if(deu_certo){
+                resolve(this.ofertas) //Se deu certo chama o callback resolve com o tipo de retorno da promisse
+            }else{
+                reject({mensagem_erro:"Deu errado"})//Se não deu certo chama o callback reject com um objeto com o contexto do erro
+            }
+        })
+    }
+
+Ex chamando a função acima:
+
+  this.ofertasService.getOfertasAsync().then((ofertas: OfertaModel[]) => { //Função on resolve
+      this.ofertas = ofertas
+      console.log(this.ofertas)
+    }).catch(//Função on reject
+	( objetoErro: any) => {
+      console.log(objetoErro.mensagem_erro)
+    }
+)    
+  

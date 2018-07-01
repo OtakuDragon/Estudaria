@@ -1,0 +1,7 @@
+Herança
+
+Herança simples com a palavra extends como no Java
+
+Ex:
+
+export default class Moto extends Veiculo{}

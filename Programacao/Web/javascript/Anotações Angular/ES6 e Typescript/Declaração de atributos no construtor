@@ -1,0 +1,30 @@
+Declação de atributos no construtor
+
+É comum em linguagens de programação orientada a objeto declarar
+atributos em uma classe e então inicializa-los no construtor recebendo
+parametros.
+
+No typescript é possivel simplificar esta ação, declarando os atributos
+diretamente no construtor como abaixo, desta forma os atributos são criados
+na classe e os valores do construtor são atributos aos atributos.
+
+Também é possivel atribuir valores default aos atributos com esta sintaxe,
+nesse caso o atributo se torna opcional no construtor e caso não seja passado
+assumirá o valor padrão.
+
+export class Frase {
+    constructor(public fraseIng: string, public frasePt:string = "valor padrão"){
+    }
+}
+
+é equivalmente á:
+
+export class Frase {
+	public fraseIng: string
+	public frasePt:string
+
+    	constructor(fraseIng: string,  frasePt:string){
+		this.fraseIng = fraseIng
+		this.frasePt = frasePt
+    	}
+}

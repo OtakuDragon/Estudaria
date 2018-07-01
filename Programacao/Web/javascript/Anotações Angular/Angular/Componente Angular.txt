@@ -1,0 +1,35 @@
+Componente Angular
+
+Angular é um framework composto por componentes reutilizaveis, um componente
+na sua forma mais básica pode ser declarado como uma classe typescript com a 
+anotação @Component, nesta anotação também é possivel relacionar ao componente
+a sua view(página html) e os seus estilos CSS.
+
+Em um componente a classe typescript funciona como o controlador de regras de negócio
+da página.
+
+O componente deve obrigatóriamente possuir um template.
+
+Ex:
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'my-comp-tag', //nome da tag que representa o componente na tela 
+  templateUrl: './app.component.html', //Caminho para template html que representa a estrutura do componente
+  template: '<p>Meu template<p>' //Forma inline do template para telas simples é uma opção ao templateUrl que referencia um arquivo externo, com aspas simples ou duplas não pode quebrar linhas com crases(`) sim
+  styleUrls: ['./app.component.css'], //Caminho para scripts css de estilo do componente
+  styles: ['p{color:blue}'] //Mesma regra que o template para css inline ao invés de arquivo externo
+  
+})
+export class AppComponent {
+  title = 'app'; //código com as regras de negócio do componente
+}
+
+Regras de nomenclatura
+
+1. Classe do componente NomeComponente + Component
+2. Nome do arquivo da classe do componente nomeComponente.component.ts
+3. Nome do arquivo de template html do componente nomeComponent.component.html
+4. Todos os arquivos referentes a um componente deve ser colocados em uma pasta detro de
+     app com o nome do componente.

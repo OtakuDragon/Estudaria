@@ -1,0 +1,10 @@
+Estrutura do projeto angular
+
+	app
+		node_modules - Pasta com as dependências node do projeto
+		package.json - Arquivos descritor das dependências node do projeto, nele também é possivel configurar alias para comandos
+		tsconfig.json - Arquivo de configuração do compilador typescript
+		angular-cli.json - Parametrizações globais básicas do projeto(página inicial, script de bootstrap(main))
+		src - Pasta para o código de aplicação
+			assets - Pasta para recursos estaticos da aplicação como imagens, css, javascript
+			app - Diretorio dos componentes da aplicação

@@ -1,0 +1,18 @@
+Arrow Function
+
+Notação simplificada de função do javascript que permite a omissão de algumas
+partes da sintaxe de uma função o formato é
+
+function myFunction = (param1,param2,...,paramN) => {//corpo da função}
+
+No caso de apenas um parametro é possivel omitir os paranteses na declaração
+dos parametros, no caso de nenhum ou mais do que um não.
+
+No corpo da função caso ela possua apenas uma linha é possivel omitir as chaves.
+
+Caso seja uma função simples de apenas retorno de algum valor é possivel omitir a palavra return na função.
+===========================================
+ex:
+
+var dobroDoValor = numero => numero * 2
+console.log(dobroDoValor(7))

@@ -1,0 +1,8 @@
+Implementar interface
+
+Palavra chave implements como no Java
+==================================
+Ex:
+
+export default interface DaoInterface{}
+class ConcessionariaDao implements DaoInterface{...}

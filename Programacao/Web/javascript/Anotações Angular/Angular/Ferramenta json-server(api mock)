@@ -1,0 +1,19 @@
+Ferramenta json-server
+
+A ferramenta json-server serve para transformar um arquivo json em uma api
+rest rodando como um servidor http.
+
+===============================================
+Instalação
+
+sudo npm install -g json-server
+
+===============================================
+Startando o servidor
+
+1. Escrever um arquivo json com os dados que serão retornados
+    na API. 
+2. Executar o comando  json-server --watch arquivoDeDados.json
+
+A ferramenta json-server subirá um servidor http na porta 3000 oferecendo
+recursos de acordo com a estrutura do arquivo json.

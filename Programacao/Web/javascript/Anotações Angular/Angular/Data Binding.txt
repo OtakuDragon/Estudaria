@@ -1,0 +1,90 @@
+Data Binding
+
+É o processo de conectar o template(view html), aos dados contidos na classe de negócio do
+componente para permitir a manipulação da tela com o código typescript.
+
+Existem diversos tipo de Data Binding, são eles:
+
+String Interpolation:
+
+Permite que atributos da classe typescript ou expressões javascript sejam exibidas
+em qualquer lugar do componente com a sintaxe é {{ expressão ou nome do atributo }}
+--------------------------------------------------------------
+Ex:
+ //Classe
+class Teste {
+	public atributo = 'valor'
+}
+
+//Html
+<html>
+<p>{{atributo}}</p><!-- atributo -->
+<p>{{8*8+5}}</p><!-- expressão -->
+</html>
+===============================
+Property binding
+
+Permite marcar um atributo html para que o seu valor seja um atributo da classe typescript
+sintaxe: [atributoHtml] = "atributoClasse"
+--------------------------------------------------------------
+Ex:
+
+//Classe
+class Teste {
+	public atributo = 'valor'
+}
+
+//Html
+<html>
+<img [src]="atributo"><!--O valor do src da imagem será 'valor'-->
+</html>
+
+Atenção, é uma má prática utilizar String interpolation com Property Binding como [id]={{valorId}}
+é mais complexo do que o necessário.
+===============================
+Event binding
+
+É a forma de executar métodos da classe typescript do componente de acordo
+com ações do usuário na view do componente.
+
+Possui a seguinte sintaxe:
+
+(nomeEventoJavascript) = "nomeFuncaoASerExecutada()"
+
+o parametro $event
+
+ funções de event binding podem receber como parametro literais como strings
+ou numeros ou a palavra reservada $event que é um objeto que representa o evento 
+e possui todas as informações sobre o evento incluindo o target que é a tag html na
+qual o evento foi gerado, apartir disto é possivel extrair por exemplo o input de um usuário.
+
+--------------------------------------------------------------
+Ex:
+	HTML
+      <textarea class="form-control"
+                              rows=3
+                            (input)="atualizarResposta($event)"></textarea><!-- evento input que é disparado em cada key press, executa o método atualizarResposta na classe do componente -->
+
+	Classe
+	//Método que recebe o tipo Event, recupera o elemento target e faz o cast para um elemento de input para acessar o valor da tag no momento do evento.
+	 public atualizarResposta(event: Event): void {
+    		this.resposta = (<HTMLInputElement>event.target).value
+  	}
+-----------------------------------------------------------------
+Variavel de referencia no event binding
+
+É possivel usar event binding sem mandar como parametro o $event,
+é só colocar um atributo no elemento html com o nome no formato #nomeVariavelDeReferencia
+e então mandar como parametro nomeVaraivelReferencia.value
+
+	HTML
+      <textarea class="form-control"
+                              rows=3
+			     #varRefInput
+                            (input)="atualizarResposta(varRefInput.value)"></textarea>
+
+	Classe
+	
+	 public atualizarResposta(valor: string): void {
+    		this.resposta = valor
+  	}

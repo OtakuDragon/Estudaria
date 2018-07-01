@@ -1,0 +1,14 @@
+Injetando um serviço em outro
+
+Serviços angular podem receber outros serviços da mesma forma
+que um componente, o fluxo é o mesmo que a importação no componente,
+declara-lo como um atributo e recebe-lo no construtor, com uma diferença.
+
+A classe do serviço deve ser anotada com a anotação @Injectable
+===================================================
+Ex:
+
+@Injectable()
+export class OfertasService{
+    constructor(private carrinhoService: CarrinhoService){}
+}

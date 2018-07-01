@@ -1,0 +1,30 @@
+Inferencia de tipos
+
+É uma das principais funcionalidades do typescript que fixa o tipo de uma variavel
+no script, no javascript é possivel fazer o seguinte:
+
+var a = "texto"
+a =  50
+
+O tipo da variavel mudou em tempo de execução no typescript isso seria um erro
+de compilação pois o tipo inferido para a variavel a é string.
+
+No typescript também é possivel definir o tipo da variavel de forma explicita 
+com a segunte sintaxe:
+
+modificador(var,let,const) nomeVariavel : tipoVariavel
+
+exemplo:
+
+let meuArray : Array<number> = [1,2,3,4,5]
+
+também existe a inferencia de tipo para tipos de retorno de funções
+
+exemplo:
+
+    public velocidadeAtual(): number {
+        return this.velocidade
+    }
+
+O tipo de dado any é uma forma de ignorar a inferencia de tipo e criar
+variaveis no typescript sem validação de tipo.

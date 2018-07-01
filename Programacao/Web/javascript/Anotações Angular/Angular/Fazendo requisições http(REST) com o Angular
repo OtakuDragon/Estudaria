@@ -1,0 +1,34 @@
+Fazendo requisições http(REST) com o Angular
+
+1. Importar o módulo Http ao módulo que utilizará essa funcionalidade, incluindo
+    ao atributo imports da tag NgModule o valor HttpModule
+
+Ex:
+
+@NgModule({
+  ...,
+  imports: [
+   ...,
+    HttpModule
+  ],
+ ...
+})
+export class AppModule { }
+
+2. Injetar o serviço http dentro de um serviço ou um componente
+
+@Injectable()
+export class OfertasService{
+
+    constructor(private http: Http){}
+}
+
+3. Utilizar o serviço Http injetado para realizar requisições
+
+    public getOfertasApi(): Promise<OfertaModel[]>{
+        return this.http.get('http://localhost:3000/ofertas?destaque=true')
+                        .toPromise() //Promise de Response da resposta http
+                        .then((resposta: Response) => resposta.json())
+    }
+
+Por padrão requisições retornam objetos Observable.
