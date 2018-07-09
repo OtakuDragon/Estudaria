@@ -29,4 +29,61 @@ Ex:
 <div class="row">
   <h4>{{dataTeste | date: 'dd/MM/yyyy'}}</h4>
  </div>
+==============================================================
+Criando um novo pipe
 
+1. Declarar uma nova classe que implementa a interface PipeTransform e
+tem a anotação @Pipe com um name definido para o nome que será utilizado
+para fazer referencia aos pipes nas telas.
+
+A interface PipeTransform obriga a implementação do método transform()
+que recebe o dado para transformar e retorna ele, o dado pode ser de qualquer
+tipo mas geralmente é string
+
+O primeiro parametro que o método transform() recebe é o dado a transformar
+os outros parametros são os parametros passados para o pipe na tela.
+
+Ex:
+
+@Pipe({name: "descricaoReduzida"})
+export class DescricaoReduzida implements PipeTransform{
+    public transform(descricao: string, param: number): string{
+        if(descricao.length > 15){
+            descricao = descricao.substr(0, 15) + "..."
+        }
+        console.log(param)
+        return descricao
+    }
+}
+
+2. Declarar a classe do pipe no módulo na anotação @NgModule
+na seção declarations.
+
+Ex:
+
+
+@NgModule({
+  declarations: [
+	...
+    DescricaoReduzida
+ 
+  ],
+...
+})
+
+3. Utilizar o pipe em telas como qualquer outro pipe
+
+<div>
+<!-- Sintaxe {{conteudo | nomeDoPipe:param1:param2:...}}-->
+  {{texto | descricaoReduzida: 123456}}
+</div>
+
+========================================================
+Pipe async
+
+O pipe async serve para resolver observables em seus valores
+resolvidos na tela para que não seja necessário fazer subscribe
+e atribuir a um atributo da classe o atributo async transforma o
+observable no retorno dele para utilização na tela.
+
+ngFor="item in observableQueSeResolveEmUmArray | async"
