@@ -1,0 +1,32 @@
+Pipes(Formatação de dados)
+
+Pipes são uma funcionalidade utilizada junto a string interpolation
+para a transformação e formatação de dados na tela, existem varios
+pipes pré definidos para formatações comuns e também é possivel
+definir pipes customizados.
+-----------------------------------------------------------------------------------------------------------------------
+Ex:
+
+{{ atributo | uppercase }} // Exibe o valor do atributo como uppercase através do filtro uppercase.
+==============================================================
+Passando parametros para pipe
+
+Pipes podem receber nenhum, um ou muitos parametros dependendo
+da sua implementação, a sintaxe para a passagem de parametros é:
+
+{{atributo | pipe:param1:param2:param3:...:paramN}}
+==============================================================
+Pipe date
+
+Pipe para formatação de datas recebe um parametro que  é o
+formato da data definido na documentação:
+
+https://angular.io/api/common/DatePipe
+
+------------------------------------------------------------------------------------------------------------------------------
+Ex:
+
+<div class="row">
+  <h4>{{dataTeste | date: 'dd/MM/yyyy'}}</h4>
+ </div>
+
