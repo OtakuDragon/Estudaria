@@ -1,0 +1,71 @@
+Formulários
+
+Estrategia template forms
+
+1. Importar o módulo FormsModule ao módulo da aplicação
+
+@NgModule({
+...
+  imports: [
+    ...
+    FormsModule
+  ],
+...
+})
+export class AppModule { }
+
+2. Incluir uma variavel de template a um formulário qualquer na aplicação com qualquer nome
+    e atribuir o valor ngForm.
+
+    <form #formulario="ngForm"><!--O nome formulario poderia ser outro qualquer-->
+    ...
+   </form>
+
+ Isso cria um objeto que representa o dom do formulário com o nome formulario como referencia.
+
+3. Em cada input do formulário que deve ser tratado pelo angular incluir:
+	3.1 A diretiva ngModel
+        3.2 O atributo name com o valor de referencia para o campo dentro do objeto do formulario
+
+Ex:
+
+          <input type="text"
+                 class="form-control is-invalid"
+                 placeholder="Endereço"
+                 autocomplete="off"
+                 minlength="5"
+                 required
+                 name="endereco"
+                 ngModel>
+
+A partir desse ponto é possivel recuperar os valores dos campos do formulário na tela da seguinte forma
+{{formulario.value.endereco}} dados os nomes variaveis definidos nos exemplos.
+
+4. Para enviar os dados para o servidor é preciso:
+	4.1 Declarar um botão do tipo submit no formulário
+		Ex:
+                <button type="submit" class="btn btn-primary btn-lg">Cofirmar compra</button>
+	4.2 Declarar um event binding para o evento ngSubmit que chama um método qualquer na classe
+               do componente que receba o objeto NgForm como parametro com o objeto NgForm é possivel acessar
+              o value e recuperar os atributos.
+
+	      Ex:
+		<form #formulario="ngForm" (ngSubmit)="acaoFormulario(formulario)">
+			...
+			<button type="submit" class="btn btn-primary btn-lg">Cofirmar compra</button>
+		 </form>
+
+		//Na classe do componente
+		  public acaoFormulario(formulario: NgForm){
+    			console.log(formulario.value.endereco)
+  		 }
+
+		Ou injetando a variavel de template na classe do componente com a anotação @ViewChild("name")
+		 @ViewChild("formulario")
+  		private formulario: NgForm
+
+	
+
+
+
+
