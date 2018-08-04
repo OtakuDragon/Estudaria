@@ -2,6 +2,9 @@ Formulários
 
 Estrategia template forms
 
+Configuração do formulário do lado do template.
+
+------------------------------------------------------
 1. Importar o módulo FormsModule ao módulo da aplicação
 
 @NgModule({
@@ -13,7 +16,7 @@ Estrategia template forms
 ...
 })
 export class AppModule { }
-
+------------------------------------------------------
 2. Incluir uma variavel de template a um formulário qualquer na aplicação com qualquer nome
     e atribuir o valor ngForm.
 
@@ -22,7 +25,7 @@ export class AppModule { }
    </form>
 
  Isso cria um objeto que representa o dom do formulário com o nome formulario como referencia.
-
+------------------------------------------------------
 3. Em cada input do formulário que deve ser tratado pelo angular incluir:
 	3.1 A diretiva ngModel
         3.2 O atributo name com o valor de referencia para o campo dentro do objeto do formulario
@@ -40,7 +43,7 @@ Ex:
 
 A partir desse ponto é possivel recuperar os valores dos campos do formulário na tela da seguinte forma
 {{formulario.value.endereco}} dados os nomes variaveis definidos nos exemplos.
-
+------------------------------------------------------
 4. Para enviar os dados para o servidor é preciso:
 	4.1 Declarar um botão do tipo submit no formulário
 		Ex:
@@ -64,8 +67,57 @@ A partir desse ponto é possivel recuperar os valores dos campos do formulário 
 		 @ViewChild("formulario")
   		private formulario: NgForm
 
+==========================================================
+Estrategia reactive forms
+
+Configuração do formulário do lado da classe do componente.
+
+
+1. Importar o módulo ReactiveFormsModule ao módulo da aplicação
+
+@NgModule({
+...
+  imports: [
+    ...
+    ReactiveFormsModule
+  ],
+...
+})
+export class AppModule { }
+
+-----------------------------------------------------------
+2.  Cria uma instância de FormGroup na classe do template que representa o 
+	formulário, e atribuir a ela instâncias de FormControl que representam
+	os campos do formulário.
 	
+	
+export class OrdemCompraComponent implements OnInit {
+
+  public formulario: FormGroup = new FormGroup({//O construtor de FormGroup recebe um array de FormControls cada uma com um formControlName
+    'endereco': new FormControl(null), //O construtor de FormControl recebe três parametros, o valor inicial do campo, um array de validadores e um array de validadores assincronos.
+    'numero': new FormControl(null),
+    'complemento': new FormControl(null),
+    'formaPagamento': new FormControl(null)
+  })
+  ...
+}
 
 
-
-
+-----------------------------------------------------------
+3. Fazer property binding do FormGroup com o formulário no template
+   e atribuir formControlName para cada item do formulário de acordo
+   com os form controls declarados.
+   
+    <form [formGroup]="formulario" novalidate>
+	     <div class="form-group col-md-6">
+          <input 
+            type="text" 
+            class="form-control" 
+            placeholder="Endereço" 
+            autocomplete="off" 
+            formControlName="endereco"
+          >
+          <small class="form-text text-success">Ok</small>
+        </div>
+	...
+   </form>
