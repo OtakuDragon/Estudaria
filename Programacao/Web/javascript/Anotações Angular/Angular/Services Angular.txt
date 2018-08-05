@@ -64,3 +64,13 @@ export class HomeComponent implements OnInit {
   }
 
 }
+=========================================
+Escopo do service
+
+A instância do service tem o escopo de aonde ela é declarada como provider
+se ela for declarada como provider do componente será criada uma instância para
+aquele componente e seus subcomponentes.
+
+Para um service mais global(singleton) para todos os componentes é possivel declarar
+o service como provider do módulo nesse caso a mesma instância do service pode ser 
+injetada em qualquer componente do módulo.

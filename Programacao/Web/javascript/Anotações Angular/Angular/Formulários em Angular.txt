@@ -90,13 +90,15 @@ export class AppModule { }
 	formulário, e atribuir a ela instâncias de FormControl que representam
 	os campos do formulário.
 	
+	Para ccada campo(FormControl) é possivel definir os validadores para o campo.
+	
 	
 export class OrdemCompraComponent implements OnInit {
 
   public formulario: FormGroup = new FormGroup({//O construtor de FormGroup recebe um array de FormControls cada uma com um formControlName
     'endereco': new FormControl(null), //O construtor de FormControl recebe três parametros, o valor inicial do campo, um array de validadores e um array de validadores assincronos.
-    'numero': new FormControl(null),
-    'complemento': new FormControl(null),
+    'numero': new FormControl(null, Validators.required),
+    'complemento': new FormControl(null, Validators.compose(Validators.required, Validators.minlength(10))),
     'formaPagamento': new FormControl(null)
   })
   ...
@@ -121,3 +123,44 @@ export class OrdemCompraComponent implements OnInit {
         </div>
 	...
    </form>
+------------------------------------------------------------
+4. Para enviar o formulário a estrategia pode ser a mesma que no template forms
+com a diretiva ngsubmit.
+
+	4.1 Declarar um botão do tipo submit no formulário
+		Ex:
+           <button type="submit" class="btn btn-primary btn-lg">Cofirmar compra</button>
+	4.2 Declarar um event binding para o evento ngSubmit que chama um método qualquer na classe
+        do componente que receba o objeto NgForm como parametro com o objeto NgForm é possivel acessar
+        o value e recuperar os atributos.
+
+	      Ex:
+		<form #formulario="ngForm" (ngSubmit)="acaoFormulario()">
+			...
+			<button type="submit" class="btn btn-primary btn-lg">Cofirmar compra</button>
+		 </form>
+
+		//Na classe do componente
+		  public acaoFormulario(){
+				//Acesse o objeto FormGroup que já pertence a classe.
+    			console.log(formulario.value.endereco)
+  		 }
+		 
+===============================================================
+Atributos de campos e formularios
+
+Independente da estrategia de formulário cada campo e o formulário
+possuem atributos como valid, invalid, touched, untouched, pristine, dirty
+e de acordo com o valor desses atributos o angular coloca classes css no componente
+com o formato ng-nomeDoAtributo por exemplo ng-invalid permitindo que possamos
+usar esses atributos e essas classes para realizar feedbacks visuais para o
+usuário de acordo com o estado atual do campo.
+
+Exemplos de atributos:
+
+valid - O campo/formulario passa todas as regras de validação
+invalid - O campo/formulario passa falhou alguma regra de validação
+touched - O campo/formulario recebeu foco e depois perdeu o foco
+untouched - O campo/formulario nunca recebeu foco e depois perdeu o foco
+pristine - O campo/formulario nunca recebeu algum valor inserido pelo usuário
+dirty - O campo/formulario recebeu algum valor inserido pelo usuário 
