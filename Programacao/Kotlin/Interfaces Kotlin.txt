@@ -1,0 +1,23 @@
+Interfaces Kotlin
+
+No kotlin interfaces podem ter atributos para obrigarem a suas subclasses
+a também possuirem aqueles atributos
+
+========================================================================
+Ex:
+
+interface Flyable {
+    var flies: Boolean
+ 
+    fun fly(distMiles: Double): Unit
+}
+
+class Bird constructor(val name: String, override var flies: Boolean = true) : Flyable{
+ 
+    // We must also override any methods in the interface
+    override fun fly(distMiles: Double): Unit{
+        if(flies){
+            println("$name flies $distMiles miles")
+        }
+    }
+}

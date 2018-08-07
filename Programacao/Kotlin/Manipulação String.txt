@@ -1,0 +1,35 @@
+Manipulação String
+
+String interpolation
+
+Sintaxe especial para incluir conteudo de uma váriavel
+em uma String, possui a seguinte sintaxe:
+
+$nomeVariavelParaConcatenarAoTexto
+-------------------------------------------------------
+Ex:
+
+val textoVariavel = "Texto"
+print("Meu texto fixo, $textoVariavel")
+
+O resultado será "Meu texto fixo, Texto"
+=======================================================
+Expressões em String interpolation
+
+Além de exibir valores é possivel executar código em
+String interpolation colocando o código dentro de chaves
+conforme o exemplo abaixo:
+
+print("Um mais um é ${1 + 1}")
+=======================================================
+Triple Quotes
+
+Triple Quotes é utilizado para criar strings com formatação
+no arquivo, uma quebra de linha no arquivo significa uma quebra
+de linha na String e não apenas \n por exemplo.
+
+""" Esse texto
+está formatado com
+triple quotes """
+
+A impressão do texto acima resultaria em 3 linhas sendo impressas.

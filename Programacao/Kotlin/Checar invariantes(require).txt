@@ -1,0 +1,28 @@
+Checar invariantes
+
+É possivel checar invariantes no kotlin no bloco init que é executado após
+o construtor inclundi validações com chamadas do método require() que validam
+os atributos.
+
+===================================================================================
+Ex:
+
+open class Animal (val name: String, var height: Double, var weight: Double){
+ 
+    // Valida os valores passados no construtor
+    init {
+ 
+        // Regex that matches for a number any place
+        // in a string
+        val regex = Regex(".*\\d+.*")
+ 
+        // If these requirements aren't met an
+        // IllegalArgumentException is thrown
+        require(!name.matches(regex)) {"Animal Name can't Contain Numbers"}
+ 
+        require(height > 0) {"Height must be greater then 0"}
+ 
+        require(weight > 0) {"Weight must be greater then 0"}
+ 
+    }
+}

@@ -1,0 +1,33 @@
+// ----- NULL SAFETY -----
+// Null safety is built into Kotlin
+
+// By default you cannot assign null
+// var nullVal: String = null
+
+// To allow for a null value use ?
+var nullVal: String? = null
+
+// A function that may return null uses ?
+// fun myFun(): String?
+
+// Kotlin provides for the opportunity of a
+// null value if an if statement protects
+// from danger
+fun returnNull(): String? {
+	return null
+}
+
+var nullVal2 = returnNull()
+
+// This is a smart cast
+if(nullVal2 != null) {
+	println(nullVal2.length)
+}
+
+// We could use the force operator !! to force
+// a null assignment
+var nullVal3 = nullVal2!!.length
+
+// The Elvis operator assigns a default value
+// if null
+var nullVal4: String = returnNull() ?: "No Name"

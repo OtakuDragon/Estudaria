@@ -1,0 +1,20 @@
+static no Kotlin
+
+O equivalente de static no kotlin é o companion object
+que funciona como uma classe interna da classe que possui
+atributos e métodos que podem ser chamados diretamente
+através do nome da classe, como métodos e atributos estaticos
+do Java.
+
+===================================================================
+Ex:
+
+class Foo {
+  companion object {
+     fun a() : Int = 1
+	 val B = "Constante estática"
+  }
+}
+
+print(Foo.a()) //Imprime 1
+print(Foo.B)// Imprime Constante estática

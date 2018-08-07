@@ -1,0 +1,24 @@
+Variaveis
+
+Tipos de variáveis Kotlin
+
+Existem dois tipos de variaveis em kotlin
+val e var, val são variaveis constantes(finais)
+que só podem ser atribuidas uma vez e var são
+variaveis comuns que podem ser atribuidas várias 
+vezes.
+
+=====================================================
+Declaração de variaveis Kotlin
+
+Variaveis são declaradas da seguinte forma
+
+tipoVariavel nomeVariavel: tipoDeDadoDaVariavel
+
+Ex:
+
+val minhaConstante: Int = 10
+
+//O tipoDeDadoDaVariavel é opcional o kotlin suporta inferencia de tipo
+
+var minhaString = "Texto"

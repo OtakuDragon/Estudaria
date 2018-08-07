@@ -1,0 +1,10 @@
+Casting
+
+Casting primitivo
+
+Os tipos primitivos como por exemplo Int, String ou Boolean possuem métodos
+.toXXX para converte-los entre os tipos primitivos, por exemplo para converter
+um Int para Char:
+
+var a: Int = 1
+var b: Char = a.toChar()

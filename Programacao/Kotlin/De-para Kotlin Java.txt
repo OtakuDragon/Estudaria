@@ -1,0 +1,11 @@
+De-para Kotlin Java
+
+Java								Kotlin
+System.out.print("Hello");			print("Hello")
+System.out.println("Hello");		println ("Hello")
+1 instanceof Integer				1 is Int
+(String)obj							obj as String
+"ABC".charAt(0)						"ABC"[0]
+void								Unit
+void m(Integer... ints){}			Unit m(vararg ints: Int){}
+		
