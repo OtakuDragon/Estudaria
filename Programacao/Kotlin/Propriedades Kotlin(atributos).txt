@@ -1,0 +1,38 @@
+Propriedades Kotlin(atributos)
+
+O Kotlin busca simplificar a declaração de atributos em classes variaveis são
+propriedades que encapsulam o campo com um getter e um setter padrões
+que ficam implicitos.
+
+Sintaxe:
+
+var <propertyName>[: <PropertyType>] [= <property_initializer>]
+    [<getter>]
+    [<setter>]
+
+Propriedades não tem valor padrão  como atributos java que tem valores padrões
+como por exemplo classes não primitivas tem o valor padrão null.
+
+=======================================================================
+Ex:
+
+class Teste{
+	myProperty: Int? = null
+} 
+
+é equivalente no java a:
+
+public class Teste{
+	private Integer myProperty;
+
+	//getter padrão
+	//setter padrão
+}
+=======================================================================
+Getter e setters customizados
+
+var stringRepresentation: String
+    get() = this.toString()
+    set(value) {
+        setDataFromString(value) // parses the string and assigns values to other properties
+    }
