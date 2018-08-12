@@ -1,0 +1,15 @@
+Classes estáticas(Util)
+
+No kotlin não existe necessidade de declaração de
+classes porque funções podem ser declaradas fora de
+classes, o que seria uma classe puramente estática no Java
+em kotlin se torna um arquivo .kt com funções.
+
+=====================================================
+Ex:
+
+//Arquivo Util.kt
+
+fun minhaFuncaoUtil(){
+....
+}

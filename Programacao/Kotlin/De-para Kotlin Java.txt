@@ -8,4 +8,8 @@ System.out.println("Hello");		println ("Hello")
 "ABC".charAt(0)						"ABC"[0]
 void								Unit
 void m(Integer... ints){}			Unit m(vararg ints: Int){}
-		
+Object.class						Object.javaClass
+for ((index, i) in                  for(int i = 0; i < 4; i++){...}
+	arrayOf(1,2,3,4).withIndex()) { 
+        println("$index $i")
+}
