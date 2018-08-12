@@ -1,0 +1,29 @@
+Extension Functions
+
+Extension functions são uma forma de incluir comportamento a uma classe
+existente sem altera-la, na prática o kotlin cria um método estático que
+recebe uma instância do objeto e aplica o método em cima da instância de forma
+transparente.
+
+E tem a sintaxe:
+
+fun tipoRecebedor.nomeMetodo(params...) = implementação
+
+================================================================
+Exemplo de inclur uma nova função a classe String:
+
+fun String.myCustomMethod() = "abc "  + this.length
+
+fun main(args: Array<String>) {
+    print("Hello world".myCustomMethod())
+}
+
+
+Vai imprimir "abc 11", mostrando que a extension function
+tem acesso a todas as propriedades e métodos publicos da classe alvo.
+================================================================
+Importação
+
+Para usar extension functions é necessário importar a função
+para o arquivo que irá utiliza-la como quando se importa uma função
+estática(independente de classe).
