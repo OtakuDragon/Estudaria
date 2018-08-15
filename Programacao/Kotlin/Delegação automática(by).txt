@@ -1,0 +1,32 @@
+Delegação automática(by)
+
+O Kotlin suporta a delegação automatica da implementação de métodos 
+de uma interface para uma instância membro da classe, isso é util
+para implementação da Pattern Decorator aonde não se faz necessário
+implementar todos os métodos da interface que se deseja alterar, apenas
+o método que precisa ser alterado.
+
+Sintaxe:
+
+class Classe(instanceToDelegate: InterfaceToDecorate = InterfaceToDecorateImpl()) : InterfaceToDecorate by instanceToDelegate
+
+Neste caso a "Classe" implementa todos os métodos da interface/classe "InterfaceToDecorate" delegando todas as chamadas
+para a instancia "instanceToDelegate", o compilador Kotlin gera esse código, para alterar o comportamento de algum método
+é só dar override.
+
+--------------------------------------------------------------
+Ex:
+
+//Classe que decora a interface MutableCollection<T> e usa uma instância de HashSet<T>(innerSet) para delegar a maioria dos métodos
+//e altera o coportamento apenas dos métodos add e addAll, executando uma logica adicional antes da delegação.
+class CountingSet<T>(val innerSet: MutableCollection<T> = HashSet<T>()) : MutableCollection<T> by innerSet {
+ var objectsAdded = 0
+ override fun add(element: T): Boolean {
+  objectsAdded++
+  return innerSet.add(element)
+ }
+ override fun addAll(c: Collection<T>): Boolean{ 
+  objectsAdded += c.size
+  return innerSet.addAll(c)
+ }
+}
