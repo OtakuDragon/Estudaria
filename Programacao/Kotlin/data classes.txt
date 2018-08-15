@@ -1,0 +1,48 @@
+data classes
+
+Prefixar uma classe com data no kotlin faz com que o compilador
+kotlin gere hashCode() equals() e toString() com implementações
+padrão para a classe.
+------------------------------------------------------------------
+Ex:
+
+data class MyClass
+
+print(MyClass().hashCode())
+
+===================================================================
+copy
+
+data classes podem conter atributos var mas por convenção
+não devem possui atributos modificaveis pois isso facilita
+a compreensão do sistema em ambiente multithreads.
+
+Em uma data class com todos os atributos val para altera-lá
+é preciso gerar uma nova instância e copiar os atributos que
+não mudaram de uma instância pra outra e atribuir o novo valor
+para o atributo que mudou.
+
+Para facilitar isso o kotlin gera o método copy() em uma data class
+que funciona como um construtor com todos os atributos que tem 
+valor padrão para todos os atributos os da instância que o método
+foi chamado.
+-------------------------------------------------------------------
+Ex:
+
+class Client(val name: String, val postalCode: Int) {
+...
+//O Kotlin gera isso
+fun copy(name: String = this.name,
+postalCode: Int = this.postalCode) =
+Client(name, postalCode)
+}
+
+Que pode ser chamado assim
+
+//Instância original
+val bob = Client("Bob", 973293)
+//Nova instância com postalCode alterado
+println(bob.copy(postalCode = 382555))
+Client(name=Bob, postalCode=382555)
+
+
