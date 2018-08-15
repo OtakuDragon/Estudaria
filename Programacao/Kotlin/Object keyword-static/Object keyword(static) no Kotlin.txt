@@ -1,0 +1,77 @@
+Object keyword(static) no Kotlin
+
+A keyword object no Kotlin tem como objetivo geral permitir
+a declaração de uma instância de classe, isso é usado de
+diferentes maneiras, elas são:
+
+==========================================================
+Object declaration
+
+É a maneira do kotlin de declarar singletons
+a declaração abaixo:
+
+object MySingleton{
+ fun a(){...}
+}
+
+Gera uma classe MySingleton que possui somente 
+uma instância que pode ser referenciada pelo nome
+da classe MySingleton, e não possui construtores
+por razões obvias, que pode ser utilizada da
+seguinte maneira:
+
+//Chamando método na instância de singleton,
+//por mais que pareça uma invocação estática
+//o compilador kotlin gera uma instância de classe.
+MySingleton.a()
+
+objects podem fazer tudo o que uma classe normal pode,
+serem extendidos, implementarem interfaces e extenderem classes.
+===================================================================
+Companion Object
+
+Companion Object é um object interno de uma classe
+que pode ser nomeado ou não, se não for nomeado ele
+terá o nome padrão de Companion que pode ser omitido
+em uma chamada a método.
+
+Funciona como uma inner class que contém membros estáticos,
+na prática o kotlin é cria um singleton acessivel pelo
+nome da classe.
+---------------------------------------------------------------
+Ex:
+
+class Foo {
+  companion object {
+     fun a() : Int = 1
+	 val B = "Constante estática"
+  }
+}
+
+print(Foo.a()) //Imprime 1
+print(Foo.B)// Imprime Constante estática
+//Extension function ao método do companion object
+Foo.Companion.a(): Int = 2
+print(Foo.a()) //Imprime 2
+=============================================================
+Object declaration
+
+Object declaration é a maneira de implementar classes
+anonimas no Kotlin, o exemplo abaixo não é bom porque
+para classes de apenas um método é possivel utilizar lambdas
+object declaration são mais uteis quando se deseja implementar
+mais do que uma interface na declaração anônima.
+
+Java: 
+new Thread(){
+	void run(){
+		...
+	}
+}
+Kotlin:
+
+object: Thread(){
+	void run(){
+		...
+	}
+}
