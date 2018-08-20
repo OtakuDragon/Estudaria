@@ -1,0 +1,53 @@
+Operações Lambda
+
+with
+
+A operação with serve para realizar várias operações em cima de
+um mesmo objeto sem ter que repetir o nome deste objeto.
+
+with(StringBuilder()){
+            append("a")
+            append("b")
+            append("c")
+            toString()
+}
+
+dentro do segundo parametro do with um lambda é criado um contexto aonde o this(que pode ser omitido)
+é o objeto passado no with, e o retorno do lambda é a ultima linha dele.
+
+==========================================================================================
+apply
+
+O apply é uma extension function global que funciona de forma semelhante
+ao with com uma limitação ele só realiza operações e retorna o objeto "receiver"
+não é possivel retorar outras coisas como no with.
+
+StringBuilder().apply { append("a")
+                        append("b")
+                        append("c")}
+               .toString()
+
+==========================================================================================
+let
+
+let é uma extension function global que recebe um lambda como parametro
+que é executado quando lido, sua principal função é ser utilizada junto
+com o safe call operator(?) para somente executar funções se o parametro
+não for nulo.
+------------------------------------------------------------------------------------------
+Ex:
+
+val email: String? = //Input usuário 
+//Só chama o método se email não for nulo
+email?.let{doSomethingWithEmail(email)}
+
+
+//A função pode receber o tipo String(non-nullable)
+private fun doSomethingWithEmail(email: String): Unit {
+  print(email)
+}
+
+
+
+
+

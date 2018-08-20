@@ -14,3 +14,5 @@ for ((index, i) in                  for(int i = 0; i < 4; i++){...}
         println("$index $i")
 }
 public static final String MY_CONST const val MY_CONST //Não precisa necessariamente estar dentro de uma classe
+obj1.equals(obj2)                   obj1 == obj2
+obj1 == obj2(comparando referência) obj1 === obj2

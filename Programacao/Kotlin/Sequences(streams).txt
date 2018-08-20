@@ -1,0 +1,42 @@
+Sequences(streams)
+
+No Kotlin o equivalente a streams são Sequences, por padrão o seu uso para
+manipulação de coleções de forma funcional não é obrigatório como no java
+é possivel fazer o seguinte:
+
+myCollection.filter(it.something != thing)
+
+No java operações como filter, map, count só estão acessiveis através do stream,
+no kotlin elas estão acessiveis diretamente nas coleções o que é chamado de eager
+operations aonde cada operação em cima da coleção gera uma nova coleção com a
+transformação, o que gera overhead de memória no caso de coleções grandes. E não
+é uma opção no java.
+
+O equivante ao stream do java no kotlin é a sequence, na sequence como em um stream
+as operações intermediarias só são realmente executadas quando uma operação final é chamada,
+são lazy operations, no exemplo abaixo a filtragem só é executada quando a operação final count() é chamada.
+
+myCollection.asSequence().filter(it.something != thing).count()
+
+Todas as coleções tem o método asSequence() para transformalas em sequences como o stream()
+do java.
+
+==============================================================================================
+Criando Sequences
+
+A standard lib do kotlin oferece um método para criação de sequencias
+sem coleções associadas é o método:
+
+generateSequence(seed: T, nextFunction(T -> T?)): Sequence<T>
+
+O primeiro parametro é o valor inicial e o segundo é uma função que indica
+como conseguir o proximo valor, Por exemplo:
+
+val allIntegers = generateSequence(0) { it + 1}
+
+O código acima gera uma sequence com todos os números inteiros positivos,
+por ser uma sequence(lazy) ela não é evaluada na execução, somente conforme
+ela é iterada.
+
+
+
