@@ -8,3 +8,24 @@ um Int para Char:
 
 var a: Int = 1
 var b: Char = a.toChar()
+
+=================================================================================
+Casting com operador "as"
+
+O equivalmente a instanceof no java em kotlin é as
+
+Ex:
+
+a: Object = String("abc")
+b: String = a as String
+
+Caso o objeto não seja de um tipo relacionado ou seja null e o cast seja feito para
+um tipo non-nullable exceções são jogadas.
+=================================================================================
+Safe cast "as?"
+
+O operador de safe cast tem o comportamento de caso o cast falhe
+seja por valor null ou tipo divergente, exceções não são jogadas, o valor null
+é retornado.
+
+ val a: String? =  null as? String
