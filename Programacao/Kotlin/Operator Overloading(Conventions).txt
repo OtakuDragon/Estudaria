@@ -1,0 +1,100 @@
+Operator Overloading(Conventions)
+
+O Kotlin oferece várias funções especiais que
+se declaradas em classes permitem que elas sejam
+usadas com operadores da linguagem.
+
+A palavra chave que prefixa todas essas funções é
+operator, segue abaixo a lista de funções especiais.
+=====================================================
+plus(Overload +)
+
+Para somar dois elementos é possível 
+declarar a função plus() na classe como
+membro ou como extension function.
+
+
+A função plus tem a seguinte assinatura:
+
+    operator fun plus(a: Type) : Type{
+		//Impl
+    }
+	
+O tipo que a função recebe vai definir qual tipo
+é possivel somar aquela classe, o tipo não precisa
+ser o mesmo tipo é possivel ter vários plus com vários
+tipos.
+
+O tipo do retorno pode ser qualquer tipo e será o 
+tipo retornado pela utilização do operador como uma
+chamada de função qualquer.
+
+a + b
+
+O compilador transforma em:
+
+a.plus(b)
+-------------------------------------------------------
+Outras operações aritmeticas
+
+Funcionam da mesma forma que plus.
+
+operator fun times(a: Type){...} = a.times(b) = a * b 
+operator fun div(a: Type){...} = a.div(b) = a / b 
+operator fun mod(a: Type){...} = a.mod(b) = a % b 
+operator fun minus(a: Type){...} = a.minus(b) = a - b 
+========================================================
+Operação plusAssign(Overload +=)
+
+Funciona da mesma forma que o plus mas com o detalhe de que
+esta operação não retorna, ela altera o proprio objeto.
+
+    operator fun plusAssign(a: Type){
+		//Impl
+    }
+	
+a += b
+
+O compilador transforma em:
+
+a.plusAssign(b)
+
+A interface List tem a extension function plusAssign(), 
+portanto é possível fazer o seguinte:
+
+myList+=element
+
+O compilador transforma em
+
+myList.add(element)
+-------------------------------------------------------
+Outras operações aritmeticas com atribuição
+
+Funcionam da mesma forma que plus.
+
+operator fun timesAssign(a: Type){...} = a.times(b) = a *= b 
+operator fun divAssign(a: Type){...} = a.div(b) = a /= b 
+operator fun minusAssign(a: Type){...} = a.minus(b) = a -= b 
+========================================================
+Operação unárias
+
+operator fun unaryPlus() = +a 
+operator fun unaryMinus() = -a 
+operator fun not() = !a 
+operator fun inc() = ++a, a++ 
+operator fun dec() = --a, a-- 
+========================================================
+Operações de comparação
+
+override equals(otherObj) = this == otherObj
+=== operação de comparação de referencia não é possivel sobreescrever esse operador
+Classes que implementam Comparable, pode ser usadas com os operadores >=, >, <, <=
+========================================================
+Operações lista
+
+operator fun contains(otherObj): boolean = a in b
+operator fun rangeTo(otherObj): ClosedRange = a..b
+implements Iterator = pode usar no for
+
+
+

@@ -30,3 +30,33 @@ class CountingSet<T>(val innerSet: MutableCollection<T> = HashSet<T>()) : Mutabl
   return innerSet.addAll(c)
  }
 }
+=============================================================
+Delegação de propriedade
+
+No kotlin também é possivel delegar para uma classe
+a implementação dos acessors(getter e setter) de uma
+propriedade.
+
+A classe deve implementar os seguintes métodos:
+
+operator fun getValue(p: ClassType, propMetadata: KProperty<*>): Int = ...
+operator fun setValue(p: ClassType, propMetadata: KProperty<*>, newValue: Int) = ...
+
+Com esses métodos implementados é possivel
+declarar propriedades da seguinte forma:
+
+class Person(val name: String, age: Int, salary: Int) {
+var age: Int by ObservableProperty(age, changeSupport)
+var salary: Int by ObservableProperty(salary, changeSupport)
+}
+
+Aonde após o by deve se ter uma expressão que retorne uma instância
+de uma classe que implemente os métodos, não necessáriamente precisa
+ser um construtor pode ser um método ou um lambda.
+
+chamar um atributo nessa classe ou seta-lo delegaria a chamada para 
+os métodos implementados na classe alvo da delegação.
+
+
+
+
