@@ -1,0 +1,10 @@
+Camadas DDD
+
+Interface com o usuário - Lógica de visão ou de exposição de api
+Aplicação - Orquestrador de chamadas(controller) para acesso ao domínio(sem regras de negócio)
+Domínio - Regras de negócio e entidades
+Infraestrutura - Persistência, email, filesystem etc..
+
+Uma camada só pode acessar camadas abaixo.
+
+

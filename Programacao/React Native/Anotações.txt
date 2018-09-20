@@ -1,0 +1,12 @@
+Ponto de partida index.js como se fosse o main method do Java
+
+JSX é uma linguagem simplificada para criar compontes React como 
+tags.
+
+A biblioteca babel transforma JSX em javascript.
+
+Um componente é uma função javascript que retorna JSX e JSX é implicitamente
+transformado pela babel em React.createComponent().
+
+React = organiza componentes.
+React-Native = exibe no dispositivo móvel.
