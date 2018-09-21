@@ -1,4 +1,29 @@
+Organização do código
+
 Ponto de partida index.js como se fosse o main method do Java
+
+Um componente por arquivo
+
+componentes declarados na pasta criada src/components
+
+===============================================================================
+React-native-cli
+
+React-native-cli são as ferramentas de linha de comando do react
+native que é instalado através do npm com o seguinte comando:
+
+npm install -g react-native-cli
+
+Comando para iniciar um novo projeto
+
+react-native init nomeProjeto
+
+Comando para rodar um projeto android
+
+react-native start-android
+
+===============================================================================
+JSX 
 
 JSX é uma linguagem simplificada para criar compontes React como 
 tags.
@@ -7,6 +32,25 @@ A biblioteca babel transforma JSX em javascript.
 
 Um componente é uma função javascript que retorna JSX e JSX é implicitamente
 transformado pela babel em React.createComponent().
-
+===============================================================================
 React = organiza componentes.
 React-Native = exibe no dispositivo móvel.
+===============================================================================
+ESLint
+
+ESlint = regras de compilação para o react,
+
+executar npm install eslint --save-dev 
+executar npm install eslint-config-rallycoding(ou outro rule set)
+criar arquivo .eslintrc com conteúdo {  "extends":"rallycoding"}
+
+instalar o plugin no intellij, languages & frameworks -> code quality tools -> javascript -> eslint -> enable
+
+===============================================================================
+Componentes
+
+Sempre há apenas um root component declarado na index.js
+e registrado na AppRegistry, todos os outros componentes são
+filhos do componente root.
+
+
