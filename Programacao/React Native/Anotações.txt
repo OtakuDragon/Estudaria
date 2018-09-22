@@ -52,5 +52,37 @@ Componentes
 Sempre há apenas um root component declarado na index.js
 e registrado na AppRegistry, todos os outros componentes são
 filhos do componente root.
+===============================================================================
+Styling
+
+Paradigma = flexbox
+
+Componente View = div
+
+propriedades similares a css mas com CamelCasing
+ao inves da separação de palavras por - ex backgroundColor ao inves de background-color
+-------------------------------------------------------------------------------
+Propriedade justify-content
+
+Serve para alinhar elementos na vertical dentro do
+container(componente) pai.
+
+Valores:
+
+flex-start - topo
+center - centro
+flex-end - embaixo
+-------------------------------------------------------------------------------
+Propriedade align-items
+
+Serve para alinhar elementos na horizontal dentro do
+container(componente) pai.
+
+Valores:
+
+flex-start - esquerda
+center - centro
+flex-end - direita
+
 
 
