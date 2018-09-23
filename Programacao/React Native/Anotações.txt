@@ -30,11 +30,12 @@ tags.
 
 A biblioteca babel transforma JSX em javascript.
 
-Um componente é uma função javascript que retorna JSX e JSX é implicitamente
-transformado pela babel em React.createComponent().
+JSX é implicitamente transformado pela babel em React.createComponent().
 ===============================================================================
 React = organiza componentes.
 React-Native = exibe no dispositivo móvel.
+Debugar android no simulador ctrl+m opção debug js remotely e acessar http://localhost:8081/debugger-ui/ uma janela do chrome
+cujo o console vai ser o do react native 
 ===============================================================================
 ESLint
 
@@ -52,6 +53,50 @@ Componentes
 Sempre há apenas um root component declarado na index.js
 e registrado na AppRegistry, todos os outros componentes são
 filhos do componente root.
+-------------------------------------------------------------------------------
+Tipos de componente 
+
+Functional components
+
+Um componente funcional é uma função javascript que retorna JSX.
+
+Ex:
+
+export const Header = (props) => {
+    return (
+        <View>
+            <Text>Header</Text>
+        </View>
+    );
+};
+
+------------------------------------------------------------------------------
+Class based components
+
+Um class based component é uma classe ES6 que extende Component e possui
+muitas funcionalidades alem de só montar JSX.
+
+Uma class based component deve sempre declarar o método render que define
+o JSX que ela irá renderizar, os outros método são opcionais.
+
+Ex:
+
+export class AlbumList extends Component {
+    render() {
+        return (
+            <View>
+                <Text>Album list</Text>
+            </View>
+        );
+    }
+}
+
+------------------------------------------------------------------------------
+Lifecycle methods
+
+componentWillMount()
+
+Executado uma vez antes do componente ser renderizado.
 ===============================================================================
 Styling
 
@@ -83,6 +128,49 @@ Valores:
 flex-start - esquerda
 center - centro
 flex-end - direita
+===============================================================================
+Requisições HTTP
+
+ fetch('https://rallycoding.herokuapp.com/api/music_albums').then(response => response.json()).then(responseJson => this.setState({ albums: responseJson }));
+
+===============================================================================
+props
+
+Props são a maneira de em React passar informações de um componente
+pai para um componente filho, da seguinte forma, o componente filho recebe em seu construtor
+um objeto javascript com o nome props.
+
+O componente pai passa na tag JSX do filho as props no formato de atributos 
+da tag com nomes.
+
+O filho recupera as informações do objeto props como props.nomeAtributo
+
+Ex:
+
+//Declaração no componente pai
+<AlbumDetail album={album} />
+
+//Declaração do componente filho
+export function AlbumDetail(props) {
+        return (
+            <View>
+                <Text>{props.album.title}</Text>
+            </View>
+        );
+}
+=================================================================================
+state
+
+State é um mecanismo do react de manter informações internas do componente
+e atualiza-lo quando o state do componente muda.
+
+No construtor ou como uma variavel o state é inicializado com algum objeto
+e durante a execução do programa o código chama this.setState() passando um novo
+objeto ou uma função de callback com o novo state, e o componente é renderizado
+novamente.
+
+Apenas class based components possuem state.
+
 
 
 
