@@ -1,0 +1,9 @@
+Organização do código
+
+Ponto de partida index.js como se fosse o main method do Java
+
+Um componente por arquivo
+
+componentes declarados na pasta criada src/components
+
+===============================================================================
