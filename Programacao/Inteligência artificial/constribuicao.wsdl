@@ -1,0 +1,286 @@
+<wsdl:definitions targetNamespace="http://servicos.cni.com.br/utilitario/v1r0/contribuicaoservice"
+                  xmlns:tns="http://servicos.cni.com.br/utilitario/v1r0/contribuicaoservice"
+                  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:falha="http://servicos.cni.com.br/schema/mesageria/falha/v1r0/falha">
+  <!-- Definição dos Types - INICIO -->
+  <wsdl:types>
+    <xsd:schema elementFormDefault="qualified"
+                xmlns:criarcontribuicao="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/criarcontribuicao"
+                xmlns:respostacriarcontribuicao="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/respostacriarcontribuicao"
+                xmlns:salvarcontribuicao="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/salvarcontribuicao"
+                xmlns:respostasalvarcontribuicao="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/respostasalvarcontribuicao"
+                xmlns:submetercontribuicao="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/submetercontribuicao"
+                xmlns:respostasubmetercontribuicao="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/respostasubmetercontribuicao"
+                xmlns:apagarcontribuicao="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/apagarcontribuicao"
+                xmlns:respostaapagarcontribuicao="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/respostaapagarcontribuicao"
+                xmlns:recuperarcontribuicao="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/recuperarcontribuicao"
+                xmlns:respostarecuperarcontribuicao="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/respostarecuperarcontribuicao">
+      <xsd:import id="falha" schemaLocation="../../../Canonical/Schemas/mensageria/falha/v1r0/falha.v1r0.xsd"
+                  namespace="http://servicos.cni.com.br/schema/mesageria/falha/v1r0/falha"/>
+      <xsd:import id="criarcontribuicao"
+                  schemaLocation="../../../Canonical/Schemas/mensageria/utilitario/v1r0/contribuicaoservice/criarcontribuicao.v1r0.xsd"
+                  namespace="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/criarcontribuicao"/>
+      <xsd:import id="respostacriarcontribuicao"
+                  schemaLocation="../../../Canonical/Schemas/mensageria/utilitario/v1r0/contribuicaoservice/respostacriarcontribuicao.v1r0.xsd"
+                  namespace="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/respostacriarcontribuicao"/>
+      <xsd:import id="salvarcontribuicao"
+                  schemaLocation="../../../Canonical/Schemas/mensageria/utilitario/v1r0/contribuicaoservice/salvarcontribuicao.v1r0.xsd"
+                  namespace="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/salvarcontribuicao"/>
+      <xsd:import id="respostasalvarcontribuicao"
+                  schemaLocation="../../../Canonical/Schemas/mensageria/utilitario/v1r0/contribuicaoservice/respostasalvarcontribuicao.v1r0.xsd"
+                  namespace="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/respostasalvarcontribuicao"/>
+      <xsd:import id="submetercontribuicao"
+                  schemaLocation="../../../Canonical/Schemas/mensageria/utilitario/v1r0/contribuicaoservice/submetercontribuicao.v1r0.xsd"
+                  namespace="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/submetercontribuicao"/>
+      <xsd:import id="respostasubmetercontribuicao"
+                  schemaLocation="../../../Canonical/Schemas/mensageria/utilitario/v1r0/contribuicaoservice/respostasubmetercontribuicao.v1r0.xsd"
+                  namespace="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/respostasubmetercontribuicao"/>
+      <xsd:import id="apagarcontribuicao"
+                  schemaLocation="../../../Canonical/Schemas/mensageria/utilitario/v1r0/contribuicaoservice/apagarcontribuicao.v1r0.xsd"
+                  namespace="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/apagarcontribuicao"/>
+      <xsd:import id="respostaapagarcontribuicao"
+                  schemaLocation="../../../Canonical/Schemas/mensageria/utilitario/v1r0/contribuicaoservice/respostaapagarcontribuicao.v1r0.xsd"
+                  namespace="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/respostaapagarcontribuicao"/>
+      <xsd:import id="recuperarcontribuicao"
+                  schemaLocation="../../../Canonical/Schemas/mensageria/utilitario/v1r0/contribuicaoservice/recuperarcontribuicao.v1r0.xsd"
+                  namespace="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/recuperarcontribuicao"/>
+      <xsd:import id="respostarecuperarcontribuicao"
+                  schemaLocation="../../../Canonical/Schemas/mensageria/utilitario/v1r0/contribuicaoservice/respostarecuperarcontribuicao.v1r0.xsd"
+                  namespace="http://servicos.cni.com.br/schema/mensageria/utilitario/contribuicaoservice/v1r0/respostarecuperarcontribuicao"/>
+      <xsd:element name="requestCriarContrbuicao">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" ref="criarcontribuicao:CriarContribuicao"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="responseCriarContrbuicao">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" ref="respostacriarcontribuicao:ResponseCriarContribuicao"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="requestSalvarContrbuicao">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" ref="salvarcontribuicao:SalvarContribuicao"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="responseSalvarContrbuicao">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" ref="respostasalvarcontribuicao:ResponseSalvarContribuicao"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="requestSubmeterContrbuicao">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" ref="submetercontribuicao:SubmeterContribuicao"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="responseSubmeterContrbuicao">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" ref="respostasubmetercontribuicao:ResponseSubmeterContribuicao"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="requestApagarContrbuicao">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" ref="apagarcontribuicao:ApagarContribuicao"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="responseApagarContrbuicao">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" ref="respostaapagarcontribuicao:ResponseApagarContribuicao"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="requestRecuperarContrbuicao">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" ref="recuperarcontribuicao:RecuperarContribuicao"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="responseRecuperarContrbuicao">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" ref="respostarecuperarcontribuicao:ResponseRecuperarContribuicao"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <!-- Definição dos Types - FIM -->
+  <!-- Definição das Mensagens - INICIO -->
+  <wsdl:message name="falhaContribuicaoService">
+    <wsdl:part element="falha:Falha" name="falha"/>
+  </wsdl:message>
+  <wsdl:message name="requestCriarContribuicao">
+    <wsdl:part element="requestCriarContrbuicao" name="requestCriarContribuicao"/>
+  </wsdl:message>
+  <wsdl:message name="responseCriarContribuicao">
+    <wsdl:part element="responseCriarContrbuicao" name="responseCriarContribuicao"/>
+  </wsdl:message>
+  <wsdl:message name="requestSalvarContribuicao">
+    <wsdl:part element="requestSalvarContrbuicao" name="requestSalvarContribuicao"/>
+  </wsdl:message>
+  <wsdl:message name="responseSalvarContribuicao">
+    <wsdl:part element="responseSalvarContrbuicao" name="responseSalvarContribuicao"/>
+  </wsdl:message>
+  <wsdl:message name="requestSubmeterContribuicao">
+    <wsdl:part element="requestSubmeterContrbuicao" name="requestSubmeterContribuicao"/>
+  </wsdl:message>
+  <wsdl:message name="responseSubmeterContribuicao">
+    <wsdl:part element="responseSubmeterContrbuicao" name="responseSubmeterContribuicao"/>
+  </wsdl:message>
+  <wsdl:message name="requestApagarContribuicao">
+    <wsdl:part element="requestApagarContrbuicao" name="requestApagarContribuicao"/>
+  </wsdl:message>
+  <wsdl:message name="responseApagarContribuicao">
+    <wsdl:part element="responseApagarContrbuicao" name="responseApagarContribuicao"/>
+  </wsdl:message>
+  <wsdl:message name="requestRecuperarContribuicao">
+    <wsdl:part element="requestRecuperarContrbuicao" name="requestRecuperarContribuicao"/>
+  </wsdl:message>
+  <wsdl:message name="responseRecuperarContribuicao">
+    <wsdl:part element="responseRecuperarContrbuicao" name="responseRecuperarContribuicao"/>
+  </wsdl:message>
+  <!-- Definição das Mensagens - FIM -->
+  <!-- Definição de Porta - INICIO -->
+  <wsdl:portType name="ContribuicaoServicePortType">
+    <wsdl:operation name="criarContribuicao">
+      <wsdl:documentation>
+          PT-BR: Operação responsável
+          EN-US: Operation responsible
+      </wsdl:documentation>
+      <wsdl:input message="tns:requestCriarContribuicao" name="RequestCriarContribuicao"/>
+      <wsdl:output message="tns:responseCriarContribuicao" name="ResponseCriarContribuicao"/>
+      <wsdl:fault message="tns:falhaContribuicaoService" name="FalhaCriarContribuicao"/>
+    </wsdl:operation>
+    <wsdl:operation name="salvarContribuicao">
+      <wsdl:documentation>
+          PT-BR: Operação responsável
+          EN-US: Operation responsible
+      </wsdl:documentation>
+      <wsdl:input message="tns:requestSalvarContribuicao" name="RequestSalvarContribuicao"/>
+      <wsdl:output message="tns:responseSalvarContribuicao" name="ResponseSalvarContribuicao"/>
+      <wsdl:fault message="tns:falhaContribuicaoService" name="FalhaSalvarContribuicao"/>
+    </wsdl:operation>
+    <wsdl:operation name="submeterContribuicao">
+      <wsdl:documentation>
+          PT-BR: Operação responsável
+          EN-US: Operation responsible
+      </wsdl:documentation>
+      <wsdl:input message="tns:requestSubmeterContribuicao" name="RequestSubmeterContribuicao"/>
+      <wsdl:output message="tns:responseSubmeterContribuicao" name="ResponseSubmeterContribuicao"/>
+      <wsdl:fault message="tns:falhaContribuicaoService" name="FalhaSubmeterContribuicao"/>
+    </wsdl:operation>
+    <wsdl:operation name="apagarContribuicao">
+      <wsdl:documentation>
+          PT-BR: Operação responsável
+          EN-US: Operation responsible
+      </wsdl:documentation>
+      <wsdl:input message="tns:requestApagarContribuicao" name="RequestApagarContribuicao"/>
+      <wsdl:output message="tns:responseApagarContribuicao" name="ResponseApagarContribuicao"/>
+      <wsdl:fault message="tns:falhaContribuicaoService" name="FalhaApagarContribuicao"/>
+    </wsdl:operation>
+    <wsdl:operation name="recuperarContribuicao">
+      <wsdl:documentation>
+          PT-BR: Operação responsável
+          EN-US: Operation responsible
+      </wsdl:documentation>
+      <wsdl:input message="tns:requestRecuperarContribuicao" name="RequestRecuperarContribuicao"/>
+      <wsdl:output message="tns:responseRecuperarContribuicao" name="ResponseRecuperarContribuicao"/>
+      <wsdl:fault message="tns:falhaContribuicaoService" name="FalhaRecuperarContribuicao"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <!-- Definição de Porta - FIM -->
+  <!-- Definição de Operations - INICIO -->
+  <wsdl:binding name="ContribuicaoServiceSOAP12Binding" type="tns:ContribuicaoServicePortType">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <!-- Definição de Bindings - INICIO -->
+    <wsdl:operation name="criarContribuicao">
+      <soap12:operation soapAction=""/>
+      <wsdl:input name="RequestCriarContribuicao">
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ResponseCriarContribuicao">
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FalhaCriarContribuicao">
+        <soap12:fault use="literal" name="FalhaCriarContribuicao"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="salvarContribuicao">
+      <soap12:operation soapAction=""/>
+      <wsdl:input name="RequestSalvarContribuicao">
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ResponseSalvarContribuicao">
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FalhaSalvarContribuicao">
+        <soap12:fault use="literal" name="FalhaSalvarContribuicao"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="submeterContribuicao">
+      <soap12:operation soapAction=""/>
+      <wsdl:input name="RequestSubmeterContribuicao">
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ResponseSubmeterContribuicao">
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FalhaSubmeterContribuicao">
+        <soap12:fault use="literal" name="FalhaSubmeterContribuicao"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="apagarContribuicao">
+      <soap12:operation soapAction=""/>
+      <wsdl:input name="RequestApagarContribuicao">
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ResponseApagarContribuicao">
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FalhaApagarContribuicao">
+        <soap12:fault use="literal" name="FalhaApagarContribuicao"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="recuperarContribuicao">
+      <soap12:operation soapAction=""/>
+      <wsdl:input name="RequestRecuperarContribuicao">
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ResponseRecuperarContribuicao">
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FalhaRecuperarContribuicao">
+        <soap12:fault use="literal" name="FalhaRecuperarContribuicao"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <!-- Definição de Operations - FIM -->
+  </wsdl:binding>
+  <!-- Definição de Bindings - FIM -->
+  <!-- Definição de Serviço - INICIO -->
+  <wsdl:service name="ContribuicaoService">
+    <wsdl:port name="ContribuicaoServicePortType" binding="tns:ContribuicaoServiceSOAP12Binding">
+      <wsdl:documentation>
+          PT-BR: Serviço responsável por atividades referentes aos do sistema de arrecadacao da CNI.
+          EN-US: Service responsible for activities related with documents from CNI's tax revenue system.
+      </wsdl:documentation>
+      <soap12:address location="http://servicos.cni.com.br/utilitario/v1r0/contribuicaoservice"/>
+    </wsdl:port>
+  </wsdl:service>
+  <!-- Definição de Serviço - FIM -->
+</wsdl:definitions>

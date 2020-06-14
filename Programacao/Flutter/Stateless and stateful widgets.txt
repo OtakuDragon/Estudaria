@@ -1,0 +1,7 @@
+Stateless and Stateful widgets
+
+Stateless widgets can only be re-built by external action,
+E.g someone re-calling the constructor.
+
+Stateful widgets can trigger a rebuild by calling a special function
+setState inside one of its methods

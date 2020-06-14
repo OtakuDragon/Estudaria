@@ -1,0 +1,33 @@
+Termos
+
+Label
+
+é algo a ser descoberto, calculado ou interpretado (predicted)
+
+Feature
+
+É uma variável de entrada que ajuda à descobrir labels
+
+Example
+
+é uma feature ou um conjunto de features que pode ou não ter label
+(Labeled example and unlabeled example), labeled examples são usados
+para descobrir os labels de unlabeled examples
+
+Model
+
+Um model é um relacionamento entre features e labels que é treinado
+com base em labeled examples na fase de Training para adivinhar unlabeled
+examples na fase de Inference
+
+Model Types
+
+Regression
+
+Descobre labels com valores continuos como qual é o valor
+do produto A ou a probabilidade de um raio cair.
+
+Classification
+
+Descobre labels com valores com valores limitados
+como um email é spam ou não, uma imagem é de um cachorro ou de um gato

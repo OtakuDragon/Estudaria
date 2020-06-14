@@ -1,0 +1,7 @@
+Private Indicator
+
+In Flutter something that is private has its
+Name starting in _(underscore) for exemple:
+
+class MyClass{} //public
+class _MyClass{} //private

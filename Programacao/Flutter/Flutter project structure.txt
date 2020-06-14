@@ -1,0 +1,3 @@
+lib - Contém o código dart
+test - Contém os testes
+pubspec.yaml - Configuração de dependências como um pom.xml ou build.gradle  

@@ -1,0 +1,2 @@
+#inside of flutter project directory
+flutter run
