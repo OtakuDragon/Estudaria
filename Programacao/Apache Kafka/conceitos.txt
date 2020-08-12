@@ -1,0 +1,92 @@
+Conceitos
+
+Topic 
+
+A particular stream of data, similar to a table in a database,
+identified by its name.
+
+Topics are split into one or more partitions that are 0-indexed,
+each partition is ordered and each message within a partition gets
+an incremental id called offset also 0-indexed.
+
+Offsets only have meaning for a specific partition, order is only
+guaranteed whit in a partition(different partitions can be written parallelly)  
+
+Data in a topic is kept for a limited time(default is one week), offsets
+Don't reset they keep incrementing.
+
+Once the data is written to a partition it cannot be changed.
+
+Data is assigned randomly to a partition unless a key is provided
+
+=======================================
+Broker
+
+A Kafka cluster is composed of multiple brokers
+Each broker is identified with its ID(integer)
+
+Topic partitions are evenly distributed between brokers,
+after connecting to any broker you are connected to the entire
+cluster
+
+A good number of brokers for a starting cluster is three.
+
+=======================================
+Topic replication
+
+The replication(redundancy) of partitions in brokers,
+with a topic replication factor of 2 for each partition in a broker
+there is one replica of that partition in another broker to account
+for failure of connection or hardware, the standard safe replication
+factor is 3, each partition has two copies across other brokers.
+
+At any time only one broker can be leader for a given partition,
+only that leader can receive and serve data for the partition, the
+others will only synchronize the data(ISR`s in sync replicas). 
+
+If the leader goes off another leader is elected in between the replicas,
+zookeeper does this managing of leaders and replicas automatically.
+
+=======================================
+Producers
+
+Producers write data to topics, and they automatically know
+to which topic and partition to write.
+
+Producers can choose to receive acknowledgment of data writes
+
+acks=0 no acknowledgement, possible data loss.
+acks=1 producer will wait for leader acknowledgement(default).
+acks=all producer will wait for leader and replicas acknowledgment.
+
+Producers: Message Key(ordering)
+
+Producers can choose to send a message key to guarantee order
+of records, if key is null messages will be distributed between
+partitions in round-robin, if key is specified every message with
+the same key will go to the same partition.
+
+=======================================
+Consumers
+
+Consumers read data from topics, and they automatically know
+from which broker to read.
+
+Consumers are organised in consumer groups, a consumer group
+represents an application.
+
+Each consumer in a consumer group reads from one or more partitions,
+never two consumers in a group will read from the same partition.
+
+Consumer offset
+
+Each consumer as it reads from a topic it will commit
+the offset of the processed items into a topic named __consumer_offset
+so when a consumer dies it will be able to continue from where it stopped
+when it comes back.  
+
+Delivery semantics
+
+At most once - commit message when read, if fails message is lost
+At least once - commit message when successful to process
+Exactly once - Kafka to Kafka workflow(?)

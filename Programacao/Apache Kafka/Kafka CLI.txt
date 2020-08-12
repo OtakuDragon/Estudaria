@@ -1,0 +1,54 @@
+Kafka CLI
+
+Create topic
+
+kafka-topics --bootstrap-server localhost:9092 --topic first_topic --create --partitions 3 --replication-factor 1
+
+List topics
+
+kafka-topics --bootstrap-server localhost:9092 --list
+
+Describe topic
+
+kafka-topics --bootstrap-server localhost:9092 --topic first_topic --describe   
+
+Delete topic
+
+kafka-topics --bootstrap-server localhost:9092 --topic second_topic --delete 
+
+Console producer
+
+kafka-console-producer --broker-list localhost:9092 --topic first_topic --producer-property acks=1
+
+producer-property é opcional, todas as propriedades tem valores padrão.
+
+Producer with keys
+
+kafka-console-producer --broker-list localhost:9092 --topic first_topic --property parse.key=true --property key.separator=,
+> key,value
+> another key,another value
+
+Console consumer
+
+kafka-console-consumer --bootstrap-server localhost:9092 --topic first_topic --group my-group
+
+Consumer with keys
+
+kafka-console-consumer --bootstrap-server localhost:9092 --topic first_topic --from-beginning --property print.key=true --property key.separator=,
+
+List Consumer groups
+
+kafka-consumer-groups  --bootstrap-server localhost:9092 --list
+
+Describe Consumer group
+
+kafka-consumer-groups  --bootstrap-server localhost:9092 --describe --group my-group
+
+Mostra para cada partição qual é o offset atual do grupo, qual é o ultimo offset da partição e o
+consumer responsável por consumir.
+
+Reset Consumer group offset
+
+kafka-consumer-groups  --bootstrap-server localhost:9092 --group my-group --reset-offsets --to-earliest --execute --topic first_topic
+
+Tem outros modos de reset, --to-earliest é o mais simples
