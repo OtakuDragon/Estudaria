@@ -1,12 +1,10 @@
-package com.kafka.course
+package com.kafka.course.basic
 
 import org.apache.kafka.clients.producer.*
 import org.apache.kafka.common.serialization.StringSerializer
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.lang.Exception
 import java.util.*
-import java.util.function.Consumer
 
 fun main() {
     val logger = LoggerFactory.getLogger("ProducerLogger")

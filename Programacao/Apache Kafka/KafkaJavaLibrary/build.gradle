@@ -13,6 +13,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile group: 'org.apache.kafka', name: 'kafka-clients', version: '2.5.0'
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
+    compile group: 'com.twitter', name: 'hbc', version: '2.2.0', ext: 'pom'
+    compile group: 'com.twitter', name: 'hbc-core', version: '2.2.0'
+
+
 
 }
 
